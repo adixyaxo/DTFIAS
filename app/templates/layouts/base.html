@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title | default("Antarctic Digital Twin") }}</title>
+    <!-- In a real app, serve these from /static/vendor/ -->
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <link href="/static/css/app.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans antialiased" hx-boost="true">
+
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-blue-900 text-white shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold">DTFIAS</h1>
+                <nav>
+                    <!-- Conditional rendering based on role would go here -->
+                    <a href="/" class="hover:text-blue-200">Home</a>
+                    <a href="/auth/login" class="ml-4 hover:text-blue-200">Login</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+            {% block content %}
+            <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                <h2 class="text-xl font-semibold mb-4">Welcome to the Antarctic Digital Twin</h2>
+                <p class="text-gray-600">The core engine and presentation layer have been scaffolded.</p>
+                <div class="mt-6">
+                    <button hx-get="/maitri" hx-target="#htmx-response" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        Test HTMX Request to /maitri
+                    </button>
+                    <div id="htmx-response" class="mt-4 p-4 border border-dashed border-gray-300 rounded text-sm text-gray-700">
+                        Response will appear here.
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </main>
+
+        <footer class="bg-gray-800 text-white text-center py-4 mt-auto">
+            <p class="text-sm">&copy; 2026 Antarctic Digital Twin Project</p>
+        </footer>
+    </div>
+
+</body>
+</html>
