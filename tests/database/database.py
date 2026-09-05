@@ -1,10 +1,6 @@
-from sqlalchemy import select
-from app.config.database import get_db
-from app.models.test import Test
+from infrastructure.database.postgres.connection import check_connection
 
-async def databaseTest():
-    test = []
-    async for db in get_db():
-        result = await db.execute(select(Test))
-        test:list[Test] = result.scalars().all()
-    return test
+
+async def databaseTest() -> bool:
+    """Return True if Supabase/PostgreSQL is reachable."""
+    return await check_connection()
