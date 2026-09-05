@@ -1,16 +1,16 @@
 # database.py
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
-from dotenv import load_dotenv
-import os
+from sqlalchemy import URL
+from app.config.settings import settings, env
 
-load_dotenv()
-
-# Load environment variables (e.g., DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
-DATABASE_URL = (
-    f"mysql+aiomysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-    f"@{os.getenv('DB_HOST', '127.0.0.1')}:{os.getenv('DB_PORT', '3306')}"
-    f"/{os.getenv('DB_NAME')}"
+DATABASE_URL = URL.create(
+    drivername="mysql+aiomysql",
+    username=env.database.db_user,
+    password=env.database.db_password,
+    host=env.database.db_host,
+    port=env.database.db_port,
+    database=env.database.db_name
 )
 
 # Create async engine with connection pooling
