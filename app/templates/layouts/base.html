@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title | default("Antarctic Digital Twin") }}</title>
     <!-- In a real app, serve these from /static/vendor/ -->
-    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
-    <link href="/static/css/app.css" rel="stylesheet">
+    <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="{{ url_for('static', path='css/app.css') }}" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 text-gray-900 font-sans antialiased" hx-boost="true">
 
     <div class="min-h-screen flex flex-col">
@@ -29,11 +31,23 @@
                 <h2 class="text-xl font-semibold mb-4">Welcome to the Antarctic Digital Twin</h2>
                 <p class="text-gray-600">The core engine and presentation layer have been scaffolded.</p>
                 <div class="mt-6">
-                    <button hx-get="/maitri" hx-target="#htmx-response" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                    <button hx-get="/maitri" hx-target="#htmx-response"
+                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
                         Test HTMX Request to /maitri
                     </button>
-                    <div id="htmx-response" class="mt-4 p-4 border border-dashed border-gray-300 rounded text-sm text-gray-700">
+                    <div id="htmx-response"
+                        class="mt-4 p-4 border border-dashed border-gray-300 rounded text-sm text-gray-700">
                         Response will appear here.
+                    </div>
+                </div>
+                <h1> Alpine JS </h1>
+                <div x-data="{ open: false ,toggle(){this.open = !this.open}}">
+                    <button @click="toggle"
+                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        Toggle Dropdown
+                    </button>
+                    <div x-show="open" class="bg-white p-4 border border-gray-200 rounded mt-2">
+                        Dropdown Content
                     </div>
                 </div>
             </div>
@@ -46,4 +60,5 @@
     </div>
 
 </body>
+
 </html>
