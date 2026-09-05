@@ -11,7 +11,7 @@ class UserBase(BaseModel):
     email: EmailStr
     is_active: bool = True
 
-class UserCreate(UserBase):
+class User(UserBase):
     password: str
 
 class User(UserBase):
