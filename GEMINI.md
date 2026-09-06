@@ -313,20 +313,35 @@ async def create_user(payload: UserCreate, db: DbDep) -> UserResponse:
 
 ```css
 :root {
-  /* Main palette */
-  --color-dark:       #141413;
-  --color-light:      #faf9f5;
-  --color-mid-gray:   #b0aea5;
-  --color-light-gray: #e8e6dc;
+  /* ── Base Brand Palette ──────────────────────────────── */
+  --brand-deep-green:   #1A312C; /* headers, nav, dark bg             */
+  --brand-teal:         #428475; /* buttons, icons, highlights        */
+  --brand-mint:         #C8E6D7; /* bg sections, info cards, hover    */
+  --brand-cream:        #F5F2EB; /* main page bg, content areas       */
+  --brand-cream-dark:   #E8E3D9; /* borders, dividers                 */
 
-  /* Accents */
-  --color-accent-orange: #d97757;
-  --color-accent-blue:   #6a9bcc;
-  --color-accent-green:  #788c5d;
+  /* ── Status — Light backgrounds ─────────────────────── */
+  --status-ok:          #2E7D5B; /* Dark Seafoam — normal / safe      */
+  --status-info:        #2878A8; /* Steel Blue — informational        */
+  --status-warning:     #D9822B; /* Neon Carrot — attention required  */
+  --status-critical:    #C44536; /* Brick Red — emergency             */
+  --status-stale:       #6B7280; /* Neutral Gray — stale data         */
+  /* Light background tints */
+  --status-ok-bg:       #E8F4EE;
+  --status-info-bg:     #E8F2F8;
+  --status-warning-bg:  #FFF3E3;
+  --status-critical-bg: #FBE9E7;
+  --status-stale-bg:    #F3F4F6;
 
-  /* Typography */
-  --font-heading: 'Poppins', Arial, sans-serif;
-  --font-body:    'Lora', Georgia, serif;
+  /* ── Status — Dark backgrounds (higher contrast) ─────── */
+  --status-ok-dark:       #4ABA83;
+  --status-info-dark:     #5BA3D4;
+  --status-warning-dark:  #F0A050;
+  --status-critical-dark: #E06050;
+
+  /* ── Typography ─────────────────────────────────────── */
+  --font-ui:   'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 ```
 
@@ -334,8 +349,12 @@ async def create_user(payload: UserCreate, db: DbDep) -> UserResponse:
 - **BOLD aesthetic direction** — commit to one and execute precisely; no generic "modern SaaS" look
 - Mobile-first responsive patterns throughout
 - Animations: CSS transforms/opacity only (no layout thrash)
-- P0 alerts: persistent CSS pulse; P1: color change only; P2: no animation
+- P0 alerts: persistent CSS pulse, use `--status-critical-dark` on dark bg, `--status-critical` on light bg
+- P1 alerts: color change only, `--status-warning-dark` / `--status-warning` as appropriate
+- P2: no animation, normal status colors
 - Staleness: dimmed hotspot + "last updated Xm ago" label — this is the project's technical differentiator
+- Font: **Playfair Display** (`--font-heading`) for headings; **Playfair** (`--font-body`) for important paragraphs; **Inter** (`--font-ui`) for all UI chrome; **JetBrains Mono** (`--font-mono`) for sensor values/timestamps only
+- Never use `Space Grotesk`, `Lora`, `Roboto`, or `Arial` for DTFIAS UI
 
 ---
 

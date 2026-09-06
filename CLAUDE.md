@@ -195,19 +195,38 @@ router = APIRouter(prefix="/maitri", dependencies=[Depends(require_role("maitri_
 ### Never in base template: `three.module.js`, `supabase-js`, any Supabase client
 
 ### Brand colors (`.agents/brand_design/SKILL.md`):
-| Token | Hex | Use |
-|-------|-----|-----|
-| Dark | `#141413` | Primary text, dark backgrounds |
-| Light | `#faf9f5` | Light backgrounds |
-| Mid Gray | `#b0aea5` | Secondary elements |
-| Light Gray | `#e8e6dc` | Subtle backgrounds |
-| Orange | `#d97757` | Primary accent |
-| Blue | `#6a9bcc` | Secondary accent |
-| Green | `#788c5d` | Tertiary accent |
+
+**Base palette:**
+| Token | Hex | CSS Variable | Usage |
+|-------|-----|-------------|-------|
+| Deep Green | `#1A312C` | `--brand-deep-green` | Headers, nav, dark bg, footer |
+| Teal Green | `#428475` | `--brand-teal` | Buttons, icons, highlights |
+| Light Mint | `#C8E6D7` | `--brand-mint` | Section bg, info cards, hover |
+| Cream | `#F5F2EB` | `--brand-cream` | Main page bg, content areas |
+| Cream Dark | `#E8E3D9` | `--brand-cream-dark` | Borders, dividers |
+
+**Status colors — light backgrounds:**
+| State | Color | Variable |
+|-------|-------|----------|
+| Normal / Safe | `#2E7D5B` | `--status-ok` + `--status-ok-bg: #E8F4EE` |
+| Information | `#2878A8` | `--status-info` + `--status-info-bg: #E8F2F8` |
+| Warning | `#D9822B` | `--status-warning` + `--status-warning-bg: #FFF3E3` |
+| Critical | `#C44536` | `--status-critical` + `--status-critical-bg: #FBE9E7` |
+
+**Status colors — dark backgrounds (higher contrast):**
+| State | Color | Variable |
+|-------|-------|----------|
+| Normal / Safe | `#4ABA83` | `--status-ok-dark` |
+| Information | `#5BA3D4` | `--status-info-dark` |
+| Warning | `#F0A050` | `--status-warning-dark` |
+| Critical | `#E06050` | `--status-critical-dark` |
 
 ### Typography:
-- Headings: **Poppins** (fallback: Arial)
-- Body: **Lora** (fallback: Georgia)
+- **Headings:** `Playfair Display` (400–900, italic) — `--font-heading: 'Playfair Display', Georgia, serif`
+- **Important paragraphs / editorial:** `Playfair` — `--font-body: 'Playfair', Georgia, serif`
+- **All UI chrome:** `Inter` (300–800) — `--font-ui: 'Inter', system-ui, sans-serif`
+- **Monospace data:** `JetBrains Mono` — `--font-mono: 'JetBrains Mono', monospace`
+- Never use `Space Grotesk`, `Lora`, `Roboto`, or `Arial`
 
 ---
 
