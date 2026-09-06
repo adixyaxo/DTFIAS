@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "background": "#051613", "surface-cream": "#F4F3ED", "inverse-primary": "#4b635d", "on-primary-fixed-variant": "#344b46", "on-error": "#690005", "on-surface": "#d3e7e0", "telemetry-safe": "#2E7D5B", "error": "#ffb4ab", "secondary-fixed": "#acf0de", "on-primary-container": "#819993", "primary": "#b2ccc4", "outline-variant": "#424846", "primary-fixed": "#cee8e0", "inverse-surface": "#d3e7e0", "on-secondary-fixed": "#00201a", "tertiary": "#b1cdbd", "tertiary-fixed-dim": "#b1cdbd", "on-surface-variant": "#c2c8c5", "surface-container": "#12231f", "telemetry-info-bg": "#E8F2F8", "on-background": "#d3e7e0", "primary-container": "#1a312c", "surface-container-low": "#0d1f1b", "surface-panel": "#223F39", "telemetry-info": "#2878A8", "surface-container-highest": "#273834", "on-secondary": "#00382e", "surface-tint": "#b2ccc4", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#91d3c2", "surface-dim": "#051613", "outline": "#8c928f", "primary-fixed-dim": "#b2ccc4", "error-container": "#93000a", "on-tertiary": "#1d352a", "inverse-on-surface": "#23342f", "on-tertiary-fixed-variant": "#334c40", "on-tertiary-fixed": "#072016", "secondary": "#91d3c2", "tertiary-container": "#1a3227", "surface-container-high": "#1c2d29", "surface-cream-light": "#F8F7F2", "secondary-container": "#015346", "surface-variant": "#273834", "telemetry-warning-bg": "#FFF3E3", "on-tertiary-container": "#809b8c", "telemetry-critical-bg": "#FBE9E7", "on-secondary-fixed-variant": "#005144", "surface-bright": "#2b3d38", "on-primary": "#1e3530", "surface": "#051613", "telemetry-safe-bg": "#E8F4EE", "telemetry-critical": "#C44536", "on-secondary-container": "#83c5b4", "tertiary-fixed": "#cde9d9", "on-primary-fixed": "#071f1b", "telemetry-warning": "#D9822B", "surface-container-lowest": "#02110d" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xl": "2rem", "panel-gutter": "0.75rem", "space-lg": "1.5rem", "space-base": "1rem", "space-md": "0.75rem", "space-2xs": "0.125rem", "space-xs": "0.25rem", "canvas-margin": "1.5rem", "space-sm": "0.5rem", "space-2xl": "3rem" }, "fontFamily": { "label-xs": ["Inter"], "label-md": ["Inter"], "display-lg": ["Inter"], "headline-xl": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "headline-lg": ["Inter"], "headline-md": ["Inter"], "telemetry-code": ["Inter"], "title-sm": ["Inter"], "body-lg": ["Inter"], "headline-xl-mobile": ["Inter"] }, "fontSize": { "label-xs": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }], "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "telemetry-code": ["13px", { "lineHeight": "18px", "letterSpacing": "0.04em", "fontWeight": "500" }], "title-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface min-h-screen"><header class="fixed top-0 left-0 right-0 h-16 z-50 bg-surface-container/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.45)]"><div class="h-16 w-full px-space-base flex items-center justify-between gap-panel-gutter"><div class="flex items-center gap-space-md"><img alt="Indian Antarctic Command Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzer4Sb2hW3IunzFdqFYbfC8WQpUqeXo80Uzqo0ocN7wmBmz76t-yqWiHVZsCS6ADtppaQJ64P5l0iLGwfDb1B4rbsPyg-opGwK2trfCUXtcAKwPUehVHx8D_j8xE8A1oQSTLu0dAJZNJoOh1LAkPK-gL0aI1zAxuT8fYK0WaxSotcevOcUrze4-LxRAN9RoaZnZPjeaoFLpWx8CcZo6ya9iZJ5HKwJsLI9x6rfU7aTnY-GpHeUHqZGg"/><div class="flex flex-col"><span class="font-label-md text-label-md text-surface-cream uppercase tracking-wider">NCPOR • ANTARCTIC COMMAND HUB</span><span class="font-label-xs text-label-xs text-on-surface-variant">NATIONAL CENTRE FOR POLAR & OCEAN RESEARCH</span></div><div class="hidden 2xl:flex items-center gap-space-xs pl-space-md"><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded bg-surface-container-high"><span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span><span class="font-label-xs text-label-xs text-surface-cream">BHARATI: NOMINAL</span></div><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded bg-surface-container-high"><span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span><span class="font-label-xs text-label-xs text-surface-cream">MAITRI: NOMINAL</span></div><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded bg-surface-container-high"><span class="w-1.5 h-1.5 rounded-full bg-telemetry-info"></span><span class="font-label-xs text-label-xs text-on-surface-variant">DG HERITAGE: MONITORED</span></div></div></div><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-surface font-title-sm"><a class="px-space-md py-space-xs rounded font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="mission-overview" href="#">Mission Overview</a><a class="px-space-md py-space-xs rounded font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="habitat-and-life-support" href="#">Habitat & Life Support</a><a class="px-space-md py-space-xs rounded font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="geospatial-analytics" href="#">Geospatial Analytics</a><a aria-current="page" class="px-space-md py-space-xs rounded transition-colors bg-primary-container text-on-surface font-title-sm" data-path="incident-and-protocols" href="#">Incident & Protocols</a></nav><div class="flex items-center gap-space-md"><div class="hidden lg:flex flex-col text-right"><span class="font-telemetry-code text-telemetry-code text-surface-cream tracking-wider">14:28:10 UTC</span><span class="font-label-xs text-label-xs text-on-surface-variant">MAITRI -03:00 | LARSEMANN +05:00</span></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-telemetry-safe"></span><div class="flex flex-col text-left"><span class="font-label-xs text-label-xs text-surface-cream">GSAT-7A UPLINK</span><span class="font-label-xs text-label-xs text-secondary">99.4% LOCKED</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 flex flex-col py-space-md"><div class="px-space-base pb-space-sm"><span class="font-label-xs text-label-xs text-secondary uppercase tracking-widest">Polar Command Tree</span></div><nav class="flex-1 px-space-sm space-y-space-2xs overflow-y-auto" data-active-classes="bg-primary-container text-on-surface font-title-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="mission-overview" href="#"><span class="material-symbols-outlined text-secondary">satellite_alt</span>Central Telemetry</a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="habitat-and-life-support" href="#"><span class="material-symbols-outlined text-secondary">solar_power</span>Bharati Microgrid & LSS</a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="geospatial-analytics" href="#"><span class="material-symbols-outlined text-secondary">public</span>Earth Engine & Radar</a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded transition-all bg-primary-container text-on-surface font-title-sm" data-path="incident-and-protocols" href="#"><span class="material-symbols-outlined text-secondary">e911_emergency</span>4-Tier Emergency Triage</a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="station-logistics" href="#"><span class="material-symbols-outlined text-secondary">inventory_2</span>Vessel & Fuel Logistics</a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="scientific-payloads" href="#"><span class="material-symbols-outlined text-secondary">science</span>Cryosphere Payloads</a></nav><div class="px-space-base pt-space-sm bg-surface-container-lowest"><div class="flex items-center justify-between text-on-surface-variant font-label-xs text-label-xs mb-space-2xs"><span>ENC LINK SECURE</span><span class="text-telemetry-safe">AES-256</span></div><div class="font-label-xs text-label-xs text-on-surface-variant/80">POLAR NODE: 69°24'S, 76°11'E</div></div></aside><div class="pl-64"><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Master Operational Frame -->
+<div class="p-panel-gutter space-y-panel-gutter max-w-[1920px] mx-auto w-full">
+<!-- Secondary Command Header HUD -->
+<div class="bg-surface-container-low px-space-base py-space-sm rounded-xl flex flex-wrap items-center justify-between gap-panel-gutter shadow-sm">
+<div class="flex items-center gap-space-md flex-wrap">
+<div class="flex items-center gap-space-xs">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-telemetry-safe animate-pulse"></span>
+<span class="font-headline-md text-headline-md text-surface-cream tracking-tight">NCPOR POLAR COMMAND</span>
+<span class="font-label-xs text-label-xs px-space-xs py-space-2xs bg-surface-container text-secondary rounded">ANCT-OPS-V4</span>
+</div>
+<div class="h-4 w-px bg-surface-container-highest hidden sm:block"></div>
+<div class="flex items-center gap-space-xs font-telemetry-code text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">hub</span>
+<span>RELAY: HQ Goa Earth Station [GSAT-7A Ku-4]</span>
+</div>
+<div class="hidden lg:flex items-center gap-space-xs font-telemetry-code text-body-sm text-on-surface-variant">
+<span class="text-surface-cream">LAT: 28ms</span>
+<span class="text-outline">|</span>
+<span class="text-telemetry-safe">SNR: 18.2 dB (99.4%)</span>
+<span class="text-outline">|</span>
+<span class="text-secondary">SYNC: 4s ago</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-primary">verified_user</span>
+<div class="flex flex-col text-left leading-tight">
+<span class="font-label-xs text-label-xs text-surface-cream tracking-wider">LEVEL-4 POLAR CONTROLLER</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">RBAC: DR. V. SHARMA [NCPOR-EXEC]</span>
+</div>
+</div>
+<div class="flex items-center gap-space-2xs bg-surface-container-highest px-space-xs py-space-2xs rounded font-telemetry-code text-label-xs text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span>
+<span>AUTONOMY T-284D</span>
+</div>
+</div>
+</div>
+<!-- Top KPI Telemetry Ribbon (6 Dense Mission Nodes) -->
+<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-panel-gutter">
+<!-- KPI 1 -->
+<div class="bg-primary-container p-space-sm rounded-xl flex flex-col justify-between shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-xs">
+<span class="font-label-xs text-label-xs text-surface-cream tracking-wider uppercase">Active Stations</span>
+<span class="font-label-xs text-label-xs px-space-2xs py-space-2xs bg-surface-container-lowest text-telemetry-safe rounded flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-ping"></span>LIVE
+          </span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">2</span>
+<span class="font-body-sm text-body-sm text-secondary">+1 Auto Outpost</span>
+</div>
+<div class="mt-space-xs font-label-xs text-label-xs text-on-surface-variant flex justify-between">
+<span>Bharati • Maitri</span>
+<span class="text-tertiary">DG: AWS Active</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-primary-container p-space-sm rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-xs">
+<span class="font-label-xs text-label-xs text-surface-cream tracking-wider uppercase">On-Ice Personnel</span>
+<span class="font-label-xs text-label-xs px-space-2xs py-space-2xs bg-surface-container-lowest text-telemetry-safe rounded">FIT 100%</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">43</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Souls</span>
+</div>
+<div class="mt-space-xs font-label-xs text-label-xs text-on-surface-variant flex justify-between">
+<span>Bharati: <strong class="text-surface-cream">24</strong></span>
+<span>Maitri: <strong class="text-surface-cream">19</strong></span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-primary-container p-space-sm rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-xs">
+<span class="font-label-xs text-label-xs text-surface-cream tracking-wider uppercase">Microgrid Total Gen</span>
+<span class="font-label-xs text-label-xs px-space-2xs py-space-2xs bg-surface-container-lowest text-secondary rounded">91% SOC</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">153.1</span>
+<span class="font-body-sm text-body-sm text-surface-tint font-medium">kW</span>
+</div>
+<div class="mt-space-xs font-label-xs text-label-xs text-on-surface-variant flex justify-between">
+<span>B: 71.0 kW</span>
+<span>M: 82.1 kW</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-primary-container p-space-sm rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-xs">
+<span class="font-label-xs text-label-xs text-surface-cream tracking-wider uppercase">Strategic Polar Fuel</span>
+<span class="font-label-xs text-label-xs px-space-2xs py-space-2xs bg-surface-container-lowest text-primary rounded">POLAR-A</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">342k</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ltrs</span>
+</div>
+<div class="mt-space-xs font-label-xs text-label-xs text-on-surface-variant flex justify-between">
+<span>Burn: 1,204 L/d</span>
+<span class="text-telemetry-safe">284 Days</span>
+</div>
+</div>
+<!-- KPI 5 -->
+<div class="bg-primary-container p-space-sm rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-xs">
+<span class="font-label-xs text-label-xs text-surface-cream tracking-wider uppercase">Active Triaged Alerts</span>
+<span class="font-label-xs text-label-xs px-space-2xs py-space-2xs bg-telemetry-critical/20 text-error rounded font-bold">1 CRIT</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">3</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Unresolved</span>
+</div>
+<div class="mt-space-xs font-label-xs text-label-xs text-on-surface-variant flex gap-space-xs">
+<span class="text-error font-bold">1 Crit</span>
+<span>•</span>
+<span class="text-telemetry-warning font-bold">1 Warn</span>
+<span>•</span>
+<span class="text-telemetry-info">1 Info</span>
+</div>
+</div>
+<!-- KPI 6 -->
+<div class="bg-primary-container p-space-sm rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-xs">
+<span class="font-label-xs text-label-xs text-surface-cream tracking-wider uppercase">Trans-Polar Uplink</span>
+<span class="font-label-xs text-label-xs px-space-2xs py-space-2xs bg-surface-container-lowest text-telemetry-safe rounded">99.8%</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-title-sm text-title-sm text-surface-cream font-semibold truncate">GSAT-7A Locked</span>
+</div>
+<div class="mt-space-xs font-label-xs text-label-xs text-on-surface-variant flex justify-between truncate">
+<span>Iridium Standby</span>
+<span class="text-secondary">HF ALE Active</span>
+</div>
+</div>
+</div>
+<!-- Dominant Layout: Center Polar Digital Twin + Flanking Telemetry Rails -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-panel-gutter">
+<!-- LEFT OPERATIONAL RAIL (3 cols on xl) -->
+<div class="xl:col-span-3 flex flex-col gap-panel-gutter">
+<!-- Active Incident Queue -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-error">emergency</span>
+<span class="font-title-sm text-title-sm text-surface-cream uppercase tracking-wide">Incident Triage</span>
+</div>
+<span class="font-label-xs text-label-xs px-space-xs py-space-2xs rounded bg-surface-container-highest text-secondary">QUEUE (3)</span>
+</div>
+<div class="space-y-space-sm">
+<!-- Incident 1: Critical -->
+<div class="p-space-sm rounded bg-surface-container border-l-4 border-l-telemetry-critical">
+<div class="flex items-center justify-between mb-space-2xs">
+<span class="font-telemetry-code text-label-xs text-error font-bold">#INC-4091 • CRITICAL</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">03m ago</span>
+</div>
+<div class="font-body-md text-body-md text-surface-cream font-medium leading-snug">
+                Bharati Gen #3 fuel heating loop drop (-12.4°C)
+              </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+                Auto-trace secondary engaged. Temp recovering at +0.8°C/min. No generator stalling.
+              </p>
+<div class="mt-space-xs flex items-center justify-between pt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs text-secondary">ACT: Secondary Loop 100%</span>
+<button class="font-label-xs text-label-xs px-space-xs py-space-2xs bg-surface-container-highest hover:bg-surface-panel text-surface-cream rounded transition-colors">ACK / ISOLATE</button>
+</div>
+</div>
+<!-- Incident 2: Warning -->
+<div class="p-space-sm rounded bg-surface-container border-l-4 border-l-telemetry-warning">
+<div class="flex items-center justify-between mb-space-2xs">
+<span class="font-telemetry-code text-label-xs text-telemetry-warning font-bold">#INC-4089 • WARNING</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">24m ago</span>
+</div>
+<div class="font-body-md text-body-md text-surface-cream font-medium leading-snug">
+                Schirmacher Oasis Katabatic gust spike (78 km/h)
+              </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+                Maitri wind shear warning triggered. Field sampling traverse halted; PB-02 returning to bay.
+              </p>
+<div class="mt-space-xs flex items-center justify-between pt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs text-secondary">DIST: 2.4 km from Base</span>
+<span class="font-label-xs text-label-xs text-telemetry-safe font-semibold">ETA 18 MIN</span>
+</div>
+</div>
+<!-- Incident 3: Info -->
+<div class="p-space-sm rounded bg-surface-container border-l-4 border-l-telemetry-info">
+<div class="flex items-center justify-between mb-space-2xs">
+<span class="font-telemetry-code text-label-xs text-telemetry-info font-bold">#INC-4085 • INFO</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">51m ago</span>
+</div>
+<div class="font-body-md text-body-md text-surface-cream font-medium leading-snug">
+                Ionospheric scintillation packet delay (SBD +680ms)
+              </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+                Aurora ring activity expanding over 70°S. HF Net ALE automated switch successful.
+              </p>
+<div class="mt-space-xs flex items-center justify-between pt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs text-on-surface-variant">FREQ: 7.240 MHz ALE</span>
+<span class="font-label-xs text-label-xs text-telemetry-safe">STABLE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Microgrid & Power Distribution Split -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">electric_bolt</span>
+<span class="font-title-sm text-title-sm text-surface-cream uppercase tracking-wide">Polar Microgrid</span>
+</div>
+<span class="font-label-xs text-label-xs text-secondary font-telemetry-code">COP 4.1 RECOVERY</span>
+</div>
+<!-- Bharati Grid -->
+<div class="space-y-space-xs mb-space-md">
+<div class="flex justify-between items-center text-body-sm font-medium">
+<span class="text-surface-cream">Bharati Station (Larsemann)</span>
+<span class="text-secondary font-telemetry-code">68.4 kW / 110 kW cap</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2.5 rounded overflow-hidden flex">
+<div class="bg-primary h-full" style="width: 62%" title="Diesel Genset 62%"></div>
+<div class="bg-secondary h-full" style="width: 26%" title="BESS Battery 26%"></div>
+<div class="bg-telemetry-safe h-full" style="width: 12%" title="Solar Array 12%"></div>
+</div>
+<div class="flex justify-between font-label-xs text-label-xs text-on-surface-variant">
+<span>Diesel: 42.4kW</span>
+<span>BESS: 17.8kW</span>
+<span>Solar: 8.2kW</span>
+</div>
+</div>
+<!-- Maitri Grid -->
+<div class="space-y-space-xs mb-space-sm">
+<div class="flex justify-between items-center text-body-sm font-medium">
+<span class="text-surface-cream">Maitri Station (Schirmacher)</span>
+<span class="text-secondary font-telemetry-code">84.7 kW / 120 kW cap</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2.5 rounded overflow-hidden flex">
+<div class="bg-primary h-full" style="width: 78%" title="Diesel Genset 78%"></div>
+<div class="bg-secondary h-full" style="width: 22%" title="BESS Battery 22%"></div>
+</div>
+<div class="flex justify-between font-label-xs text-label-xs text-on-surface-variant">
+<span>Diesel: 66.1kW</span>
+<span>BESS: 18.6kW</span>
+<span>Wind: 0.0kW (Feathered)</span>
+</div>
+</div>
+<!-- Inline Telemetry Metric Sparkline -->
+<div class="bg-surface-container p-space-sm rounded mt-space-2xs flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant">HEAT RECOVERY EXCHANGER</span>
+<span class="font-headline-md text-headline-md text-surface-cream font-semibold">86.2°C <span class="text-body-sm font-normal text-secondary">Loop In</span></span>
+</div>
+<svg class="w-24 h-8 text-secondary" fill="none" preserveaspectratio="none" viewbox="0 0 100 30">
+<path d="M0,22 Q15,25 30,18 T60,12 T85,15 L100,8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0,22 Q15,25 30,18 T60,12 T85,15 L100,8 L100,30 L0,30 Z" fill="currentColor" fill-opacity="0.12"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- CENTER COMMAND DISPLAY: ANTARCTICA DIGITAL TWIN POLAR CANVAS (6 cols on xl) -->
+<div class="xl:col-span-6 flex flex-col gap-panel-gutter">
+<!-- Master Interactive Polar Projection Display -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm relative overflow-hidden shadow-xl min-h-[560px] flex flex-col">
+<!-- Projection HUD Top Controls -->
+<div class="flex flex-wrap items-center justify-between gap-space-xs z-10 bg-surface-container-low/90 backdrop-blur p-space-xs rounded-lg">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-xs text-label-xs px-space-xs py-space-2xs bg-primary text-on-primary font-bold rounded">POLAR STEREOGRAPHIC WGS-84</span>
+<span class="font-telemetry-code text-label-xs text-surface-cream hidden sm:inline">CENTER: 90°00'00"S</span>
+<span class="font-telemetry-code text-label-xs text-secondary hidden md:inline">FOV: 14,200,000 km²</span>
+</div>
+<!-- Layer Toggles -->
+<div class="flex items-center gap-space-2xs flex-wrap">
+<button class="px-space-xs py-space-2xs text-label-xs font-label-xs rounded bg-surface-container-highest text-surface-cream hover:bg-surface-panel flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span>RADAR SAR
+              </button>
+<button class="px-space-xs py-space-2xs text-label-xs font-label-xs rounded bg-surface-panel text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-warning"></span>KATABATIC VECTORS
+              </button>
+<button class="px-space-xs py-space-2xs text-label-xs font-label-xs rounded bg-surface-container-highest text-on-surface-variant hover:text-surface-cream">
+                AURORA OVAL
+              </button>
+<button class="px-space-xs py-space-2xs text-label-xs font-label-xs rounded bg-surface-container-highest text-on-surface-variant hover:text-surface-cream">
+                SEA ICE MARGIN
+              </button>
+</div>
+</div>
+<!-- Interactive Polar Projection Vector/SVG Canvas -->
+<div class="relative flex-1 flex items-center justify-center p-space-sm my-space-xs">
+<!-- High-precision Antarctica Map Graphic Visualization -->
+<svg class="w-full h-full max-h-[480px] select-none" viewbox="0 0 800 800">
+<defs>
+<!-- Radar grid radial gradient -->
+<radialgradient cx="50%" cy="50%" id="polar-glow" r="50%">
+<stop offset="0%" stop-color="#2878A8" stop-opacity="0.12"></stop>
+<stop offset="65%" stop-color="#1A312C" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#051613" stop-opacity="0.8"></stop>
+</radialgradient>
+<radialgradient cx="50%" cy="50%" id="aurora-gradient" r="50%">
+<stop offset="70%" stop-color="#2E7D5B" stop-opacity="0"></stop>
+<stop offset="85%" stop-color="#91d3c2" stop-opacity="0.18"></stop>
+<stop offset="92%" stop-color="#2878A8" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#051613" stop-opacity="0"></stop>
+</radialgradient>
+<pattern height="40" id="polarGrid" patternunits="userSpaceOnUse" width="40">
+<path d="M 40 0 L 0 0 0 40" fill="none" stroke="#223F39" stroke-opacity="0.3" stroke-width="0.5"></path>
+</pattern>
+</defs>
+<!-- Polar Space Backdrop & Coordinate Graticules -->
+<circle cx="400" cy="400" fill="url(#polar-glow)" r="380"></circle>
+<circle cx="400" cy="400" fill="url(#polarGrid)" r="380"></circle>
+<!-- Aurora Oval Halo -->
+<ellipse cx="400" cy="380" fill="url(#aurora-gradient)" rx="330" ry="290"></ellipse>
+<!-- Concentric Latitude Rings -->
+<!-- 60 deg South -->
+<circle cx="400" cy="400" fill="none" opacity="0.45" r="350" stroke="#424846" stroke-dasharray="4,6" stroke-width="0.8"></circle>
+<text fill="#8c928f" font-family="Inter" font-size="9" letter-spacing="1" x="405" y="65">60°00'S</text>
+<!-- 70 deg South -->
+<circle cx="400" cy="400" fill="none" opacity="0.6" r="260" stroke="#424846" stroke-dasharray="4,4" stroke-width="0.8"></circle>
+<text fill="#8c928f" font-family="Inter" font-size="9" letter-spacing="1" x="405" y="152">70°00'S</text>
+<!-- 80 deg South -->
+<circle cx="400" cy="400" fill="none" opacity="0.65" r="140" stroke="#424846" stroke-dasharray="3,3" stroke-width="0.8"></circle>
+<text fill="#8c928f" font-family="Inter" font-size="9" letter-spacing="1" x="405" y="272">80°00'S</text>
+<!-- South Pole Crosshairs (90 deg S) -->
+<line stroke="#91d3c2" stroke-width="1.2" x1="390" x2="410" y1="400" y2="400"></line>
+<line stroke="#91d3c2" stroke-width="1.2" x1="400" x2="400" y1="390" y2="410"></line>
+<circle cx="400" cy="400" fill="#91d3c2" r="3"></circle>
+<text fill="#d3e7e0" font-family="Inter" font-size="9" font-weight="600" x="412" y="398">SOUTH POLE 90°S</text>
+<!-- Longitude Meridians (0-360) -->
+<line opacity="0.4" stroke="#273834" stroke-width="0.8" x1="400" x2="400" y1="20" y2="780"></line>
+<line opacity="0.4" stroke="#273834" stroke-width="0.8" x1="20" x2="780" y1="400" y2="400"></line>
+<line opacity="0.3" stroke="#273834" stroke-width="0.5" x1="131" x2="668" y1="131" y2="668"></line>
+<line opacity="0.3" stroke="#273834" stroke-width="0.5" x1="668" x2="131" y1="131" y2="668"></line>
+<text fill="#8c928f" font-family="Inter" font-size="9" x="390" y="30">0° PRIME</text>
+<text fill="#8c928f" font-family="Inter" font-size="9" x="730" y="404">90°E</text>
+<text fill="#8c928f" font-family="Inter" font-size="9" x="382" y="775">180°</text>
+<text fill="#8c928f" font-family="Inter" font-size="9" x="25" y="404">90°W</text>
+<!-- Stylized Vector Antarctica Continent Mass & Ice Shelves -->
+<!-- Main Continental Bedrock & Glacial Shield -->
+<path d="M 370 190 
+                       C 420 185, 470 195, 520 230 
+                       C 560 255, 600 300, 620 360 
+                       C 635 410, 645 470, 605 525 
+                       C 575 565, 520 595, 480 610 
+                       C 425 630, 360 625, 305 605 
+                       C 270 590, 240 550, 245 490 
+                       C 220 465, 175 440, 160 380 
+                       C 145 320, 180 280, 215 270 
+                       C 240 262, 280 265, 310 240 
+                       C 325 210, 345 195, 370 190 Z" fill="#1A312C" stroke="#428475" stroke-linejoin="round" stroke-width="1.8"></path>
+<!-- Antarctic Peninsula Spur -->
+<path d="M 215 270 
+                       C 200 240, 180 200, 170 150 
+                       C 165 130, 168 110, 174 95 
+                       C 182 105, 188 128, 192 155 
+                       C 200 190, 220 230, 235 265 Z" fill="#223F39" stroke="#428475" stroke-width="1.5"></path>
+<!-- Ice Shelf Geometries (Ronne, Ross, Amery) -->
+<!-- Ronne-Filchner Ice Shelf -->
+<path d="M 245 285 Q 285 320 310 285 Q 280 265 245 285 Z" fill="#273834" opacity="0.7"></path>
+<text fill="#91d3c2" font-family="Inter" font-size="8" letter-spacing="0.5" x="255" y="300">RONNE ICE SHELF</text>
+<!-- Ross Ice Shelf -->
+<path d="M 330 570 Q 400 520 460 575 Q 400 620 330 570 Z" fill="#273834" opacity="0.7"></path>
+<text fill="#91d3c2" font-family="Inter" font-size="8" letter-spacing="0.5" x="375" y="565">ROSS ICE SHELF</text>
+<!-- Amery Ice Shelf & Prydz Bay (Near Bharati) -->
+<path d="M 525 315 Q 560 330 545 365 Q 515 340 525 315 Z" fill="#284E46" opacity="0.8"></path>
+<text fill="#acf0de" font-family="Inter" font-size="7.5" font-weight="600" x="510" y="335">AMERY / PRYDZ BAY</text>
+<!-- Dynamic Katabatic Wind Flow Vector Arcs (Simulated) -->
+<g opacity="0.55" stroke="#F0A24A" stroke-dasharray="6,4" stroke-linecap="round" stroke-width="1.2">
+<path d="M 400 370 Q 450 340 535 325"></path>
+<path d="M 410 390 Q 490 380 570 365"></path>
+<path d="M 390 370 Q 360 300 340 230"></path>
+<path d="M 380 420 Q 340 480 320 540"></path>
+<path d="M 420 420 Q 480 480 520 530"></path>
+</g>
+<!-- RESUPPLY SHIP NODE: MV Vasiliy Golovnin -->
+<g transform="translate(610, 240)">
+<circle class="animate-ping" cx="0" cy="0" fill="#2878A8" fill-opacity="0.18" r="14"></circle>
+<circle cx="0" cy="0" fill="#5AA6D2" r="5"></circle>
+<!-- Ship vector icon -->
+<path d="M -7 6 L 7 6 L 5 -2 L -5 -2 Z" fill="#F4F3ED"></path>
+<line stroke="#F4F3ED" stroke-width="1.5" x1="0" x2="0" y1="-2" y2="-6"></line>
+<!-- Label callout -->
+<line stroke="#5AA6D2" stroke-width="1" x1="8" x2="28" y1="-4" y2="-20"></line>
+<line stroke="#5AA6D2" stroke-width="1" x1="28" x2="110" y1="-20" y2="-20"></line>
+<rect fill="#0d1f1b" height="15" rx="2" stroke="#2878A8" stroke-width="0.7" width="112" x="28" y="-36"></rect>
+<text fill="#d3e7e0" font-family="Inter" font-size="8" font-weight="700" x="32" y="-25">MV V. GOLOVNIN</text>
+<text fill="#91d3c2" font-family="Inter" font-size="7.5" x="32" y="-10">11.2kn • ETA 38h</text>
+</g>
+<!-- DAKSHIN GANGOTRI HISTORIC AWS NODE (70 deg 05'S, 12 deg 00'E) -->
+<g transform="translate(342, 222)">
+<circle cx="0" cy="0" fill="#8c928f" r="4"></circle>
+<line stroke="#8c928f" stroke-width="0.8" x1="-5" x2="-22" y1="0" y2="-18"></line>
+<line stroke="#8c928f" stroke-width="0.8" x1="-22" x2="-80" y1="-18" y2="-18"></line>
+<rect fill="#12231f" height="13" rx="2" width="60" x="-82" y="-32"></rect>
+<text fill="#c2c8c5" font-family="Inter" font-size="7.5" x="-80" y="-23">DG AWS (AUTO)</text>
+</g>
+<!-- MAITRI STATION NODE (70 deg 46'S, 11 deg 44'E - Schirmacher Oasis) -->
+<g transform="translate(352, 240)">
+<!-- Pulse halo -->
+<circle class="animate-pulse" cx="0" cy="0" fill="#F0A24A" fill-opacity="0.15" r="16"></circle>
+<circle cx="0" cy="0" fill="#12231f" r="6" stroke="#F0A24A" stroke-width="2"></circle>
+<circle cx="0" cy="0" fill="#F0A24A" r="2.5"></circle>
+<!-- HUD Connecting Callout Tag -->
+<polyline fill="none" points="6,-6 35,-35 155,-35" stroke="#F0A24A" stroke-width="1.2"></polyline>
+<rect fill="#1A312C" height="20" rx="3" stroke="#F0A24A" stroke-width="0.9" width="124" x="35" y="-56"></rect>
+<text fill="#F4F3ED" font-family="Inter" font-size="9" font-weight="700" x="42" y="-42">MAITRI STATION</text>
+<text fill="#F0A24A" font-family="Inter" font-size="7.5" font-weight="700" x="126" y="-42">KATABATIC</text>
+<rect fill="#0d1f1b" fill-opacity="0.9" height="32" rx="2" width="124" x="35" y="-34"></rect>
+<text fill="#d3e7e0" font-family="Inter" font-size="8" x="40" y="-21">70°46'S, 11°44'E • Oasis</text>
+<text fill="#acf0de" font-family="Inter" font-size="8" x="40" y="-9">-34.1°C • Wind 58 km/h S</text>
+</g>
+<!-- BHARATI STATION NODE (69 deg 24'S, 76 deg 11'E - Larsemann Hills) -->
+<g transform="translate(560, 315)">
+<!-- Pulse halo -->
+<circle class="animate-pulse" cx="0" cy="0" fill="#2E7D5B" fill-opacity="0.25" r="18"></circle>
+<circle cx="0" cy="0" fill="#12231f" r="7" stroke="#63B88A" stroke-width="2"></circle>
+<circle cx="0" cy="0" fill="#63B88A" r="3"></circle>
+<!-- HUD Callout Box -->
+<polyline fill="none" points="7,-7 40,-45 180,-45" stroke="#63B88A" stroke-width="1.4"></polyline>
+<rect fill="#1A312C" height="22" rx="3" stroke="#63B88A" stroke-width="1" width="144" x="40" y="-68"></rect>
+<text fill="#F4F3ED" font-family="Inter" font-size="9.5" font-weight="700" x="48" y="-53">BHARATI STATION</text>
+<text fill="#63B88A" font-family="Inter" font-size="8" font-weight="700" x="146" y="-53">NOMINAL</text>
+<rect fill="#0d1f1b" fill-opacity="0.95" height="42" rx="2" width="144" x="40" y="-44"></rect>
+<text fill="#d3e7e0" font-family="Inter" font-size="8" x="46" y="-30">69°24'S, 76°11'E • Larsemann</text>
+<text fill="#acf0de" font-family="Inter" font-size="8" x="46" y="-17">-28.4°C • Wind 42 km/h ESE</text>
+<text fill="#91d3c2" font-family="Inter" font-size="8" x="46" y="-5">Microgrid: 68.4kW • Ku-Band OK</text>
+</g>
+<!-- Direct Inter-Station Telemetry Microwave Mesh Vector -->
+<path d="M 352 240 Q 460 260 560 315" fill="none" opacity="0.6" stroke="#91d3c2" stroke-dasharray="3,3" stroke-width="1"></path>
+<text fill="#91d3c2" font-family="Inter" font-size="7" opacity="0.8" x="430" y="275">HF INTER-STATION TRUNK (2,450 km)</text>
+</svg>
+<!-- Bottom Floating HUD Coordinate Strip -->
+<div class="absolute bottom-space-xs left-space-xs right-space-xs flex items-center justify-between bg-surface-container-low/90 backdrop-blur px-space-sm py-space-xs rounded-lg text-on-surface-variant font-telemetry-code text-label-xs">
+<div class="flex items-center gap-space-sm">
+<span class="text-surface-cream">AZIMUTH: 184.2° TRUE</span>
+<span class="hidden sm:inline">• ELEVATION: 41.6°</span>
+<span class="text-secondary">• SATELLITE: GSAT-7A ( ku-transponder )</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe"></span>
+<span class="text-surface-cream">DATA STAMP: 14:32:08 UTC</span>
+</div>
+</div>
+</div>
+<!-- Bottom Control Bar (Time Slider & Zoom) -->
+<div class="flex items-center justify-between pt-space-xs border-t border-outline-variant/30 text-body-sm">
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-space-2xs bg-surface-container hover:bg-surface-panel text-surface-cream text-label-xs font-label-xs rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">my_location</span> RECENTER SOUTH POLE
+              </button>
+<button class="px-space-sm py-space-2xs bg-surface-container hover:bg-surface-panel text-surface-cream text-label-xs font-label-xs rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">layers</span> ICE DEPTH RADAR
+              </button>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant text-label-xs font-telemetry-code">
+<span>PROJECTION REFRESH:</span>
+<span class="text-telemetry-safe font-semibold">REAL-TIME (2000ms)</span>
+</div>
+</div>
+</div>
+<!-- Atmospheric & Cryosphere Micro-Cards (Sub-grid under Map) -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-panel-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-low p-space-sm rounded-xl flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-surface-cream">Barometric Pressure</span>
+<span class="material-symbols-outlined text-[16px] text-telemetry-warning">compress</span>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-md text-headline-md text-surface-cream font-bold flex items-baseline gap-1">
+                981.4 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">hPa</span>
+</div>
+<div class="font-label-xs text-label-xs text-telemetry-warning flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">south</span> -3.2 hPa / 3h (Katabatic Front)
+              </div>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-telemetry-warning h-full" style="width: 48%"></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-low p-space-sm rounded-xl flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-surface-cream">Geomagnetic Kp-Index</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">flare</span>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-md text-headline-md text-surface-cream font-bold flex items-baseline gap-1">
+                Kp 3.8 <span class="font-body-sm text-body-sm text-secondary font-normal">Moderate</span>
+</div>
+<div class="font-label-xs text-label-xs text-secondary mt-1">
+                Polar Cap Absorption: Nominal
+              </div>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-secondary h-full" style="width: 55%"></div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-low p-space-sm rounded-xl flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-surface-cream">Larsemann Albedo</span>
+<span class="material-symbols-outlined text-[16px] text-tertiary">wb_sunny</span>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-md text-headline-md text-surface-cream font-bold flex items-baseline gap-1">
+                0.84 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">Surface Refl.</span>
+</div>
+<div class="font-label-xs text-label-xs text-tertiary mt-1">
+                UV Index: 0.2 • Solar Midnight in 9h
+              </div>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 84%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT OPERATIONAL RAIL (3 cols on xl) -->
+<div class="xl:col-span-3 flex flex-col gap-panel-gutter">
+<!-- Station Deep-Dives: Bharati & Maitri -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">domain</span>
+<span class="font-title-sm text-title-sm text-surface-cream uppercase tracking-wide">Station Telemetry</span>
+</div>
+<span class="font-label-xs text-label-xs text-telemetry-safe flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span>2 DOCKED
+            </span>
+</div>
+<!-- Bharati Deep Dive Card -->
+<div class="bg-surface-container p-space-sm rounded-lg mb-space-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-surface-cream font-bold">BHARATI</span>
+<span class="font-label-xs text-label-xs px-1.5 py-0.5 rounded bg-primary-container text-secondary">69°S</span>
+</div>
+<span class="font-label-xs text-label-xs text-telemetry-safe px-space-xs py-space-2xs rounded bg-surface-container-lowest font-semibold">ALL NOMINAL</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs text-body-sm mb-space-xs">
+<div class="bg-surface-container-low p-space-xs rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant block">EXT. TEMP</span>
+<span class="font-telemetry-code text-surface-cream font-semibold">-28.4°C</span>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant block">HABITAT CORE</span>
+<span class="font-telemetry-code text-telemetry-safe font-semibold">+21.2°C</span>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant block">SURFACE WIND</span>
+<span class="font-telemetry-code text-surface-cream font-semibold">42 km/h ESE</span>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant block">FRESHWATER</span>
+<span class="font-telemetry-code text-surface-cream font-semibold">18,400 L (92%)</span>
+</div>
+</div>
+<!-- Life Support Bars -->
+<div class="space-y-1 text-label-xs font-label-xs text-on-surface-variant">
+<div class="flex justify-between">
+<span>O2 Partial Pressure</span>
+<span class="text-surface-cream font-telemetry-code">20.9 kPa (NOMINAL)</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-telemetry-safe h-full" style="width: 98%"></div>
+</div>
+</div>
+</div>
+<!-- Maitri Deep Dive Card -->
+<div class="bg-surface-container p-space-sm rounded-lg">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-surface-cream font-bold">MAITRI</span>
+<span class="font-label-xs text-label-xs px-1.5 py-0.5 rounded bg-primary-container text-secondary">70°S</span>
+</div>
+<span class="font-label-xs text-label-xs text-telemetry-warning px-space-xs py-space-2xs rounded bg-surface-container-lowest font-semibold">KATABATIC ADVISORY</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs text-body-sm mb-space-xs">
+<div class="bg-surface-container-low p-space-xs rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant block">EXT. TEMP</span>
+<span class="font-telemetry-code text-surface-cream font-semibold">-34.1°C</span>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant block">HABITAT CORE</span>
+<span class="font-telemetry-code text-telemetry-safe font-semibold">+19.8°C</span>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant block">GUST VELOCITY</span>
+<span class="font-telemetry-code text-telemetry-warning font-semibold">78 km/h S</span>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant block">LAKE PRIYADARSHINI</span>
+<span class="font-telemetry-code text-surface-cream font-semibold">Ice Plug: 1.8m</span>
+</div>
+</div>
+<!-- Life Support Bars -->
+<div class="space-y-1 text-label-xs font-label-xs text-on-surface-variant">
+<div class="flex justify-between">
+<span>HVAC Thermal Balance</span>
+<span class="text-surface-cream font-telemetry-code">Aux Heaters #2 Online</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-telemetry-warning h-full" style="width: 75%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Polar Fleet & Field Asset Status -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">rv_hookup</span>
+<span class="font-title-sm text-title-sm text-surface-cream uppercase tracking-wide">Snowcat & Outpost Fleet</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface-variant">4/4 MISSION FIT</span>
+</div>
+<div class="space-y-space-xs text-body-sm">
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-telemetry-safe">local_shipping</span>
+<div class="flex flex-col">
+<span class="text-surface-cream font-medium">PistenBully PB-300 #01</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Bharati Bay • Staged</span>
+</div>
+</div>
+<span class="font-telemetry-code text-label-xs text-telemetry-safe">READY 100%</span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-telemetry-warning">local_shipping</span>
+<div class="flex flex-col">
+<span class="text-surface-cream font-medium">PistenBully PB-300 #02</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Maitri Return • In Transit</span>
+</div>
+</div>
+<span class="font-telemetry-code text-label-xs text-telemetry-warning">RETURNING</span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">flight</span>
+<div class="flex flex-col">
+<span class="text-surface-cream font-medium">Basler BT-67 Polar Air</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Novo Runway • Hangar D</span>
+</div>
+</div>
+<span class="font-telemetry-code text-label-xs text-secondary">WEATHER HOLD</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM MISSION LOG: Cryptographic Packet Event Stream -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm mb-space-sm border-b border-surface-container-highest">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">terminal</span>
+<span class="font-title-sm text-title-sm text-surface-cream uppercase tracking-wide">Station Packet Event Stream & Cryptographic Audit</span>
+<span class="font-label-xs text-label-xs px-space-xs py-space-2xs rounded bg-surface-container-highest text-secondary font-telemetry-code">SHA-256 HMAC SECURED</span>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-telemetry-code text-label-xs">
+<span>TX RATE: <strong class="text-surface-cream">128.4 kbps</strong></span>
+<span>•</span>
+<span>PACKET DROP: <strong class="text-telemetry-safe">0.002%</strong></span>
+<span>•</span>
+<button class="px-space-xs py-space-2xs bg-surface-container text-surface-cream hover:bg-surface-panel rounded transition-colors" id="stream-toggle">
+            PAUSE STREAM
+          </button>
+</div>
+</div>
+<!-- Real-time Console Log Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-telemetry-code text-body-sm">
+<thead>
+<tr class="text-on-surface-variant font-label-xs text-label-xs border-b border-surface-container">
+<th class="pb-space-xs font-semibold uppercase">UTC Timestamp</th>
+<th class="pb-space-xs font-semibold uppercase">Node Origin</th>
+<th class="pb-space-xs font-semibold uppercase">Subsystem</th>
+<th class="pb-space-xs font-semibold uppercase">Severity</th>
+<th class="pb-space-xs font-semibold uppercase">Telemetry Frame / Payload</th>
+<th class="pb-space-xs font-semibold uppercase text-right">Packet Hash</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container" id="terminal-body">
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-xs text-surface-cream font-medium">14:32:04.182</td>
+<td class="py-space-xs text-secondary">BHARATI-CORE</td>
+<td class="py-space-xs text-on-surface-variant">GRID-MICRO</td>
+<td class="py-space-xs"><span class="px-1.5 py-0.5 rounded bg-telemetry-safe/20 text-telemetry-safe text-label-xs">NOMINAL</span></td>
+<td class="py-space-xs text-on-surface">Thermal loop #3 heat dump valve cycling complete; delta T nominal at +1.4°C.</td>
+<td class="py-space-xs text-right text-on-surface-variant text-label-xs">0x89F4..2A1D</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-xs text-surface-cream font-medium">14:31:58.904</td>
+<td class="py-space-xs text-secondary">MAITRI-OASIS</td>
+<td class="py-space-xs text-on-surface-variant">MET-AWS</td>
+<td class="py-space-xs"><span class="px-1.5 py-0.5 rounded bg-telemetry-warning/20 text-telemetry-warning text-label-xs font-bold">WARNING</span></td>
+<td class="py-space-xs text-on-surface">Katabatic wind gust exceeded threshold: 78.4 km/h registered at Mast 3 (Azimuth 192°).</td>
+<td class="py-space-xs text-right text-on-surface-variant text-label-xs">0x3B10..E47C</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-xs text-surface-cream font-medium">14:31:42.311</td>
+<td class="py-space-xs text-secondary">DG-AWS-OUTPOST</td>
+<td class="py-space-xs text-on-surface-variant">SAT-SBD</td>
+<td class="py-space-xs"><span class="px-1.5 py-0.5 rounded bg-telemetry-info/20 text-telemetry-info text-label-xs">INFO</span></td>
+<td class="py-space-xs text-on-surface">Autonomous weather beacon ping: Battery 94.2%, Solar Aux 0.0W (night), Temp -36.2°C.</td>
+<td class="py-space-xs text-right text-on-surface-variant text-label-xs">0x07F9..B220</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-xs text-surface-cream font-medium">14:31:19.645</td>
+<td class="py-space-xs text-secondary">RELAY-GSAT7A</td>
+<td class="py-space-xs text-on-surface-variant">COMMS-RF</td>
+<td class="py-space-xs"><span class="px-1.5 py-0.5 rounded bg-telemetry-safe/20 text-telemetry-safe text-label-xs">LOCKED</span></td>
+<td class="py-space-xs text-on-surface">Transponder Ku-4 carrier phase locked. SNR 18.2 dB. Goa Gateway round-trip latency 28.1ms.</td>
+<td class="py-space-xs text-right text-on-surface-variant text-label-xs">0xCC51..94F8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Interactive Terminal Feed & HUD micro-behavior script -->
+<script>
+    (function() {
+      const toggleBtn = document.getElementById('stream-toggle');
+      let isStreaming = true;
+      let intervalId = null;
+
+      const sampleEvents = [
+        { node: "BHARATI-CORE", sys: "LSS-LIFE", sev: "NOMINAL", text: "Oxygen generator electrolyzer stack 2 voltage balanced at 48.2V DC.", sevClass: "bg-telemetry-safe/20 text-telemetry-safe" },
+        { node: "MAITRI-OASIS", sys: "GRID-BESS", sev: "NOMINAL", text: "Battery rack 4 cell balancing pulse verified; SOC steady at 89.2%.", sevClass: "bg-telemetry-safe/20 text-telemetry-safe" },
+        { node: "MV-GOLOVNIN", sys: "NAV-RADAR", sev: "INFO", text: "Ice field radar scan indicates fast-ice boundary 14.2 nm ahead. Speed reduced to 9.8kn.", sevClass: "bg-telemetry-info/20 text-telemetry-info" },
+        { node: "BHARATI-CORE", sys: "SAT-KU", sev: "NOMINAL", text: "Automated dish de-icing radome heating loop cycled off after reaching +4.0C.", sevClass: "bg-telemetry-safe/20 text-telemetry-safe" }
+      ];
+
+      function prependLog() {
+        if (!isStreaming) return;
+        const tbody = document.getElementById('terminal-body');
+        if (!tbody) return;
+
+        const event = sampleEvents[Math.floor(Math.random() * sampleEvents.length)];
+        const now = new Date();
+        const timeStr = now.toISOString().substring(11, 23);
+        const randHash = '0x' + Math.random().toString(16).substr(2, 4).toUpperCase() + '..' + Math.random().toString(16).substr(2, 4).toUpperCase();
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-surface-container-high/40 transition-colors opacity-0 duration-300';
+        tr.innerHTML = `
+          <td class="py-space-xs text-surface-cream font-medium">${timeStr}</td>
+          <td class="py-space-xs text-secondary">${event.node}</td>
+          <td class="py-space-xs text-on-surface-variant">${event.sys}</td>
+          <td class="py-space-xs"><span class="px-1.5 py-0.5 rounded ${event.sevClass} text-label-xs">${event.sev}</span></td>
+          <td class="py-space-xs text-on-surface">${event.text}</td>
+          <td class="py-space-xs text-right text-on-surface-variant text-label-xs">${randHash}</td>
+        `;
+
+        tbody.insertBefore(tr, tbody.firstChild);
+        requestAnimationFrame(() => {
+          tr.classList.remove('opacity-0');
+        });
+
+        if (tbody.children.length > 8) {
+          tbody.removeChild(tbody.lastChild);
+        }
+      }
+
+      intervalId = setInterval(prependLog, 5000);
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          isStreaming = !isStreaming;
+          if (isStreaming) {
+            toggleBtn.textContent = 'PAUSE STREAM';
+            toggleBtn.classList.remove('text-telemetry-warning');
+          } else {
+            toggleBtn.textContent = 'RESUME STREAM';
+            toggleBtn.classList.add('text-telemetry-warning');
+          }
+        });
+      }
+    })();
+  </script>
+</div></main></div></body></html>

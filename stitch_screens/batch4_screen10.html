@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { colors: { 'tertiary-fixed-dim': '#b1cdbd', 'surface-container': '#12231f', 'tertiary-fixed': '#cde9d9', 'secondary': '#91d3c2', 'on-primary-container': '#819993', 'primary-container': '#1a312c', 'surface-panel': '#223F39', 'on-background': '#d3e7e0', 'secondary-fixed': '#acf0de', 'on-tertiary': '#1d352a', 'telemetry-safe-bg': '#E8F4EE', 'on-secondary-fixed': '#00201a', 'surface-cream-light': '#F8F7F2', 'inverse-primary': '#4b635d', 'surface-container-highest': '#273834', 'on-surface-variant': '#c2c8c5', 'outline-variant': '#424846', 'primary': '#b2ccc4', 'on-error-container': '#ffdad6', 'on-secondary-container': '#83c5b4', 'surface': '#051613', 'telemetry-warning': '#D9822B', 'telemetry-safe': '#2E7D5B', 'surface-container-lowest': '#02110d', 'telemetry-critical': '#C44536', 'tertiary': '#b1cdbd', 'on-surface': '#d3e7e0', 'on-primary-fixed-variant': '#344b46', 'on-tertiary-container': '#809b8c', 'surface-tint': '#b2ccc4', 'primary-fixed': '#cee8e0', 'secondary-fixed-dim': '#91d3c2', 'on-primary': '#1e3530', 'surface-dim': '#051613', 'on-tertiary-fixed': '#072016', 'telemetry-info-bg': '#E8F2F8', 'surface-container-low': '#0d1f1b', 'surface-container-high': '#1c2d29', 'telemetry-warning-bg': '#FFF3E3', 'surface-bright': '#2b3d38', 'inverse-surface': '#d3e7e0', 'surface-variant': '#273834', 'telemetry-info': '#2878A8', 'secondary-container': '#015346', 'on-error': '#690005', 'on-secondary-fixed-variant': '#005144', 'background': '#051613', 'tertiary-container': '#1a3227', 'primary-fixed-dim': '#b2ccc4', 'on-tertiary-fixed-variant': '#334c40', 'telemetry-critical-bg': '#FBE9E7', 'outline': '#8c928f', 'surface-cream': '#F4F3ED', 'on-secondary': '#00382e', 'error-container': '#93000a', 'error': '#ffb4ab', 'on-primary-fixed': '#071f1b', 'inverse-on-surface': '#23342f' }, borderRadius: { 'DEFAULT': '0.125rem', 'lg': '0.25rem', 'xl': '0.5rem', 'full': '0.75rem' }, spacing: { 'space-md': '0.75rem', 'space-2xl': '3rem', 'space-sm': '0.5rem', 'space-2xs': '0.125rem', 'panel-gutter': '0.75rem', 'space-lg': '1.5rem', 'canvas-margin': '1.5rem', 'space-xl': '2rem', 'space-base': '1rem', 'space-xs': '0.25rem' }, fontFamily: { 'headline-md': ['Inter'], 'body-md': ['Inter'], 'headline-xl': ['Inter'], 'label-md': ['Inter'], 'title-sm': ['Inter'], 'body-sm': ['Inter'], 'telemetry-code': ['Inter'], 'headline-lg': ['Inter'], 'label-xs': ['Inter'], 'display-lg': ['Inter'], 'body-lg': ['Inter'], 'headline-xl-mobile': ['Inter'] }, fontSize: { 'headline-md': ['20px', { lineHeight: '28px', fontWeight: '600' }], 'body-md': ['14px', { lineHeight: '20px', fontWeight: '400' }], 'headline-xl': ['32px', { lineHeight: '40px', letterSpacing: '-0.015em', fontWeight: '600' }], 'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '600' }], 'title-sm': ['16px', { lineHeight: '24px', fontWeight: '600' }], 'body-sm': ['12px', { lineHeight: '16px', fontWeight: '400' }], 'telemetry-code': ['13px', { lineHeight: '18px', letterSpacing: '0.04em', fontWeight: '500' }], 'headline-lg': ['24px', { lineHeight: '32px', letterSpacing: '-0.01em', fontWeight: '600' }], 'label-xs': ['10px', { lineHeight: '14px', letterSpacing: '0.08em', fontWeight: '700' }], 'display-lg': ['44px', { lineHeight: '52px', letterSpacing: '-0.02em', fontWeight: '700' }], 'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }], 'headline-xl-mobile': ['26px', { lineHeight: '34px', letterSpacing: '-0.01em', fontWeight: '600' }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between select-none shadow-[0_1px_8px_rgba(0,0,0,0.45)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="h-14 px-space-base flex items-center gap-space-sm bg-surface-container-lowest"><span class="w-2 h-2 rounded-full bg-secondary"></span><div class="flex flex-col"><span class="font-label-xs text-secondary tracking-widest uppercase">NCPOR // ESSO - MOES</span><span class="font-label-md text-on-surface uppercase tracking-tight">ANARCTIC C4ISR</span></div></div><nav class="flex-1 px-space-sm py-space-md space-y-space-lg" data-active-classes="bg-primary-container text-secondary font-title-sm shadow-inner"><div class="space-y-space-2xs"><div class="px-space-sm pb-space-xs font-label-xs text-outline uppercase tracking-wider">Continental Operations</div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="continental-overview" href="#"><span class="material-symbols-outlined text-[18px]">public</span><span>Continental Overview</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cross-station-environment" href="#"><span class="material-symbols-outlined text-[18px]">thermostat</span><span>Cross-Station Environment</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cross-station-energy" href="#"><span class="material-symbols-outlined text-[18px]">bolt</span><span>Cross-Station Energy</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="continental-logistics" href="#"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span>Continental Logistics</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs rounded transition-colors bg-primary-container text-secondary font-title-sm shadow-inner" data-path="scenario-simulations" href="#"><span class="material-symbols-outlined text-[18px]">model_training</span><span>Scenario Simulations</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="continental-alert-matrix" href="#"><span class="material-symbols-outlined text-[18px]">notifications_active</span><span>Continental Alert Matrix</span></a></div><div class="space-y-space-2xs"><div class="px-space-sm pb-space-xs font-label-xs text-outline uppercase tracking-wider">Station Digital Twins</div><a class="flex items-center justify-between px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="bharati-station-bht-02" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">domain</span><span>Bharati BHT-02</span></div><span class="font-label-xs text-secondary px-1.5 py-0.5 rounded bg-secondary-container/30">NOM</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="maitri-station-mtr-01" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">home_work</span><span>Maitri MTR-01</span></div><span class="font-label-xs text-secondary px-1.5 py-0.5 rounded bg-secondary-container/30">NOM</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="maitri-ii-survey-mtr2-03" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">radar</span><span>Maitri-II Survey</span></div><span class="font-label-xs text-primary px-1.5 py-0.5 rounded bg-primary-container">DEP</span></a></div><div class="space-y-space-2xs"><div class="px-space-sm pb-space-xs font-label-xs text-outline uppercase tracking-wider">Mission Governance</div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports-compliance" href="#"><span class="material-symbols-outlined text-[18px]">assignment</span><span>Reports &amp; Compliance</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="rbac-security" href="#"><span class="material-symbols-outlined text-[18px]">shield</span><span>RBAC &amp; Security</span></a></div></nav></div><div class="p-space-sm bg-surface-container-lowest"><div class="p-space-sm rounded bg-surface-container-high flex items-center justify-between"><div class="flex flex-col"><span class="font-label-xs text-outline">TELEMETRY PULSE</span><span class="font-telemetry-code text-secondary">POLL: 1000ms</span></div><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-xs text-on-surface-variant uppercase">ISRO-SCN</span></div></div></div></aside><div class="pl-72 flex flex-col min-h-screen bg-background"><header class="fixed top-0 left-72 right-0 h-14 bg-surface-container-low/95 backdrop-blur-md z-40 flex items-center justify-between px-space-base shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="flex items-center gap-space-base"><img alt="Clean modern vector logo emblem for Indian Antarctic Mission Command with stylized polar compass and subtle tricolor dot accent in dark deep green and teal. Design context: - Primary color: #1a312c
+- Font: inter
+- Mode: dark
+- Roundness: rounded-sm
+. The logo should be visually consistent with these brand tokens." class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WmulcB1HzfkxmeY76IcVjMHNoCYqPLLYlSF5JWTIX9cggoUqKexxIsDOIAW0WCgZSSLDUU2rJg60tpge45aC9vb2k8-BQwWf2ysMREe9JPys2eI-HqArlSZBYaVBuoDgCTBXoKmZmAkaLX6PnU5-UCeZfS4fVv_5hs_YbxDZ0cNiT5NlsQPBoeOt07KN8MwRzJLW4q0eEJQrbnYThVIde8_z8gZSpFzXvdn8Yo6onabBqXMenNynkoQ98"/><div class="hidden xl:flex items-center gap-space-sm px-space-sm py-1 rounded bg-surface-container-lowest"><span class="font-label-xs text-outline tracking-wider">SYS MODE:</span><span class="font-label-xs text-secondary tracking-wide uppercase">CONTINENTAL COMMAND // ALL STATIONS</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm px-space-sm py-1 rounded bg-surface-container-lowest font-telemetry-code text-on-surface-variant"><span class="text-outline font-label-xs">UTC</span><span class="text-on-surface">14:28:49</span><span class="text-outline font-label-xs pl-space-xs">LMT</span><span class="text-on-surface">19:58:49</span></div><div class="hidden lg:flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-lowest"><span class="material-symbols-outlined text-[16px] text-secondary">satellite_alt</span><div class="flex flex-col"><span class="font-label-xs text-on-surface">GSAT-7A Ku-BAND</span><span class="font-label-xs text-secondary">CARRIER LOCK // 99.8% SNR</span></div></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="text-right hidden sm:flex flex-col"><span class="font-label-md text-on-surface">Dr. K. Vardhan</span><span class="font-label-xs text-outline uppercase">CMD LEAD // NCPOR</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-14 bg-background px-panel-gutter"><div class="flex flex-col w-full pb-space-2xl space-y-space-md">
+<!-- TOP CONSOLE CONTROL HUD / PARAMETER DOCK -->
+<section class="bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col space-y-space-base">
+<!-- Header strip with Simulation Mode & System Telemetry Status -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-xs">
+<div class="flex items-center gap-space-base">
+<div class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-xs text-outline uppercase tracking-widest">NCPOR HYBRID PHYSICS ENGINE</span>
+<span class="font-label-xs px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-mono">SIM-CORE v4.18.2</span>
+</div>
+<h1 class="font-headline-lg text-on-surface tracking-tight">Antarctic Scenario Stress-Test &amp; Digital Twin Sandbox</h1>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container font-telemetry-code text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary">memory</span>
+<span class="text-on-surface font-semibold">10,000 M-CARLO ITERATIONS</span>
+<span class="text-secondary font-label-xs px-1.5 py-0.5 rounded bg-secondary-container/40">READY</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container font-telemetry-code text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">cloud_sync</span>
+<span class="text-outline text-label-xs font-label-xs">TWIN SYNC:</span>
+<span class="text-on-surface">T-0.42s LAG</span>
+</div>
+</div>
+</div>
+<!-- Parameter Config Bar -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md pt-space-xs">
+<!-- Station Target Selector -->
+<div class="xl:col-span-3 flex flex-col space-y-1.5">
+<label class="font-label-xs uppercase text-outline tracking-wider flex items-center justify-between">
+<span>Target Station Asset</span>
+<span class="text-secondary font-mono">PRIMARY</span>
+</label>
+<div class="grid grid-cols-3 gap-1 bg-surface-container-lowest p-1 rounded">
+<button class="px-2 py-2 rounded font-label-xs tracking-wider uppercase transition-all bg-primary-container text-secondary font-bold shadow-sm" id="btn-station-bht">
+            Bharati BHT-02
+          </button>
+<button class="px-2 py-2 rounded font-label-xs tracking-wider uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-station-mtr">
+            Maitri MTR-01
+          </button>
+<button class="px-2 py-2 rounded font-label-xs tracking-wider uppercase transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" id="btn-station-comb">
+            Continental
+          </button>
+</div>
+</div>
+<!-- Preset Scenario Selector -->
+<div class="xl:col-span-4 flex flex-col space-y-1.5">
+<label class="font-label-xs uppercase text-outline tracking-wider flex items-center justify-between">
+<span>Stress Scenario Blueprint</span>
+<span class="text-telemetry-warning font-label-xs font-mono">SEV-1 ADVISORY</span>
+</label>
+<div class="relative">
+<select class="w-full h-10 px-space-sm py-1.5 rounded bg-surface-container-lowest text-on-surface font-body-sm appearance-none cursor-pointer focus:outline-none focus:bg-surface-container" id="scenario-selector">
+<option selected="" value="sc-1">CHP Gen #01 Catastrophic Bearing Seizure (-40°C Blizzard)</option>
+<option value="sc-2">Severe Katabatic Gale (120 km/h) &amp; SatCom Ku-Band Radome Failure</option>
+<option value="sc-3">South-Wing Trace Heating Circuit 4B Rupture &amp; Fuel Waxing (&lt;6h)</option>
+<option value="sc-4">Priyadarshini Lake Water Intake Pipeline Ice Plug (Maitri MTR-01)</option>
+<option value="sc-5">Complete 90-Day Resupply Vessel Delayed (Heavy Fast-Ice Blockade)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-on-surface-variant pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Simulation Horizon Slider -->
+<div class="xl:col-span-3 flex flex-col space-y-1.5">
+<div class="flex items-center justify-between font-label-xs uppercase text-outline tracking-wider">
+<span>Simulation Horizon</span>
+<span class="text-secondary font-mono font-bold" id="horizon-val">72 HOURS (3 DAYS)</span>
+</div>
+<div class="flex items-center gap-space-sm h-10 px-space-sm bg-surface-container-lowest rounded">
+<input class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-secondary" id="horizon-slider" max="2160" min="12" step="12" type="range" value="72"/>
+<span class="font-telemetry-code text-on-surface text-label-xs shrink-0 font-mono">72h</span>
+</div>
+</div>
+<!-- Run Action Button -->
+<div class="xl:col-span-2 flex flex-col justify-end">
+<button class="w-full h-10 px-space-base bg-secondary-container hover:bg-surface-panel text-on-background rounded flex items-center justify-center gap-space-sm font-label-md uppercase tracking-wider transition-all shadow-md group" id="run-sim-btn">
+<span class="material-symbols-outlined text-[20px] text-secondary group-hover:rotate-180 transition-transform duration-500">sync_saved_locally</span>
+<span class="text-secondary font-semibold">RUN TWIN SIM</span>
+</button>
+</div>
+</div>
+<!-- Weather & Microgrid Boundary Multipliers Bar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md pt-space-xs bg-surface-container-lowest/80 p-space-sm rounded-lg">
+<div class="flex flex-col space-y-1">
+<div class="flex justify-between font-label-xs text-outline">
+<span>KATABATIC WIND MULTIPLIER</span>
+<span class="text-secondary font-telemetry-code" id="wind-readout">1.85x (114 km/h)</span>
+</div>
+<input class="h-1 bg-surface-container-high rounded appearance-none cursor-pointer accent-secondary" max="2.5" min="1.0" step="0.05" type="range" value="1.85"/>
+</div>
+<div class="flex flex-col space-y-1">
+<div class="flex justify-between font-label-xs text-outline">
+<span>SURFACE AMBIENT TEMP</span>
+<span class="text-telemetry-critical font-telemetry-code" id="temp-readout">-43.5°C</span>
+</div>
+<input class="h-1 bg-surface-container-high rounded appearance-none cursor-pointer accent-telemetry-critical" max="-20" min="-55" step="0.5" type="range" value="-43.5"/>
+</div>
+<div class="flex flex-col space-y-1">
+<div class="flex justify-between font-label-xs text-outline">
+<span>BESS STATE OF CHARGE (T-0)</span>
+<span class="text-secondary font-telemetry-code">92.4% (540 kWh)</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded overflow-hidden mt-1.5">
+<div class="bg-secondary h-full rounded" style="width: 92.4%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-between px-space-sm bg-surface-container-high/60 rounded">
+<div class="flex flex-col">
+<span class="font-label-xs text-outline">SOLAR PV CONTRIBUTION</span>
+<span class="font-telemetry-code text-on-surface-variant">POLAR NIGHT (0.0 kW)</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px]">wb_twilight</span>
+</div>
+</div>
+</section>
+<!-- BASELINE VS SIMULATED CONSEQUENCE DELTA MATRIX -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-panel-gutter">
+<!-- Metric 1: Microgrid Deficit -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col justify-between shadow-lg relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-telemetry-warning/10 blur-xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-outline uppercase tracking-wider">Microgrid Net Balance</span>
+<span class="font-label-xs text-telemetry-warning px-1.5 py-0.5 rounded bg-telemetry-warning/20 font-bold">DEFICIT ALERT</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-display-lg text-telemetry-warning tracking-tight font-mono">-98.4</span>
+<span class="font-title-sm text-outline">kW</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs space-y-1.5 bg-surface-container-lowest/50 p-space-xs rounded">
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">BASELINE:</span>
+<span class="text-secondary font-mono">+0.0 kW (285 kW Supp.)</span>
+</div>
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">SIMULATED NET:</span>
+<span class="text-telemetry-warning font-mono">186.6 kW / 285 kW Req.</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded overflow-hidden">
+<div class="bg-telemetry-warning h-full rounded" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<!-- Metric 2: Habitat Autonomy -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col justify-between shadow-lg relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-telemetry-critical/10 blur-xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-outline uppercase tracking-wider">Single-Gen Autonomy</span>
+<span class="font-label-xs text-telemetry-critical px-1.5 py-0.5 rounded bg-telemetry-critical/20 font-bold">-50.0% MARGIN</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-display-lg text-telemetry-critical tracking-tight font-mono">142</span>
+<span class="font-title-sm text-outline">Days</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs space-y-1.5 bg-surface-container-lowest/50 p-space-xs rounded">
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">BASELINE:</span>
+<span class="text-on-surface font-mono">284 Days Safe Reserve</span>
+</div>
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">FUEL BURN SURGE:</span>
+<span class="text-telemetry-critical font-mono">+38.2 L/h on Gen #03</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded overflow-hidden">
+<div class="bg-telemetry-critical h-full rounded" style="width: 50%;"></div>
+</div>
+</div>
+</div>
+<!-- Metric 3: Hab Core Pod Temperature -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col justify-between shadow-lg relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-telemetry-warning/10 blur-xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-outline uppercase tracking-wider">Living Core Temp (T+18h)</span>
+<span class="font-label-xs text-telemetry-warning px-1.5 py-0.5 rounded bg-telemetry-warning/20 font-bold">THERMAL DROP</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-display-lg text-telemetry-warning tracking-tight font-mono">+14.2</span>
+<span class="font-title-sm text-outline">°C</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs space-y-1.5 bg-surface-container-lowest/50 p-space-xs rounded">
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">BASELINE COMFORT:</span>
+<span class="text-secondary font-mono">+21.4°C Nominal</span>
+</div>
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">NON-ESSENTIAL LABS:</span>
+<span class="text-telemetry-warning font-mono">+7.8°C (Frost Risk)</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded overflow-hidden">
+<div class="bg-telemetry-warning h-full rounded" style="width: 66%;"></div>
+</div>
+</div>
+</div>
+<!-- Metric 4: Potable Water Generation -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col justify-between shadow-lg relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-telemetry-critical/10 blur-xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-outline uppercase tracking-wider">RO Snowmelt Output</span>
+<span class="font-label-xs text-telemetry-critical px-1.5 py-0.5 rounded bg-telemetry-critical/20 font-bold">-65.0% YIELD</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-display-lg text-on-surface tracking-tight font-mono">630</span>
+<span class="font-title-sm text-outline">L / day</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs space-y-1.5 bg-surface-container-lowest/50 p-space-xs rounded">
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">BASELINE DEMAND:</span>
+<span class="text-on-surface font-mono">1,800 L / day</span>
+</div>
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">GRAYWATER RECYCLE:</span>
+<span class="text-secondary font-mono">100% Loop Enforced</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded overflow-hidden">
+<div class="bg-telemetry-critical h-full rounded" style="width: 35%;"></div>
+</div>
+</div>
+</div>
+<!-- Metric 5: Station DEFCON Health -->
+<div class="bg-surface-container-low rounded-xl p-space-base flex flex-col justify-between shadow-lg relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-telemetry-critical/15 blur-xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-outline uppercase tracking-wider">Mission Safety Status</span>
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-critical animate-pulse"></span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-display-lg text-telemetry-critical tracking-tight font-mono">DEFCON 2</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs space-y-1.5 bg-surface-container-lowest/50 p-space-xs rounded">
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">BASELINE:</span>
+<span class="text-secondary font-mono">DEFCON 5 (Nominal)</span>
+</div>
+<div class="flex items-center justify-between font-label-xs">
+<span class="text-outline">THREAT LEVEL:</span>
+<span class="text-telemetry-critical font-mono font-bold">CRITICAL LIFE SUPPORT</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded overflow-hidden">
+<div class="bg-telemetry-critical h-full rounded" style="width: 85%;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- DYNAMIC SYSTEM TOPOLOGY & EVENT CASCADE SANKY-STYLE SANKEY/FLOW -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-panel-gutter">
+<!-- Subsystem Failure Cascades & Interactive Timeline (8 Cols) -->
+<div class="lg:col-span-8 bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col space-y-space-base">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">account_tree</span>
+<div>
+<h2 class="font-headline-md text-on-surface">Digital Twin Failure Cascade Progression</h2>
+<p class="font-body-sm text-outline">Dynamic multi-stage subsystem reaction tree across simulated 72-hour window</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1 rounded">
+<span class="font-label-xs text-outline">STATION TIME-STEP:</span>
+<span class="font-telemetry-code text-secondary font-mono font-bold">T+00h → T+72h</span>
+</div>
+</div>
+<!-- High fidelity Event Cascade Graphic (SVG Inline with Timeline Milestones) -->
+<div class="bg-surface-container-lowest rounded-lg p-space-base overflow-x-auto relative">
+<div class="min-w-[700px] flex flex-col space-y-space-md">
+<!-- Time Markers Header -->
+<div class="grid grid-cols-6 text-center font-label-xs text-outline border-b-0 pb-1 font-mono">
+<span class="text-left text-telemetry-critical font-bold">T+00h (TRIGGER)</span>
+<span>T+02h</span>
+<span>T+04h</span>
+<span>T+12h</span>
+<span>T+18h</span>
+<span class="text-right text-secondary font-bold">T+36h → T+72h</span>
+</div>
+<!-- Flow Sankey & Micro-Nodes -->
+<div class="relative h-44 w-full">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 800 160">
+<!-- Defs for glowing gradient flow paths -->
+<defs>
+<lineargradient id="stream-fail" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#C44536" stop-opacity="0.8"></stop>
+<stop offset="30%" stop-color="#D9822B" stop-opacity="0.7"></stop>
+<stop offset="100%" stop-color="#91d3c2" stop-opacity="0.5"></stop>
+</lineargradient>
+<lineargradient id="stream-bess" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#2E7D5B" stop-opacity="0.2"></stop>
+<stop offset="25%" stop-color="#D9822B" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#2E7D5B" stop-opacity="0.7"></stop>
+</lineargradient>
+<lineargradient id="stream-thermal" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#2E7D5B" stop-opacity="0.6"></stop>
+<stop offset="50%" stop-color="#C44536" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#D9822B" stop-opacity="0.6"></stop>
+</lineargradient>
+</defs>
+<!-- Connection Ribbons / Sankey Paths -->
+<path d="M 40 30 C 120 30, 140 70, 220 70 C 290 70, 310 40, 420 40 C 500 40, 520 80, 640 80 L 760 80" fill="none" stroke="url(#stream-fail)" stroke-linecap="round" stroke-width="6"></path>
+<path d="M 40 30 C 100 30, 110 110, 180 110 C 250 110, 270 120, 380 120 C 480 120, 560 90, 760 90" fill="none" opacity="0.85" stroke="url(#stream-bess)" stroke-dasharray="4,4" stroke-width="3"></path>
+<path d="M 40 90 C 130 90, 180 40, 280 40 C 370 40, 450 120, 580 120 L 760 120" fill="none" stroke="url(#stream-thermal)" stroke-linecap="round" stroke-width="4"></path>
+<!-- Node Points -->
+<!-- T0 -->
+<circle class="animate-ping" cx="40" cy="30" fill="#C44536" opacity="0.75" r="7"></circle>
+<circle cx="40" cy="30" fill="#C44536" r="5"></circle>
+<circle cx="40" cy="90" fill="#2E7D5B" r="4"></circle>
+<!-- T+02h -->
+<circle cx="180" cy="110" fill="#D9822B" r="5"></circle>
+<!-- T+04h -->
+<circle cx="280" cy="40" fill="#91d3c2" r="5"></circle>
+<!-- T+12h -->
+<circle cx="420" cy="40" fill="#D9822B" r="6"></circle>
+<!-- T+18h -->
+<circle cx="580" cy="120" fill="#C44536" r="5"></circle>
+<!-- T+36h Target -->
+<circle cx="760" cy="80" fill="#91d3c2" r="6"></circle>
+<circle cx="760" cy="90" fill="#2E7D5B" r="4"></circle>
+<circle cx="760" cy="120" fill="#D9822B" r="4"></circle>
+</svg>
+<!-- Floating Event Badges Overlaid on Nodes -->
+<div class="absolute left-2 top-0 bg-surface-container-high px-2 py-1 rounded shadow-md flex flex-col">
+<span class="font-label-xs text-telemetry-critical font-bold">CHP GEN #1 TRIP</span>
+<span class="font-label-xs text-on-surface-variant">Instant -160 kW loss</span>
+</div>
+<div class="absolute left-[20%] bottom-0 bg-surface-container-high px-2 py-1 rounded shadow-md flex flex-col">
+<span class="font-label-xs text-telemetry-warning font-bold">BESS DISCHARGE</span>
+<span class="font-label-xs text-on-surface-variant">Drops to 40% SoC</span>
+</div>
+<div class="absolute left-[33%] top-0 bg-surface-container-high px-2 py-1 rounded shadow-md flex flex-col">
+<span class="font-label-xs text-secondary font-bold">LOAD-SHED TIER 1</span>
+<span class="font-label-xs text-on-surface-variant">LIDAR / Workshop Cut</span>
+</div>
+<div class="absolute left-[50%] top-2 bg-surface-container-high px-2 py-1 rounded shadow-md flex flex-col">
+<span class="font-label-xs text-telemetry-warning font-bold">GEN #3 AT 94% MCR</span>
+<span class="font-label-xs text-on-surface-variant">High thermal strain</span>
+</div>
+<div class="absolute left-[70%] bottom-1 bg-surface-container-high px-2 py-1 rounded shadow-md flex flex-col">
+<span class="font-label-xs text-telemetry-critical font-bold">CORE HAB FOCUS</span>
+<span class="font-label-xs text-on-surface-variant">Science bays at +8°C</span>
+</div>
+<div class="absolute right-0 top-8 bg-surface-container-high px-2.5 py-1 rounded shadow-md flex flex-col text-right">
+<span class="font-label-xs text-secondary font-bold">SECONDARY DIESEL LOOP</span>
+<span class="font-label-xs text-on-surface-variant">Pipeline defrost verified</span>
+</div>
+</div>
+<!-- Chronological Step Breakdown Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm pt-space-xs">
+<div class="p-space-sm rounded bg-surface-container-high flex flex-col justify-between">
+<div class="flex items-center gap-space-xs text-telemetry-critical">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="font-label-xs font-bold uppercase">Phase 1: Grid Disruption (T+0h - 4h)</span>
+</div>
+<p class="font-body-sm text-on-surface-variant mt-1">
+                Gen #1 trips from bearing failure. Grid frequency dips to 48.2 Hz before BESS inverters lock. Rapid load shed required.
+              </p>
+</div>
+<div class="p-space-sm rounded bg-surface-container-high flex flex-col justify-between">
+<div class="flex items-center gap-space-xs text-telemetry-warning">
+<span class="material-symbols-outlined text-[16px]">thermostat</span>
+<span class="font-label-xs font-bold uppercase">Phase 2: Thermal Decay (T+4h - 18h)</span>
+</div>
+<p class="font-body-sm text-on-surface-variant mt-1">
+                Hydronic heating water temp drops from +65°C to +41°C. Auxiliary glycol trace loops risk freeze plugs in fuel line 4B.
+              </p>
+</div>
+<div class="p-space-sm rounded bg-surface-container-high flex flex-col justify-between">
+<div class="flex items-center gap-space-xs text-secondary">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-xs font-bold uppercase">Phase 3: Equilibrium (T+18h - 72h)</span>
+</div>
+<p class="font-body-sm text-on-surface-variant mt-1">
+                Genset #02 warm spin-up stabilizes electrical load at 210 kW. Core living pod sealed and temperature maintained at +18°C.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Twin Facility CAD / Station Visualizer (4 Cols) -->
+<div class="lg:col-span-4 bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col justify-between space-y-space-base">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">apartment</span>
+<span class="font-headline-md text-on-surface">Bharati Twin Thermal Map</span>
+</div>
+<span class="font-label-xs text-secondary px-2 py-0.5 rounded bg-secondary-container">CAD OVERLAY</span>
+</div>
+<!-- Schematic Pod Visualization Area -->
+<div class="relative w-full h-56 rounded-lg overflow-hidden bg-surface-container-lowest p-space-sm flex flex-col justify-between">
+<!-- Photographic twin backdrop placeholder -->
+<div class="absolute inset-0 bg-cover bg-center opacity-30" data-alt="High tech isometric 3D wireframe render of polar research station complex Bharati in Antarctica during a dark winter night, showing glowing interior structural thermal heat signatures in deep teal and amber warning nodes, scientific modernism interface aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBSvpQj6OuG4cDpjANfq8V_ro60tppbk951tLBVKg74kM3zS0AkpEbiq1px4wMgI8QJl8mHdzzpCadJVr9YOaOAzmci5cRIn41-QyWFy_mQusnS9rP7s5a0trohXYfPaFqi9uo8F8_i1EYz_MuENXH2DnxdBUqtlxE7fYQIRJBNfdHpHchHil3i_UwSIhQdGlCScOfeaH-1NHtUPXIQqpjhxViX_4Ns7PsqnxxQcdiL2buuS-MA2EMBiQ')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/60"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div class="bg-surface-container/80 backdrop-blur px-2 py-1 rounded font-telemetry-code text-label-xs text-on-surface">
+            LAT: 69°24'28" S // LON: 76°11'14" E
+          </div>
+<div class="flex flex-col items-end">
+<span class="font-label-xs text-telemetry-critical font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-critical"></span>
+              GEN BAY 01 CRIT
+            </span>
+<span class="font-label-xs text-outline">POD SECTOR 3A</span>
+</div>
+</div>
+<!-- Interactive Hotspots Pinning -->
+<div class="relative z-10 grid grid-cols-3 gap-2 text-center">
+<div class="p-1.5 rounded bg-surface-container-high/90 backdrop-blur">
+<span class="font-label-xs text-outline block">HAB POD</span>
+<span class="font-telemetry-code text-secondary font-bold">+18.4°C</span>
+</div>
+<div class="p-1.5 rounded bg-surface-container-high/90 backdrop-blur">
+<span class="font-label-xs text-outline block">LAB WING</span>
+<span class="font-telemetry-code text-telemetry-warning font-bold">+9.1°C</span>
+</div>
+<div class="p-1.5 rounded bg-surface-container-high/90 backdrop-blur">
+<span class="font-label-xs text-outline block">CHP BAY</span>
+<span class="font-telemetry-code text-telemetry-critical font-bold">+68.8°C</span>
+</div>
+</div>
+</div>
+<!-- Facility Operational Telemetry Strip -->
+<div class="space-y-space-xs bg-surface-container p-space-sm rounded">
+<div class="flex justify-between items-center font-label-xs">
+<span class="text-outline">PRIMARY BUS VOLTAGE:</span>
+<span class="text-on-surface font-mono">415 V (±1.2%) NOMINAL</span>
+</div>
+<div class="flex justify-between items-center font-label-xs">
+<span class="text-outline">FUEL PRE-HEAT GLYCOL:</span>
+<span class="text-telemetry-warning font-mono">LOW (+28°C vs +55°C)</span>
+</div>
+<div class="flex justify-between items-center font-label-xs">
+<span class="text-outline">SATELLITE DOWNLINK:</span>
+<span class="text-secondary font-mono">GSAT-7A TRACK ACTIVE</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SOP AUTOMATED MITIGATION PLAYBOOK & MONTE CARLO STOCHASTIC CURVES -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-panel-gutter">
+<!-- Recommended SOP Mitigation Playbook (7 Cols) -->
+<div class="lg:col-span-7 bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col justify-between space-y-space-base">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">auto_fix_high</span>
+<div>
+<h2 class="font-headline-md text-on-surface">Automated Mitigation Playbook (SOP AI-REC)</h2>
+<p class="font-body-sm text-outline">Engineered remediation sequences generated by digital twin predictive model</p>
+</div>
+</div>
+<span class="font-label-xs px-2 py-1 rounded bg-secondary-container text-secondary font-mono font-bold">CONFIDENCE: 98.4%</span>
+</div>
+<!-- Interactive Playbook Steps -->
+<div class="space-y-space-sm">
+<!-- Step 1 -->
+<div class="p-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors flex items-start gap-space-sm">
+<div class="w-7 h-7 rounded bg-secondary text-on-secondary font-label-md font-bold flex items-center justify-center shrink-0 mt-0.5">
+            01
+          </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-on-surface font-semibold">Immediate Non-Critical Microgrid Shed</span>
+<span class="font-label-xs text-secondary font-mono">+42.4 kW YIELD</span>
+</div>
+<p class="font-body-sm text-on-surface-variant mt-0.5">
+              Instantly trip breaker panel B-04: cuts High-Altitude Atmospheric LIDAR, external snow vehicle heaters, and workshop CNC mills.
+            </p>
+</div>
+<div class="flex items-center">
+<input checked="" class="w-4 h-4 accent-secondary rounded cursor-pointer" type="checkbox"/>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="p-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors flex items-start gap-space-sm">
+<div class="w-7 h-7 rounded bg-secondary text-on-secondary font-label-md font-bold flex items-center justify-center shrink-0 mt-0.5">
+            02
+          </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-on-surface font-semibold">Cold Standby Genset #02 Pre-Heat &amp; Synchronize</span>
+<span class="font-label-xs text-telemetry-warning font-mono">ETA: 45 MINS</span>
+</div>
+<p class="font-body-sm text-on-surface-variant mt-0.5">
+              Command auxiliary Webasto glycol thermal loop to raise engine block block-temp to +45°C prior to air-starter ignition.
+            </p>
+</div>
+<div class="flex items-center">
+<input checked="" class="w-4 h-4 accent-secondary rounded cursor-pointer" type="checkbox"/>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="p-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors flex items-start gap-space-sm">
+<div class="w-7 h-7 rounded bg-secondary text-on-secondary font-label-md font-bold flex items-center justify-center shrink-0 mt-0.5">
+            03
+          </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-on-surface font-semibold">Hydronic Co-Gen Heat Redirection to Living Pod</span>
+<span class="font-label-xs text-secondary font-mono">100% LIFE FOCUS</span>
+</div>
+<p class="font-body-sm text-on-surface-variant mt-0.5">
+              Modulate 3-way motorized thermal valves V-102 and V-104: restrict supply to storage hangars and isolate to crew quarters.
+            </p>
+</div>
+<div class="flex items-center">
+<input checked="" class="w-4 h-4 accent-secondary rounded cursor-pointer" type="checkbox"/>
+</div>
+</div>
+</div>
+<!-- Action Execution Bar -->
+<div class="pt-space-xs flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-surface-container-lowest p-space-sm rounded-lg">
+<div class="flex items-center gap-space-xs text-outline font-label-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">verified_user</span>
+<span>NCPOR C4ISR GOVERNANCE: LEVEL 4 COMMAND CLEARANCE VERIFIED</span>
+</div>
+<button class="w-full sm:w-auto px-space-base py-2.5 bg-secondary hover:bg-surface-cream text-on-secondary rounded font-label-md uppercase tracking-wider font-bold transition-all shadow-lg flex items-center justify-center gap-space-xs" id="dispatch-btn">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>DISPATCH TO STATION SCADA</span>
+</button>
+</div>
+</div>
+<!-- Monte Carlo Stochastic Distribution & Confidence Intervals (5 Cols) -->
+<div class="lg:col-span-5 bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col justify-between space-y-space-base">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">analytics</span>
+<div>
+<h2 class="font-headline-md text-on-surface">Monte Carlo Probability Bounds</h2>
+<p class="font-body-sm text-outline">Stochastic variance across 10,000 algorithmic perturbations</p>
+</div>
+</div>
+<span class="font-label-xs text-outline font-mono">P50 / P90 / P99</span>
+</div>
+<!-- Monte Carlo Density Graph Inline SVG -->
+<div class="bg-surface-container-lowest rounded-lg p-space-sm flex flex-col space-y-2">
+<div class="flex justify-between items-center font-label-xs text-outline px-1">
+<span>TIME TO HABITAT THERMAL RUNAWAY</span>
+<span class="text-secondary font-mono">MEAN: 29.4 HOURS</span>
+</div>
+<div class="h-32 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 120">
+<!-- Shaded probability areas -->
+<!-- P99 to P90 area -->
+<path d="M 40 110 Q 120 105, 170 70 Q 210 20, 240 20 Q 270 20, 310 70 Q 360 105, 380 110 Z" fill="#91d3c2" opacity="0.15"></path>
+<!-- P90 to P50 area -->
+<path d="M 90 110 Q 160 100, 200 50 Q 230 15, 240 15 Q 250 15, 280 50 Q 320 100, 350 110 Z" fill="#91d3c2" opacity="0.3"></path>
+<!-- Center distribution curve -->
+<path d="M 40 110 Q 130 105, 180 60 Q 220 10, 240 10 Q 260 10, 300 60 Q 350 105, 380 110" fill="none" stroke="#91d3c2" stroke-width="2"></path>
+<!-- Median Indicator Line -->
+<line stroke="#F8F7F2" stroke-dasharray="3,3" stroke-width="1.5" x1="240" x2="240" y1="10" y2="110"></line>
+<!-- P90 bounds -->
+<line stroke="#D9822B" stroke-width="1.5" x1="310" x2="310" y1="50" y2="110"></line>
+<!-- P99 bounds -->
+<line stroke="#C44536" stroke-width="1.5" x1="170" x2="170" y1="50" y2="110"></line>
+</svg>
+<!-- Graph Labels -->
+<div class="absolute left-[38%] top-1 text-on-surface font-label-xs font-mono font-bold">
+            P50: 29.4h
+          </div>
+<div class="absolute left-[73%] top-8 text-telemetry-warning font-label-xs font-mono font-bold">
+            P90: 38.2h
+          </div>
+<div class="absolute left-[34%] top-8 text-telemetry-critical font-label-xs font-mono font-bold">
+            P99: 14.1h
+          </div>
+</div>
+<div class="flex justify-between font-label-xs text-outline px-1 font-mono">
+<span>&lt; 12 hrs (Severe)</span>
+<span>Nominal Median (~30 hrs)</span>
+<span>&gt; 48 hrs (Safe)</span>
+</div>
+</div>
+<!-- Probability Stats Summary -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-space-sm rounded bg-surface-container flex flex-col justify-between">
+<span class="font-label-xs text-outline">BESS EXHAUSTION CHANCE</span>
+<span class="font-headline-md text-telemetry-warning font-mono">14.8%</span>
+<span class="font-label-xs text-on-surface-variant">Prior to Genset #2 Lock</span>
+</div>
+<div class="p-space-sm rounded bg-surface-container flex flex-col justify-between">
+<span class="font-label-xs text-outline">FUEL WAXING PROBABILITY</span>
+<span class="font-headline-md text-secondary font-mono">2.1%</span>
+<span class="font-label-xs text-on-surface-variant">With Trace Loop 4B active</span>
+</div>
+</div>
+<!-- Sub-notice -->
+<div class="flex items-center gap-space-xs text-outline font-label-xs px-1">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+<span>Run validated using Indian Antarctic Meteorological Station re-analysis datasets.</span>
+</div>
+</div>
+</section>
+</div>
+<script>
+  // Interactive Controls & Micro-interactions
+  const runBtn = document.getElementById('run-sim-btn');
+  const dispatchBtn = document.getElementById('dispatch-btn');
+  const horizonSlider = document.getElementById('horizon-slider');
+  const horizonVal = document.getElementById('horizon-val');
+
+  if (horizonSlider && horizonVal) {
+    horizonSlider.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (val < 24) {
+        horizonVal.innerText = `${val} HOURS`;
+      } else {
+        const days = (val / 24).toFixed(1);
+        horizonVal.innerText = `${val} HOURS (${days} DAYS)`;
+      }
+    });
+  }
+
+  if (runBtn) {
+    runBtn.addEventListener('click', () => {
+      const originalHtml = runBtn.innerHTML;
+      runBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[18px] text-secondary animate-spin">refresh</span>
+        <span class="text-secondary font-semibold">SOLVING EQUATIONS...</span>
+      `;
+      runBtn.classList.add('opacity-75');
+
+      setTimeout(() => {
+        runBtn.innerHTML = originalHtml;
+        runBtn.classList.remove('opacity-75');
+      }, 1200);
+    });
+  }
+
+  if (dispatchBtn) {
+    dispatchBtn.addEventListener('click', () => {
+      const originalText = dispatchBtn.innerHTML;
+      dispatchBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[18px] animate-pulse">send</span>
+        <span>SCADA PROTOCOL SENT</span>
+      `;
+      dispatchBtn.classList.add('bg-secondary-container', 'text-secondary');
+      
+      setTimeout(() => {
+        dispatchBtn.innerHTML = originalText;
+        dispatchBtn.classList.remove('bg-secondary-container', 'text-secondary');
+      }, 2500);
+    });
+  }
+
+  // Station Tab Switching Visual State
+  const bhtBtn = document.getElementById('btn-station-bht');
+  const mtrBtn = document.getElementById('btn-station-mtr');
+  const combBtn = document.getElementById('btn-station-comb');
+
+  const stationButtons = [bhtBtn, mtrBtn, combBtn];
+  stationButtons.forEach(btn => {
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      stationButtons.forEach(b => {
+        b.classList.remove('bg-primary-container', 'text-secondary', 'font-bold', 'shadow-sm');
+        b.classList.add('text-on-surface-variant');
+      });
+      btn.classList.add('bg-primary-container', 'text-secondary', 'font-bold', 'shadow-sm');
+      btn.classList.remove('text-on-surface-variant');
+    });
+  });
+</script></main></div></body></html>

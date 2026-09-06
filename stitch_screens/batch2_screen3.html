@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary-fixed-dim":"#b1cdbd","surface-container-highest":"#273834","primary-fixed-dim":"#b2ccc4","secondary-fixed-dim":"#91d3c2","on-surface-variant":"#c2c8c5","on-surface":"#d3e7e0","on-secondary-fixed-variant":"#005144","telemetry-critical-bg":"#FBE9E7","surface-variant":"#273834","on-secondary-fixed":"#00201a","error-container":"#93000a","surface-tint":"#b2ccc4","background":"#051613","telemetry-warning-bg":"#FFF3E3","tertiary":"#b1cdbd","on-primary-container":"#819993","error":"#ffb4ab","inverse-surface":"#d3e7e0","on-error":"#690005","on-tertiary-fixed-variant":"#334c40","surface-cream":"#F4F3ED","secondary-container":"#015346","outline-variant":"#424846","surface-container-high":"#1c2d29","surface":"#051613","telemetry-safe":"#2E7D5B","on-tertiary-fixed":"#072016","primary":"#b2ccc4","secondary-fixed":"#acf0de","surface-dim":"#051613","on-background":"#d3e7e0","surface-bright":"#2b3d38","on-secondary":"#00382e","telemetry-warning":"#D9822B","surface-cream-light":"#F8F7F2","tertiary-container":"#1a3227","surface-container":"#12231f","primary-fixed":"#cee8e0","inverse-primary":"#4b635d","telemetry-critical":"#C44536","on-error-container":"#ffdad6","on-primary-fixed":"#071f1b","tertiary-fixed":"#cde9d9","secondary":"#91d3c2","surface-container-low":"#0d1f1b","on-primary":"#1e3530","surface-container-lowest":"#02110d","surface-panel":"#223F39","on-tertiary-container":"#809b8c","inverse-on-surface":"#23342f","on-tertiary":"#1d352a","telemetry-safe-bg":"#E8F4EE","on-primary-fixed-variant":"#344b46","on-secondary-container":"#83c5b4","telemetry-info":"#2878A8","primary-container":"#1a312c","outline":"#8c928f","telemetry-info-bg":"#E8F2F8"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-sm":"0.5rem","space-2xl":"3rem","space-2xs":"0.125rem","panel-gutter":"0.75rem","canvas-margin":"1.5rem","space-xl":"2rem","space-lg":"1.5rem","space-base":"1rem","space-md":"0.75rem","space-xs":"0.25rem"},fontFamily:{"headline-lg":["Inter"],"body-sm":["Inter"],"headline-xl":["Inter"],"headline-md":["Inter"],"label-xs":["Inter"],"title-sm":["Inter"],"label-md":["Inter"],"body-md":["Inter"],"body-lg":["Inter"],"display-lg":["Inter"],"headline-xl-mobile":["Inter"],"telemetry-code":["Inter"]},fontSize:{"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","fontWeight":"600"}],"label-xs":["10px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"700"}],"title-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"display-lg":["44px",{"lineHeight":"52px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-xl-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"600"}],"telemetry-code":["13px",{"lineHeight":"18px","letterSpacing":"0.04em","fontWeight":"500"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col shadow-[0_1px_8px_rgba(0,0,0,0.45)]"><div class="h-14 px-space-base flex items-center gap-space-sm bg-surface-container"><span class="material-symbols-outlined text-secondary text-[20px]">radar</span><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface tracking-wider uppercase font-semibold">NCPOR POLAR CMD</span><span class="font-label-xs text-label-xs text-on-surface-variant font-medium">EARTH SCIENCES • GOI</span></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-md space-y-space-lg"><div class="space-y-space-xs"><div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">STATION SELECTOR &amp; OVERVIEW</div><nav class="space-y-space-2xs" data-active-classes="bg-secondary-container text-on-secondary-container font-semibold shadow-inner"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="antarctica-overview" href="#"><span class="material-symbols-outlined text-[18px]">public</span><span>Antarctica Overview</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all bg-secondary-container text-on-secondary-container font-semibold shadow-inner" data-path="station-digital-twin" href="#"><span class="material-symbols-outlined text-[18px]">view_in_ar</span><span>Station Digital Twin</span></a></nav></div><div class="space-y-space-xs"><div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">OPERATIONAL DOMAINS</div><nav class="space-y-space-2xs" data-active-classes="bg-secondary-container text-on-secondary-container font-semibold shadow-inner"><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="microgrid-energy-systems" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">electric_bolt</span><span>Microgrid &amp; Energy</span></div><span class="font-label-xs text-label-xs px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary">412 kW</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="life-support-habitat" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">air</span><span>Life Support &amp; Habitat</span></div><span class="font-label-xs text-label-xs px-space-xs py-0.5 rounded bg-surface-container-highest text-telemetry-safe">NOMINAL</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="geospatial-earth-science" href="#"><span class="material-symbols-outlined text-[18px]">satellite_alt</span><span>Geospatial &amp; Science</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="logistics-fuel-supply" href="#"><span class="material-symbols-outlined text-[18px]">local_gas_station</span><span>Logistics &amp; Jet A-1</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="personnel-medical-readiness" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">vital_signs</span><span>Personnel &amp; Medical</span></div><span class="font-label-xs text-label-xs px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface">48/48</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="alert-triage-playbooks" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">warning</span><span>Alert Triage</span></div><span class="font-label-xs text-label-xs px-space-xs py-0.5 rounded bg-telemetry-warning/20 text-telemetry-warning font-bold">2 WARN</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="simulations-scenarios" href="#"><span class="material-symbols-outlined text-[18px]">science</span><span>Simulations &amp; Stress</span></a></nav></div></div><div class="p-space-base bg-surface-container-lowest space-y-space-xs font-telemetry-code text-telemetry-code"><div class="flex items-center justify-between text-on-surface-variant"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span>AES-256 GCM</span><span class="text-outline text-label-xs">SECURE</span></div><div class="flex items-center justify-between text-outline text-label-xs"><span>Node: GOA-POLAR-GW</span><span>14:28:10 UTC</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-14 bg-surface-container-low/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.35)] z-40 flex items-center justify-between px-space-base"><div class="flex items-center gap-space-base"><img alt="Clean modern vector logo emblem for Indian Antarctic Mission Command with stylized polar compass and subtle tricolor dot accent in dark deep green and teal. Design context: - Primary color: #1a312c
+- Font: inter
+- Mode: dark
+- Roundness: rounded-sm
+. The logo should be visually consistent with these brand tokens." class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WmulcB1HzfkxmeY76IcVjMHNoCYqPLLYlSF5JWTIX9cggoUqKexxIsDOIAW0WCgZSSLDUU2rJg60tpge45aC9vb2k8-BQwWf2ysMREe9JPys2eI-HqArlSZBYaVBuoDgCTBXoKmZmAkaLX6PnU5-UCeZfS4fVv_5hs_YbxDZ0cNiT5NlsQPBoeOt07KN8MwRzJLW4q0eEJQrbnYThVIde8_z8gZSpFzXvdn8Yo6onabBqXMenNynkoQ98"/><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface font-semibold tracking-wide">ANTARCTIC Remote-Ops &amp; Digital Twin</span><span class="font-label-xs text-label-xs text-outline">v4.2 PROD • MoES GOI</span></div><div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">location_on</span><select class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-sm"><option class="bg-surface-container text-on-surface" value="bharati">Bharati [69°24'S, 76°11'E]</option><option class="bg-surface-container text-on-surface" value="maitri">Maitri [70°46'S, 11°44'E]</option><option class="bg-surface-container text-on-surface" value="maitri-ii">Maitri-II [Projected]</option><option class="bg-surface-container text-on-surface" value="polar-all">Polar Overview (Combined)</option></select></div><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg font-telemetry-code text-telemetry-code"><span class="w-2 h-2 rounded-full bg-telemetry-safe"></span><span class="text-on-surface font-medium">LIVE GSAT-7A</span><span class="text-outline text-label-xs">| 240ms</span></div><div class="hidden xl:flex items-center gap-space-md font-telemetry-code text-telemetry-code text-on-surface-variant"><div class="flex flex-col text-right"><span class="text-on-surface font-semibold">14:28:22 UTC</span><span class="text-label-xs text-outline">UNIVERSAL TIME</span></div><div class="w-px h-6 bg-surface-container-highest"></div><div class="flex flex-col"><span class="text-secondary font-semibold">19:28:22 +05:00</span><span class="text-label-xs text-outline">LARSEMANN HILLS</span></div></div></div><div class="flex items-center gap-space-base"><div class="flex items-center gap-1.5 px-space-sm py-1 bg-surface-container rounded-lg"><span class="w-2 h-2 rounded-full bg-telemetry-safe"></span><span class="font-label-xs text-label-xs font-bold text-telemetry-safe tracking-wider">DEFCON 5 / NOMINAL</span></div><div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs"><span class="material-symbols-outlined text-on-surface-variant text-[16px]">badge</span><select class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-xs"><option class="bg-surface-container text-on-surface" value="hq-operator">Role: NCPOR HQ Operator</option><option class="bg-surface-container text-on-surface" value="station-commander">Role: Station Commander</option><option class="bg-surface-container text-on-surface" value="systems-engineer">Role: Systems Engineer</option><option class="bg-surface-container text-on-surface" value="research-lead">Role: Research Lead</option><option class="bg-surface-container text-on-surface" value="medical-lead">Role: Medical &amp; Logistics Lead</option></select></div><button class="relative p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-telemetry-warning"></span></button><div class="flex items-center gap-space-xs pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-14 bg-background w-full px-canvas-margin"><div class="flex flex-col w-full text-on-surface space-y-space-base pb-space-2xl">
+<!-- Top Structural Sub-Header: Architectural Metadata, Level Switcher & Quick Filters -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md bg-surface-container-low p-space-base rounded-xl shadow-md">
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[24px]">apartment</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-md text-headline-md tracking-tight text-surface-cream">BHARATI TWIN // CAD-ISO-3</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-xs text-label-xs uppercase">Larsemann Hills</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Elevated Aerodynamic Monocoque • 134 ISO Modules • Footprint: 2,160 m² • Wind Cap: 260 km/h</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container-highest hidden sm:block"></div>
+<!-- Architectural Deck Selector -->
+<div class="flex items-center bg-surface-container-lowest p-1 rounded-lg gap-1" id="deck-tabs">
+<button class="deck-btn active-deck px-space-sm py-1 rounded text-label-md font-label-md text-on-secondary-container bg-secondary-container transition-all" onclick="switchDeck('ALL')">All Levels</button>
+<button class="deck-btn px-space-sm py-1 rounded text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="switchDeck('L3')">L3 Science/Comms</button>
+<button class="deck-btn px-space-sm py-1 rounded text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="switchDeck('L2')">L2 Habitat/Med</button>
+<button class="deck-btn px-space-sm py-1 rounded text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="switchDeck('L1')">L1 Microgrid/Util</button>
+<button class="deck-btn px-space-sm py-1 rounded text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-all" onclick="switchDeck('EXT')">EXT Stilts/Fuel</button>
+</div>
+</div>
+<!-- HUD Control Preset and Projection Mode -->
+<div class="flex items-center gap-space-sm self-end xl:self-auto">
+<div class="flex items-center bg-surface-container-high rounded-lg p-0.5">
+<button class="px-space-sm py-1 text-label-xs font-label-xs uppercase text-surface-cream bg-surface-panel rounded shadow-sm">Iso Ortho</button>
+<button class="px-space-sm py-1 text-label-xs font-label-xs uppercase text-on-surface-variant hover:text-on-surface transition-colors">Cut-Section</button>
+<button class="px-space-sm py-1 text-label-xs font-label-xs uppercase text-on-surface-variant hover:text-on-surface transition-colors">CFD Thermal</button>
+</div>
+<button class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-label-md font-label-md text-on-surface transition-colors" id="wireframe-btn" onclick="toggleWireframe()">
+<span class="material-symbols-outlined text-[16px] text-secondary">grid_4x4</span>
+<span>Wireframe</span>
+</button>
+<button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Reset Viewport Origin">
+<span class="material-symbols-outlined text-[18px]">filter_center_focus</span>
+</button>
+</div>
+</div>
+<!-- Main Viewport & Hotspot Inspector Grid (70/30 Composition) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-panel-gutter items-start">
+<!-- LEFT 8-COLS: Central Interactive 2.5D Isometric Architectural Model Viewport -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-space-base shadow-xl relative overflow-hidden flex flex-col min-h-[640px]">
+<!-- Viewport Heads-Up Display (Corner Accents) -->
+<div class="absolute top-space-base left-space-base z-10 flex flex-col gap-space-xs pointer-events-none">
+<div class="flex items-center gap-2 bg-surface-container-high/90 backdrop-blur-md px-space-sm py-1 rounded pointer-events-auto">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe animate-pulse"></span>
+<span class="font-telemetry-code text-telemetry-code text-on-surface">RADOME-LINK: Ku-BAND GSAT-7A [SNR 14.8 dB]</span>
+</div>
+<div class="font-telemetry-code text-label-xs text-outline pl-1">LAT: -69.4072° | LON: +76.1953° | WIND: 38.4 kt WNW</div>
+</div>
+<div class="absolute top-space-base right-space-base z-10 flex items-center gap-space-xs">
+<span class="px-space-sm py-1 rounded bg-surface-container-high/80 backdrop-blur-md text-label-xs font-label-xs text-on-surface-variant">MODEL: BHARATI_REV_4.12.OBJ</span>
+<button class="p-1 rounded bg-surface-container-high/80 text-on-surface hover:bg-surface-panel transition-colors"><span class="material-symbols-outlined text-[16px]">fullscreen</span></button>
+</div>
+<!-- Isometric Visual Stage: Rendered Polar Structural CAD Assembly -->
+<div class="relative w-full flex-1 flex items-center justify-center py-space-xl select-none" id="viewport-stage">
+<!-- Ambient Depth Backdrop Grids -->
+<svg class="absolute inset-0 w-full h-full opacity-20 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="34.64" id="iso-grid" patterntransform="scale(1)" patternunits="userSpaceOnUse" width="60">
+<path class="text-secondary" d="M 60 0 L 0 34.64 M 0 0 L 60 34.64 M 30 0 L 30 34.64" fill="none" stroke="currentColor" stroke-width="0.75"></path>
+</pattern>
+</defs>
+<rect fill="url(#iso-grid)" height="100%" width="100%"></rect>
+</svg>
+<!-- Polar Architectural Schematic Container -->
+<div class="relative w-full max-w-[700px] aspect-[16/10] flex items-center justify-center">
+<!-- Architectural Base Silhouette & Hydraulic Stilts / Snow Surface (Isometric SVG representation) -->
+<svg class="w-full h-full drop-shadow-2xl transition-all duration-500" id="cad-schematic" viewbox="0 0 800 500">
+<defs>
+<lineargradient id="hullGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#2b3d38"></stop>
+<stop offset="50%" stop-color="#1a312c"></stop>
+<stop offset="100%" stop-color="#12231f"></stop>
+</lineargradient>
+<lineargradient id="snowGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1c2d29" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#051613" stop-opacity="0.9"></stop>
+</lineargradient>
+<lineargradient id="warmWarningGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#D9822B" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#D9822B" stop-opacity="0.05"></stop>
+</lineargradient>
+</defs>
+<!-- Ground Ice & Drift Profile (Larsemann Permafrost Ridge) -->
+<path d="M 40 430 L 760 410 L 720 480 L 80 490 Z" fill="url(#snowGrad)"></path>
+<path d="M 120 425 Q 380 460 680 415" fill="none" stroke="#424846" stroke-dasharray="4,6" stroke-width="1.5"></path>
+<!-- Hydraulic Stilts / Foundation Piles (Undercarriage EXT-01) -->
+<g class="stilts-group" stroke="#8c928f" stroke-linecap="round" stroke-width="3.5">
+<!-- Column 1 -->
+<line x1="220" x2="220" y1="365" y2="435"></line>
+<circle cx="220" cy="435" fill="#91d3c2" r="4"></circle>
+<!-- Column 2 -->
+<line x1="330" x2="330" y1="380" y2="445"></line>
+<circle cx="330" cy="445" fill="#91d3c2" r="4"></circle>
+<!-- Column 3 -->
+<line x1="470" x2="470" y1="380" y2="445"></line>
+<circle cx="470" cy="445" fill="#91d3c2" r="4"></circle>
+<!-- Column 4 -->
+<line x1="580" x2="580" y1="365" y2="435"></line>
+<circle cx="580" cy="435" fill="#91d3c2" r="4"></circle>
+<!-- Truss Diagonal Stabilizers -->
+<path d="M 220 395 L 330 425 M 470 425 L 580 395" stroke="#424846" stroke-width="1.5"></path>
+</g>
+<!-- LEVEL 1: Sub-Chassis, Microgrid & Thermal Core -->
+<g class="deck-layer transition-opacity duration-300" id="geo-level-1">
+<polygon fill="#12231f" points="180,340 390,385 620,340 620,365 390,410 180,365" stroke="#273834" stroke-width="1.5"></polygon>
+<!-- Generator Utility Bay Volume -->
+<polygon fill="#1c2d29" points="210,330 380,365 380,385 210,350" stroke="#344b46" stroke-width="1"></polygon>
+<polygon fill="#162924" points="380,365 520,335 520,355 380,385" stroke="#344b46" stroke-width="1"></polygon>
+</g>
+<!-- LEVEL 2: Main Habitation & Crew Monocoque Capsule -->
+<g class="deck-layer transition-opacity duration-300" id="geo-level-2">
+<!-- Central Aerodynamic Hull Body -->
+<polygon fill="url(#hullGrad)" points="160,250 400,305 640,250 640,335 400,380 160,335" stroke="#424846" stroke-width="1.5"></polygon>
+<!-- Faceted Aerodynamic Nose Cap (Blunt Wind Deflector Facing Blizzards) -->
+<polygon fill="#223F39" points="120,285 160,250 160,335 120,310" stroke="#428475" stroke-width="1.2"></polygon>
+<!-- Habitation Porthole Ribbon Strip -->
+<path d="M 180,290 L 380,335 M 420,335 L 610,292" opacity="0.8" stroke="#91d3c2" stroke-dasharray="8,5" stroke-width="3"></path>
+<!-- Warning Heat Overlay on Galley Flue Section -->
+<polygon fill="url(#warmWarningGrad)" points="430,285 520,265 520,315 430,335" stroke="#D9822B" stroke-dasharray="3,3" stroke-width="1"></polygon>
+</g>
+<!-- LEVEL 3: Observation Deck, Optical Labs & Roof Radomes -->
+<g class="deck-layer transition-opacity duration-300" id="geo-level-3">
+<!-- Roof Platform -->
+<polygon fill="#273834" points="200,240 400,285 600,240 400,200" stroke="#428475" stroke-width="1.2"></polygon>
+<!-- Atmospheric Science Lidar Deck Structure -->
+<polygon fill="#1c2d29" points="240,225 310,240 310,215 240,200" stroke="#91d3c2" stroke-width="1"></polygon>
+<!-- Lidar Emitting Mast Beam (Subtle Visual) -->
+<line opacity="0.6" stroke="#63B88A" stroke-dasharray="4,4" stroke-width="1.5" x1="275" x2="275" y1="205" y2="120"></line>
+<!-- Spherical Ground Comms Radome Dome (GSAT-7A Primary) -->
+<ellipse cx="510" cy="215" fill="#cee8e0" fill-opacity="0.15" rx="34" ry="24" stroke="#cee8e0" stroke-width="1.5"></ellipse>
+<path d="M 476,215 A 34,24 0 0,1 544,215" fill="none" stroke="#91d3c2" stroke-dasharray="3,3" stroke-width="1"></path>
+<ellipse cx="510" cy="215" fill="#428475" fill-opacity="0.5" rx="14" ry="8"></ellipse>
+</g>
+<!-- External Auxiliary Infrastructure: Jet A-1 Fuel Farm Tanks -->
+<g class="deck-layer transition-opacity duration-300" id="geo-level-ext">
+<!-- Tank #1 -->
+<ellipse cx="690" cy="385" fill="#1c2d29" rx="28" ry="12" stroke="#424846" stroke-width="1.2"></ellipse>
+<path d="M 662,385 L 662,410 A 28,12 0 0,0 718,410 L 718,385" fill="#162924" stroke="#424846" stroke-width="1.2"></path>
+<!-- Fuel Supply Trace Pipe to Habitat -->
+<path d="M 662,405 L 610,380 L 520,380" fill="none" stroke="#63B88A" stroke-dasharray="3,3" stroke-width="2"></path>
+</g>
+</svg>
+<!-- INTERACTIVE HOTSPOTS (HTML Overlays Positioned Reliably Across Structural Landmarks) -->
+<!-- 1. [L3-LAB-01] Optical Lidar Deck -->
+<div class="hotspot-pin group absolute top-[28%] left-[34%] cursor-pointer" data-deck="L3" onclick="selectHotspot('L3-LAB-01')">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-6 h-6 rounded-full bg-telemetry-safe/25 animate-ping"></span>
+<span class="w-4 h-4 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-lg">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-safe"></span>
+</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-surface-container-high/95 backdrop-blur-md px-space-sm py-1 rounded shadow-xl min-w-[170px] z-30 pointer-events-none">
+<div class="flex items-center justify-between text-label-xs font-label-xs font-bold text-surface-cream">
+<span>[L3-LAB-01]</span>
+<span class="text-telemetry-safe">NOMINAL</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface">Atmospheric LIDAR Deck</span>
+<span class="font-telemetry-code text-label-xs text-outline mt-0.5">Flow: 14.2 L/min • +20.8°C</span>
+</div>
+</div>
+<!-- 2. [L3-COMMS-02] Radome Ground Terminal -->
+<div class="hotspot-pin group absolute top-[36%] left-[64%] cursor-pointer" data-deck="L3" onclick="selectHotspot('L3-COMMS-02')">
+<div class="relative flex items-center justify-center">
+<span class="w-4 h-4 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-lg">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-info"></span>
+</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-surface-container-high/95 backdrop-blur-md px-space-sm py-1 rounded shadow-xl min-w-[160px] z-30 pointer-events-none">
+<div class="flex items-center justify-between text-label-xs font-label-xs font-bold text-surface-cream">
+<span>[L3-COMMS-02]</span>
+<span class="text-telemetry-info">TRACKING</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface">Ku-Band Radome Antenna</span>
+<span class="font-telemetry-code text-label-xs text-outline mt-0.5">GSAT-7A SNR: 14.8 dB</span>
+</div>
+</div>
+<!-- 3. [L2-HAB-04] Crew Berths & Medical -->
+<div class="hotspot-pin group absolute top-[52%] left-[30%] cursor-pointer" data-deck="L2" onclick="selectHotspot('L2-HAB-04')">
+<div class="relative flex items-center justify-center">
+<span class="w-4 h-4 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-lg">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-safe"></span>
+</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-surface-container-high/95 backdrop-blur-md px-space-sm py-1 rounded shadow-xl min-w-[170px] z-30 pointer-events-none">
+<div class="flex items-center justify-between text-label-xs font-label-xs font-bold text-surface-cream">
+<span>[L2-HAB-04]</span>
+<span class="text-telemetry-safe">OPTIMAL</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface">Crew Berths &amp; Infirmatory</span>
+<span class="font-telemetry-code text-label-xs text-outline mt-0.5">+22.0°C • CO2 460ppm</span>
+</div>
+</div>
+<!-- 4. [L2-GALLEY-05] Galley & Hydronic Snow-Melt (Active Warning State) -->
+<div class="hotspot-pin group absolute top-[55%] left-[58%] cursor-pointer" data-deck="L2" onclick="selectHotspot('L2-GALLEY-05')">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-7 h-7 rounded-full bg-telemetry-warning/30 animate-ping"></span>
+<span class="w-5 h-5 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-[14px] text-telemetry-warning">warning</span>
+</span>
+</div>
+<!-- Persistent Callout Badge for High Visibility -->
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-telemetry-warning text-surface-container-lowest px-2 py-0.5 rounded shadow-lg font-label-xs text-label-xs uppercase font-bold whitespace-nowrap">
+<span>! FLUE TRACE IMPAIRED</span>
+</div>
+</div>
+<!-- 5. [L1-PWR-01] Microgrid Volvo Penta Genset (PRIMARY SELECTED HOTSPOT) -->
+<div class="hotspot-pin group absolute top-[70%] left-[45%] cursor-pointer" data-deck="L1" onclick="selectHotspot('L1-PWR-01')">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-9 h-9 rounded-full bg-secondary/30 animate-pulse"></span>
+<span class="w-6 h-6 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-2xl">
+<span class="w-3.5 h-3.5 rounded-full bg-secondary ring-2 ring-surface-container"></span>
+</span>
+</div>
+<div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 flex flex-col bg-surface-container-highest px-space-sm py-1 rounded shadow-xl z-20 pointer-events-none whitespace-nowrap">
+<span class="font-telemetry-code text-label-xs text-secondary font-bold">[L1-PWR-01] GENSET #1 (SELECTED)</span>
+</div>
+</div>
+<!-- 6. [L1-WAT-03] MBR Graywater Reclamation -->
+<div class="hotspot-pin group absolute top-[68%] left-[28%] cursor-pointer" data-deck="L1" onclick="selectHotspot('L1-WAT-03')">
+<div class="relative flex items-center justify-center">
+<span class="w-4 h-4 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-lg">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-safe"></span>
+</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-surface-container-high/95 backdrop-blur-md px-space-sm py-1 rounded shadow-xl min-w-[170px] z-30 pointer-events-none">
+<div class="flex items-center justify-between text-label-xs font-label-xs font-bold text-surface-cream">
+<span>[L1-WAT-03]</span>
+<span class="text-telemetry-safe">RECYCLING</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface">MBR UV-C Graywater Plant</span>
+<span class="font-telemetry-code text-label-xs text-outline mt-0.5">Flux: 18 LMH • 98% Recovery</span>
+</div>
+</div>
+<!-- 7. [EXT-EXT-01] Aerodynamic Undercarriage Stilt Load Cells -->
+<div class="hotspot-pin group absolute top-[84%] left-[40%] cursor-pointer" data-deck="EXT" onclick="selectHotspot('EXT-EXT-01')">
+<div class="relative flex items-center justify-center">
+<span class="w-3.5 h-3.5 rounded-full bg-surface-container-lowest flex items-center justify-center shadow">
+<span class="w-2 h-2 rounded-full bg-primary-fixed"></span>
+</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col bg-surface-container-high/95 backdrop-blur-md px-space-sm py-1 rounded shadow-xl min-w-[150px] z-30 pointer-events-none">
+<div class="flex items-center justify-between text-label-xs font-label-xs font-bold text-surface-cream">
+<span>[EXT-EXT-01]</span>
+<span class="text-secondary">4.2 kN/m²</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface">Stilt Hydraulic Strain Gauge</span>
+</div>
+</div>
+<!-- 8. [EXT-FARM-02] Heated Jet A-1 Fuel Farm -->
+<div class="hotspot-pin group absolute top-[75%] left-[84%] cursor-pointer" data-deck="EXT" onclick="selectHotspot('EXT-FARM-02')">
+<div class="relative flex items-center justify-center">
+<span class="w-4 h-4 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-lg">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-safe"></span>
+</span>
+</div>
+<div class="absolute bottom-full right-0 mb-2 hidden group-hover:flex flex-col bg-surface-container-high/95 backdrop-blur-md px-space-sm py-1 rounded shadow-xl min-w-[170px] z-30 pointer-events-none">
+<div class="flex items-center justify-between text-label-xs font-label-xs font-bold text-surface-cream">
+<span>[EXT-FARM-02]</span>
+<span class="text-telemetry-safe">HEATED</span>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface">Arctic Fuel Farm (Jet A-1)</span>
+<span class="font-telemetry-code text-label-xs text-outline mt-0.5">Line: +14.0°C • Tank A1: 88%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Viewport Legend & Spatial Quick Actions Floating Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-sm border-t border-surface-container-high text-body-sm font-body-sm">
+<div class="flex items-center gap-space-base">
+<div class="flex items-center gap-1.5 font-label-xs text-label-xs text-on-surface-variant">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-safe"></span>
+<span>NOMINAL (6)</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-xs text-label-xs text-on-surface-variant">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-warning"></span>
+<span>DEGRADED (1)</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-xs text-label-xs text-on-surface-variant">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-info"></span>
+<span>COMMS BUS (1)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs font-telemetry-code text-label-xs text-outline">
+<span class="material-symbols-outlined text-[14px]">mouse</span>
+<span>Pan: Drag • Zoom: Scroll • Tilt: Shift+Drag</span>
+</div>
+</div>
+</div>
+<!-- RIGHT 4-COLS: Interactive Subsystem Asset Inspector Panel -->
+<div class="lg:col-span-4 flex flex-col space-y-panel-gutter">
+<!-- Primary Card: Selected Hotspot Telemetry Dossier -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-md flex flex-col space-y-space-md">
+<!-- Inspector Header -->
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-xs text-label-xs uppercase font-bold" id="ins-code">L1-PWR-01</span>
+<span class="flex items-center gap-1 text-telemetry-safe font-label-xs text-label-xs font-bold uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span>
+<span id="ins-status">OPERATIONAL</span>
+</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-surface-cream mt-1" id="ins-title">Volvo Penta Genset #1</h2>
+<span class="font-label-xs text-label-xs text-outline" id="ins-sub">POWER GENERATION &amp; COMBINED HEAT-POWER (CHP)</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-high text-secondary">
+<span class="material-symbols-outlined text-[24px]" id="ins-icon">electric_meter</span>
+</div>
+</div>
+<!-- Main Spec Grid -->
+<div class="grid grid-cols-2 gap-space-xs font-telemetry-code text-telemetry-code bg-surface-container-lowest p-space-sm rounded-lg">
+<div class="flex flex-col">
+<span class="text-label-xs text-outline uppercase font-label-xs">SERIAL CODE</span>
+<span class="text-on-surface font-semibold" id="ins-serial">VP-D13-400-ANT</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-xs text-outline uppercase font-label-xs">RUNNING HOURS</span>
+<span class="text-on-surface font-semibold" id="ins-hours">3,412.8 hrs</span>
+</div>
+<div class="flex flex-col mt-2">
+<span class="text-label-xs text-outline uppercase font-label-xs">OPERATING SPEED</span>
+<span class="text-secondary font-semibold" id="ins-speed">1,500 RPM</span>
+</div>
+<div class="flex flex-col mt-2">
+<span class="text-label-xs text-outline uppercase font-label-xs">TOTAL ACTIVE LOAD</span>
+<span class="text-secondary font-semibold" id="ins-load">45.2 kW (78%)</span>
+</div>
+</div>
+<!-- Real-time Thermal & Pressure Matrix -->
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-label-xs text-outline uppercase font-bold tracking-wider">Subsystem Critical Telemetry</span>
+<span class="font-telemetry-code text-label-xs text-on-surface-variant">CYCLE #14,882</span>
+</div>
+<!-- Parameter Rows -->
+<div class="space-y-1.5">
+<!-- Parameter 1 -->
+<div class="flex items-center justify-between p-2 rounded bg-surface-container">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Coolant Temperature</span>
+<div class="flex items-center gap-space-sm">
+<div class="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-[74%] h-full bg-secondary rounded-full"></div>
+</div>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-semibold">88.4 °C</span>
+</div>
+</div>
+<!-- Parameter 2 -->
+<div class="flex items-center justify-between p-2 rounded bg-surface-container">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Engine Oil Pressure</span>
+<div class="flex items-center gap-space-sm">
+<div class="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-[60%] h-full bg-telemetry-safe rounded-full"></div>
+</div>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-semibold">4.8 bar</span>
+</div>
+</div>
+<!-- Parameter 3 -->
+<div class="flex items-center justify-between p-2 rounded bg-surface-container">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Jet A-1 Fuel Consumption</span>
+<div class="flex items-center gap-space-sm">
+<div class="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-[52%] h-full bg-secondary rounded-full"></div>
+</div>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-semibold">42.1 L/h</span>
+</div>
+</div>
+<!-- Parameter 4 (CHP Flue) -->
+<div class="flex items-center justify-between p-2 rounded bg-surface-container">
+<span class="font-body-sm text-body-sm text-on-surface-variant">CHP Exchanger In/Out</span>
+<div class="flex items-center gap-space-xs font-telemetry-code text-telemetry-code">
+<span class="text-telemetry-warning font-semibold">410°C</span>
+<span class="text-outline">/</span>
+<span class="text-telemetry-safe font-semibold">142°C</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Servicing & Calibration Log -->
+<div class="bg-surface-container-high/60 p-space-sm rounded-lg flex flex-col space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-label-xs text-outline uppercase font-bold">Maintenance Cycle</span>
+<span class="font-label-xs text-label-xs text-telemetry-safe font-semibold">CALIBRATED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Last serviced 14 days ago by <span class="text-surface-cream font-medium">Engr. S. Mukherjee</span>. Fuel injectors purged, oil filters replaced.</p>
+<div class="flex items-center justify-between text-label-xs font-label-xs text-on-surface-variant pt-1">
+<span>Next Major Overhaul:</span>
+<span class="font-telemetry-code text-secondary font-bold">188 running hrs remaining</span>
+</div>
+</div>
+<!-- Direct Telemetry Actions (Role Controlled: Systems Engineer / Operator) -->
+<div class="space-y-space-xs pt-space-xs">
+<span class="font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">Mission SCADA Control (HQ Remote)</span>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="px-space-sm py-2 rounded-lg bg-surface-container-high hover:bg-surface-panel text-on-surface text-label-md font-label-md transition-colors flex items-center justify-center gap-1.5" onclick="triggerFeedback('Auxiliary Loop Cycled')">
+<span class="material-symbols-outlined text-[16px] text-secondary">sync</span>
+<span>Cycle Aux Loop</span>
+</button>
+<button class="px-space-sm py-2 rounded-lg bg-surface-container-high hover:bg-surface-panel text-on-surface text-label-md font-label-md transition-colors flex items-center justify-center gap-1.5" onclick="triggerFeedback('Heat Damper Toggled')">
+<span class="material-symbols-outlined text-[16px] text-secondary">hvac</span>
+<span>Heat Damper</span>
+</button>
+<button class="px-space-sm py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-fixed-dim text-label-md font-label-md transition-colors flex items-center justify-center gap-1.5 font-semibold" onclick="triggerFeedback('Telemetry Sweep Initiated')">
+<span class="material-symbols-outlined text-[16px]">sensors</span>
+<span>Diag Sweep</span>
+</button>
+<button class="px-space-sm py-2 rounded-lg bg-surface-container-high hover:bg-surface-panel text-on-surface text-label-md font-label-md transition-colors flex items-center justify-center gap-1.5" onclick="downloadCSV()">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Log (.CSV)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Station Environmental Micro-Widget -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[26px]">ac_unit</span>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-outline uppercase font-bold">Ambient Larsemann Climate</span>
+<span class="font-title-sm text-title-sm text-surface-cream">-24.6°C • Chill: -39.1°C</span>
+</div>
+</div>
+<div class="flex flex-col text-right font-telemetry-code text-telemetry-code">
+<span class="text-secondary font-semibold">982.4 hPa</span>
+<span class="text-label-xs text-outline">STORM WATCH</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Real-time Telemetry Health & Ground Satellite Stream Bar -->
+<div class="w-full bg-surface-container-low rounded-xl p-space-base shadow-md flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-xl">
+<!-- Sync State -->
+<div class="flex items-center gap-space-sm font-telemetry-code text-telemetry-code">
+<div class="flex items-center justify-center w-6 h-6 rounded-full bg-surface-container-high">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe animate-pulse"></span>
+</div>
+<div class="flex flex-col">
+<span class="text-on-surface font-semibold">SCADA BURST SYNCED</span>
+<span class="text-label-xs text-outline">3.2s RTT Latency • GSAT-7A Ku-Band (Primary)</span>
+</div>
+</div>
+<div class="h-6 w-px bg-surface-container-highest hidden md:block"></div>
+<!-- Backup Channel -->
+<div class="flex items-center gap-space-sm font-telemetry-code text-telemetry-code">
+<div class="flex items-center justify-center w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">satellite_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="text-on-surface font-semibold">IRIDIUM SBD BACKUP</span>
+<span class="text-label-xs text-outline">Standby • Signal 5/5 Bars</span>
+</div>
+</div>
+<div class="h-6 w-px bg-surface-container-highest hidden md:block"></div>
+<!-- Packet Statistics -->
+<div class="flex items-center gap-space-lg font-telemetry-code text-telemetry-code">
+<div class="flex flex-col">
+<span class="text-label-xs text-outline uppercase font-label-xs">STREAM HEALTH</span>
+<span class="text-secondary font-semibold">1,420 pkts/sec</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-xs text-outline uppercase font-label-xs">FRAME LOSS</span>
+<span class="text-telemetry-safe font-semibold">0.00% (0 pkts)</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-xs text-outline uppercase font-label-xs">NODE RUNTIME</span>
+<span class="text-on-surface font-semibold">412d 18h 22m</span>
+</div>
+</div>
+</div>
+<!-- Real-time Indicator Feedback Toast Placeholder -->
+<div class="hidden font-telemetry-code text-label-xs px-space-base py-1.5 rounded-lg bg-surface-panel text-secondary font-semibold shadow-md items-center gap-1.5" id="action-toast">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span id="toast-text">Command Executed</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-telemetry-code text-label-xs text-outline">POLAR PROTOCOL v4.19</span>
+<button class="px-space-sm py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant text-label-xs font-label-xs transition-colors">
+        Audit Key
+      </button>
+</div>
+</div>
+</div>
+<!-- Client-side Interactive Behaviors -->
+<script>
+  // Hotspot Catalog Dictionary with Full Scientific Metadata
+  const hotspotDb = {
+    'L1-PWR-01': {
+      code: 'L1-PWR-01',
+      title: 'Volvo Penta Genset #1',
+      sub: 'POWER GENERATION & COMBINED HEAT-POWER (CHP)',
+      status: 'OPERATIONAL',
+      statusClass: 'text-telemetry-safe',
+      icon: 'electric_meter',
+      serial: 'VP-D13-400-ANT',
+      hours: '3,412.8 hrs',
+      speed: '1,500 RPM',
+      load: '45.2 kW (78%)',
+      lastService: '14 days ago by Engr. S. Mukherjee. Fuel injectors purged, oil filters replaced.',
+      nextService: '188 running hrs remaining'
+    },
+    'L2-GALLEY-05': {
+      code: 'L2-GALLEY-05',
+      title: 'Hydronic Snow-Melt Heat Exchanger',
+      sub: 'DOMESTIC POTABLE WATER & THERMAL RUNOFF',
+      status: 'DEGRADED WARNING',
+      statusClass: 'text-telemetry-warning',
+      icon: 'water_heater',
+      serial: 'HYD-MELT-2022-B',
+      hours: '8,920.1 hrs',
+      speed: 'Flow 24 L/min',
+      load: 'Delta-T 14.2°C',
+      lastService: 'Inspection logged 2 days ago. Secondary electric trace heater circuit #4 open-loop.',
+      nextService: 'Urgent: Replace trace heater fuse block'
+    },
+    'L3-LAB-01': {
+      code: 'L3-LAB-01',
+      title: 'Atmospheric LIDAR Observation Deck',
+      sub: 'AEROSOL & STRATOSPHERIC SCIENTIFIC PAYLOAD',
+      status: 'LIVE NOMINAL',
+      statusClass: 'text-telemetry-safe',
+      icon: 'science',
+      serial: 'ISRO-LIDAR-532nm',
+      hours: '1,120.4 hrs',
+      speed: '532 / 1064 nm',
+      load: 'Laser Chiller 14.2 L/min',
+      lastService: 'Optics collimation confirmed by Dr. K. Ranganath 4 days ago.',
+      nextService: 'Window defrost sweep in 4 hours'
+    },
+    'L3-COMMS-02': {
+      code: 'L3-COMMS-02',
+      title: 'Radome Ground Comms Dome',
+      sub: 'GSAT-7A TRACKER & TELEMETRY UPLINK',
+      status: 'ACTIVE TRACKING',
+      statusClass: 'text-telemetry-info',
+      icon: 'settings_input_antenna',
+      serial: 'RAD-ANT-KU-01',
+      hours: '12,480 hrs',
+      speed: 'Az 142.3° / El 34.1°',
+      load: 'SNR 14.8 dB (Ku-Band)',
+      lastService: 'Pedestal slip-ring maintenance completed last quarter.',
+      nextService: 'Radome outer snow clear scheduled'
+    },
+    'L2-HAB-04': {
+      code: 'L2-HAB-04',
+      title: 'Crew Habitation & Medical Bay',
+      sub: 'LIFE SUPPORT, ACOUSTICS & ATMOSPHERICS',
+      status: 'OPTIMAL',
+      statusClass: 'text-telemetry-safe',
+      icon: 'vital_signs',
+      serial: 'HAB-MODULE-B3',
+      hours: 'Continuous',
+      speed: '+22.0°C Interior',
+      load: 'CO2: 460 ppm | 38 dB',
+      lastService: 'HEPA air filter bank B replaced by Medical Lead 6 days ago.',
+      nextService: 'Routine sensor zeroing in 16 days'
+    },
+    'L1-WAT-03': {
+      code: 'L1-WAT-03',
+      title: 'MBR Graywater Reclamation & UV-C',
+      sub: 'CLOSED LOOP ENVIRONMENTAL HYGIENE',
+      status: 'RECYCLING ACTIVE',
+      statusClass: 'text-telemetry-safe',
+      icon: 'water_voc',
+      serial: 'MBR-ZENON-400',
+      hours: '6,140 hrs',
+      speed: 'Flux 18 LMH',
+      load: '98% Recovery Rate',
+      lastService: 'Membrane chemical backwash executed 9 days ago.',
+      nextService: 'UV-C lamp irradiance verify in 45 days'
+    },
+    'EXT-EXT-01': {
+      code: 'EXT-EXT-01',
+      title: 'Stilt Hydraulic Strain Gauge Grid',
+      sub: 'STRUCTURAL PILE INTEGRITY & SNOW SHEAR',
+      status: 'NOMINAL LOAD',
+      statusClass: 'text-secondary',
+      icon: 'foundation',
+      serial: 'LOAD-CELL-G4',
+      hours: 'Continuous',
+      speed: 'Wind Shear: 4.2 kN/m²',
+      load: 'Clearance: 1.28m Drift',
+      lastService: 'Hydraulic leveling checked post winter blizzard. Zero structural deflection.',
+      nextService: 'Annual foundation inspection'
+    },
+    'EXT-FARM-02': {
+      code: 'EXT-FARM-02',
+      title: 'Arctic Jet A-1 Fuel Tank Farm',
+      sub: 'HEATED DOUBLE-WALLED BULK FUEL STORAGE',
+      status: 'HEATED NOMINAL',
+      statusClass: 'text-telemetry-safe',
+      icon: 'local_gas_station',
+      serial: 'FUEL-FARM-T1/T2',
+      hours: 'Continuous',
+      speed: 'Line Trace: +14.0°C',
+      load: 'Tank A1: 88% | A2: 94%',
+      lastService: 'Fuel transfer line heat tracing calibrated by Station Engineer.',
+      nextService: 'Spring fuel delivery transfer prep'
+    }
+  };
+
+  // Inspect Subsystem Function
+  function selectHotspot(code) {
+    const item = hotspotDb[code];
+    if (!item) return;
+
+    document.getElementById('ins-code').textContent = item.code;
+    document.getElementById('ins-title').textContent = item.title;
+    document.getElementById('ins-sub').textContent = item.sub;
+    
+    const statusEl = document.getElementById('ins-status');
+    statusEl.textContent = item.status;
+    statusEl.className = item.statusClass + ' font-bold';
+
+    document.getElementById('ins-icon').textContent = item.icon;
+    document.getElementById('ins-serial').textContent = item.serial;
+    document.getElementById('ins-hours').textContent = item.hours;
+    document.getElementById('ins-speed').textContent = item.speed;
+    document.getElementById('ins-load').textContent = item.load;
+
+    triggerFeedback('Inspecting: [' + code + ']');
+  }
+
+  // Deck Layer Filtering (All, Level 3, Level 2, Level 1, External)
+  function switchDeck(level) {
+    // Update Tab Styles
+    const buttons = document.querySelectorAll('.deck-btn');
+    buttons.forEach(btn => {
+      btn.className = 'deck-btn px-space-sm py-1 rounded text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-all';
+    });
+    event.target.className = 'deck-btn active-deck px-space-sm py-1 rounded text-label-md font-label-md text-on-secondary-container bg-secondary-container transition-all';
+
+    // Toggle Pin Visibility
+    const pins = document.querySelectorAll('.hotspot-pin');
+    pins.forEach(pin => {
+      const pinDeck = pin.getAttribute('data-deck');
+      if (level === 'ALL' || pinDeck === level) {
+        pin.style.display = 'block';
+      } else {
+        pin.style.display = 'none';
+      }
+    });
+
+    // Toggle CAD SVG Schematic Opacity for Focused Deck
+    const layers = {
+      'L3': 'geo-level-3',
+      'L2': 'geo-level-2',
+      'L1': 'geo-level-1',
+      'EXT': 'geo-level-ext'
+    };
+
+    Object.keys(layers).forEach(k => {
+      const el = document.getElementById(layers[k]);
+      if (el) {
+        if (level === 'ALL' || level === k) {
+          el.style.opacity = '1';
+        } else {
+          el.style.opacity = '0.18';
+        }
+      }
+    });
+  }
+
+  // Wireframe Aesthetic Toggle
+  let wireframeActive = false;
+  function toggleWireframe() {
+    wireframeActive = !wireframeActive;
+    const cad = document.getElementById('cad-schematic');
+    const btn = document.getElementById('wireframe-btn');
+    if (wireframeActive) {
+      cad.style.filter = 'drop-shadow(0 0 8px rgba(145, 211, 194, 0.4)) contrast(130%)';
+      btn.className = 'flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-secondary text-surface-container-lowest text-label-md font-label-md font-semibold transition-colors';
+      triggerFeedback('Wireframe Shader Activated');
+    } else {
+      cad.style.filter = 'none';
+      btn.className = 'flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-label-md font-label-md text-on-surface transition-colors';
+      triggerFeedback('Normal Shading Restored');
+    }
+  }
+
+  // Toast / Status Message Trigger
+  function triggerFeedback(msg) {
+    const toast = document.getElementById('action-toast');
+    const text = document.getElementById('toast-text');
+    text.textContent = msg;
+    toast.classList.remove('hidden');
+    toast.classList.add('flex');
+    
+    clearTimeout(window._toastTimeout);
+    window._toastTimeout = setTimeout(() => {
+      toast.classList.remove('flex');
+      toast.classList.add('hidden');
+    }, 2800);
+  }
+
+  // Export CSV Action
+  function downloadCSV() {
+    const activeHotspot = document.getElementById('ins-code').textContent;
+    triggerFeedback('Exporting ' + activeHotspot + '_telemetry_raw.csv');
+  }
+</script></main></div></body></html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { colors: { 'tertiary-fixed-dim': '#b1cdbd', 'surface-container': '#12231f', 'tertiary-fixed': '#cde9d9', 'secondary': '#91d3c2', 'on-primary-container': '#819993', 'primary-container': '#1a312c', 'surface-panel': '#223F39', 'on-background': '#d3e7e0', 'secondary-fixed': '#acf0de', 'on-tertiary': '#1d352a', 'telemetry-safe-bg': '#E8F4EE', 'on-secondary-fixed': '#00201a', 'surface-cream-light': '#F8F7F2', 'inverse-primary': '#4b635d', 'surface-container-highest': '#273834', 'on-surface-variant': '#c2c8c5', 'outline-variant': '#424846', 'primary': '#b2ccc4', 'on-error-container': '#ffdad6', 'on-secondary-container': '#83c5b4', 'surface': '#051613', 'telemetry-warning': '#D9822B', 'telemetry-safe': '#2E7D5B', 'surface-container-lowest': '#02110d', 'telemetry-critical': '#C44536', 'tertiary': '#b1cdbd', 'on-surface': '#d3e7e0', 'on-primary-fixed-variant': '#344b46', 'on-tertiary-container': '#809b8c', 'surface-tint': '#b2ccc4', 'primary-fixed': '#cee8e0', 'secondary-fixed-dim': '#91d3c2', 'on-primary': '#1e3530', 'surface-dim': '#051613', 'on-tertiary-fixed': '#072016', 'telemetry-info-bg': '#E8F2F8', 'surface-container-low': '#0d1f1b', 'surface-container-high': '#1c2d29', 'telemetry-warning-bg': '#FFF3E3', 'surface-bright': '#2b3d38', 'inverse-surface': '#d3e7e0', 'surface-variant': '#273834', 'telemetry-info': '#2878A8', 'secondary-container': '#015346', 'on-error': '#690005', 'on-secondary-fixed-variant': '#005144', 'background': '#051613', 'tertiary-container': '#1a3227', 'primary-fixed-dim': '#b2ccc4', 'on-tertiary-fixed-variant': '#334c40', 'telemetry-critical-bg': '#FBE9E7', 'outline': '#8c928f', 'surface-cream': '#F4F3ED', 'on-secondary': '#00382e', 'error-container': '#93000a', 'error': '#ffb4ab', 'on-primary-fixed': '#071f1b', 'inverse-on-surface': '#23342f' }, borderRadius: { 'DEFAULT': '0.125rem', 'lg': '0.25rem', 'xl': '0.5rem', 'full': '0.75rem' }, spacing: { 'space-md': '0.75rem', 'space-2xl': '3rem', 'space-sm': '0.5rem', 'space-2xs': '0.125rem', 'panel-gutter': '0.75rem', 'space-lg': '1.5rem', 'canvas-margin': '1.5rem', 'space-xl': '2rem', 'space-base': '1rem', 'space-xs': '0.25rem' }, fontFamily: { 'headline-md': ['Inter'], 'body-md': ['Inter'], 'headline-xl': ['Inter'], 'label-md': ['Inter'], 'title-sm': ['Inter'], 'body-sm': ['Inter'], 'telemetry-code': ['Inter'], 'headline-lg': ['Inter'], 'label-xs': ['Inter'], 'display-lg': ['Inter'], 'body-lg': ['Inter'], 'headline-xl-mobile': ['Inter'] }, fontSize: { 'headline-md': ['20px', { lineHeight: '28px', fontWeight: '600' }], 'body-md': ['14px', { lineHeight: '20px', fontWeight: '400' }], 'headline-xl': ['32px', { lineHeight: '40px', letterSpacing: '-0.015em', fontWeight: '600' }], 'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '600' }], 'title-sm': ['16px', { lineHeight: '24px', fontWeight: '600' }], 'body-sm': ['12px', { lineHeight: '16px', fontWeight: '400' }], 'telemetry-code': ['13px', { lineHeight: '18px', letterSpacing: '0.04em', fontWeight: '500' }], 'headline-lg': ['24px', { lineHeight: '32px', letterSpacing: '-0.01em', fontWeight: '600' }], 'label-xs': ['10px', { lineHeight: '14px', letterSpacing: '0.08em', fontWeight: '700' }], 'display-lg': ['44px', { lineHeight: '52px', letterSpacing: '-0.02em', fontWeight: '700' }], 'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }], 'headline-xl-mobile': ['26px', { lineHeight: '34px', letterSpacing: '-0.01em', fontWeight: '600' }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between select-none shadow-[0_1px_8px_rgba(0,0,0,0.45)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="h-14 px-space-base flex items-center gap-space-sm bg-surface-container-lowest"><span class="w-2 h-2 rounded-full bg-secondary"></span><div class="flex flex-col"><span class="font-label-xs text-secondary tracking-widest uppercase">NCPOR // ESSO - MOES</span><span class="font-label-md text-on-surface uppercase tracking-tight">ANARCTIC C4ISR</span></div></div><nav class="flex-1 px-space-sm py-space-md space-y-space-lg" data-active-classes="bg-primary-container text-secondary font-title-sm shadow-inner"><div class="space-y-space-2xs"><div class="px-space-sm pb-space-xs font-label-xs text-outline uppercase tracking-wider">Continental Operations</div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="continental-overview" href="#"><span class="material-symbols-outlined text-[18px]">public</span><span>Continental Overview</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cross-station-environment" href="#"><span class="material-symbols-outlined text-[18px]">thermostat</span><span>Cross-Station Environment</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cross-station-energy" href="#"><span class="material-symbols-outlined text-[18px]">bolt</span><span>Cross-Station Energy</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs rounded transition-colors bg-primary-container text-secondary font-title-sm shadow-inner" data-path="continental-logistics" href="#"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span>Continental Logistics</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="scenario-simulations" href="#"><span class="material-symbols-outlined text-[18px]">model_training</span><span>Scenario Simulations</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="continental-alert-matrix" href="#"><span class="material-symbols-outlined text-[18px]">notifications_active</span><span>Continental Alert Matrix</span></a></div><div class="space-y-space-2xs"><div class="px-space-sm pb-space-xs font-label-xs text-outline uppercase tracking-wider">Station Digital Twins</div><a class="flex items-center justify-between px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="bharati-station-bht-02" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">domain</span><span>Bharati BHT-02</span></div><span class="font-label-xs text-secondary px-1.5 py-0.5 rounded bg-secondary-container/30">NOM</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="maitri-station-mtr-01" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">home_work</span><span>Maitri MTR-01</span></div><span class="font-label-xs text-secondary px-1.5 py-0.5 rounded bg-secondary-container/30">NOM</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="maitri-ii-survey-mtr2-03" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">radar</span><span>Maitri-II Survey</span></div><span class="font-label-xs text-primary px-1.5 py-0.5 rounded bg-primary-container">DEP</span></a></div><div class="space-y-space-2xs"><div class="px-space-sm pb-space-xs font-label-xs text-outline uppercase tracking-wider">Mission Governance</div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports-compliance" href="#"><span class="material-symbols-outlined text-[18px]">assignment</span><span>Reports &amp; Compliance</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="rbac-security" href="#"><span class="material-symbols-outlined text-[18px]">shield</span><span>RBAC &amp; Security</span></a></div></nav></div><div class="p-space-sm bg-surface-container-lowest"><div class="p-space-sm rounded bg-surface-container-high flex items-center justify-between"><div class="flex flex-col"><span class="font-label-xs text-outline">TELEMETRY PULSE</span><span class="font-telemetry-code text-secondary">POLL: 1000ms</span></div><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-xs text-on-surface-variant uppercase">ISRO-SCN</span></div></div></div></aside><div class="pl-72 flex flex-col min-h-screen bg-background"><header class="fixed top-0 left-72 right-0 h-14 bg-surface-container-low/95 backdrop-blur-md z-40 flex items-center justify-between px-space-base shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="flex items-center gap-space-base"><img alt="Clean modern vector logo emblem for Indian Antarctic Mission Command with stylized polar compass and subtle tricolor dot accent in dark deep green and teal. Design context: - Primary color: #1a312c
+- Font: inter
+- Mode: dark
+- Roundness: rounded-sm
+. The logo should be visually consistent with these brand tokens." class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WmulcB1HzfkxmeY76IcVjMHNoCYqPLLYlSF5JWTIX9cggoUqKexxIsDOIAW0WCgZSSLDUU2rJg60tpge45aC9vb2k8-BQwWf2ysMREe9JPys2eI-HqArlSZBYaVBuoDgCTBXoKmZmAkaLX6PnU5-UCeZfS4fVv_5hs_YbxDZ0cNiT5NlsQPBoeOt07KN8MwRzJLW4q0eEJQrbnYThVIde8_z8gZSpFzXvdn8Yo6onabBqXMenNynkoQ98"/><div class="hidden xl:flex items-center gap-space-sm px-space-sm py-1 rounded bg-surface-container-lowest"><span class="font-label-xs text-outline tracking-wider">SYS MODE:</span><span class="font-label-xs text-secondary tracking-wide uppercase">CONTINENTAL COMMAND // ALL STATIONS</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm px-space-sm py-1 rounded bg-surface-container-lowest font-telemetry-code text-on-surface-variant"><span class="text-outline font-label-xs">UTC</span><span class="text-on-surface">14:28:49</span><span class="text-outline font-label-xs pl-space-xs">LMT</span><span class="text-on-surface">19:58:49</span></div><div class="hidden lg:flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-lowest"><span class="material-symbols-outlined text-[16px] text-secondary">satellite_alt</span><div class="flex flex-col"><span class="font-label-xs text-on-surface">GSAT-7A Ku-BAND</span><span class="font-label-xs text-secondary">CARRIER LOCK // 99.8% SNR</span></div></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="text-right hidden sm:flex flex-col"><span class="font-label-md text-on-surface">Dr. K. Vardhan</span><span class="font-label-xs text-outline uppercase">CMD LEAD // NCPOR</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-14 bg-background px-panel-gutter"><div class="flex flex-col w-full text-on-surface space-y-space-md pb-space-2xl">
+<!-- Top Command Telemetry Stream -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-surface-container-highest text-secondary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">local_shipping</span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-xs text-secondary uppercase tracking-widest">LOG-OPS COMMAND // ANTC-C4ISR</span>
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span>
+<span class="font-label-xs text-on-surface-variant">SYS_PULSE: OK</span>
+</div>
+<h1 class="font-headline-md text-on-surface tracking-tight">Continental Antarctic Logistics &amp; Convoy Navigation</h1>
+</div>
+</div>
+<!-- Quick Actions / Filters -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<div class="flex items-center bg-surface-container-lowest rounded-lg p-1 text-on-surface-variant font-label-xs">
+<button class="px-space-sm py-1 rounded bg-primary-container text-secondary font-label-md transition-colors" id="btn-all" onclick="filterTrajectories('all')">ALL OPERATIONS</button>
+<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors" id="btn-convoy" onclick="filterTrajectories('convoy')">CONVOYS (2)</button>
+<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors" id="btn-marine" onclick="filterTrajectories('marine')">VESSELS (1)</button>
+<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors" id="btn-air" onclick="filterTrajectories('air')">AIR-BRIDGE (1)</button>
+</div>
+<button class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md transition-colors">
+<span class="material-symbols-outlined text-[16px] text-secondary">tune</span>
+<span>CREVASSE HAZARDS: ON</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container text-telemetry-warning font-label-md transition-colors">
+<span class="material-symbols-outlined text-[16px]">ac_unit</span>
+<span>BLIZZARD SCENARIO 04-A</span>
+</button>
+</div>
+</div>
+<!-- 5 Major Mission Metrics Banner -->
+<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-space-sm mt-space-md">
+<!-- KPI 1 -->
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col justify-between shadow-inner">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-xs uppercase">Active Polar Convoys</span>
+<span class="font-label-xs text-secondary bg-secondary-container/40 px-1.5 py-0.5 rounded">2 TRACKED</span>
+</div>
+<div class="mt-2 flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-on-surface">2</span>
+<span class="font-label-xs text-on-surface-variant">Traverses En Route</span>
+</div>
+<div class="font-telemetry-code text-on-surface-variant mt-1 text-[11px] truncate">TRV-04 (Bharati) &amp; MTR-Loop</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col justify-between shadow-inner">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-xs uppercase">Marine Expedition</span>
+<span class="font-label-xs text-primary bg-primary-container px-1.5 py-0.5 rounded">POLAR-CLASS 7</span>
+</div>
+<div class="mt-2 flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-secondary">MV Golovnin</span>
+</div>
+<div class="font-telemetry-code text-on-surface-variant mt-1 text-[11px] truncate">1,200 kL Polar Fuel // Resupply</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col justify-between shadow-inner">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-xs uppercase">Aviation Air-Bridge</span>
+<span class="font-label-xs text-telemetry-warning bg-telemetry-warning/20 px-1.5 py-0.5 rounded">WX HOLD</span>
+</div>
+<div class="mt-2 flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-telemetry-warning">BT-67 Basler</span>
+</div>
+<div class="font-telemetry-code text-on-surface-variant mt-1 text-[11px] truncate">Troll ➔ Maitri // Katabatic 68kph</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col justify-between shadow-inner">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-xs uppercase">Open Water Window</span>
+<span class="font-label-xs text-secondary">T-MINUS</span>
+</div>
+<div class="mt-2 flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-on-surface">114</span>
+<span class="font-label-xs text-secondary">DAYS (NOV 15)</span>
+</div>
+<div class="font-telemetry-code text-on-surface-variant mt-1 text-[11px] truncate">Prydz Bay Sea Ice Thinning</div>
+</div>
+<!-- KPI 5 -->
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col justify-between shadow-inner">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-xs uppercase">Cargo In Transit</span>
+<span class="font-label-xs text-secondary">HEAVY PAYLOAD</span>
+</div>
+<div class="mt-2 flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-on-surface">42.4</span>
+<span class="font-label-xs text-on-surface-variant">METRIC TONS</span>
+</div>
+<div class="font-telemetry-code text-on-surface-variant mt-1 text-[11px] truncate">Turbine spares, LiFePO4, Med-O2</div>
+</div>
+</div>
+</div>
+<!-- Primary Tactical Core (Split: 70% Interactive Map / Radar HUD, 30% Live Convoy Telemetry Stream) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md">
+<!-- LEFT 8-COLS: Vector Polar Radar & Geospatial Route Map -->
+<div class="xl:col-span-8 flex flex-col space-y-space-md">
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-sm relative overflow-hidden flex flex-col min-h-[580px]">
+<!-- HUD Header Overlay -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm z-10 bg-surface-container-lowest/80 backdrop-blur-md px-space-base py-space-xs rounded-lg shadow">
+<div class="flex items-center gap-space-md font-telemetry-code text-on-surface">
+<span class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-xs uppercase text-secondary">PROJECTION: POLAR STEREOGRAPHIC (S.P. 70°S)</span>
+</span>
+<span class="text-outline font-label-xs hidden sm:inline">|</span>
+<span class="font-label-xs text-on-surface-variant hidden sm:inline">REGIONS: QUEEN MAUD LAND &amp; LARSEMANN HILLS</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="px-space-xs py-0.5 rounded bg-surface-container font-telemetry-code text-[11px] text-secondary">
+              GPS BEACON FREQ: 406.037 MHz
+            </div>
+<button class="p-1 rounded bg-surface-container text-on-surface-variant hover:text-secondary transition-colors" onclick="toggleRadarSweep()" title="Toggle Radar Animation">
+<span class="material-symbols-outlined text-[18px]">radar</span>
+</button>
+<button class="p-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" onclick="resetMapView()" title="Recenter View">
+<span class="material-symbols-outlined text-[18px]">filter_center_focus</span>
+</button>
+</div>
+</div>
+<!-- Geospatial Polar Canvas with SVG Tactical Overlay -->
+<div class="relative flex-1 w-full h-full my-space-sm rounded-lg overflow-hidden bg-surface-container-lowest flex items-center justify-center select-none min-h-[460px]">
+<!-- Ambient Tactical Polar Grid Background -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" id="polar-radar-svg" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Radial Polar Glow -->
+<radialgradient cx="50%" cy="50%" id="polarGlow" r="50%">
+<stop offset="0%" stop-color="#91d3c2" stop-opacity="0.14"></stop>
+<stop offset="60%" stop-color="#1a312c" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#051613" stop-opacity="0.85"></stop>
+</radialgradient>
+<lineargradient id="routeAlphaGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#91d3c2"></stop>
+<stop offset="100%" stop-color="#2E7D5B"></stop>
+</lineargradient>
+<lineargradient id="blizzardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#D9822B" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#C44536" stop-opacity="0.05"></stop>
+</lineargradient>
+</defs>
+<!-- Background Grid Rings -->
+<rect fill="url(#polarGlow)" height="100%" width="100%"></rect>
+<circle cx="50%" cy="50%" fill="none" r="90" stroke="#273834" stroke-dasharray="3,3"></circle>
+<circle cx="50%" cy="50%" fill="none" r="180" stroke="#1c2d29" stroke-width="1.5"></circle>
+<circle cx="50%" cy="50%" fill="none" r="270" stroke="#1c2d29" stroke-dasharray="4,4"></circle>
+<circle cx="50%" cy="50%" fill="none" r="360" stroke="#1c2d29" stroke-dasharray="2,2"></circle>
+<!-- Polar Axes Crosshairs -->
+<line stroke="#1c2d29" stroke-width="1" x1="50%" x2="50%" y1="5%" y2="95%"></line>
+<line stroke="#1c2d29" stroke-width="1" x1="5%" x2="95%" y1="50%" y2="50%"></line>
+<!-- Crevasse / Hazard Zone Polygons -->
+<!-- Danger Zone 1: Polar Plateau Shear Field -->
+<polygon fill="#C44536" fill-opacity="0.12" points="120,80 240,65 290,130 190,165 95,115" stroke="#C44536" stroke-dasharray="4,2" stroke-width="1.5"></polygon>
+<!-- Danger Zone 2: Blue Ice Glaze Slippage -->
+<polygon fill="#2878A8" fill-opacity="0.15" points="460,260 550,240 590,320 480,330" stroke="#2878A8" stroke-dasharray="2,2" stroke-width="1"></polygon>
+<!-- Weather Danger: Advancing Katabatic Front -->
+<path d="M 520,60 Q 640,110 740,190 T 840,320 L 890,280 L 840,30 Z" fill="url(#blizzardGrad)"></path>
+<!-- Traverse Route Bravo: Maitri to Maitri-II Survey (14km) -->
+<path class="opacity-80" d="M 230,340 Q 250,300 290,280 T 360,245" fill="none" id="route-bravo-path" stroke="#acf0de" stroke-dasharray="6,4" stroke-width="2.5"></path>
+<!-- Traverse Route Alpha: Bharati Coastal Shelf to Larsemann Ice Dome (32km) -->
+<path class="opacity-95" d="M 460,370 Q 520,330 580,360 T 710,310" fill="none" id="route-alpha-path" stroke="url(#routeAlphaGrad)" stroke-width="3.5"></path>
+<!-- Traverse Route Charlie: Heavy Sled Corridor to Coastal Ice Shelf (84km) -->
+<path d="M 230,340 Q 200,390 180,440 T 130,490" fill="none" id="route-charlie-path" stroke="#809b8c" stroke-dasharray="4,4" stroke-width="2"></path>
+<!-- Animated Radar Sweep Wedge -->
+<g class="origin-center animate-[spin_8s_linear_infinite]" id="radar-sweep-wedge">
+<path d="M 50% 50% L 90% 40% A 400 400 0 0 1 90% 60% Z" fill="#91d3c2" fill-opacity="0.08"></path>
+</g>
+</svg>
+<!-- Tactical HUD Location Elements & Beacons Layered Over Polar Map -->
+<div class="absolute inset-0 p-space-base pointer-events-auto">
+<!-- STATION 1: BHARATI (BHT-02) -->
+<div class="absolute top-[45%] right-[22%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer" onclick="selectFleetUnit('BHARATI_HUB')">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-8 h-8 rounded-full bg-secondary/20 animate-ping"></span>
+<div class="w-4 h-4 rounded bg-secondary flex items-center justify-center shadow-lg">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-container-lowest"></span>
+</div>
+</div>
+<div class="mt-1 bg-surface-container-low/90 backdrop-blur-sm p-1.5 rounded shadow text-center whitespace-nowrap">
+<div class="font-label-xs text-secondary font-bold">BHARATI STATION</div>
+<div class="font-telemetry-code text-[10px] text-on-surface-variant">69°24'S, 76°11'E</div>
+</div>
+</div>
+<!-- STATION 2: MAITRI (MTR-01) -->
+<div class="absolute top-[68%] left-[28%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer" onclick="selectFleetUnit('MAITRI_HUB')">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-7 h-7 rounded-full bg-primary/25 animate-pulse"></span>
+<div class="w-4 h-4 rounded bg-primary flex items-center justify-center shadow-lg">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-container-lowest"></span>
+</div>
+</div>
+<div class="mt-1 bg-surface-container-low/90 backdrop-blur-sm p-1.5 rounded shadow text-center whitespace-nowrap">
+<div class="font-label-xs text-primary font-bold">MAITRI STATION</div>
+<div class="font-telemetry-code text-[10px] text-on-surface-variant">70°45'S, 11°43'E</div>
+</div>
+</div>
+<!-- SURVEY SITE: MAITRI-II SURVEY SITE (MTR2-03) -->
+<div class="absolute top-[48%] left-[45%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer" onclick="selectFleetUnit('MAITRI_II_SITE')">
+<div class="w-3.5 h-3.5 rounded-full bg-secondary-fixed/70 flex items-center justify-center shadow">
+<span class="w-1 h-1 rounded-full bg-surface-container-lowest"></span>
+</div>
+<div class="mt-1 bg-surface-container-low/80 backdrop-blur-sm px-1.5 py-0.5 rounded shadow whitespace-nowrap">
+<div class="font-label-xs text-tertiary">MAITRI-II ADVANCE SITE</div>
+<div class="font-telemetry-code text-[9px] text-on-surface-variant">Dist: 14.2 km (NE)</div>
+</div>
+</div>
+<!-- ACTIVE TRACKED UNIT 1: PISTENBULLY 300 POLAR #PB-01 -->
+<div class="absolute top-[62%] right-[32%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20" id="unit-pb01" onclick="selectFleetUnit('PB-01')">
+<div class="relative flex items-center justify-center">
+<div class="w-5 h-5 rounded-full bg-telemetry-safe flex items-center justify-center shadow-md ring-2 ring-secondary animate-pulse">
+<span class="material-symbols-outlined text-[12px] text-surface-cream-light font-bold">navigation</span>
+</div>
+</div>
+<div class="mt-1 bg-surface-container-high/95 p-1.5 rounded shadow text-left border-l-2 border-secondary min-w-[130px]">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-secondary font-bold">PB-01 (LEAD)</span>
+<span class="font-label-xs text-telemetry-safe bg-telemetry-safe/20 px-1 rounded">8.2 km/h</span>
+</div>
+<div class="font-telemetry-code text-[10px] text-on-surface">Traverse-04 Bharati</div>
+<div class="font-telemetry-code text-[9px] text-on-surface-variant">HDG: 194° // 69°28'S</div>
+</div>
+</div>
+<!-- ACTIVE TRACKED UNIT 2: KÄSSBOHRER PB-100 #PB-03 (FUEL SLED) -->
+<div class="absolute top-[65%] right-[38%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20" id="unit-pb03" onclick="selectFleetUnit('PB-03')">
+<div class="w-4 h-4 rounded bg-secondary-container flex items-center justify-center shadow">
+<span class="material-symbols-outlined text-[10px] text-secondary">oil_barrel</span>
+</div>
+<div class="mt-1 bg-surface-container-high/90 p-1.5 rounded shadow text-left min-w-[120px]">
+<div class="font-label-xs text-secondary font-bold">PB-03 // FUEL SLED</div>
+<div class="font-telemetry-code text-[10px] text-on-surface-variant">12kL Fuel Bladders</div>
+</div>
+</div>
+<!-- STATIONARY UNIT 3: TUCKER SNO-CAT #TC-02 (WAYPOINT ECHO) -->
+<div class="absolute top-[52%] left-[34%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20" id="unit-tc02" onclick="selectFleetUnit('TC-02')">
+<div class="w-4 h-4 rounded-full bg-telemetry-warning flex items-center justify-center shadow ring-2 ring-telemetry-warning/40">
+<span class="material-symbols-outlined text-[10px] text-surface-container-lowest">build</span>
+</div>
+<div class="mt-1 bg-surface-container-high/90 p-1.5 rounded shadow text-left min-w-[125px]">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-telemetry-warning font-bold">TC-02 // STAT</span>
+<span class="font-label-xs text-on-surface-variant">WP-ECHO</span>
+</div>
+<div class="font-telemetry-code text-[9px] text-on-surface">Maint: Radar Calibration</div>
+</div>
+</div>
+<!-- AIR ROUTE: BASLER BT-67 IN-FLIGHT / ON-HOLD VECTOR -->
+<div class="absolute top-[22%] left-[32%] cursor-pointer group z-20" id="unit-basler" onclick="selectFleetUnit('BASLER-802')">
+<div class="flex items-center gap-space-xs bg-surface-container-high/95 p-1.5 rounded shadow">
+<span class="material-symbols-outlined text-[18px] text-telemetry-warning animate-bounce">flight</span>
+<div>
+<div class="font-label-xs text-telemetry-warning font-bold">BAS-802 (BT-67)</div>
+<div class="font-telemetry-code text-[9px] text-on-surface-variant">WX HOLD @ TROLL</div>
+</div>
+</div>
+</div>
+<!-- HAZARD CALLOUT HUD: CREVASSE ZONE -->
+<div class="absolute top-[18%] left-[16%] pointer-events-none">
+<div class="bg-surface-container-lowest/80 backdrop-blur-sm px-2 py-1 rounded text-telemetry-critical font-label-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>SCHIRMACHER SHEAR CREVASSE</span>
+</div>
+</div>
+<!-- HAZARD CALLOUT HUD: WHITEOUT BLIZZARD FRONT -->
+<div class="absolute top-[14%] right-[12%] pointer-events-none">
+<div class="bg-surface-container-lowest/80 backdrop-blur-sm px-2 py-1 rounded text-telemetry-warning font-label-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">air</span>
+<span>KATABATIC GALE FRONT (58 KNOTS)</span>
+</div>
+</div>
+</div>
+<!-- Polar Map Bottom Compass HUD -->
+<div class="absolute bottom-space-base left-space-base right-space-base flex flex-wrap items-center justify-between gap-space-sm pointer-events-none z-10">
+<div class="bg-surface-container-lowest/80 backdrop-blur-md px-space-sm py-1 rounded font-telemetry-code text-on-surface-variant text-[11px] pointer-events-auto">
+              POLAR GRID EXTENT: 15°W - 90°E | S74°00' - S68°10'
+            </div>
+<div class="flex items-center gap-space-xs bg-surface-container-lowest/80 backdrop-blur-md px-space-sm py-1 rounded font-label-xs text-secondary pointer-events-auto">
+<span class="material-symbols-outlined text-[16px]">explore</span>
+<span>MAG DECLINATION: -22.4°W (2025 REF)</span>
+</div>
+</div>
+</div>
+<!-- Route Status Bar underneath Polar Map -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm pt-space-xs">
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between">
+<div>
+<div class="font-label-xs text-secondary">ROUTE ALPHA // 32 KM</div>
+<div class="font-telemetry-code text-on-surface text-[12px]">Bharati ➔ Larsemann Ice Dome</div>
+</div>
+<span class="font-label-xs text-telemetry-safe bg-telemetry-safe/20 px-2 py-0.5 rounded">CLEAR (62% DONE)</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between">
+<div>
+<div class="font-label-xs text-primary">ROUTE BRAVO // 14 KM</div>
+<div class="font-telemetry-code text-on-surface text-[12px]">Maitri ➔ Maitri-II Survey Site</div>
+</div>
+<span class="font-label-xs text-secondary bg-secondary-container/30 px-2 py-0.5 rounded">NOMINAL TRAIL</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between">
+<div>
+<div class="font-label-xs text-outline">ROUTE CHARLIE // 84 KM</div>
+<div class="font-telemetry-code text-on-surface text-[12px]">Maitri ➔ Shelf Barrier Depot</div>
+</div>
+<span class="font-label-xs text-on-surface-variant bg-surface-container-highest px-2 py-0.5 rounded">SEASONAL IDLE</span>
+</div>
+</div>
+</div>
+<!-- Tactical Vessel & Air Bridge Operations Section -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-sm">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]">directions_boat</span>
+<h2 class="font-title-sm text-on-surface uppercase tracking-wide">Maritime &amp; Inter-Station Air Logistics Manifest</h2>
+</div>
+<span class="font-label-xs text-secondary">AUTOMATED AIS + ADS-B TELEMETRY</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md mt-space-xs">
+<!-- Icebreaker Vessel Card -->
+<div class="bg-surface-container rounded-lg p-space-base flex flex-col justify-between space-y-space-sm">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-xs text-secondary uppercase tracking-wider">CHARTERED POLAR ICEBREAKER</span>
+<h3 class="font-headline-md text-on-surface">MV Vasiliy Golovnin</h3>
+<span class="font-telemetry-code text-[11px] text-on-surface-variant">IMO: 8613334 // CALLSIGN: UBPO</span>
+</div>
+<span class="font-label-xs text-secondary bg-secondary-container/40 px-2 py-1 rounded">EN ROUTE DRY DOCK</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded space-y-1 font-telemetry-code text-[12px]">
+<div class="flex justify-between text-on-surface-variant">
+<span>Voyage Route:</span>
+<span class="text-on-surface font-medium">Port Louis ➔ Cape Town ➔ Prydz Bay</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>ETA Prydz Bay Berth:</span>
+<span class="text-secondary font-medium">118 Days (Nov 19, 2025)</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Fuel Bunker Manifest:</span>
+<span class="text-on-surface">1,200,000 L Antarctic Polar Diesel</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Dry Cargo Slots:</span>
+<span class="text-on-surface">24x 20ft ISO Containers + 2 Heavy Cats</span>
+</div>
+</div>
+<!-- Vessel Progress Bar -->
+<div>
+<div class="flex justify-between font-label-xs text-on-surface-variant mb-1">
+<span>Staging Progress (Cape Town Prep)</span>
+<span class="text-secondary">42% Prepared</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded overflow-hidden">
+<div class="bg-secondary h-full rounded" style="width: 42%;"></div>
+</div>
+</div>
+</div>
+<!-- Basler BT-67 Polar Air-Bridge Card -->
+<div class="bg-surface-container rounded-lg p-space-base flex flex-col justify-between space-y-space-sm">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-xs text-telemetry-warning uppercase tracking-wider">DROPSHIP SKI-PLANE FLIGHT</span>
+<h3 class="font-headline-md text-on-surface">Flight #BAS-802 (BT-67)</h3>
+<span class="font-telemetry-code text-[11px] text-on-surface-variant">REG: C-FTGI // OPERATOR: ALCI / NCPOR</span>
+</div>
+<span class="font-label-xs text-telemetry-warning bg-telemetry-warning/20 px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                KATABATIC HOLD
+              </span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded space-y-1 font-telemetry-code text-[12px]">
+<div class="flex justify-between text-on-surface-variant">
+<span>Corridor:</span>
+<span class="text-on-surface font-medium">Troll Airfield (LC-130 Strip) ➔ Maitri Blue Ice</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Surface Wind Speed:</span>
+<span class="text-telemetry-warning font-medium">68 km/h Katabatic (Gusto 84 km/h)</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Payload Criticality:</span>
+<span class="text-on-surface">Cryogenic Medical Gas &amp; Satcom CPU Modules</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Next Weather Re-Eval:</span>
+<span class="text-secondary">16:00 UTC (In 1h 31m)</span>
+</div>
+</div>
+<!-- Flight Readiness Bar -->
+<div>
+<div class="flex justify-between font-label-xs text-on-surface-variant mb-1">
+<span>Airframe Fuel &amp; Crew Readiness</span>
+<span class="text-telemetry-warning">100% READY // AWAITING WX GO</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded overflow-hidden">
+<div class="bg-telemetry-warning h-full rounded" style="width: 100%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT 4-COLS: Live Convoy Detail Drawer & Fleet Manifest -->
+<div class="xl:col-span-4 flex flex-col space-y-space-md">
+<!-- Traverse Unit Live Inspector Card -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-sm space-y-space-md" id="inspector-card">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-telemetry-safe animate-pulse"></span>
+<span class="font-label-xs text-secondary uppercase tracking-wider">ACTIVE TRAVERSE #TRV-2025-04</span>
+</div>
+<span class="font-telemetry-code text-[11px] text-on-surface-variant">IRIDIUM SBD: LIVE</span>
+</div>
+<div>
+<h2 class="font-headline-md text-on-surface" id="ins-unit-name">PistenBully 300 Polar (#PB-01)</h2>
+<div class="font-telemetry-code text-secondary text-[12px]" id="ins-unit-sub">Lead Scout // Larsemann Plateau Traverse</div>
+</div>
+<!-- Convoy Coordinates and Gauges -->
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-label-xs text-on-surface-variant">GPS POSITION</span>
+<div class="font-telemetry-code text-[13px] text-on-surface mt-0.5" id="ins-gps">69°28'14"S 76°24'02"E</div>
+<div class="font-label-xs text-secondary text-[10px]">Altitude: 114m ASL</div>
+</div>
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-label-xs text-on-surface-variant">GROUND VELOCITY</span>
+<div class="font-headline-md text-on-surface mt-0.5" id="ins-speed">8.2 <span class="text-sm font-normal text-on-surface-variant">km/h</span></div>
+<div class="font-label-xs text-telemetry-safe text-[10px]">HDG: 194° (SSW)</div>
+</div>
+</div>
+<!-- Cabin, Engine & Fuel Telemetry -->
+<div class="bg-surface-container-lowest p-space-sm rounded space-y-space-xs">
+<div class="flex items-center justify-between text-[12px] font-telemetry-code">
+<span class="text-on-surface-variant">Cabin Temperature:</span>
+<span class="text-secondary font-medium">+16.2°C</span>
+</div>
+<div class="flex items-center justify-between text-[12px] font-telemetry-code">
+<span class="text-on-surface-variant">Engine Coolant Temp:</span>
+<span class="text-on-surface font-medium">+84.0°C (Nominal)</span>
+</div>
+<div class="flex items-center justify-between text-[12px] font-telemetry-code">
+<span class="text-on-surface-variant">Hydraulic Pressure:</span>
+<span class="text-on-surface font-medium">210 bar</span>
+</div>
+<div class="flex items-center justify-between text-[12px] font-telemetry-code">
+<span class="text-on-surface-variant">Calculated Range Left:</span>
+<span class="text-secondary font-medium">320 km (Safe Margin)</span>
+</div>
+<div class="flex items-center justify-between text-[12px] font-telemetry-code">
+<span class="text-on-surface-variant">Telemetry Ping Latency:</span>
+<span class="text-on-surface-variant">1,820 ms via Iridium SBD</span>
+</div>
+</div>
+<!-- Crew Souls Onboard -->
+<div>
+<div class="flex items-center justify-between font-label-xs text-on-surface-variant mb-space-xs">
+<span class="uppercase">Assigned Expedition Souls (4)</span>
+<span class="text-secondary">VITALS NOMINAL</span>
+</div>
+<div class="space-y-1">
+<div class="flex items-center justify-between bg-surface-container p-2 rounded text-[12px]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">sports_motorsports</span>
+<span class="font-medium text-on-surface">Dr. S. Rao</span>
+</div>
+<span class="font-telemetry-code text-[11px] text-on-surface-variant">Expedition Lead (NCPOR)</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container p-2 rounded text-[12px]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">engineering</span>
+<span class="font-medium text-on-surface">H. Singh</span>
+</div>
+<span class="font-telemetry-code text-[11px] text-on-surface-variant">Chief Driver / Mechanic</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container p-2 rounded text-[12px]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">radar</span>
+<span class="font-medium text-on-surface">A. Menon &amp; R. Verma</span>
+</div>
+<span class="font-telemetry-code text-[11px] text-on-surface-variant">Glaciologist / Comms</span>
+</div>
+</div>
+</div>
+<!-- Sled Payload Breakdown -->
+<div class="bg-surface-container p-space-sm rounded">
+<div class="font-label-xs text-on-surface-variant uppercase mb-1">Heavy Sled Cargo Manifest</div>
+<div class="font-telemetry-code text-[12px] space-y-1 text-on-surface">
+<div class="flex justify-between">
+<span>• Low-Pour Arctic Fuel:</span>
+<span class="text-secondary">12,000 L</span>
+</div>
+<div class="flex justify-between">
+<span>• Radar Buffer LiFePO4 Packs:</span>
+<span class="text-secondary">4 Units (1,200 kg)</span>
+</div>
+<div class="flex justify-between">
+<span>• Emergency Survival Bivy:</span>
+<span class="text-on-surface-variant">14-Day Rations (4 Souls)</span>
+</div>
+</div>
+</div>
+<!-- Real-time Comm Link Action -->
+<div class="pt-space-xs flex items-center gap-space-sm">
+<button class="flex-1 flex items-center justify-center gap-space-xs py-2 px-space-sm rounded bg-secondary-container text-secondary font-label-md hover:bg-secondary hover:text-on-secondary transition-colors" onclick="pingConvoy()">
+<span class="material-symbols-outlined text-[18px]">cell_tower</span>
+<span>SEND IRIDIUM COMMS PING</span>
+</button>
+<button class="p-2 rounded bg-surface-container text-on-surface-variant hover:text-on-surface" title="Emergency Transponder Listen">
+<span class="material-symbols-outlined text-[20px]">volume_up</span>
+</button>
+</div>
+</div>
+<!-- Station Winter Stockpile Inventory Health Matrix -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-sm flex flex-col space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">inventory_2</span>
+<h3 class="font-title-sm text-on-surface uppercase">Winter Stockpile &amp; Critical Spares</h3>
+</div>
+<span class="font-label-xs text-on-surface-variant">DEPLETION AUDIT</span>
+</div>
+<!-- Table of Critical Supplies -->
+<div class="space-y-space-xs font-telemetry-code text-[12px]">
+<!-- Item 1 -->
+<div class="bg-surface-container p-2 rounded flex flex-col space-y-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface font-medium">Diesel Genset Injection Nozzles</span>
+<span class="text-telemetry-safe font-label-xs bg-telemetry-safe/20 px-1.5 py-0.5 rounded">6 UNITS / SAFE</span>
+</div>
+<div class="flex justify-between text-[11px] text-on-surface-variant">
+<span>Burn Rate: 0.8 / mo</span>
+<span>Min Reserve: 3</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-secondary h-full rounded" style="width: 80%;"></div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container p-2 rounded flex flex-col space-y-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface font-medium">Reverse Osmosis (RO) Desal Filters</span>
+<span class="text-telemetry-warning font-label-xs bg-telemetry-warning/20 px-1.5 py-0.5 rounded">2 UNITS / LOW</span>
+</div>
+<div class="flex justify-between text-[11px] text-on-surface-variant">
+<span>Bharati Water Lab Req</span>
+<span>Min Reserve: 4</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-telemetry-warning h-full rounded" style="width: 35%;"></div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface-container p-2 rounded flex flex-col space-y-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface font-medium">Surgical Grade O₂ Cryo-Cylinders</span>
+<span class="text-telemetry-safe font-label-xs bg-telemetry-safe/20 px-1.5 py-0.5 rounded">18 BOTTLES / NOM</span>
+</div>
+<div class="flex justify-between text-[11px] text-on-surface-variant">
+<span>Hospital Bay Maitri &amp; Bharati</span>
+<span>Min Reserve: 8</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-secondary h-full rounded" style="width: 90%;"></div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="bg-surface-container p-2 rounded flex flex-col space-y-1">
+<div class="flex items-center justify-between">
+<span class="text-on-surface font-medium">Radome De-Icing Heating Strips</span>
+<span class="text-secondary font-label-xs bg-secondary-container/40 px-1.5 py-0.5 rounded">140 METERS</span>
+</div>
+<div class="flex justify-between text-[11px] text-on-surface-variant">
+<span>ISRO-SCN Ku-Band Tracking</span>
+<span>Reserve: 100%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
+<div class="bg-secondary h-full rounded" style="width: 94%;"></div>
+</div>
+</div>
+</div>
+<div class="pt-1 flex items-center justify-between text-on-surface-variant font-label-xs">
+<span>SUPPLY AUDITOR: DR. VARDHAN (NCPOR)</span>
+<a class="text-secondary hover:underline flex items-center gap-1" href="#">
+<span>FULL INVENTORY MANIFEST</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let sweepActive = true;
+
+  function toggleRadarSweep() {
+    const sweep = document.getElementById('radar-sweep-wedge');
+    if (!sweep) return;
+    sweepActive = !sweepActive;
+    if (sweepActive) {
+      sweep.classList.add('animate-[spin_8s_linear_infinite]');
+      sweep.style.opacity = '1';
+    } else {
+      sweep.classList.remove('animate-[spin_8s_linear_infinite]');
+      sweep.style.opacity = '0';
+    }
+  }
+
+  function resetMapView() {
+    const card = document.getElementById('inspector-card');
+    if (card) {
+      card.classList.add('ring-2', 'ring-secondary');
+      setTimeout(() => card.classList.remove('ring-2', 'ring-secondary'), 600);
+    }
+    selectFleetUnit('PB-01');
+  }
+
+  function filterTrajectories(type) {
+    const buttons = ['btn-all', 'btn-convoy', 'btn-marine', 'btn-air'];
+    buttons.forEach(bId => {
+      const el = document.getElementById(bId);
+      if (el) {
+        el.className = "px-space-sm py-1 rounded hover:text-on-surface transition-colors";
+      }
+    });
+
+    const activeBtn = document.getElementById('btn-' + type);
+    if (activeBtn) {
+      activeBtn.className = "px-space-sm py-1 rounded bg-primary-container text-secondary font-label-md transition-colors";
+    }
+
+    const pb01 = document.getElementById('unit-pb01');
+    const pb03 = document.getElementById('unit-pb03');
+    const tc02 = document.getElementById('unit-tc02');
+    const basler = document.getElementById('unit-basler');
+    const routeAlpha = document.getElementById('route-alpha-path');
+    const routeBravo = document.getElementById('route-bravo-path');
+
+    if (type === 'convoy') {
+      if (pb01) pb01.style.display = 'block';
+      if (pb03) pb03.style.display = 'block';
+      if (tc02) tc02.style.display = 'block';
+      if (basler) basler.style.display = 'none';
+      if (routeAlpha) routeAlpha.style.strokeWidth = '4';
+    } else if (type === 'air') {
+      if (pb01) pb01.style.opacity = '0.3';
+      if (pb03) pb03.style.opacity = '0.3';
+      if (tc02) tc02.style.opacity = '0.3';
+      if (basler) {
+        basler.style.display = 'block';
+        basler.style.opacity = '1';
+      }
+    } else {
+      [pb01, pb03, tc02, basler].forEach(el => {
+        if (el) {
+          el.style.display = 'block';
+          el.style.opacity = '1';
+        }
+      });
+      if (routeAlpha) routeAlpha.style.strokeWidth = '3.5';
+    }
+  }
+
+  function selectFleetUnit(unitId) {
+    const nameEl = document.getElementById('ins-unit-name');
+    const subEl = document.getElementById('ins-unit-sub');
+    const gpsEl = document.getElementById('ins-gps');
+    const speedEl = document.getElementById('ins-speed');
+
+    if (!nameEl) return;
+
+    if (unitId === 'PB-01') {
+      nameEl.textContent = 'PistenBully 300 Polar (#PB-01)';
+      subEl.textContent = 'Lead Scout // Larsemann Plateau Traverse';
+      gpsEl.textContent = "69°28'14\"S 76°24'02\"E";
+      speedEl.innerHTML = '8.2 <span class="text-sm font-normal text-on-surface-variant">km/h</span>';
+    } else if (unitId === 'PB-03') {
+      nameEl.textContent = 'Kässbohrer PB-100 (#PB-03)';
+      subEl.textContent = 'Heavy Fuel Carrier // 12,000L Arctic Bladders';
+      gpsEl.textContent = "69°27'50\"S 76°21'44\"E";
+      speedEl.innerHTML = '7.9 <span class="text-sm font-normal text-on-surface-variant">km/h</span>';
+    } else if (unitId === 'TC-02') {
+      nameEl.textContent = 'Tucker Sno-Cat (#TC-02)';
+      subEl.textContent = 'Maintenance & Calibration // Waypoint Echo';
+      gpsEl.textContent = "70°41'02\"S 11°51'20\"E";
+      speedEl.innerHTML = '0.0 <span class="text-sm font-normal text-on-surface-variant">km/h (STATIONARY)</span>';
+    } else if (unitId === 'BASLER-802') {
+      nameEl.textContent = 'Basler BT-67 (#BAS-802)';
+      subEl.textContent = 'Ski-Equipped Cargo Transport (ALCI / NCPOR)';
+      gpsEl.textContent = "72°01'S 02°32'E (Troll Airfield Runway)";
+      speedEl.innerHTML = '0.0 <span class="text-sm font-normal text-telemetry-warning">WEATHER HOLD</span>';
+    } else if (unitId === 'BHARATI_HUB') {
+      nameEl.textContent = 'Bharati Coastal Logistics Hub';
+      subEl.textContent = 'Prydz Bay Larsemann Hills Station Terminal';
+      gpsEl.textContent = "69°24'29\"S 76°11'14\"E";
+      speedEl.innerHTML = 'NOMINAL <span class="text-sm font-normal text-on-surface-variant">STATUS</span>';
+    } else if (unitId === 'MAITRI_HUB') {
+      nameEl.textContent = 'Maitri Continental Depot Hub';
+      subEl.textContent = 'Schirmacher Oasis Inland Base Operations';
+      gpsEl.textContent = "70°45'58\"S 11°43'56\"E";
+      speedEl.innerHTML = 'NOMINAL <span class="text-sm font-normal text-on-surface-variant">STATUS</span>';
+    }
+  }
+
+  function pingConvoy() {
+    const card = document.getElementById('inspector-card');
+    if (card) {
+      card.classList.add('ring-1', 'ring-secondary');
+      setTimeout(() => card.classList.remove('ring-1', 'ring-secondary'), 800);
+    }
+  }
+</script></main></div></body></html>

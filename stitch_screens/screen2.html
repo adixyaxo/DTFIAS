@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANARCTIC — Secure Mission Access Gateway</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            'deep-green': '#1A312C',
+            'deep-green-darker': '#10221E',
+            'deep-green-surface': '#152924',
+            'deep-green-border': '#25453E',
+            'teal-brand': '#428475',
+            'teal-brand-hover': '#356d61',
+            'teal-brand-active': '#2c5c52',
+            'mint-light': '#E8F3EF',
+            'mint-border': '#C5E0D5',
+            'warm-white': '#F7F4ED',
+            'warm-card': '#FFFFFF',
+            'warm-border': '#E4DFD3',
+            'warm-border-strong': '#CCC5B7',
+            'warm-text-primary': '#1E2522',
+            'warm-text-muted': '#5D6661',
+            'status-normal': '#2E7D5B',
+            'status-info': '#2878A8',
+            'status-warning': '#D9822B',
+            'status-critical': '#C44536',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Institutional grid & subtle polar coordinate lines */
+    .polar-grid-pattern {
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(66, 132, 117, 0.12) 0%, transparent 70%),
+        linear-gradient(rgba(37, 69, 62, 0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 69, 62, 0.4) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+    }
+    
+    /* Accessible and high-visibility focus states */
+    input:focus {
+      outline: 2px solid #428475;
+      outline-offset: 1px;
+    }
+    button:focus-visible {
+      outline: 2px solid #1A312C;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body class="h-full bg-deep-green-darker text-warm-text-primary font-sans antialiased flex flex-col justify-between select-none">
+
+  <!-- TOP INSTITUTIONAL SECURITY BANNER -->
+  <header class="w-full bg-deep-green-darker border-b border-deep-green-border text-xs px-6 py-2 flex items-center justify-between text-[#8DA19A]">
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[#2E7D5B] ring-2 ring-[#2E7D5B]/20"></span>
+        <span class="font-mono tracking-wider uppercase text-[11px] text-gray-300">NCPOR-SECURENET // AUTH-NODE: DEL-GOA-01</span>
+      </div>
+      <span class="text-deep-green-border hidden sm:inline">|</span>
+      <span class="hidden sm:inline font-mono text-[11px]">ENCRYPTION: AES-256-GCM / SHA-384</span>
+    </div>
+    <div class="flex items-center gap-4 text-[11px] font-mono">
+      <span class="text-gray-400">POLAR TIME: <span id="utc-clock" class="text-emerald-400 font-semibold">14:32:08 UTC</span></span>
+      <span class="hidden md:inline bg-deep-green px-2 py-0.5 rounded border border-deep-green-border text-teal-200">RESTRICTED ACCESS</span>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT CONTAINER -->
+  <main class="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+    <!-- MASTER DUAL-PANE CONTAINER (Restrained geometry 12px radius, hairline border) -->
+    <div class="w-full max-w-5xl bg-warm-white rounded-xl shadow-2xl border border-warm-border overflow-hidden flex flex-col md:flex-row min-h-[640px]">
+      
+      <!-- LEFT PANE: IDENTITY, MISSION STATEMENT & SCIENTIFIC STATION SCHEMATIC (Deep Green #1A312C) -->
+      <section class="md:w-5/12 bg-deep-green relative flex flex-col justify-between p-8 text-white polar-grid-pattern border-b md:border-b-0 md:border-r border-deep-green-border overflow-hidden">
+        
+        <!-- Ambient subtle glow behind schematic -->
+        <div class="absolute -top-24 -left-24 w-72 h-72 bg-teal-brand/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-teal-brand/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Top Header & Ministry Badge -->
+        <div class="relative z-10 space-y-4">
+          <div class="flex items-center gap-3">
+            <!-- Institutional Emblem / Compass Icon -->
+            <div class="w-10 h-10 rounded-lg bg-deep-green-surface border border-deep-green-border flex items-center justify-center shadow-inner">
+              <svg class="w-6 h-6 text-teal-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-opacity="0.4"/>
+                <polygon points="12,3 14.5,10.5 21,12 14.5,13.5 12,21 9.5,13.5 3,12 9.5,10.5" fill="currentColor" fill-opacity="0.18" stroke="currentColor"/>
+                <circle cx="12" cy="12" r="1.5" fill="#E8F3EF"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-[10px] tracking-widest text-[#9BB1AA] uppercase font-mono">Government of India</div>
+              <div class="text-xs font-medium text-gray-200">Ministry of Earth Sciences · NCPOR</div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <h1 class="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+              ANARCTIC
+              <span class="text-[10px] font-mono tracking-widest bg-deep-green-border/80 text-teal-300 px-2 py-0.5 rounded border border-teal-brand/40 uppercase">v3.4-Ops</span>
+            </h1>
+            <p class="text-xs text-[#A1B8B1] mt-1 leading-relaxed font-normal">
+              Institutional Polar Remote-Operations & Integrated Digital-Twin Telemetry Platform
+            </p>
+          </div>
+        </div>
+
+        <!-- CENTER: REFINED 2D/ISOMETRIC POLAR STATION SCHEMATIC ILLUSTRATION -->
+        <div class="my-6 relative z-10 bg-deep-green-darker/60 rounded-lg p-4 border border-deep-green-border/80">
+          <div class="flex items-center justify-between pb-2 border-b border-deep-green-border/50 text-[10px] font-mono text-[#85A299]">
+            <span class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              ACTIVE TELEMETRY MESH
+            </span>
+            <span>POLAR NODES: 03 ONLINE</span>
+          </div>
+
+          <!-- Technical Station Illustration (Vector SVG) -->
+          <div class="relative py-2 flex items-center justify-center">
+            <svg class="w-full h-44 text-teal-brand" viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Ground / Ice Shelf Line -->
+              <path d="M 10 135 L 310 135" stroke="#25453E" stroke-width="1.5" stroke-dasharray="4 4"/>
+              <path d="M 15 145 L 305 145" stroke="#1D3832" stroke-width="1"/>
+
+              <!-- Sub-ice Struts / Foundation Pylons -->
+              <line x1="80" y1="110" x2="80" y2="135" stroke="#428475" stroke-width="2"/>
+              <line x1="120" y1="110" x2="120" y2="135" stroke="#428475" stroke-width="2"/>
+              <line x1="160" y1="110" x2="160" y2="135" stroke="#428475" stroke-width="2"/>
+              <line x1="200" y1="110" x2="200" y2="135" stroke="#428475" stroke-width="2"/>
+              <line x1="240" y1="110" x2="240" y2="135" stroke="#428475" stroke-width="2"/>
+
+              <!-- Station Central Aerodynamic Habitat (Bharati / Maitri Architecture) -->
+              <!-- Main containerized module Level 1 & 2 -->
+              <rect x="65" y="70" width="190" height="42" rx="4" fill="#152924" stroke="#428475" stroke-width="1.5"/>
+              <line x1="65" y1="91" x2="255" y2="91" stroke="#25453E" stroke-width="1"/>
+
+              <!-- Aerodynamic Louvers & Window Ports -->
+              <rect x="75" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+              <rect x="95" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+              <rect x="115" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+              <rect x="135" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+              <rect x="155" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+              <rect x="175" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+              <rect x="195" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+              <rect x="215" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+              <rect x="235" y="77" width="12" height="6" rx="1" fill="#428475" fill-opacity="0.4"/>
+
+              <!-- Observation Dome / Radome on Roof -->
+              <path d="M 140 70 A 20 20 0 0 1 180 70 Z" fill="#1E3C34" stroke="#68AB9D" stroke-width="1.5"/>
+              <!-- Communication Mast / Antenna Array -->
+              <line x1="160" y1="50" x2="160" y2="28" stroke="#68AB9D" stroke-width="1.5"/>
+              <line x1="154" y1="36" x2="166" y2="36" stroke="#68AB9D" stroke-width="1.5"/>
+              <line x1="156" y1="42" x2="164" y2="42" stroke="#68AB9D" stroke-width="1.5"/>
+              <circle cx="160" cy="26" r="2" fill="#2E7D5B"/>
+
+              <!-- Radio Satellite Dish (Left) -->
+              <path d="M 90 70 L 95 56" stroke="#428475" stroke-width="1.5"/>
+              <path d="M 86 50 C 92 46, 102 54, 98 62" stroke="#68AB9D" stroke-width="1.5" fill="none"/>
+              <circle cx="93" cy="54" r="1.5" fill="#E8F3EF"/>
+
+              <!-- Microgrid Wind Turbine Mast (Right) -->
+              <line x1="280" y1="50" x2="280" y2="135" stroke="#25453E" stroke-width="1.5"/>
+              <line x1="280" y1="50" x2="265" y2="36" stroke="#428475" stroke-width="1.5"/>
+              <line x1="280" y1="50" x2="295" y2="40" stroke="#428475" stroke-width="1.5"/>
+              <line x1="280" y1="50" x2="278" y2="68" stroke="#428475" stroke-width="1.5"/>
+              <circle cx="280" cy="50" r="2.5" fill="#E8F3EF"/>
+
+              <!-- Sensor Nodes & Elevation Grid Lines -->
+              <circle cx="45" cy="135" r="2" fill="#D9822B"/>
+              <text x="35" y="152" fill="#85A299" font-size="7" font-family="monospace">AWS-01</text>
+
+              <circle cx="280" cy="135" r="2" fill="#428475"/>
+              <text x="270" y="152" fill="#85A299" font-size="7" font-family="monospace">TURB-02</text>
+
+              <!-- Real-time Hotspot Markers -->
+              <g class="cursor-pointer">
+                <circle cx="160" cy="26" r="5" fill="#2E7D5B" fill-opacity="0.25">
+                  <animate attributeName="r" values="4;7;4" dur="3s" repeatCount="indefinite"/>
+                </circle>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Telemetry Status Badges for Active Stations -->
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-deep-green-border/50 text-[10px] font-mono">
+            <div class="bg-deep-green-surface px-2 py-1 rounded flex items-center justify-between border border-deep-green-border/40">
+              <span class="text-gray-300">BHARATI (69°S)</span>
+              <span class="text-emerald-400 font-semibold">ONLINE</span>
+            </div>
+            <div class="bg-deep-green-surface px-2 py-1 rounded flex items-center justify-between border border-deep-green-border/40">
+              <span class="text-gray-300">MAITRI (70°S)</span>
+              <span class="text-emerald-400 font-semibold">ONLINE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM IDENTITY FOOTNOTE & SECURITY DISCLOSURE -->
+        <div class="relative z-10 text-[11px] text-[#869E96] space-y-1.5 border-t border-deep-green-border/50 pt-4">
+          <div class="flex items-center justify-between font-mono text-[10px]">
+            <span>NODE: IN-HQ-GOA</span>
+            <span class="text-teal-300">LINK: GSAT-7A / CERTUS</span>
+          </div>
+          <p class="leading-tight text-[10px] text-gray-400">
+            Authorized personnel only. All access, command dispatches, and telemetry sessions are digitally signed and audited under Section 43 of IT Act.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- RIGHT PANE: FORM & CREDENTIALS CONSOLE (Warm Off-White #F7F4ED) -->
+      <section class="md:w-7/12 bg-warm-white p-8 sm:p-10 lg:p-12 flex flex-col justify-between">
+        
+        <!-- Header / Role Access Information -->
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <span class="text-[11px] font-mono uppercase tracking-wider text-warm-text-muted">Operations Portal</span>
+              <h2 class="text-xl font-bold text-warm-text-primary tracking-tight">Mission Control Sign-In</h2>
+            </div>
+            <!-- Security Badge -->
+            <div class="flex items-center gap-1.5 bg-mint-light text-status-normal text-xs font-mono font-medium px-2.5 py-1 rounded-md border border-mint-border">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span>CAC / 2FA READY</span>
+            </div>
+          </div>
+
+          <!-- AUTHENTICATION STATUS BANNER (Dynamic Component) -->
+          <div id="auth-status-box" class="mb-6 p-3.5 rounded-lg border border-warm-border bg-white text-xs flex items-start gap-3 shadow-sm">
+            <div class="mt-0.5">
+              <span class="flex h-2.5 w-2.5 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-info opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-status-info"></span>
+              </span>
+            </div>
+            <div class="flex-1 font-sans">
+              <div class="font-medium text-warm-text-primary flex items-center justify-between">
+                <span>Directory Service Status: <strong class="font-semibold text-status-info">Operational</strong></span>
+                <span class="font-mono text-[10px] text-warm-text-muted">LDAP / NCPOR-IAM</span>
+              </div>
+              <p class="text-warm-text-muted mt-0.5 text-[11px] leading-relaxed">
+                Connect your hardware token or enter your government institutional credentials to verify station command permissions.
+              </p>
+            </div>
+          </div>
+
+          <!-- SIGN-IN FORM -->
+          <form id="login-form" class="space-y-4" onsubmit="event.preventDefault(); handleAuthSubmit();">
+            
+            <!-- Email / Institutional Identity Field -->
+            <div>
+              <label for="identity-input" class="block text-xs font-semibold text-warm-text-primary mb-1.5 flex items-center justify-between">
+                <span>Institutional Email / Mission ID</span>
+                <span class="text-[10px] font-normal text-warm-text-muted">e.g. user@ncpor.res.in</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-warm-text-muted">
+                  <svg class="w-4 h-4 text-warm-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
+                <input 
+                  type="email" 
+                  id="identity-input" 
+                  required
+                  placeholder="commander.bharati@ncpor.res.in" 
+                  value="commander.bharati@ncpor.res.in"
+                  class="w-full pl-9 pr-3 py-2.5 bg-white border border-warm-border-strong rounded-md text-sm text-warm-text-primary placeholder-stone-400 transition-colors focus:bg-white focus:border-teal-brand"
+                />
+              </div>
+            </div>
+
+            <!-- Password / Passphrase Field -->
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="password-input" class="block text-xs font-semibold text-warm-text-primary">
+                  Secure Passphrase / Token PIN
+                </label>
+                <a href="#forgot-credentials" class="text-xs text-teal-brand hover:text-teal-brand-hover font-medium underline underline-offset-2 transition-colors">
+                  Forgot credentials?
+                </a>
+              </div>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-warm-text-muted">
+                  <svg class="w-4 h-4 text-warm-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+                <input 
+                  type="password" 
+                  id="password-input" 
+                  required
+                  placeholder="••••••••••••••••" 
+                  value="Antarctic#Station2025"
+                  class="w-full pl-9 pr-10 py-2.5 bg-white border border-warm-border-strong rounded-md text-sm text-warm-text-primary placeholder-stone-400 transition-colors focus:bg-white focus:border-teal-brand font-mono"
+                />
+                <button 
+                  type="button" 
+                  aria-label="Toggle password visibility"
+                  onclick="togglePasswordVisibility()"
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center text-warm-text-muted hover:text-warm-text-primary">
+                  <svg id="eye-icon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Role Scope Selector (Mission Control Specific) -->
+            <div class="pt-1">
+              <label for="station-role" class="block text-xs font-semibold text-warm-text-primary mb-1.5 flex items-center justify-between">
+                <span>Assigned Role Context</span>
+                <span class="text-[10px] font-mono text-warm-text-muted">RBAC POLICY: 2025-Q1</span>
+              </label>
+              <div class="relative">
+                <select 
+                  id="station-role"
+                  class="w-full px-3 py-2 bg-white border border-warm-border-strong rounded-md text-xs text-warm-text-primary focus:border-teal-brand">
+                  <option value="station-commander">Station Commander (Tactical & Perimeter Command)</option>
+                  <option value="life-support-engineer">Life Support & Systems Engineer (Habitat & Microgrid)</option>
+                  <option value="research-scientist">Polar Research Scientist (Earth & Space Analytics)</option>
+                  <option value="ncpor-hq-operator">NCPOR HQ Remote Operator (Goa Command Hub)</option>
+                  <option value="medical-logistics">Medical Officer & Logistics Coordinator</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Remember Node Session Toggle -->
+            <div class="flex items-center justify-between pt-1">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked 
+                  class="w-4 h-4 rounded border-warm-border-strong text-teal-brand focus:ring-teal-brand focus:ring-offset-0"
+                />
+                <span class="text-xs text-warm-text-muted">Maintain secure local session (8h polar shift)</span>
+              </label>
+              <span class="text-[10px] font-mono text-status-normal font-medium bg-mint-light px-2 py-0.5 rounded border border-mint-border">DEFCON-5 / SAFE</span>
+            </div>
+
+            <!-- ACTION BUTTON: INTERACTION TEAL GREEN #428475 -->
+            <div class="pt-2">
+              <button 
+                type="submit" 
+                id="submit-btn"
+                class="w-full bg-teal-brand hover:bg-teal-brand-hover active:bg-teal-brand-active text-white font-medium py-2.5 px-4 rounded-md transition-all duration-150 flex items-center justify-center gap-2 text-sm shadow-sm group">
+                <svg class="w-4 h-4 text-teal-100 group-hover:scale-105 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                  <polyline points="10 17 15 12 10 7"/>
+                  <line x1="15" y1="12" x2="3" y2="12"/>
+                </svg>
+                <span>Authenticate & Enter Command Center</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Alternative Institutional Auth Methods (Hardware Token / PIV Card) -->
+          <div class="mt-5 pt-4 border-t border-warm-border flex flex-col sm:flex-row gap-2.5">
+            <button 
+              type="button" 
+              class="flex-1 py-2 px-3 bg-white hover:bg-stone-50 border border-warm-border-strong rounded text-xs font-medium text-warm-text-primary flex items-center justify-center gap-2 transition-colors">
+              <svg class="w-3.5 h-3.5 text-warm-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+              <span>Hardware PIV / USB Token</span>
+            </button>
+            <button 
+              type="button" 
+              class="flex-1 py-2 px-3 bg-white hover:bg-stone-50 border border-warm-border-strong rounded text-xs font-medium text-warm-text-primary flex items-center justify-center gap-2 transition-colors">
+              <svg class="w-3.5 h-3.5 text-warm-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <span>NCPOR Single Sign-On</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Form Footer / Station Security Contact -->
+        <div class="mt-8 pt-4 border-t border-warm-border text-[11px] text-warm-text-muted flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div>
+            Need clearance or emergency terminal bypass? 
+            <a href="#comms-officer" class="text-teal-brand hover:text-teal-brand-hover font-medium underline underline-offset-1">Contact Comms Officer</a>
+          </div>
+          <div class="font-mono text-[10px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded border border-warm-border">
+            SIT-INDEX: 0.12 (NOMINAL)
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- BOTTOM METADATA BAR -->
+  <footer class="w-full bg-deep-green-darker border-t border-deep-green-border px-6 py-2.5 text-[11px] font-mono text-[#7B928B] flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center gap-4">
+      <span>NATIONAL CENTRE FOR POLAR AND OCEAN RESEARCH</span>
+      <span class="text-deep-green-border">/</span>
+      <span>MINISTRY OF EARTH SCIENCES, GOVT. OF INDIA</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-status-normal"></span>
+        MAITRI GATEWAY: 100%
+      </span>
+      <span class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-status-normal"></span>
+        BHARATI GATEWAY: 100%
+      </span>
+      <span class="text-gray-400">LATENCY: 42ms</span>
+    </div>
+  </footer>
+
+  <!-- MINIMAL JAVASCRIPT FOR AUTH FEEDBACK & CLOCK -->
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getUTCHours()).padStart(2, '0');
+      const m = String(now.getUTCMinutes()).padStart(2, '0');
+      const s = String(now.getUTCSeconds()).padStart(2, '0');
+      const clockEl = document.getElementById('utc-clock');
+      if (clockEl) {
+        clockEl.textContent = `${h}:${m}:${s} UTC`;
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function togglePasswordVisibility() {
+      const pwdInput = document.getElementById('password-input');
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+      } else {
+        pwdInput.type = 'password';
+      }
+    }
+
+    function handleAuthSubmit() {
+      const btn = document.getElementById('submit-btn');
+      const statusBox = document.getElementById('auth-status-box');
+      const email = document.getElementById('identity-input').value;
+      
+      btn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Verifying Security Clearance...</span>
+      `;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        statusBox.className = "mb-6 p-3.5 rounded-lg border border-[#C5E0D5] bg-[#E8F4EE] text-xs flex items-start gap-3 shadow-sm";
+        statusBox.innerHTML = `
+          <div class="mt-0.5">
+            <span class="inline-flex rounded-full h-2.5 w-2.5 bg-status-normal"></span>
+          </div>
+          <div class="flex-1 font-sans">
+            <div class="font-medium text-[#1E2522] flex items-center justify-between">
+              <span>Authentication Successful</span>
+              <span class="font-mono text-[10px] text-[#2E7D5B]">TOKEN ISSUED</span>
+            </div>
+            <p class="text-[#2E7D5B] mt-0.5 text-[11px]">
+              Digital signature validated for <strong>${email}</strong>. Initializing Polar Command Telemetry stream...
+            </p>
+          </div>
+        `;
+        btn.innerHTML = `
+          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span>Session Granted · Redirecting</span>
+        `;
+        btn.classList.remove('bg-teal-brand', 'hover:bg-teal-brand-hover');
+        btn.classList.add('bg-status-normal');
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
