@@ -1,0 +1,828 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Bharati Station — Digital Twin | DTFIAS{% endblock %}
+
+{% block head %}
+<link href="{{ url_for('static', path='css/station_twin.css') }}" rel="stylesheet">
+<meta name="description" content="Bharati Indian Antarctic Research Station — Interactive 2.5D digital twin with real-time subsystem monitoring.">
+{% endblock %}
+
+{# ─── Override the base layout to go full-height without the usual page padding ─── #}
+{% block content %}
+<div x-data="stationTwin()"
+     x-cloak
+     id="station-twin"
+     class="st-root"
+     @keydown.escape="clearSelection()">
+
+  <!-- ═══════════════════════════════════════════
+       TOP CONTROL BAR
+       ═══════════════════════════════════════════ -->
+  <header class="st-topbar" role="banner">
+
+    <!-- Left: station identity + connection status -->
+    <div class="st-topbar-left">
+      <div class="st-station-badge">
+        <span class="st-flag" aria-label="Indian flag">🇮🇳</span>
+        <div>
+          <div class="st-station-name">BHARATI</div>
+          <div class="st-station-sub">Indian Antarctic Research Station · 69.4°S 76.2°E</div>
+        </div>
+      </div>
+      <div class="st-conn-indicator" role="status" aria-live="polite">
+        <span class="st-led" aria-hidden="true"></span>
+        <span>LIVE SIM</span>
+      </div>
+    </div>
+
+    <!-- Centre: layer filter tabs -->
+    <nav class="st-topbar-center" aria-label="Subsystem layer filter">
+      <div class="st-layer-tabs" role="tablist">
+        <button class="st-tab"            role="tab" :aria-selected="activeLayer==='all'"           :class="{active: activeLayer==='all'}"            @click="activeLayer='all'">All</button>
+        <button class="st-tab st-tab-infra"    role="tab" :aria-selected="activeLayer==='infrastructure'" :class="{active: activeLayer==='infrastructure'}"  @click="activeLayer='infrastructure'">Infrastructure</button>
+        <button class="st-tab st-tab-energy"   role="tab" :aria-selected="activeLayer==='energy'"        :class="{active: activeLayer==='energy'}"           @click="activeLayer='energy'">Energy</button>
+        <button class="st-tab st-tab-env"      role="tab" :aria-selected="activeLayer==='environmental'" :class="{active: activeLayer==='environmental'}"     @click="activeLayer='environmental'">Environment</button>
+        <button class="st-tab st-tab-logistics" role="tab" :aria-selected="activeLayer==='logistics'"    :class="{active: activeLayer==='logistics'}"         @click="activeLayer='logistics'">Logistics</button>
+        <button class="st-tab st-tab-personnel" role="tab" :aria-selected="activeLayer==='personnel'"    :class="{active: activeLayer==='personnel'}"         @click="activeLayer='personnel'">Personnel</button>
+      </div>
+    </nav>
+
+    <!-- Right: clock + fault trigger -->
+    <div class="st-topbar-right">
+      <time class="st-clock" aria-label="Simulation time" x-text="formatSimTime()"></time>
+      <button class="st-fault-btn"
+              :class="{'fault-active': faultActive}"
+              @click="simulateFault()"
+              :disabled="faultActive"
+              :aria-pressed="faultActive"
+              aria-label="Simulate power plant fault">
+        <span x-text="faultActive ? '⛔ FAULT ACTIVE' : '⚡ Simulate Fault'"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CANVAS
+       ═══════════════════════════════════════════ -->
+  <main class="st-main" id="main-content">
+
+    <!-- ─── SVG Station Illustration ─── -->
+    <div class="st-svg-wrapper" role="img" aria-label="Bharati Station interactive 2.5D view">
+      <svg id="bharati-svg"
+           viewBox="0 0 1400 750"
+           xmlns="http://www.w3.org/2000/svg"
+           preserveAspectRatio="xMidYMid meet"
+           class="st-svg"
+           role="presentation">
+
+        <title>Bharati Antarctic Research Station — 2.5D View</title>
+
+        <!-- ╔══════════════════════════╗
+             ║  DEFS: Gradients/Filters ║
+             ╚══════════════════════════╝ -->
+        <defs>
+          <!-- Sky -->
+          <linearGradient id="sky-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#010810"/>
+            <stop offset="50%"  stop-color="#091828"/>
+            <stop offset="100%" stop-color="#142840"/>
+          </linearGradient>
+
+          <!-- Building faces (front lower H2→H3 flared belly) -->
+          <linearGradient id="bldg-lower-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#7d8f9e"/>
+            <stop offset="100%" stop-color="#556070"/>
+          </linearGradient>
+
+          <!-- Building front upper (H3→H4 window zone behind) -->
+          <linearGradient id="bldg-upper-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#8ca0b0"/>
+            <stop offset="100%" stop-color="#6a8090"/>
+          </linearGradient>
+
+          <!-- Window glass (dark interior with warm light) -->
+          <linearGradient id="glass-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#071828" stop-opacity="0.95"/>
+            <stop offset="35%"  stop-color="#0e2e52" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#061220" stop-opacity="0.97"/>
+          </linearGradient>
+
+          <!-- Warm interior light overlay on windows -->
+          <linearGradient id="interior-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#ffd080" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#ff8020" stop-opacity="0.05"/>
+          </linearGradient>
+
+          <!-- Roof top face -->
+          <linearGradient id="roof-g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%"   stop-color="#3f5060"/>
+            <stop offset="100%" stop-color="#283540"/>
+          </linearGradient>
+
+          <!-- East side face of building -->
+          <linearGradient id="side-g" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="#485a68"/>
+            <stop offset="100%" stop-color="#2e3e4a"/>
+          </linearGradient>
+
+          <!-- Terrain -->
+          <linearGradient id="terrain-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#4a3b2e"/>
+            <stop offset="100%" stop-color="#2a1f14"/>
+          </linearGradient>
+
+          <!-- Dome -->
+          <radialGradient id="dome-g" cx="38%" cy="35%" r="60%">
+            <stop offset="0%"   stop-color="#c8d8e8"/>
+            <stop offset="70%"  stop-color="#8a9eb0"/>
+            <stop offset="100%" stop-color="#5a7080"/>
+          </radialGradient>
+
+          <!-- Filters -->
+          <filter id="f-glow-sm"  x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="f-glow-lg"  x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="f-shadow" x="-20%" y="-20%" width="140%" height="160%">
+            <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="rgba(0,0,0,0.55)"/>
+          </filter>
+          <filter id="f-blur-sm">
+            <feGaussianBlur stdDeviation="1.2"/>
+          </filter>
+          <filter id="f-blur-lg">
+            <feGaussianBlur stdDeviation="3"/>
+          </filter>
+
+          <!-- Aurora linear gradient -->
+          <linearGradient id="aurora1-g" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="#00d4ff" stop-opacity="0"/>
+            <stop offset="40%"  stop-color="#00d4ff" stop-opacity="0.06"/>
+            <stop offset="60%"  stop-color="#00ff88" stop-opacity="0.04"/>
+            <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- ═══════════════════════════════════════
+             LAYER 1: SKY
+             ═══════════════════════════════════════ -->
+        <rect width="1400" height="750" fill="url(#sky-g)"/>
+
+        <!-- Stars -->
+        <g opacity="0.55" fill="white">
+          <circle cx="82"  cy="42"  r="0.9"/><circle cx="210" cy="28"  r="0.7"/>
+          <circle cx="440" cy="68"  r="1.1"/><circle cx="580" cy="18"  r="0.7"/>
+          <circle cx="730" cy="55"  r="0.9"/><circle cx="920" cy="32"  r="1.0"/>
+          <circle cx="1100"cy="48"  r="0.8"/><circle cx="1290"cy="22"  r="0.7"/>
+          <circle cx="148" cy="110" r="0.8"/><circle cx="1185"cy="88"  r="1.1"/>
+          <circle cx="55"  cy="175" r="0.7"/><circle cx="1355"cy="140" r="0.8"/>
+          <circle cx="320" cy="88"  r="0.9"/><circle cx="858" cy="72"  r="0.7"/>
+          <circle cx="1045"cy="115" r="0.9"/><circle cx="680" cy="95"  r="0.6"/>
+        </g>
+
+        <!-- Aurora bands -->
+        <ellipse cx="500" cy="165" rx="380" ry="55" fill="url(#aurora1-g)" opacity="0.9"/>
+        <ellipse cx="900" cy="140" rx="320" ry="40" fill="url(#aurora1-g)" opacity="0.7"/>
+
+        <!-- ═══════════════════════════════════════
+             LAYER 2: DISTANT HILLS
+             ═══════════════════════════════════════ -->
+        <path d="M0,590 L60,570 L130,555 L210,568 L290,542 L365,558 L440,535
+                 L510,548 L580,522 L650,538 L720,518 L800,534 L880,515
+                 L960,530 L1050,512 L1130,528 L1210,515 L1300,532 L1400,520
+                 L1400,750 L0,750 Z"
+              fill="#221812" opacity="0.85"/>
+
+        <!-- Snow caps on distant hills -->
+        <path d="M60,570 L95,558 L130,555 L165,560" fill="none" stroke="#b0c8d8" stroke-width="1.2" opacity="0.35"/>
+        <path d="M290,542 L330,536 L365,558" fill="none" stroke="#b0c8d8" stroke-width="1" opacity="0.3"/>
+        <path d="M580,522 L615,516 L650,538" fill="none" stroke="#b0c8d8" stroke-width="1" opacity="0.28"/>
+        <path d="M880,515 L915,508 L960,530" fill="none" stroke="#b0c8d8" stroke-width="1" opacity="0.28"/>
+
+        <!-- ═══════════════════════════════════════
+             LAYER 3: FOREGROUND TERRAIN
+             ═══════════════════════════════════════ -->
+        <!-- Rocky Antarctic ground -->
+        <path d="M0,648 Q80,634 170,638 Q260,642 340,630 Q430,618 520,626
+                 Q610,634 680,628 Q750,622 840,630 Q930,638 1020,626
+                 Q1110,614 1200,624 Q1300,634 1400,628 L1400,750 L0,750 Z"
+              fill="url(#terrain-g)"/>
+
+        <!-- Ground texture: rock crack lines -->
+        <g stroke="#3a2c20" stroke-width="0.7" opacity="0.5" fill="none">
+          <path d="M80,658 L110,645 L140,655"/>
+          <path d="M290,640 L320,628 L355,638"/>
+          <path d="M900,640 L935,627 L970,638"/>
+          <path d="M1220,635 L1258,622 L1290,633"/>
+        </g>
+
+        <!-- Rock outcrops -->
+        <g fill="#312318">
+          <path d="M42,650 L82,630 L118,642 L112,660 L38,660 Z"/>
+          <path d="M1260,638 L1308,620 L1352,632 L1346,658 L1254,658 Z"/>
+          <path d="M1192,644 L1228,629 L1252,641 L1246,658 L1186,658 Z"/>
+        </g>
+        <g fill="#3e2d1e">
+          <path d="M48,648 L80,634 L108,644"/>
+          <path d="M1268,636 L1304,624 L1338,634"/>
+        </g>
+
+        <!-- Snow patches on ground -->
+        <g fill="#d8eaf5" filter="url(#f-blur-sm)">
+          <ellipse cx="95"  cy="646" rx="38" ry="9"/>
+          <ellipse cx="355" cy="640" rx="26" ry="6"/>
+          <ellipse cx="690" cy="642" rx="42" ry="8"/>
+          <ellipse cx="1060"cy="638" rx="32" ry="7"/>
+          <ellipse cx="1310"cy="642" rx="30" ry="7"/>
+        </g>
+        <!-- Snow highlights (crisp) -->
+        <g fill="white" opacity="0.6">
+          <ellipse cx="95"  cy="643" rx="22" ry="4"/>
+          <ellipse cx="690" cy="639" rx="26" ry="4"/>
+          <ellipse cx="1060"cy="635" rx="18" ry="3"/>
+        </g>
+
+        <!-- ═══════════════════════════════════════
+             LAYER 4: SITE INFRASTRUCTURE
+             ═══════════════════════════════════════ -->
+
+        <!-- ── SATCOM Satellite Dome (West exterior) ── -->
+        <!-- Base pedestal -->
+        <rect x="38" y="582" width="68" height="34" fill="#354555" rx="3"/>
+        <rect x="42" y="578" width="60" height="8"  fill="#2a3845" rx="2"/>
+        <!-- Main dome sphere -->
+        <ellipse cx="72" cy="578" rx="38" ry="38" fill="url(#dome-g)"/>
+        <!-- Dome equator ring -->
+        <ellipse cx="72" cy="584" rx="38" ry="9" fill="none" stroke="#5a7080" stroke-width="2"/>
+        <ellipse cx="72" cy="582" rx="38" ry="9" fill="#354555" opacity="0.3"/>
+        <!-- Dome highlight -->
+        <path d="M48,566 Q72,545 97,558" fill="none" stroke="white" stroke-width="1.5" opacity="0.3"/>
+        <!-- Base struts -->
+        <line x1="52" y1="616" x2="52" y2="648" stroke="#2a3845" stroke-width="3"/>
+        <line x1="92" y1="616" x2="92" y2="648" stroke="#2a3845" stroke-width="3"/>
+        <!-- Label -->
+        <text x="72" y="634" fill="#4a6a80" font-size="8" text-anchor="middle"
+              font-family="'JetBrains Mono',monospace">SATCOM</text>
+
+        <!-- Second smaller dome -->
+        <ellipse cx="28" cy="590" rx="20" ry="20" fill="#7a8e9e" opacity="0.65"/>
+        <ellipse cx="28" cy="596" rx="20" ry="6"  fill="#2a3845" opacity="0.5"/>
+        <ellipse cx="28" cy="596" rx="20" ry="6"  fill="none" stroke="#3a5060" stroke-width="1.2"/>
+
+        <!-- ── Fuel Storage Tanks (West, 3 cylinders) ── -->
+        <!-- Tank 1 (largest) -->
+        <rect x="138" y="590" width="50" height="46" fill="#4a5e6e" rx="3"/>
+        <ellipse cx="163" cy="590" rx="25" ry="8"  fill="#5a7080"/>
+        <ellipse cx="163" cy="636" rx="25" ry="8"  fill="#3a4e5e"/>
+        <line x1="138" y1="613" x2="188" y2="613" stroke="#3a4e5e" stroke-width="0.8"/>
+        <!-- Tank 2 -->
+        <rect x="196" y="594" width="44" height="40" fill="#4a5e6e" rx="3"/>
+        <ellipse cx="218" cy="594" rx="22" ry="7"  fill="#5a7080"/>
+        <ellipse cx="218" cy="634" rx="22" ry="7"  fill="#3a4e5e"/>
+        <!-- Tank 3 (small) -->
+        <rect x="247" y="600" width="30" height="32" fill="#4a5e6e" rx="2"/>
+        <ellipse cx="262" cy="600" rx="15" ry="5"  fill="#5a7080"/>
+        <ellipse cx="262" cy="632" rx="15" ry="5"  fill="#3a4e5e"/>
+        <!-- Pipe connecting tanks to building -->
+        <path d="M188,613 Q222,613 250,600" fill="none" stroke="#2a3e4e" stroke-width="4"/>
+
+        <!-- ── Shipping containers (west side) ── -->
+        <rect x="128" y="630" width="75" height="22" fill="#7a2018" rx="1"/>
+        <line x1="128" y1="641" x2="203" y2="641" stroke="#601810" stroke-width="0.6"/>
+        <line x1="165" y1="630" x2="165" y2="652" stroke="#601810" stroke-width="0.6"/>
+        <!-- Smaller blue container -->
+        <rect x="108" y="634" width="22" height="17" fill="#182070" rx="1"/>
+
+        <!-- ── Containers east side ── -->
+        <rect x="1168" y="630" width="65" height="20" fill="#722814" rx="1"/>
+        <rect x="1240" y="634" width="52" height="16" fill="#3a5018" rx="1"/>
+
+        <!-- ── Helipad (east exterior) ── -->
+        <ellipse cx="1198" cy="642" rx="42" ry="14" fill="#121e2e" opacity="0.85"/>
+        <ellipse cx="1198" cy="642" rx="36" ry="11" fill="none" stroke="#5a7080" stroke-width="1.8" stroke-dasharray="5,3.5"/>
+        <text x="1198" y="647" fill="#5a7a90" font-size="15" text-anchor="middle"
+              font-family="sans-serif" font-weight="bold">H</text>
+        <!-- Windsock mast near helipad -->
+        <line x1="1248" y1="648" x2="1248" y2="618" stroke="#5a6a7a" stroke-width="2"/>
+        <path d="M1248,620 L1265,622 L1262,628 L1248,627" fill="#cc8820" opacity="0.8"/>
+
+        <!-- ── Ground vehicle (snowcat) ── -->
+        <g transform="translate(514,624)" opacity="0.82">
+          <rect x="0"   y="0"  width="44" height="18" fill="#c07810" rx="2"/>
+          <rect x="6"   y="-7" width="20" height="9"  fill="#b06808" rx="1"/>
+          <!-- Cab window -->
+          <rect x="8"   y="-5" width="16" height="6"  fill="#1a3a5a" opacity="0.8" rx="1"/>
+          <!-- Tracks -->
+          <rect x="2"   y="16" width="14" height="5"  fill="#1a1a1a" rx="2"/>
+          <rect x="28"  y="16" width="14" height="5"  fill="#1a1a1a" rx="2"/>
+        </g>
+
+        <!-- ── Building ground shadow ── -->
+        <ellipse cx="620" cy="645" rx="490" ry="18" fill="black" opacity="0.28"/>
+
+        <!-- 3D Interactive Building Group -->
+        <g class="st-3d-bldg">
+
+        <!-- ═══════════════════════════════════════
+             LAYER 5: V-STILTS
+             Building elevated on V/W-shaped steel legs
+             Per architectural drawings: Groups at ~bay 2-3, 6-7, 10-11, 14-15, 18-19
+             H1 ground: y=645  H2 building floor: y=504
+             ═══════════════════════════════════════ -->
+
+        <!-- Stilt shadow pools -->
+        <g fill="#0a0808" opacity="0.45">
+          <ellipse cx="308" cy="645" rx="20" ry="5"/>
+          <ellipse cx="462" cy="645" rx="20" ry="5"/>
+          <ellipse cx="620" cy="645" rx="20" ry="5"/>
+          <ellipse cx="778" cy="645" rx="20" ry="5"/>
+          <ellipse cx="932" cy="645" rx="20" ry="5"/>
+        </g>
+
+        <!-- Back row of stilts (slightly behind, dimmer) -->
+        <g stroke="#384855" stroke-linecap="round" opacity="0.45" fill="none">
+          <line x1="278" y1="466" x2="312" y2="644" stroke-width="7"/>
+          <line x1="342" y1="466" x2="312" y2="644" stroke-width="7"/>
+          <line x1="432" y1="466" x2="466" y2="644" stroke-width="7"/>
+          <line x1="496" y1="466" x2="466" y2="644" stroke-width="7"/>
+          <line x1="590" y1="466" x2="624" y2="644" stroke-width="7"/>
+          <line x1="654" y1="466" x2="624" y2="644" stroke-width="7"/>
+          <line x1="748" y1="466" x2="782" y2="644" stroke-width="7"/>
+          <line x1="812" y1="466" x2="782" y2="644" stroke-width="7"/>
+          <line x1="902" y1="466" x2="936" y2="644" stroke-width="7"/>
+          <line x1="966" y1="466" x2="936" y2="644" stroke-width="7"/>
+        </g>
+
+        <!-- Front V-stilt groups (heavier, dominant) -->
+        <g stroke-linecap="round" fill="none">
+          <!-- ── Group 1: x=308 ── -->
+          <line x1="264" y1="504" x2="308" y2="644" stroke="#4a5c6c" stroke-width="11"/>
+          <line x1="352" y1="504" x2="308" y2="644" stroke="#3a4c5c" stroke-width="11"/>
+          <line x1="308" y1="504" x2="308" y2="644" stroke="#303c4a" stroke-width="5"/>
+          <!-- Foot plate -->
+          <rect x="291" y="640" width="34" height="7" fill="#28343f" rx="1.5" stroke="none"/>
+
+          <!-- ── Group 2: x=462 ── -->
+          <line x1="418" y1="504" x2="462" y2="644" stroke="#4a5c6c" stroke-width="11"/>
+          <line x1="506" y1="504" x2="462" y2="644" stroke="#3a4c5c" stroke-width="11"/>
+          <line x1="462" y1="504" x2="462" y2="644" stroke="#303c4a" stroke-width="5"/>
+          <rect x="445" y="640" width="34" height="7" fill="#28343f" rx="1.5" stroke="none"/>
+
+          <!-- ── Group 3: x=620 ── -->
+          <line x1="576" y1="504" x2="620" y2="644" stroke="#4a5c6c" stroke-width="11"/>
+          <line x1="664" y1="504" x2="620" y2="644" stroke="#3a4c5c" stroke-width="11"/>
+          <line x1="620" y1="504" x2="620" y2="644" stroke="#303c4a" stroke-width="5"/>
+          <rect x="603" y="640" width="34" height="7" fill="#28343f" rx="1.5" stroke="none"/>
+
+          <!-- ── Group 4: x=778 ── -->
+          <line x1="734" y1="504" x2="778" y2="644" stroke="#4a5c6c" stroke-width="11"/>
+          <line x1="822" y1="504" x2="778" y2="644" stroke="#3a4c5c" stroke-width="11"/>
+          <line x1="778" y1="504" x2="778" y2="644" stroke="#303c4a" stroke-width="5"/>
+          <rect x="761" y="640" width="34" height="7" fill="#28343f" rx="1.5" stroke="none"/>
+
+          <!-- ── Group 5: x=932 ── -->
+          <line x1="888" y1="504" x2="932" y2="644" stroke="#4a5c6c" stroke-width="11"/>
+          <line x1="976" y1="504" x2="932" y2="644" stroke="#3a4c5c" stroke-width="11"/>
+          <line x1="932" y1="504" x2="932" y2="644" stroke="#303c4a" stroke-width="5"/>
+          <rect x="915" y="640" width="34" height="7" fill="#28343f" rx="1.5" stroke="none"/>
+        </g>
+
+        <!-- ═══════════════════════════════════════
+             LAYER 6: BUILDING UNDERSIDE (H2 soffit)
+             Architectural cross-section: dark visible
+             underside between stilt tops and building
+             ═══════════════════════════════════════ -->
+        <!-- Main soffit — trapezoid from front bottom to back-right -->
+        <polygon points="218,504 1042,504 1122,466 298,466" fill="#121e28" opacity="0.97"/>
+        <!-- Soffit beam lines -->
+        <g stroke="#0a1520" stroke-width="0.6" opacity="0.6">
+          <line x1="264"  y1="504" x2="340"  y2="466"/>
+          <line x1="418"  y1="504" x2="494"  y2="466"/>
+          <line x1="576"  y1="504" x2="652"  y2="466"/>
+          <line x1="734"  y1="504" x2="810"  y2="466"/>
+          <line x1="888"  y1="504" x2="964"  y2="466"/>
+        </g>
+        <!-- Soffit bottom edge highlight -->
+        <line x1="218" y1="504" x2="1042" y2="504" stroke="#2a3a48" stroke-width="1.5"/>
+
+        <!-- ═══════════════════════════════════════
+             LAYER 7: BUILDING BODY
+             Based on architectural elevations H1-H4
+             Widths per level (from section drawing):
+               H4 (roof): x 228–1026  (798 px)
+               H3 (window strip): x 178–1074  (896 px, widest — flared)
+               H2 (floor): x 218–1042  (824 px)
+             ═══════════════════════════════════════ -->
+
+        <!-- ─ LOWER SECTION (H2→H3): Angled belly, wider at H3 ─ -->
+        <!-- Main lower face — ship-hull belly flare outward from H2 to H3 -->
+        <polygon points="218,504 1042,504 1074,374 178,374"
+                 fill="url(#bldg-lower-g)" filter="url(#f-shadow)"/>
+
+        <!-- Horizontal cladding panel striations (from architectural drawings) -->
+        <g stroke="#6a7e8e" stroke-width="0.6" opacity="0.45">
+          <line x1="181" y1="398" x2="1071" y2="398"/>
+          <line x1="184" y1="422" x2="1068" y2="422"/>
+          <line x1="188" y1="446" x2="1065" y2="446"/>
+          <line x1="193" y1="470" x2="1061" y2="470"/>
+        </g>
+
+        <!-- Lower section base edge (H2) -->
+        <line x1="218" y1="504" x2="1042" y2="504" stroke="#2a3a4a" stroke-width="2.5"/>
+        <!-- Lower section top edge (H3 transition) -->
+        <line x1="178" y1="374" x2="1074" y2="374" stroke="#9ab0c0" stroke-width="1.8"/>
+
+        <!-- Corner trim strips (metallic angle edge) — left and right sloped edges -->
+        <line x1="218" y1="504" x2="178" y2="374" stroke="#c0d4e4" stroke-width="2.5" opacity="0.8"/>
+        <line x1="1042"y1="504" x2="1074"y2="374" stroke="#c0d4e4" stroke-width="2.5" opacity="0.8"/>
+
+        <!-- ─ EAST SIDE FACE — lower section ─ -->
+        <polygon points="1042,504 1122,466 1154,334 1074,374"
+                 fill="url(#side-g)"/>
+
+        <!-- ─ WINDOW STRIP (H3→H4): The signature glazing band ─ -->
+        <!-- From east elevation: long continuous glass strip at upper level -->
+        <!-- Main glass -->
+        <polygon points="178,374 1074,374 1028,264 228,264"
+                 fill="url(#glass-g)"/>
+        <!-- Warm interior light overlay -->
+        <polygon points="178,374 1074,374 1028,264 228,264"
+                 fill="url(#interior-g)"/>
+
+        <!-- Window dividers (21-bay grid from architectural floor plan) -->
+        <!-- Each bay ~43 px wide at H3 base, ~38 px at H4 top -->
+        <g stroke="#7a9ab5" stroke-width="1.4" opacity="0.65">
+          <line x1="228" y1="264" x2="178" y2="374"/><!-- Left angled edge -->
+          <!-- 19 vertical pane dividers, evenly spaced -->
+          <line x1="271" y1="264" x2="276" y2="374"/>
+          <line x1="314" y1="264" x2="322" y2="374"/>
+          <line x1="357" y1="264" x2="368" y2="374"/>
+          <line x1="400" y1="264" x2="414" y2="374"/>
+          <line x1="443" y1="264" x2="460" y2="374"/>
+          <line x1="486" y1="264" x2="506" y2="374"/>
+          <line x1="529" y1="264" x2="552" y2="374"/>
+          <line x1="572" y1="264" x2="598" y2="374"/>
+          <line x1="615" y1="264" x2="644" y2="374"/>
+          <line x1="658" y1="264" x2="690" y2="374"/>
+          <line x1="701" y1="264" x2="736" y2="374"/>
+          <line x1="744" y1="264" x2="782" y2="374"/>
+          <line x1="787" y1="264" x2="828" y2="374"/>
+          <line x1="830" y1="264" x2="874" y2="374"/>
+          <line x1="873" y1="264" x2="920" y2="374"/>
+          <line x1="916" y1="264" x2="966" y2="374"/>
+          <line x1="959" y1="264" x2="1012"y2="374"/>
+          <line x1="1028"y1="264" x2="1074"y2="374"/><!-- Right angled edge -->
+        </g>
+
+        <!-- Glass reflections (diagonal light catches) -->
+        <g opacity="0.12" fill="white">
+          <polygon points="232,266 292,266 242,372 182,374"/>
+          <polygon points="445,266 500,266 456,372 401,372"/>
+          <polygon points="720,266 772,266 728,372 676,372"/>
+          <polygon points="958,266 1010,266 966,372 914,372"/>
+        </g>
+
+        <!-- Window frame edges -->
+        <line x1="178" y1="374" x2="1074" y2="374" stroke="#b0c8d8" stroke-width="2.8"/>
+        <line x1="228" y1="264" x2="1028" y2="264" stroke="#b0c8d8" stroke-width="2.8"/>
+        <!-- Window left/right angled frame edges -->
+        <line x1="228" y1="264" x2="178" y2="374" stroke="#c0d0e0" stroke-width="2.5"/>
+        <line x1="1028"y1="264" x2="1074"y2="374" stroke="#c0d0e0" stroke-width="2.5"/>
+
+        <!-- ─ EAST SIDE FACE — upper window section ─ -->
+        <polygon points="1028,264 1108,222 1154,334 1074,374"
+                 fill="#3e5060" opacity="0.9"/>
+        <!-- East face window band (right side visible glazing) -->
+        <rect x="1078" y="274" width="36" height="88" fill="#0a1828" opacity="0.7" rx="1"/>
+        <line x1="1090" y1="274" x2="1090" y2="362" stroke="#4a6a80" stroke-width="1" opacity="0.5"/>
+        <line x1="1102" y1="274" x2="1102" y2="362" stroke="#4a6a80" stroke-width="1" opacity="0.5"/>
+
+        <!-- ─ ROOF SURFACE (H4 top face, slightly visible from above) ─ -->
+        <polygon points="228,264 1028,264 1108,222 308,222"
+                 fill="url(#roof-g)" filter="url(#f-shadow)"/>
+
+        <!-- Roof edge lip -->
+        <line x1="228" y1="262" x2="1028" y2="262" stroke="#4a5e6e" stroke-width="1.2"/>
+
+        <!-- ─ ROOF DETAILS (from architectural plans: H4 equipment zone) ─ -->
+        <!-- Mechanical penthouse (west end, col 1-3) -->
+        <rect x="296" y="208" width="130" height="18" fill="#2e3e4e" rx="2"/>
+        <rect x="300" y="204" width="122" height="8"  fill="#3a4e5e" rx="1"/>
+        <!-- Penthouse windows -->
+        <rect x="308" y="207" width="18" height="8"  fill="#0a1828" opacity="0.8" rx="1"/>
+        <rect x="330" y="207" width="18" height="8"  fill="#0a1828" opacity="0.8" rx="1"/>
+        <rect x="352" y="207" width="18" height="8"  fill="#0a1828" opacity="0.8" rx="1"/>
+
+        <!-- Weather mast + anemometer (at approx col 9-10, centre-left) -->
+        <line x1="648" y1="222" x2="648" y2="182" stroke="#8a9eae" stroke-width="2.2"/>
+        <circle cx="648" cy="180" r="3"           fill="#a0b0c0"/>
+        <!-- Anemometer cups -->
+        <line x1="648" y1="194" x2="664" y2="191" stroke="#8a9eae" stroke-width="1.5"/>
+        <circle cx="666" cy="190" r="3.5"          fill="#c0d0df"/>
+        <line x1="648" y1="194" x2="632" y2="197" stroke="#8a9eae" stroke-width="1.5"/>
+        <circle cx="630" cy="198" r="3.5"          fill="#c0d0df"/>
+
+        <!-- Comms mast (col 17-18, right of centre) -->
+        <line x1="952" y1="226" x2="952" y2="184" stroke="#7a8e9e" stroke-width="2"/>
+        <line x1="930" y1="196" x2="974" y2="196" stroke="#7a8e9e" stroke-width="1.2"/>
+        <line x1="938" y1="204" x2="966" y2="204" stroke="#7a8e9e" stroke-width="1.2"/>
+        <circle cx="952" cy="183" r="3"            fill="#8a9eae"/>
+
+        <!-- Indian National Flag (south face, above H3 level, col 9 area) -->
+        <line x1="585" y1="222" x2="585" y2="185" stroke="#7a8a98" stroke-width="1.8"/>
+        <!-- Flag: saffron / white / green (proportional) -->
+        <rect x="585" y="185" width="28" height="7"  fill="#FF9933"/>
+        <rect x="585" y="192" width="28" height="7"  fill="#F5F5F5"/>
+        <rect x="585" y="199" width="28" height="7"  fill="#138808"/>
+        <!-- Ashoka Chakra (simplified blue wheel) -->
+        <circle cx="599" cy="193" r="3.2"             fill="none" stroke="#000080" stroke-width="0.9"/>
+        <line x1="599" y1="189.8" x2="599" y2="196.2" stroke="#000080" stroke-width="0.6"/>
+        <line x1="595.8" y1="193" x2="602.2" y2="193" stroke="#000080" stroke-width="0.6"/>
+        <line x1="596.7" y1="190.7" x2="601.3" y2="195.3" stroke="#000080" stroke-width="0.5"/>
+        <line x1="601.3" y1="190.7" x2="596.7" y2="195.3" stroke="#000080" stroke-width="0.5"/>
+
+        <!-- ─ LOWER FLOOR WINDOWS (H2 zone, vestibule row from floor plan) ─ -->
+        <!-- West end vestibule windows -->
+        <g fill="#07111e" opacity="0.9">
+          <rect x="240" y="418" width="32" height="24" rx="1"/>
+          <rect x="280" y="418" width="32" height="24" rx="1"/>
+        </g>
+        <!-- Glass reflection in small windows -->
+        <g fill="#142a46" opacity="0.5">
+          <rect x="240" y="418" width="15" height="24" rx="1"/>
+          <rect x="280" y="418" width="15" height="24" rx="1"/>
+        </g>
+        <!-- Generator ventilation grilles (west wall, ground floor G G G) -->
+        <g fill="#050e1a" opacity="0.85">
+          <rect x="220" y="456" width="28" height="18" rx="1"/>
+          <rect x="255" y="456" width="28" height="18" rx="1"/>
+        </g>
+        <!-- Vent grid lines -->
+        <g stroke="#0f2030" stroke-width="0.8">
+          <line x1="220" y1="461" x2="248" y2="461"/>
+          <line x1="220" y1="466" x2="248" y2="466"/>
+          <line x1="220" y1="471" x2="248" y2="471"/>
+          <line x1="255" y1="461" x2="283" y2="461"/>
+          <line x1="255" y1="466" x2="283" y2="466"/>
+          <line x1="255" y1="471" x2="283" y2="471"/>
+        </g>
+
+        <!-- ─ ENTRY STAIRS (East end, right side — from architectural drawings) ─ -->
+        <!-- Staircase on right/east end going up to H2 (vestibule level) -->
+        <!-- The section drawing shows stairs ascending at column A / east end -->
+        <g stroke="#6a7a8a" stroke-width="2" fill="none">
+          <line x1="1042" y1="504" x2="1075" y2="540"/>
+          <line x1="1048" y1="497" x2="1082" y2="533"/>
+          <line x1="1054" y1="490" x2="1088" y2="526"/>
+          <line x1="1060" y1="483" x2="1094" y2="519"/>
+          <line x1="1066" y1="476" x2="1100" y2="512"/>
+        </g>
+        <!-- Stair handrails -->
+        <line x1="1042" y1="504" x2="1085" y2="548" stroke="#8a9aaa" stroke-width="2.2"/>
+        <line x1="1066" y1="476" x2="1108" y2="520" stroke="#8a9aaa" stroke-width="1.5" opacity="0.6"/>
+
+        <!-- Entry door (H2 centre, col 8-9 per floor plan vestibule) -->
+        <rect x="596" y="464" width="38" height="44" fill="#060f1a" rx="2"/>
+        <line x1="615" y1="464" x2="615" y2="508" stroke="#101e2e" stroke-width="1"/>
+        <!-- Door panels -->
+        <rect x="600" y="467" width="13" height="38" fill="#0c1e30" rx="1"/>
+        <rect x="619" y="467" width="13" height="38" fill="#0c1e30" rx="1"/>
+        <!-- Handle -->
+        <circle cx="625" cy="488" r="2.5" fill="#5a7080"/>
+        <!-- Lintel -->
+        <rect x="593" y="460" width="44" height="5" fill="#3a5060"/>
+        
+        </g><!-- End 3D Interactive Building Group -->
+
+        <!-- ═══════════════════════════════════════
+             LAYER 8: HOTSPOT INDICATORS
+             Positions mapped from actual floor plans:
+             • power_plant → Ground floor west (Gen room)
+             • main_building → Centre building face
+             • fuel_storage → West exterior tanks
+             • hvac → Centre building lower floor
+             • comms_satcom → West exterior dome
+             • medical_bay → Upper floor col 14-16
+             • personnel_roster → Upper floor north/south perimeter
+             • environment_sensors → Roof H4
+             • heliport → East exterior
+             • vehicle_fleet → Front ground
+             ═══════════════════════════════════════ -->
+
+        <template x-for="asset in assets" :key="asset.id">
+          <g :id="'hotspot-' + asset.id"
+             class="hotspot-group"
+             :class="{ 'hs-stale': asset.stale }"
+             :style="`--hx: ${asset.svgX}px; --hy: ${asset.svgY}px; ` + (isVisible(asset)
+                       ? 'opacity:1; pointer-events:all; cursor:pointer'
+                       : 'opacity:0.1; pointer-events:none; cursor:default')"
+             tabindex="0"
+             role="button"
+             :aria-label="asset.label + ': ' + asset.status"
+             @click.stop="selectAsset(asset.id)"
+             @keydown.enter.stop="selectAsset(asset.id)"
+             @keydown.space.prevent.stop="selectAsset(asset.id)">
+
+            <title x-text="asset.label + ' — ' + asset.status.toUpperCase()"></title>
+
+            <!-- Outer pulse rings (critical only) -->
+            <circle r="24"
+                    fill="none"
+                    :stroke="getStatusColor(asset.status)"
+                    stroke-width="1.5"
+                    :class="asset.status === 'critical' ? 'hs-ring hs-ring-critical-1' : (asset.status === 'warning' ? 'hs-ring hs-ring-warning' : '')"
+                    opacity="0.6"/>
+            <circle r="24"
+                    fill="none"
+                    :stroke="getStatusColor(asset.status)"
+                    stroke-width="1.2"
+                    :class="asset.status === 'critical' ? 'hs-ring hs-ring-critical-2' : ''"
+                    opacity="0.35"/>
+
+            <!-- Connector line to label (goes down-right) -->
+            <line x1="10" y1="10" x2="26" y2="26"
+                  :stroke="getStatusColor(asset.status)"
+                  stroke-width="1" opacity="0.5" stroke-dasharray="3,2"/>
+
+            <!-- Main indicator circle -->
+            <circle class="hs-dot"
+                    r="10"
+                    :fill="getStatusColor(asset.status)"
+                    :class="activeAsset && activeAsset.id === asset.id ? 'hs-dot-selected' : ''"
+                    opacity="0.92"/>
+
+            <!-- Inner white core -->
+            <circle r="4" fill="white" opacity="0.85"/>
+
+            <!-- Stale desaturator (shown over dot when stale) -->
+            <circle r="10" fill="#0a1020" :opacity="asset.stale ? 0.55 : 0"/>
+
+            <!-- Label badge -->
+            <g transform="translate(28, 22)">
+              <rect x="-3"   y="-11" rx="3" ry="3"
+                    height="14" fill="#06111e" opacity="0.88"
+                    :width="asset.label.length * 5.8 + 10"/>
+              <text y="0"
+                    font-size="8.5"
+                    fill="#b0ccdf"
+                    font-family="'JetBrains Mono',monospace"
+                    font-weight="500"
+                    x-text="asset.label"/>
+              <!-- Stale warning under label -->
+              <text y="9" font-size="7" fill="#ff9f0a" font-family="'JetBrains Mono',monospace"
+                    x-show="asset.stale">⚠ STALE</text>
+            </g>
+          </g>
+        </template>
+
+      </svg><!-- end SVG -->
+    </div><!-- end svg-wrapper -->
+
+    <!-- ─── ASSET DETAIL SIDE PANEL ─── -->
+    <aside class="st-panel"
+           x-show="activeAsset !== null"
+           x-transition:enter="st-panel-enter"
+           x-transition:leave="st-panel-leave"
+           aria-label="Asset detail panel"
+           role="complementary">
+
+      <template x-if="activeAsset">
+        <div class="st-panel-content">
+
+          <!-- Header -->
+          <div class="st-panel-header">
+            <div>
+              <div class="st-panel-category"
+                   :class="'cat-' + activeAsset.category"
+                   x-text="activeAsset.category.toUpperCase()"></div>
+              <h2 class="st-panel-title" x-text="activeAsset.label"></h2>
+              <div class="st-panel-room"  x-text="activeAsset.room"></div>
+            </div>
+            <button @click="clearSelection()"
+                    class="st-close-btn"
+                    aria-label="Close panel">✕</button>
+          </div>
+
+          <!-- Status block -->
+          <div class="st-status-block" :class="'status-block-' + activeAsset.status">
+            <div class="st-status-icon" x-text="getStatusIcon(activeAsset.status)"></div>
+            <div>
+              <div class="st-status-label"
+                   :class="'text-status-' + activeAsset.status"
+                   x-text="activeAsset.status.toUpperCase()"></div>
+              <div class="st-priority-badge"
+                   :class="'priority-' + activeAsset.priority"
+                   x-text="activeAsset.priority"></div>
+            </div>
+          </div>
+
+          <!-- Main reading -->
+          <div class="st-reading">
+            <div class="st-reading-value">
+              <span x-text="typeof activeAsset.value === 'number'
+                              ? activeAsset.value.toFixed(activeAsset.decimals ?? 0)
+                              : activeAsset.value"></span>
+              <span class="st-reading-unit" x-text="activeAsset.unit"></span>
+            </div>
+            <div class="st-reading-label" x-text="activeAsset.description"></div>
+          </div>
+
+          <!-- Telemetry table -->
+          <div class="st-telemetry" x-show="activeAsset.telemetry && activeAsset.telemetry.length">
+            <template x-for="kv in activeAsset.telemetry" :key="kv.key">
+              <div class="st-telemetry-row">
+                <span class="st-telemetry-key"  x-text="kv.key"></span>
+                <span class="st-telemetry-val"
+                      :class="kv.alert ? 'st-telemetry-alert' : ''"
+                      x-text="kv.value + (kv.unit ? ' ' + kv.unit : '')"></span>
+              </div>
+            </template>
+          </div>
+
+          <!-- Staleness -->
+          <div class="st-timestamp" :class="activeAsset.stale ? 'st-timestamp-stale' : ''"
+               role="status" aria-live="polite">
+            <span x-text="activeAsset.stale ? '⚠' : '⟳'"></span>
+            <span>Updated: <strong x-text="formatTimeAgo(activeAsset.last_updated)"></strong></span>
+            <span x-show="activeAsset.stale" class="st-stale-badge">STALE</span>
+          </div>
+
+          <!-- Alert log -->
+          <div x-show="activeAsset.alerts && activeAsset.alerts.length > 0">
+            <div class="st-alerts-title">Alert Log</div>
+            <template x-for="alert in activeAsset.alerts.slice(0,5)" :key="alert.time + alert.message">
+              <div class="st-alert-item" :class="'alert-' + alert.level" role="listitem">
+                <span class="st-alert-time" x-text="alert.time"></span>
+                <span class="st-alert-msg"  x-text="alert.message"></span>
+              </div>
+            </template>
+          </div>
+
+          <!-- Actions -->
+          <div class="st-actions">
+            <button class="st-btn st-btn-ack"
+                    x-show="activeAsset.status !== 'ok' && activeAsset.status !== 'stale'"
+                    @click="acknowledgeAlert(activeAsset.id)"
+                    aria-label="Acknowledge alert">
+              ✓ Acknowledge Alert
+            </button>
+            <button class="st-btn st-btn-config"
+                    @click="adjustThreshold(activeAsset.id)"
+                    aria-label="Configure thresholds">
+              ⚙ Configure Thresholds
+            </button>
+            <button class="st-btn st-btn-log"
+                    @click="logCommand(activeAsset.id)"
+                    aria-label="Log manual action">
+              📋 Log Manual Action
+            </button>
+          </div>
+
+        </div>
+      </template>
+    </aside>
+
+  </main><!-- end st-main -->
+
+  <!-- ═══════════════════════════════════════════
+       BOTTOM STATUS BAR
+       ═══════════════════════════════════════════ -->
+  <footer class="st-statusbar" role="contentinfo" aria-label="System status summary">
+
+    <!-- Counts -->
+    <div class="st-sb-counts">
+      <span class="st-count st-count-critical"
+            x-text="'⛔ P0: ' + countByStatus('critical')"
+            :style="countByStatus('critical') > 0 ? 'text-shadow:0 0 8px #ff2d55' : ''"></span>
+      <span class="st-count st-count-warning"
+            x-text="'⚠ P1: ' + countByStatus('warning')"></span>
+      <span class="st-count st-count-ok"
+            x-text="'✓ OK: ' + countByStatus('ok')"></span>
+      <span class="st-count st-count-stale"
+            x-text="'⟳ Stale: ' + countByStatus('stale')"></span>
+    </div>
+
+    <!-- Ticker -->
+    <div class="st-sb-ticker" aria-live="polite">
+      <div class="st-ticker" x-text="tickerMessage" :key="tickerIndex"></div>
+    </div>
+
+    <!-- Right meta -->
+    <div class="st-sb-right">
+      <span>SIM <span class="st-mono" x-text="formatSimTime()"></span></span>
+      <span class="st-sep">|</span>
+      <span>Station: <span class="st-highlight">BHARATI</span></span>
+      <span class="st-sep">|</span>
+      <span>69.4°S 76.2°E</span>
+    </div>
+  </footer>
+
+</div><!-- end st-root -->
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/station_twin.js') }}"></script>
+{% endblock %}
