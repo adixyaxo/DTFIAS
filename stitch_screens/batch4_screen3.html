@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "telemetry-safe-bg": "#E8F4EE", "surface-variant": "#273834", "on-secondary": "#00382e", "error": "#ffb4ab", "on-secondary-container": "#83c5b4", "telemetry-critical": "#C44536", "tertiary-fixed": "#cde9d9", "on-tertiary-fixed": "#072016", "tertiary-fixed-dim": "#b1cdbd", "secondary-fixed-dim": "#91d3c2", "tertiary": "#b1cdbd", "inverse-surface": "#d3e7e0", "inverse-on-surface": "#23342f", "surface-container-lowest": "#02110d", "telemetry-critical-bg": "#FBE9E7", "on-background": "#d3e7e0", "surface-tint": "#b2ccc4", "surface-container-high": "#1c2d29", "primary-fixed": "#cee8e0", "background": "#051613", "on-secondary-fixed-variant": "#005144", "surface-bright": "#2b3d38", "on-tertiary-fixed-variant": "#334c40", "tertiary-container": "#1a3227", "surface-cream": "#F4F3ED", "telemetry-warning-bg": "#FFF3E3", "inverse-primary": "#4b635d", "on-error-container": "#ffdad6", "on-tertiary": "#1d352a", "on-primary-fixed-variant": "#344b46", "on-surface-variant": "#c2c8c5", "primary-fixed-dim": "#b2ccc4", "primary": "#b2ccc4", "surface-container": "#12231f", "telemetry-safe": "#2E7D5B", "on-primary": "#1e3530", "on-primary-container": "#819993", "secondary-container": "#015346", "surface-dim": "#051613", "surface-panel": "#223F39", "secondary-fixed": "#acf0de", "telemetry-info": "#2878A8", "error-container": "#93000a", "outline": "#8c928f", "on-primary-fixed": "#071f1b", "on-surface": "#d3e7e0", "on-tertiary-container": "#809b8c", "surface-cream-light": "#F8F7F2", "on-secondary-fixed": "#00201a", "on-error": "#690005", "outline-variant": "#424846", "surface-container-highest": "#273834", "surface-container-low": "#0d1f1b", "primary-container": "#1a312c", "surface": "#051613", "secondary": "#91d3c2", "telemetry-warning": "#D9822B", "telemetry-info-bg": "#E8F2F8" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-sm": "0.5rem", "space-xs": "0.25rem", "space-md": "0.75rem", "space-2xs": "0.125rem", "panel-gutter": "0.75rem", "canvas-margin": "1.5rem", "space-lg": "1.5rem", "space-xl": "2rem", "space-base": "1rem", "space-2xl": "3rem" }, "fontFamily": { "body-lg": ["Inter"], "body-md": ["Inter"], "title-sm": ["Inter"], "headline-xl-mobile": ["Inter"], "telemetry-code": ["Inter"], "headline-xl": ["Inter"], "display-lg": ["Inter"], "label-xs": ["Inter"], "headline-lg": ["Inter"], "headline-md": ["Inter"], "label-md": ["Inter"], "body-sm": ["Inter"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "title-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "telemetry-code": ["13px", { "lineHeight": "18px", "letterSpacing": "0.04em", "fontWeight": "500" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-xs": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 h-14 bg-surface-container-lowest/90 backdrop-blur-md"><div class="h-14 w-full px-canvas-margin flex items-center justify-between gap-panel-gutter"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><img alt="Clean modern vector logo emblem for Indian Antarctic Mission Command with stylized polar compass and subtle tricolor dot accent in dark deep green and teal. Design context: - Primary color: #1a312c - Font: inter - Mode: dark - Roundness: rounded-sm . The logo should be visually consistent with these brand tokens." class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WmulcB1HzfkxmeY76IcVjMHNoCYqPLLYlSF5JWTIX9cggoUqKexxIsDOIAW0WCgZSSLDUU2rJg60tpge45aC9vb2k8-BQwWf2ysMREe9JPys2eI-HqArlSZBYaVBuoDgCTBXoKmZmAkaLX6PnU5-UCeZfS4fVv_5hs_YbxDZ0cNiT5NlsQPBoeOt07KN8MwRzJLW4q0eEJQrbnYThVIde8_z8gZSpFzXvdn8Yo6onabBqXMenNynkoQ98"/><div class="flex flex-col justify-center"><div class="flex items-center gap-space-xs"><span class="font-label-xs text-label-xs tracking-wider uppercase text-primary">NCPOR</span><span class="font-label-xs text-label-xs text-outline-variant">//</span><span class="font-title-sm text-title-sm uppercase tracking-wide text-surface-cream">ANARCTIC</span></div><span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Govt. of India · MoES</span></div></div><div class="h-6 w-px bg-surface-variant hidden md:block"></div><div class="hidden md:flex items-center bg-surface-container-low px-space-sm py-space-2xs rounded"><span class="material-symbols-outlined text-[16px] text-secondary mr-space-xs">radar</span><div class="flex flex-col"><span class="font-label-xs text-label-xs text-on-surface-variant">ACTIVE DEPLOYMENT</span><button class="flex items-center gap-space-xs text-left"><span class="font-telemetry-code text-telemetry-code text-surface-cream">BHARATI (IN-ANT-BHT-02) · 69°24'S, 76°11'E</span><span class="material-symbols-outlined text-[14px] text-on-surface-variant">arrow_drop_down</span></button></div></div></div><div class="hidden xl:flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">schedule</span><span class="font-telemetry-code text-telemetry-code text-on-surface">14:32:08Z</span><span class="font-label-xs text-label-xs text-outline">UTC</span></div><div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">pin_drop</span><span class="font-telemetry-code text-telemetry-code text-secondary">19:32:08</span><span class="font-label-xs text-label-xs text-outline">LMT+05</span></div><div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded"><span class="inline-block w-2 h-2 rounded-full bg-telemetry-safe animate-pulse"></span><span class="font-telemetry-code text-telemetry-code text-surface-cream">GSAT-7A Ku</span><span class="font-label-xs text-label-xs text-secondary">99.4% (34ms)</span></div><div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded"><span class="font-label-xs text-label-xs uppercase text-telemetry-safe">DEFCON 5</span><span class="font-label-xs text-label-xs text-outline-variant">|</span><span class="font-label-xs text-label-xs text-on-surface-variant">NOMINAL</span></div></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex flex-col text-right"><span class="font-title-sm text-title-sm text-surface-cream leading-none">Cdr. P. Sharma</span><div class="flex items-center justify-end gap-space-2xs mt-space-2xs"><span class="font-label-xs text-label-xs text-secondary uppercase">Station Lead</span><span class="font-label-xs text-label-xs bg-primary-container text-on-primary-container px-space-2xs rounded">L-4</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><aside class="fixed left-0 top-14 bottom-0 w-64 bg-surface-container-lowest z-40 flex flex-col justify-between overflow-y-auto"><div class="py-space-md"><div class="px-panel-gutter mb-space-xs"><span class="font-label-xs text-label-xs uppercase tracking-widest text-outline">STATIONS OVERVIEW</span></div><nav class="flex flex-col gap-space-2xs px-space-sm mb-space-md" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="station-overview" href="#"><span class="material-symbols-outlined text-[18px]">grid_view</span><span class="font-body-md text-body-md">Station Overview</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="digital-twin" href="#"><span class="material-symbols-outlined text-[18px]">view_in_ar</span><span class="font-body-md text-body-md">2D Digital Twin</span></a></nav><div class="px-panel-gutter mb-space-xs"><span class="font-label-xs text-label-xs uppercase tracking-widest text-outline">ASSET INFRASTRUCTURE</span></div><nav class="flex flex-col gap-space-2xs px-space-sm mb-space-md" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="physical-asset-detail" href="#"><span class="material-symbols-outlined text-[18px]">precision_manufacturing</span><span class="font-body-md text-body-md">Physical Asset Detail</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs rounded transition-colors bg-primary-container text-on-primary-container font-semibold" data-path="telemetry-console" href="#"><span class="material-symbols-outlined text-[18px]">monitoring</span><span class="font-body-md text-body-md">Telemetry Console</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="asset-maintenance-timeline" href="#"><span class="material-symbols-outlined text-[18px]">history_toggle_off</span><span class="font-body-md text-body-md">Maintenance Timeline</span></a></nav><div class="px-panel-gutter mb-space-xs"><span class="font-label-xs text-label-xs uppercase tracking-widest text-outline">STATION OPERATIONS</span></div><nav class="flex flex-col gap-space-2xs px-space-sm mb-space-md" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="microgrid-energy" href="#"><span class="material-symbols-outlined text-[18px]">bolt</span><span class="font-body-md text-body-md">Microgrid &amp; Energy</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="life-support-hab" href="#"><span class="material-symbols-outlined text-[18px]">air</span><span class="font-body-md text-body-md">Life Support &amp; Hab</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="environmental-arrays" href="#"><span class="material-symbols-outlined text-[18px]">thermostat</span><span class="font-body-md text-body-md">Environmental Arrays</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="logistics-fuel-fleet" href="#"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span class="font-body-md text-body-md">Logistics &amp; Fuel Fleet</span></a></nav><div class="px-panel-gutter mb-space-xs"><span class="font-label-xs text-label-xs uppercase tracking-widest text-outline">INCIDENTS &amp; SAFETY</span></div><nav class="flex flex-col gap-space-2xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="alert-triage-matrix" href="#"><span class="material-symbols-outlined text-[18px]">warning</span><span class="font-body-md text-body-md">Alert Triage Matrix</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="protocol-simulation" href="#"><span class="material-symbols-outlined text-[18px]">play_circle</span><span class="font-body-md text-body-md">Protocol Simulation</span></a></nav></div><div class="p-panel-gutter bg-surface-container-low/60 m-space-sm rounded"><div class="flex items-center justify-between mb-space-2xs"><span class="font-label-xs text-label-xs text-outline uppercase">SYS-STATUS</span><span class="font-label-xs text-label-xs text-telemetry-safe">OPERATIONAL</span></div><div class="flex items-center justify-between text-on-surface-variant font-telemetry-code text-telemetry-code"><span>KERNEL 5.15-RT</span><span>LAT 69.4S</span></div></div></aside><div class="pl-64"><main class="w-full pt-14 px-panel-gutter bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-md mb-space-lg">
+<div class="flex flex-wrap items-center justify-between gap-panel-gutter bg-surface-container-low px-space-md py-space-sm rounded-xl">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-panel flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">precision_manufacturing</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-xs text-label-xs text-primary uppercase">POWER-BLOCK 01</span>
+<span class="font-label-xs text-label-xs text-outline-variant">/</span>
+<span class="font-label-xs text-label-xs text-secondary uppercase tracking-widest">BHARATI POLAR HAB-RING</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-surface-cream">CHP-GEN-03</span>
+<span class="font-telemetry-code text-telemetry-code text-on-surface-variant bg-surface-container-high px-space-xs py-space-2xs rounded">SCANIA DC13 · 320kVA</span>
+<div class="flex items-center gap-space-2xs bg-telemetry-safe-bg/10 px-space-xs py-space-2xs rounded">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe animate-pulse"></span>
+<span class="font-label-xs text-label-xs text-secondary uppercase font-semibold">SYNCHRONIZED (1000ms)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded-lg">
+<span class="font-label-xs text-label-xs text-outline uppercase">MESH SYNC</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream">DTN-02 [2s AGO]</span>
+<span class="font-label-xs text-label-xs text-secondary font-semibold">0 PKT LOSS</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded-lg">
+<span class="font-label-xs text-label-xs text-outline uppercase">THERMAL EXP</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream">88.4% EFF</span>
+</div>
+<button class="flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-panel hover:bg-surface-variant text-surface-cream font-label-md text-label-md rounded shadow-sm transition-transform active:scale-95" id="streamToggleBtn">
+<span class="material-symbols-outlined text-[16px] text-primary" id="streamIcon">pause</span>
+<span id="streamLabel">PAUSE STREAM</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-sm py-space-xs bg-secondary-container hover:bg-secondary text-on-secondary font-label-md text-label-md rounded shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>EXPORT CSV RAW</span>
+</button>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-panel-gutter bg-surface-container p-space-sm rounded-xl">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="font-label-xs text-label-xs text-outline uppercase tracking-wider mr-space-xs">PROBE FILTERS:</span>
+<button class="sensor-pill active flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-surface-panel text-secondary font-telemetry-code text-telemetry-code shadow-sm" data-probe="TT-103C">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>TT-103C (Thermal Jacket)</span>
+</button>
+<button class="sensor-pill active flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-surface-panel text-secondary font-telemetry-code text-telemetry-code shadow-sm" data-probe="PT-204">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>PT-204 (Fuel Rail)</span>
+</button>
+<button class="sensor-pill active flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-surface-panel text-secondary font-telemetry-code text-telemetry-code shadow-sm" data-probe="ST-09">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>ST-09 (Engine Speed)</span>
+</button>
+<button class="sensor-pill active flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-surface-panel text-secondary font-telemetry-code text-telemetry-code shadow-sm" data-probe="VT-02">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>VT-02 (Vibration RMS)</span>
+</button>
+<button class="sensor-pill active flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-surface-panel text-secondary font-telemetry-code text-telemetry-code shadow-sm" data-probe="E-PWR">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>E-PWR (Active kW)</span>
+</button>
+</div>
+<div class="flex items-center gap-space-2xs bg-surface-container-low p-space-2xs rounded-lg">
+<button class="time-range px-space-xs py-space-2xs rounded font-label-xs text-label-xs text-on-surface-variant hover:text-surface-cream hover:bg-surface-panel">15M</button>
+<button class="time-range px-space-xs py-space-2xs rounded font-label-xs text-label-xs text-on-surface-variant hover:text-surface-cream hover:bg-surface-panel">1H</button>
+<button class="time-range active px-space-xs py-space-2xs rounded font-label-xs text-label-xs bg-primary text-on-primary font-bold shadow-sm">6H</button>
+<button class="time-range px-space-xs py-space-2xs rounded font-label-xs text-label-xs text-on-surface-variant hover:text-surface-cream hover:bg-surface-panel">24H</button>
+<button class="time-range px-space-xs py-space-2xs rounded font-label-xs text-label-xs text-on-surface-variant hover:text-surface-cream hover:bg-surface-panel">7D</button>
+<div class="h-3 w-px bg-surface-variant mx-space-2xs"></div>
+<button class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded font-label-xs text-label-xs text-secondary hover:bg-surface-panel">
+<span class="material-symbols-outlined text-[14px]">calendar_clock</span>
+<span>EPOCH UTC</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-panel-gutter mb-space-lg">
+<div class="xl:col-span-8 flex flex-col gap-panel-gutter">
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col relative overflow-hidden">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-secondary">PRIMARY CO-GENERATION TELEMETRY</span>
+<span class="font-label-xs text-label-xs text-outline-variant">·</span>
+<span class="font-telemetry-code text-telemetry-code text-on-surface-variant">DUAL-CYCLE RATIO 1:1.24</span>
+</div>
+<span class="font-headline-md text-headline-md text-surface-cream">Active Electrical kW vs Hydronic Thermal Recovery kWth</span>
+</div>
+<div class="flex items-center gap-space-md bg-surface-container px-space-sm py-space-2xs rounded">
+<div class="flex items-center gap-space-2xs">
+<span class="w-3 h-1 rounded bg-secondary"></span>
+<span class="font-label-xs text-label-xs text-on-surface">Elec kW (80–130)</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<span class="w-3 h-1 rounded bg-telemetry-warning"></span>
+<span class="font-label-xs text-label-xs text-on-surface">Thermal kWth (100–160)</span>
+</div>
+</div>
+</div>
+<div class="relative w-full h-64 bg-surface-container-lowest rounded-lg p-space-xs flex flex-col justify-between">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none p-space-md opacity-30">
+<div class="w-full h-px bg-surface-variant"></div>
+<div class="w-full h-px bg-surface-variant"></div>
+<div class="w-full h-px bg-surface-variant"></div>
+<div class="w-full h-px bg-surface-variant"></div>
+<div class="w-full h-px bg-surface-variant"></div>
+</div>
+<div class="absolute inset-y-0 left-space-md flex flex-col justify-between text-left py-space-xs pointer-events-none z-10">
+<span class="font-telemetry-code text-label-xs text-secondary">130 kW</span>
+<span class="font-telemetry-code text-label-xs text-secondary">115 kW</span>
+<span class="font-telemetry-code text-label-xs text-secondary">100 kW</span>
+<span class="font-telemetry-code text-label-xs text-secondary">85 kW</span>
+</div>
+<div class="absolute inset-y-0 right-space-md flex flex-col justify-between text-right py-space-xs pointer-events-none z-10">
+<span class="font-telemetry-code text-label-xs text-telemetry-warning">160 kWth</span>
+<span class="font-telemetry-code text-label-xs text-telemetry-warning">140 kWth</span>
+<span class="font-telemetry-code text-label-xs text-telemetry-warning">120 kWth</span>
+<span class="font-telemetry-code text-label-xs text-telemetry-warning">100 kWth</span>
+</div>
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 700 240">
+<defs>
+<lineargradient id="elecGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#91d3c2" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#91d3c2" stop-opacity="0"></stop>
+</lineargradient>
+<lineargradient id="thermGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#D9822B" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#D9822B" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M 50 140 Q 120 120 180 145 T 320 110 T 450 125 T 580 95 T 660 102 L 660 220 L 50 220 Z" fill="url(#elecGrad)"></path>
+<path d="M 50 140 Q 120 120 180 145 T 320 110 T 450 125 T 580 95 T 660 102" fill="none" stroke="#91d3c2" stroke-linejoin="round" stroke-width="2.5"></path>
+<path d="M 50 90 Q 110 70 170 85 T 310 50 T 440 68 T 570 42 T 660 55 L 660 220 L 50 220 Z" fill="url(#thermGrad)"></path>
+<path d="M 50 90 Q 110 70 170 85 T 310 50 T 440 68 T 570 42 T 660 55" fill="none" stroke="#D9822B" stroke-linejoin="round" stroke-width="2.5"></path>
+<line opacity="0.6" stroke="#c2c8c5" stroke-dasharray="3 3" x1="570" x2="570" y1="20" y2="220"></line>
+<circle cx="570" cy="95" fill="#91d3c2" r="4" stroke="#02110d" stroke-width="2"></circle>
+<circle cx="570" cy="42" fill="#D9822B" r="4" stroke="#02110d" stroke-width="2"></circle>
+</svg>
+<div class="flex items-center justify-between text-on-surface-variant font-telemetry-code text-label-xs px-space-md pt-space-xs">
+<span>T-06h00 (08:32Z)</span>
+<span>T-04h30 (10:02Z)</span>
+<span>T-03h00 (11:32Z)</span>
+<span>T-01h30 (13:02Z)</span>
+<span class="text-surface-cream font-bold">CURRENT (14:32Z)</span>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm mt-space-md">
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-label-xs text-label-xs text-outline uppercase">CURRENT ACTIVE LOAD</span>
+<div class="flex items-baseline gap-space-xs mt-space-2xs">
+<span class="font-headline-md text-headline-md text-surface-cream">118.4</span>
+<span class="font-label-xs text-label-xs text-secondary">kW</span>
+</div>
+<span class="font-label-xs text-label-xs text-telemetry-safe">▲ +2.1% from setpoint</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-label-xs text-label-xs text-outline uppercase">HEAT RECOVERED</span>
+<div class="flex items-baseline gap-space-xs mt-space-2xs">
+<span class="font-headline-md text-headline-md text-surface-cream">148.9</span>
+<span class="font-label-xs text-label-xs text-telemetry-warning">kWth</span>
+</div>
+<span class="font-label-xs text-label-xs text-telemetry-safe">● Exchanger ΔT 14.8°C</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-label-xs text-label-xs text-outline uppercase">SPECIFIC FUEL CONS.</span>
+<div class="flex items-baseline gap-space-xs mt-space-2xs">
+<span class="font-headline-md text-headline-md text-surface-cream">204</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">g/kWh</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Polar Diesel #1 Arctic</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-label-xs text-label-xs text-outline uppercase">ANNUAL RUNTIME</span>
+<div class="flex items-baseline gap-space-xs mt-space-2xs">
+<span class="font-headline-md text-headline-md text-surface-cream">4,128</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">HRS</span>
+</div>
+<span class="font-label-xs text-label-xs text-secondary">Next service in 372h</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-md">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-secondary">THERMAL PROFILER</span>
+<span class="font-headline-md text-headline-md text-surface-cream">Thermal Dynamics &amp; Permafrost Cold-Bridge Gradient</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe"></span>
+<span class="font-label-xs text-label-xs text-surface-cream font-telemetry-code">STATION FOUNDATION: -14.2°C FROZEN</span>
+</div>
+</div>
+<div class="h-44 w-full bg-surface-container-lowest rounded-lg p-space-xs relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 700 160">
+<path d="M 0 35 Q 180 30 350 38 T 700 34" fill="none" stroke="#C44536" stroke-width="2"></path>
+<path d="M 0 78 Q 200 82 400 76 T 700 80" fill="none" stroke="#D9822B" stroke-width="2"></path>
+<path d="M 0 145 Q 150 142 350 148 T 700 144" fill="none" stroke="#2878A8" stroke-width="2"></path>
+</svg>
+<div class="absolute top-2 left-4 flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs font-telemetry-code text-label-xs">
+<span class="w-2 h-2 rounded-full bg-telemetry-critical"></span>
+<span class="text-surface-cream">Exhaust Gas: +412.6°C</span>
+<span class="text-outline">[T-LIM 450°C]</span>
+</div>
+<div class="flex items-center gap-space-xs font-telemetry-code text-label-xs">
+<span class="w-2 h-2 rounded-full bg-telemetry-warning"></span>
+<span class="text-surface-cream">Glycol Jacket Out: +88.3°C</span>
+<span class="text-outline">[NOM 85-92°C]</span>
+</div>
+<div class="flex items-center gap-space-xs font-telemetry-code text-label-xs">
+<span class="w-2 h-2 rounded-full bg-telemetry-info"></span>
+<span class="text-surface-cream">Ambient External: -32.8°C</span>
+<span class="text-outline">[WIND-CHILL -49°C]</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="xl:col-span-4 flex flex-col gap-panel-gutter">
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col h-full">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-secondary">SPECTRAL HARMONICS</span>
+<span class="font-headline-md text-headline-md text-surface-cream">FFT Vibration Spectrum</span>
+</div>
+<button class="p-space-2xs rounded bg-surface-container hover:bg-surface-panel text-secondary">
+<span class="material-symbols-outlined text-[18px]">equalizer</span>
+</button>
+</div>
+<div class="relative w-full h-52 bg-surface-container-lowest rounded-lg p-space-sm flex items-end justify-between gap-1 overflow-hidden">
+<div class="w-2 bg-secondary/20 rounded-t h-[15%]"></div>
+<div class="w-2 bg-secondary/30 rounded-t h-[22%]"></div>
+<div class="w-2 bg-secondary/40 rounded-t h-[18%]"></div>
+<div class="w-2 bg-secondary rounded-t h-[75%] relative">
+<span class="absolute -top-4 -left-2 font-telemetry-code text-[9px] text-secondary font-bold">25Hz</span>
+</div>
+<div class="w-2 bg-secondary/50 rounded-t h-[35%]"></div>
+<div class="w-2 bg-secondary/30 rounded-t h-[28%]"></div>
+<div class="w-2 bg-secondary/60 rounded-t h-[52%] relative">
+<span class="absolute -top-4 -left-2 font-telemetry-code text-[9px] text-secondary font-bold">50Hz</span>
+</div>
+<div class="w-2 bg-secondary/40 rounded-t h-[30%]"></div>
+<div class="w-2 bg-secondary/30 rounded-t h-[20%]"></div>
+<div class="w-2 bg-secondary/80 rounded-t h-[88%] relative">
+<span class="absolute -top-4 -left-2 font-telemetry-code text-[9px] text-telemetry-warning font-bold">100Hz</span>
+</div>
+<div class="w-2 bg-secondary/40 rounded-t h-[32%]"></div>
+<div class="w-2 bg-secondary/20 rounded-t h-[16%]"></div>
+<div class="w-2 bg-secondary/30 rounded-t h-[25%]"></div>
+<div class="w-2 bg-secondary/70 rounded-t h-[65%]"></div>
+<div class="w-2 bg-secondary/30 rounded-t h-[22%]"></div>
+<div class="w-2 bg-secondary/20 rounded-t h-[14%]"></div>
+<div class="w-2 bg-secondary/10 rounded-t h-[10%]"></div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-telemetry-code text-label-xs mt-space-xs px-space-xs">
+<span>10 Hz (Sub-harm)</span>
+<span>50 Hz (Main RPM)</span>
+<span>100 Hz (Crank)</span>
+<span>200 Hz</span>
+</div>
+<div class="flex flex-col gap-space-xs mt-space-md">
+<div class="flex items-center justify-between p-space-xs bg-surface-container rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant">BEDROCK ANCHOR RMS</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream">0.42 mm/s <span class="text-telemetry-safe">[OK]</span></span>
+</div>
+<div class="flex items-center justify-between p-space-xs bg-surface-container rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant">SKID ISOLATION DAMPING</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream">97.2% ATTN</span>
+</div>
+<div class="flex items-center justify-between p-space-xs bg-surface-container rounded">
+<span class="font-label-xs text-label-xs text-on-surface-variant">CYLINDER #4 KNOCK IDX</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream">0.08 <span class="text-telemetry-safe">[LOW]</span></span>
+</div>
+</div>
+<div class="mt-auto pt-space-md flex flex-col gap-space-xs">
+<button class="w-full py-space-xs bg-surface-panel hover:bg-surface-variant text-secondary font-label-md text-label-md rounded flex items-center justify-center gap-space-xs transition-colors">
+<span class="material-symbols-outlined text-[16px]">sensors</span>
+<span>TRIGGER FFT SPECTRUM CAPTURE</span>
+</button>
+<button class="w-full py-space-xs bg-surface-container hover:bg-surface-variant text-on-surface-variant font-label-md text-label-md rounded flex items-center justify-center gap-space-xs transition-colors">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>INJECT CALIBRATION PULSE</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-md mb-space-xl">
+<div class="flex flex-wrap items-center justify-between gap-panel-gutter mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-primary">hub</span>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-surface-cream">Diagnostic Status Matrix &amp; Probe Registry</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Field telemetry bus: RS485 Polar Shielded &amp; Optical CAN Isolated</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-telemetry-code text-label-xs text-on-surface-variant">8 OF 8 SENSORS ONLINE</span>
+<div class="w-2 h-2 rounded-full bg-telemetry-safe"></div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-xs text-label-xs uppercase tracking-wider">
+<th class="py-space-xs px-space-sm rounded-l">Probe ID</th>
+<th class="py-space-xs px-space-sm">Measurement Target</th>
+<th class="py-space-xs px-space-sm">Bus Protocol</th>
+<th class="py-space-xs px-space-sm">Telemetry Readout</th>
+<th class="py-space-xs px-space-sm">Calibrated Range</th>
+<th class="py-space-xs px-space-sm">Cert Expiry</th>
+<th class="py-space-xs px-space-sm rounded-r">Link Health</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface font-body-sm text-body-sm">
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-semibold">TT-103C</td>
+<td class="py-space-sm px-space-sm">Thermal Jacket Outflow Manifold</td>
+<td class="py-space-sm px-space-sm"><span class="bg-surface-panel text-secondary font-telemetry-code text-label-xs px-space-xs py-space-2xs rounded">Modbus-TCP</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-bold">88.34 <span class="text-on-surface-variant font-normal">°C</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">80.0 – 95.0 °C</td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">2026-11-14</td>
+<td class="py-space-sm px-space-sm">
+<span class="inline-flex items-center gap-space-2xs bg-telemetry-safe-bg/10 text-secondary px-space-xs py-space-2xs rounded font-label-xs text-label-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span> NOMINAL
+              </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container/20">
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-semibold">PT-204</td>
+<td class="py-space-sm px-space-sm">Common Fuel Rail Pressure</td>
+<td class="py-space-sm px-space-sm"><span class="bg-surface-panel text-secondary font-telemetry-code text-label-xs px-space-xs py-space-2xs rounded">CANopen</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-bold">1,820.5 <span class="text-on-surface-variant font-normal">bar</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">1600 – 2100 bar</td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">2027-02-01</td>
+<td class="py-space-sm px-space-sm">
+<span class="inline-flex items-center gap-space-2xs bg-telemetry-safe-bg/10 text-secondary px-space-xs py-space-2xs rounded font-label-xs text-label-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span> NOMINAL
+              </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-semibold">ST-09</td>
+<td class="py-space-sm px-space-sm">Primary Crankshaft Tachometer</td>
+<td class="py-space-sm px-space-sm"><span class="bg-surface-panel text-secondary font-telemetry-code text-label-xs px-space-xs py-space-2xs rounded">CANopen</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-bold">1,500.2 <span class="text-on-surface-variant font-normal">RPM (50.0 Hz)</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">1490 – 1515 RPM</td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">2026-08-30</td>
+<td class="py-space-sm px-space-sm">
+<span class="inline-flex items-center gap-space-2xs bg-telemetry-safe-bg/10 text-secondary px-space-xs py-space-2xs rounded font-label-xs text-label-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span> NOMINAL
+              </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container/20">
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-semibold">VT-02</td>
+<td class="py-space-sm px-space-sm">Skid Mount Tri-Axial Vibration</td>
+<td class="py-space-sm px-space-sm"><span class="bg-surface-panel text-secondary font-telemetry-code text-label-xs px-space-xs py-space-2xs rounded">Modbus-TCP</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-bold">1.42 <span class="text-on-surface-variant font-normal">mm/s RMS</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">0.00 – 2.80 mm/s</td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">2026-05-19</td>
+<td class="py-space-sm px-space-sm">
+<span class="inline-flex items-center gap-space-2xs bg-telemetry-safe-bg/10 text-secondary px-space-xs py-space-2xs rounded font-label-xs text-label-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span> NOMINAL
+              </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-semibold">E-PWR</td>
+<td class="py-space-sm px-space-sm">Alternator Stator Output Power</td>
+<td class="py-space-sm px-space-sm"><span class="bg-surface-panel text-secondary font-telemetry-code text-label-xs px-space-xs py-space-2xs rounded">Modbus-TCP</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-bold">118.4 <span class="text-on-surface-variant font-normal">kW (cos φ 0.88)</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">0 – 250 kW</td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">2028-01-10</td>
+<td class="py-space-sm px-space-sm">
+<span class="inline-flex items-center gap-space-2xs bg-telemetry-safe-bg/10 text-secondary px-space-xs py-space-2xs rounded font-label-xs text-label-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span> NOMINAL
+              </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container/20">
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-semibold">FL-04</td>
+<td class="py-space-sm px-space-sm">Secondary Return Hydronic Flow</td>
+<td class="py-space-sm px-space-sm"><span class="bg-surface-panel text-secondary font-telemetry-code text-label-xs px-space-xs py-space-2xs rounded">Modbus-TCP</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-bold">8,420 <span class="text-on-surface-variant font-normal">L/h</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">5000 – 12000 L/h</td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">2026-10-04</td>
+<td class="py-space-sm px-space-sm">
+<span class="inline-flex items-center gap-space-2xs bg-telemetry-safe-bg/10 text-secondary px-space-xs py-space-2xs rounded font-label-xs text-label-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span> NOMINAL
+              </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-semibold">OX-11</td>
+<td class="py-space-sm px-space-sm">Exhaust Zirconia Lambda Sensor</td>
+<td class="py-space-sm px-space-sm"><span class="bg-surface-panel text-secondary font-telemetry-code text-label-xs px-space-xs py-space-2xs rounded">CANopen</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-bold">428 <span class="text-on-surface-variant font-normal">ppm NOx</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">&lt; 650 ppm</td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">2025-12-30</td>
+<td class="py-space-sm px-space-sm">
+<span class="inline-flex items-center gap-space-2xs bg-telemetry-warning-bg/10 text-telemetry-warning px-space-xs py-space-2xs rounded font-label-xs text-label-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-warning"></span> DRIFT FLAGGED
+              </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container/20">
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-semibold">OT-301</td>
+<td class="py-space-sm px-space-sm">Lube Oil Sump Sump Temperature</td>
+<td class="py-space-sm px-space-sm"><span class="bg-surface-panel text-secondary font-telemetry-code text-label-xs px-space-xs py-space-2xs rounded">Modbus-TCP</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-surface-cream font-bold">91.12 <span class="text-on-surface-variant font-normal">°C</span></td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">80.0 – 105.0 °C</td>
+<td class="py-space-sm px-space-sm font-telemetry-code text-on-surface-variant">2027-04-15</td>
+<td class="py-space-sm px-space-sm">
+<span class="inline-flex items-center gap-space-2xs bg-telemetry-safe-bg/10 text-secondary px-space-xs py-space-2xs rounded font-label-xs text-label-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span> NOMINAL
+              </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-panel-gutter pb-space-lg">
+<div class="bg-surface-container-low p-space-md rounded-xl flex items-center gap-space-md shadow-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-panel flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[28px]">ac_unit</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-outline uppercase">SUB-ZERO INLET PRE-HEAT</span>
+<span class="font-title-sm text-title-sm text-surface-cream">+12.4°C / AIR MANIFOLD</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Glycol loop prevents airbox freeze</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl flex items-center gap-space-md shadow-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-panel flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[28px]">electric_bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-outline uppercase">MICROGRID SYNC BUS</span>
+<span class="font-title-sm text-title-sm text-surface-cream">PHASE LOCK 0.04°</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Coupled with Wind Turbine Array W-01</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl flex items-center gap-space-md shadow-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-panel flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[28px]">shield_with_heart</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-outline uppercase">AUTOMATED TRIP LIMITS</span>
+<span class="font-title-sm text-title-sm text-surface-cream">E-STOP ARMED</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Max trip delta 220ms on overspeed</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const streamBtn = document.getElementById('streamToggleBtn');
+    const streamLabel = document.getElementById('streamLabel');
+    const streamIcon = document.getElementById('streamIcon');
+    let isStreaming = true;
+
+    if (streamBtn) {
+      streamBtn.addEventListener('click', () => {
+        isStreaming = !isStreaming;
+        if (isStreaming) {
+          streamLabel.textContent = 'PAUSE STREAM';
+          streamIcon.textContent = 'pause';
+          streamBtn.classList.remove('bg-telemetry-warning', 'text-surface-container-lowest');
+          streamBtn.classList.add('bg-surface-panel', 'text-surface-cream');
+        } else {
+          streamLabel.textContent = 'RESUME STREAM';
+          streamIcon.textContent = 'play_arrow';
+          streamBtn.classList.remove('bg-surface-panel', 'text-surface-cream');
+          streamBtn.classList.add('bg-secondary-container', 'text-surface-cream');
+        }
+      });
+    }
+
+    const sensorPills = document.querySelectorAll('.sensor-pill');
+    sensorPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pill.classList.toggle('opacity-40');
+      });
+    });
+
+    const timeRanges = document.querySelectorAll('.time-range');
+    timeRanges.forEach(btn => {
+      btn.addEventListener('click', () => {
+        timeRanges.forEach(b => {
+          b.classList.remove('active', 'bg-primary', 'text-on-primary', 'font-bold');
+          b.classList.add('text-on-surface-variant');
+        });
+        btn.classList.add('active', 'bg-primary', 'text-on-primary', 'font-bold');
+        btn.classList.remove('text-on-surface-variant');
+      });
+    });
+  })();
+</script></main></div></body></html>
