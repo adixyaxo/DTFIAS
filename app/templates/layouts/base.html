@@ -5,6 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ title | default("Antarctic Digital Twin") }}{% endblock %}</title>
+    <!-- Google Fonts: Inter (UI), Playfair Display (headings), Playfair (body highlights) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Playfair:ital,opsz,wght@0,5..1200,300;0,5..1200,400;0,5..1200,500;0,5..1200,600;0,5..1200,700;1,5..1200,300;1,5..1200,400;1,5..1200,500&display=swap" rel="stylesheet">
+    <!-- DTFIAS Design Tokens -->
+    <style>
+        :root {
+            /* Brand palette */
+            --brand-deep-green: #1A312C;
+            --brand-teal: #428475;
+            --brand-mint: #C8E6D7;
+            --brand-cream: #F5F2EB;
+            --brand-cream-dark: #E8E3D9;
+            /* Status colours — light bg context */
+            --status-ok: #2E7D5B;
+            --status-info: #2878A8;
+            --status-warning: #D9822B;
+            --status-critical: #C44536;
+            /* Status bg tints */
+            --status-ok-bg: #E8F4EE;
+            --status-info-bg: #E8F2F8;
+            --status-warning-bg: #FFF3E3;
+            --status-critical-bg: #FBE9E7;
+            /* Typography */
+            --font-ui:      'Inter', system-ui, -apple-system, sans-serif;
+            --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+            --font-body:    'Playfair', Georgia, 'Times New Roman', serif;
+            --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+        }
+
+        body {
+            font-family: var(--font-ui);
+        }
+    </style>
     <!-- In a real app, serve these from /static/vendor/ -->
     <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -12,42 +46,53 @@
     {% block head %}{% endblock %}
 </head>
 
-<body class="bg-gray-100 text-gray-900 font-sans antialiased" hx-boost="true">
+<body class="antialiased" style="background-color: var(--brand-cream); color: #1A312C; font-family: var(--font-ui);"
+    hx-boost="true">
 
     <div class="min-h-screen flex flex-col">
-        <header class="bg-blue-900 text-white shadow-md">
+        <header style="background-color: var(--brand-deep-green); color: #fff;" class="shadow-md">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                <h1 class="text-2xl font-bold">DTFIAS</h1>
-                <nav>
+                <h1 class="text-2xl font-bold" style="letter-spacing: -0.01em;">DTFIAS</h1>
+                <nav class="flex items-center gap-4">
                     <!-- Conditional rendering based on role would go here -->
-                    <a href="/" class="hover:text-blue-200">Home</a>
-                    <a href="/auth/login" class="ml-4 hover:text-blue-200">Login</a>
+                    <a href="/" class="text-sm font-medium" style="color: var(--brand-mint); text-decoration: none;"
+                        onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--brand-mint)'">Home</a>
+                    <a href="/auth/login" class="text-sm font-medium"
+                        style="color: var(--brand-mint); text-decoration: none;" onmouseover="this.style.color='#fff'"
+                        onmouseout="this.style.color='var(--brand-mint)'">Login</a>
                 </nav>
             </div>
         </header>
 
         <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
             {% block content %}
-            <div class="bg-white p-6 rounded-lg shadow-sm text-center">
-                <h2 class="text-xl font-semibold mb-4">Welcome to the Antarctic Digital Twin</h2>
-                <p class="text-gray-600">The core engine and presentation layer have been scaffolded.</p>
+            <div class="bg-white p-6 rounded-lg shadow-sm text-center"
+                style="border: 1px solid var(--brand-cream-dark);">
+                <h2 class="text-xl font-semibold mb-4" style="color: var(--brand-deep-green);">Welcome to the Antarctic
+                    Digital Twin</h2>
+                <p style="color: #428475;">The core engine and presentation layer have been scaffolded.</p>
                 <div class="mt-6">
                     <button hx-get="/maitri" hx-target="#htmx-response"
-                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        style="background-color: var(--brand-teal); color: #fff; padding: 0.5rem 1rem; border-radius: 0.375rem; border: none; cursor: pointer; font-family: var(--font-ui); font-weight: 500; transition: background-color 0.15s ease;"
+                        onmouseover="this.style.backgroundColor='#1A312C'"
+                        onmouseout="this.style.backgroundColor='var(--brand-teal)'">
                         Test HTMX Request to /maitri
                     </button>
-                    <div id="htmx-response"
-                        class="mt-4 p-4 border border-dashed border-gray-300 rounded text-sm text-gray-700">
+                    <div id="htmx-response" class="mt-4 p-4 rounded text-sm"
+                        style="border: 1px dashed var(--brand-teal); color: var(--brand-deep-green);">
                         Response will appear here.
                     </div>
                 </div>
-                <h1> Alpine JS </h1>
-                <div x-data="{ open: false ,toggle(){this.open = !this.open}}">
+                <h1 class="mt-6 text-lg font-semibold" style="color: var(--brand-deep-green);">Alpine JS</h1>
+                <div x-data="{ open: false, toggle(){this.open = !this.open} }" class="mt-2">
                     <button @click="toggle"
-                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        style="background-color: var(--brand-teal); color: #fff; padding: 0.5rem 1rem; border-radius: 0.375rem; border: none; cursor: pointer; font-family: var(--font-ui); font-weight: 500;"
+                        onmouseover="this.style.backgroundColor='#1A312C'"
+                        onmouseout="this.style.backgroundColor='var(--brand-teal)'">
                         Toggle Dropdown
                     </button>
-                    <div x-show="open" class="bg-white p-4 border border-gray-200 rounded mt-2">
+                    <div x-show="open" class="bg-white p-4 rounded mt-2"
+                        style="border: 1px solid var(--brand-cream-dark);">
                         Dropdown Content
                     </div>
                 </div>
@@ -55,12 +100,13 @@
             {% endblock %}
         </main>
 
-        <footer class="bg-gray-800 text-white text-center py-4 mt-auto">
-            <p class="text-sm">&copy; 2026 Antarctic Digital Twin Project</p>
+        <footer style="background-color: var(--brand-deep-green); color: #fff;" class="text-center py-4 mt-auto">
+            <p class="text-sm" style="color: var(--brand-mint);">&copy; 2026 DTFIAS — Digital Twin for Indian Antarctic
+                Stations</p>
         </footer>
     </div>
 
-{% block scripts %}{% endblock %}
+    {% block scripts %}{% endblock %}
 </body>
 
 </html>
