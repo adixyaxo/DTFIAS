@@ -1,0 +1,88 @@
+<aside
+  class="hidden lg:flex fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex-col shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
+  <div class="h-14 px-space-base flex items-center gap-space-sm bg-surface-container"><span
+      class="material-symbols-outlined text-secondary text-[20px]">radar</span>
+    <div class="flex flex-col"><span
+        class="font-label-md text-label-md text-on-surface tracking-wider uppercase font-semibold">NCPOR POLAR
+        CMD</span><span class="font-label-xs text-label-xs text-on-surface-variant font-medium">EARTH SCIENCES •
+        GOI</span></div>
+  </div>
+  <div class="flex-1 overflow-y-auto px-space-sm py-space-md space-y-space-lg">
+    <div class="space-y-space-xs">
+      <div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">OVERVIEW</div>
+      <nav class="space-y-space-2xs">
+          <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/">
+            <span class="material-symbols-outlined text-[18px]">public</span><span>Antarctica Overview</span>
+          </a>
+          <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/stations' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/stations">
+            <span class="material-symbols-outlined text-[18px]">view_in_ar</span><span>Station Registry</span>
+          </a>
+      </nav>
+    </div>
+    
+    <div class="space-y-space-xs">
+      <div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">OPERATIONAL DOMAINS</div>
+      <nav class="space-y-space-2xs">
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/energy' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/energy">
+          <span class="material-symbols-outlined text-[18px]">electric_bolt</span><span>Microgrid &amp; Energy</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/environment' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/environment">
+          <span class="material-symbols-outlined text-[18px]">satellite_alt</span><span>Geospatial &amp; Science</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/logistics' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/logistics">
+          <span class="material-symbols-outlined text-[18px]">local_gas_station</span><span>Logistics &amp; Jet A-1</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/health' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/health">
+          <span class="material-symbols-outlined text-[18px]">monitor_heart</span><span>Health &amp; Readiness</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/research' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/research">
+          <span class="material-symbols-outlined text-[18px]">biotech</span><span>Research Operations</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/telemetry' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/telemetry">
+          <span class="material-symbols-outlined text-[18px]">sensors</span><span>Telemetry Streams</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/alerts' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/alerts">
+          <span class="material-symbols-outlined text-[18px]">warning</span><span>Alert Triage</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/commands' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/commands">
+          <span class="material-symbols-outlined text-[18px]">terminal</span><span>Command Dispatch</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/simulations' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/simulations">
+          <span class="material-symbols-outlined text-[18px]">science</span><span>Simulations</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/reports' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/reports">
+          <span class="material-symbols-outlined text-[18px]">summarize</span><span>Reports &amp; Compliance</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="space-y-space-xs">
+      <div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">ADMINISTRATION</div>
+      <nav class="space-y-space-2xs">
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/users' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/users">
+          <span class="material-symbols-outlined text-[18px]">group</span><span>Personnel &amp; Users</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/roles' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/roles">
+          <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span><span>Roles &amp; Matrix</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/assets' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/assets">
+          <span class="material-symbols-outlined text-[18px]">inventory_2</span><span>Physical Assets</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/audit' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/audit">
+          <span class="material-symbols-outlined text-[18px]">policy</span><span>Audit Logs</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/settings' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/settings">
+          <span class="material-symbols-outlined text-[18px]">settings</span><span>System Settings</span>
+        </a>
+      </nav>
+    </div>
+
+  </div>
+  <div class="p-space-base bg-surface-container-lowest space-y-space-xs font-telemetry-code text-telemetry-code">
+    <div class="flex items-center justify-between text-on-surface-variant"><span class="flex items-center gap-1.5"><span
+          class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span>AES-256 GCM</span><span
+        class="text-outline text-label-xs">SECURE</span></div>
+    <div class="flex items-center justify-between text-outline text-label-xs"><span>Node:
+        GOA-POLAR-GW</span><span>14:28:10 UTC</span></div>
+  </div>
+</aside>

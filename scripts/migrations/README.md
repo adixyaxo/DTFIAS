@@ -21,8 +21,8 @@ supabase link --project-ref <YOUR-PROJECT-REF>
 
 # Run the migration
 supabase db push
-# or run directly:
-psql "postgresql+asyncpg://postgres:[PASSWORD]@db.[REF].supabase.co:5432/postgres" -f scripts/migrations/001_initial_schema.sql
+# or run directly with psql (note: use standard postgresql://, not asyncpg driver scheme):
+psql "postgresql://postgres:[PASSWORD]@db.[REF].supabase.co:5432/postgres" -f scripts/migrations/001_initial_schema.sql
 ```
 
 ### Option C — psql directly
@@ -31,6 +31,8 @@ psql "postgresql+asyncpg://postgres:[PASSWORD]@db.[REF].supabase.co:5432/postgre
 psql "postgresql://postgres:[PASSWORD]@db.[REF].supabase.co:5432/postgres" \
      -f scripts/migrations/001_initial_schema.sql
 ```
+
+> **Driver Scheme Note**: Use `postgresql+asyncpg://...` exclusively for Python's SQLAlchemy `DATABASE_URL` in `.env`. Command-line utilities (`psql`, Supabase CLI) require standard `postgresql://...`.
 
 ---
 

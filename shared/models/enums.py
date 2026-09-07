@@ -1,0 +1,198 @@
+# shared/models/enums.py
+"""
+Canonical PostgreSQL Enumerations for DTFIAS.
+Matches scripts/migrations/001_initial_schema.sql and docs/database.md.
+"""
+from enum import StrEnum
+
+
+class StationStatus(StrEnum):
+    ACTIVE = "ACTIVE"
+    INACTIVE = "INACTIVE"
+    UNDER_MAINTENANCE = "UNDER_MAINTENANCE"
+    DECOMMISSIONED = "DECOMMISSIONED"
+
+
+class StationType(StrEnum):
+    RESEARCH_STATION = "RESEARCH_STATION"
+    SUMMER_CAMP = "SUMMER_CAMP"
+    FIELD_BASE = "FIELD_BASE"
+    RELAY_STATION = "RELAY_STATION"
+
+
+class StationId(StrEnum):
+    MAITRI = "maitri"
+    BHARATI = "bharati"
+    HQ = "hq"
+
+
+class ProfileStatus(StrEnum):
+    ACTIVE = "ACTIVE"
+    INACTIVE = "INACTIVE"
+    SUSPENDED = "SUSPENDED"
+
+
+class AssignmentStatus(StrEnum):
+    ACTIVE = "ACTIVE"
+    COMPLETED = "COMPLETED"
+    CANCELLED = "CANCELLED"
+
+
+class HealthStatus(StrEnum):
+    HEALTHY = "HEALTHY"
+    ILL = "ILL"
+    INJURED = "INJURED"
+    UNDER_OBSERVATION = "UNDER_OBSERVATION"
+    MEDICAL_LEAVE = "MEDICAL_LEAVE"
+    UNFIT = "UNFIT"
+
+
+class AssetStatus(StrEnum):
+    OPERATIONAL = "OPERATIONAL"
+    DEGRADED = "DEGRADED"
+    UNDER_MAINTENANCE = "UNDER_MAINTENANCE"
+    DECOMMISSIONED = "DECOMMISSIONED"
+    STANDBY = "STANDBY"
+
+
+class AssetCriticality(StrEnum):
+    CRITICAL = "CRITICAL"
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+    LOW = "LOW"
+
+
+class SensorStatus(StrEnum):
+    ACTIVE = "ACTIVE"
+    INACTIVE = "INACTIVE"
+    FAULTY = "FAULTY"
+    CALIBRATING = "CALIBRATING"
+
+
+class ReadingQuality(StrEnum):
+    GOOD = "GOOD"
+    UNCERTAIN = "UNCERTAIN"
+    BAD = "BAD"
+    MISSING = "MISSING"
+
+
+class EnergySourceType(StrEnum):
+    DIESEL = "DIESEL"
+    SOLAR = "SOLAR"
+    WIND = "WIND"
+    BATTERY = "BATTERY"
+    HYBRID = "HYBRID"
+
+
+class InventoryUnit(StrEnum):
+    LITRE = "LITRE"
+    KILOGRAM = "KILOGRAM"
+    UNIT = "UNIT"
+    METRE = "METRE"
+    KILOWATT_HOUR = "KILOWATT_HOUR"
+    BOX = "BOX"
+    PALLET = "PALLET"
+
+
+class TransactionType(StrEnum):
+    RECEIVED = "RECEIVED"
+    CONSUMED = "CONSUMED"
+    TRANSFERRED = "TRANSFERRED"
+    ADJUSTED = "ADJUSTED"
+    DISPOSED = "DISPOSED"
+
+
+class ShipmentStatus(StrEnum):
+    PLANNED = "PLANNED"
+    DISPATCHED = "DISPATCHED"
+    IN_TRANSIT = "IN_TRANSIT"
+    DELIVERED = "DELIVERED"
+    CANCELLED = "CANCELLED"
+
+
+class MaintenanceType(StrEnum):
+    INSPECTION = "INSPECTION"
+    PREVENTIVE = "PREVENTIVE"
+    CORRECTIVE = "CORRECTIVE"
+    EMERGENCY = "EMERGENCY"
+    CALIBRATION = "CALIBRATION"
+    UPGRADE = "UPGRADE"
+
+
+class MaintenanceStatus(StrEnum):
+    SCHEDULED = "SCHEDULED"
+    IN_PROGRESS = "IN_PROGRESS"
+    COMPLETED = "COMPLETED"
+    CANCELLED = "CANCELLED"
+    DEFERRED = "DEFERRED"
+
+
+class MaintenancePriority(StrEnum):
+    CRITICAL = "CRITICAL"
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+    LOW = "LOW"
+
+
+class CommandType(StrEnum):
+    SYSTEM_CONTROL = "SYSTEM_CONTROL"
+    SENSOR_CONTROL = "SENSOR_CONTROL"
+    ENERGY_CONTROL = "ENERGY_CONTROL"
+    LOGISTICS_CONTROL = "LOGISTICS_CONTROL"
+    PERSONNEL_CONTROL = "PERSONNEL_CONTROL"
+    ALERT_CONTROL = "ALERT_CONTROL"
+
+
+class CommandStatus(StrEnum):
+    PENDING = "PENDING"
+    RECEIVED = "RECEIVED"
+    VALIDATED = "VALIDATED"
+    REJECTED = "REJECTED"
+    EXECUTING = "EXECUTING"
+    EXECUTED = "EXECUTED"
+    FAILED = "FAILED"
+    EXPIRED = "EXPIRED"
+
+
+class AlertSeverity(StrEnum):
+    CRITICAL = "CRITICAL"
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+    LOW = "LOW"
+    INFO = "INFO"
+
+
+class AlertStatus(StrEnum):
+    ACTIVE = "ACTIVE"
+    ACKNOWLEDGED = "ACKNOWLEDGED"
+    RESOLVED = "RESOLVED"
+    EXPIRED = "EXPIRED"
+
+
+class ObservationType(StrEnum):
+    AIR_TEMPERATURE = "AIR_TEMPERATURE"
+    SNOW_OBSERVATION = "SNOW_OBSERVATION"
+    ICE_OBSERVATION = "ICE_OBSERVATION"
+    ATMOSPHERIC_PRESSURE = "ATMOSPHERIC_PRESSURE"
+    WIND_OBSERVATION = "WIND_OBSERVATION"
+    PRECIPITATION = "PRECIPITATION"
+    VISIBILITY = "VISIBILITY"
+    UV_INDEX = "UV_INDEX"
+    SEA_ICE_EXTENT = "SEA_ICE_EXTENT"
+
+
+class AccessLevel(StrEnum):
+    READ = "READ"
+    WRITE = "WRITE"
+    ADMIN = "ADMIN"
+
+
+class RoleEnum(StrEnum):
+    SUPER_ADMIN = "SUPER_ADMIN"
+    HQ_ADMIN = "HQ_ADMIN"
+    HQ_OPERATOR = "HQ_OPERATOR"
+    STATION_ADMIN = "STATION_ADMIN"
+    STATION_OPERATOR = "STATION_OPERATOR"
+    ENGINEER = "ENGINEER"
+    SCIENTIST = "SCIENTIST"
+    VIEWER = "VIEWER"

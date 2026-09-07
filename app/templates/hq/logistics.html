@@ -19,16 +19,16 @@
 <!-- Quick Actions / Filters -->
 <div class="flex flex-wrap items-center gap-space-xs">
 <div class="flex items-center bg-surface-container-lowest rounded-lg p-1 text-on-surface-variant font-label-xs">
-<button class="px-space-sm py-1 rounded bg-primary-container text-secondary font-label-md transition-colors" id="btn-all" onclick="filterTrajectories('all')">ALL OPERATIONS</button>
-<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors" id="btn-convoy" onclick="filterTrajectories('convoy')">CONVOYS (2)</button>
-<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors" id="btn-marine" onclick="filterTrajectories('marine')">VESSELS (1)</button>
-<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors" id="btn-air" onclick="filterTrajectories('air')">AIR-BRIDGE (1)</button>
+<button class="px-space-sm py-1 rounded bg-primary-container text-secondary font-label-md transition-colors active:scale-95" id="btn-all" onclick="filterTrajectories('all')">ALL OPERATIONS</button>
+<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors active:scale-95" id="btn-convoy" onclick="filterTrajectories('convoy')">CONVOYS (2)</button>
+<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors active:scale-95" id="btn-marine" onclick="filterTrajectories('marine')">VESSELS (1)</button>
+<button class="px-space-sm py-1 rounded hover:text-on-surface transition-colors active:scale-95" id="btn-air" onclick="filterTrajectories('air')">AIR-BRIDGE (1)</button>
 </div>
-<button class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md transition-colors">
+<button class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md transition-colors active:scale-95">
 <span class="material-symbols-outlined text-[16px] text-secondary">tune</span>
 <span>CREVASSE HAZARDS: ON</span>
 </button>
-<button class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container text-telemetry-warning font-label-md transition-colors">
+<button class="flex items-center gap-space-xs px-space-sm py-1.5 rounded bg-surface-container text-telemetry-warning font-label-md transition-colors active:scale-95">
 <span class="material-symbols-outlined text-[16px]">ac_unit</span>
 <span>BLIZZARD SCENARIO 04-A</span>
 </button>
@@ -115,10 +115,10 @@
 <div class="px-space-xs py-0.5 rounded bg-surface-container font-telemetry-code text-[11px] text-secondary">
               GPS BEACON FREQ: 406.037 MHz
             </div>
-<button class="p-1 rounded bg-surface-container text-on-surface-variant hover:text-secondary transition-colors" onclick="toggleRadarSweep()" title="Toggle Radar Animation">
+<button class="p-1 rounded bg-surface-container text-on-surface-variant hover:text-secondary transition-colors active:scale-95" onclick="toggleRadarSweep()" title="Toggle Radar Animation">
 <span class="material-symbols-outlined text-[18px]">radar</span>
 </button>
-<button class="p-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" onclick="resetMapView()" title="Recenter View">
+<button class="p-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors active:scale-95" onclick="resetMapView()" title="Recenter View">
 <span class="material-symbols-outlined text-[18px]">filter_center_focus</span>
 </button>
 </div>
@@ -128,6 +128,13 @@
 <!-- Ambient Tactical Polar Grid Background -->
 <svg class="absolute inset-0 w-full h-full pointer-events-none" id="polar-radar-svg" xmlns="http://www.w3.org/2000/svg">
 <defs>
+<style>
+  @keyframes dashFlow { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+  .animate-dash { animation: dashFlow 4s linear infinite; }
+  .animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  .animate-sweep { animation: sweepSpin 8s linear infinite; transform-origin: 50% 50%; }
+  @keyframes sweepSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
 <!-- Radial Polar Glow -->
 <radialgradient cx="50%" cy="50%" id="polarGlow" r="50%">
 <stop offset="0%" stop-color="#91d3c2" stop-opacity="0.14"></stop>
@@ -154,105 +161,107 @@
 <line stroke="#1c2d29" stroke-width="1" x1="5%" x2="95%" y1="50%" y2="50%"></line>
 <!-- Crevasse / Hazard Zone Polygons -->
 <!-- Danger Zone 1: Polar Plateau Shear Field -->
-<polygon fill="#C44536" fill-opacity="0.12" points="120,80 240,65 290,130 190,165 95,115" stroke="#C44536" stroke-dasharray="4,2" stroke-width="1.5"></polygon>
+<polygon fill="#C44536" fill-opacity="0.12" points="120,80 240,65 290,130 190,165 95,115" stroke="#C44536" stroke-dasharray="4,2" stroke-width="1.5" class="animate-pulse-slow"></polygon>
 <!-- Danger Zone 2: Blue Ice Glaze Slippage -->
-<polygon fill="#2878A8" fill-opacity="0.15" points="460,260 550,240 590,320 480,330" stroke="#2878A8" stroke-dasharray="2,2" stroke-width="1"></polygon>
+<polygon fill="#2878A8" fill-opacity="0.15" points="460,260 550,240 590,320 480,330" stroke="#2878A8" stroke-dasharray="2,2" stroke-width="1" class="animate-pulse-slow"></polygon>
 <!-- Weather Danger: Advancing Katabatic Front -->
-<path d="M 520,60 Q 640,110 740,190 T 840,320 L 890,280 L 840,30 Z" fill="url(#blizzardGrad)"></path>
+<path d="M 520,60 Q 640,110 740,190 T 840,320 L 890,280 L 840,30 Z" fill="url(#blizzardGrad)" class="animate-pulse-slow"></path>
 <!-- Traverse Route Bravo: Maitri to Maitri-II Survey (14km) -->
-<path class="opacity-80" d="M 230,340 Q 250,300 290,280 T 360,245" fill="none" id="route-bravo-path" stroke="#acf0de" stroke-dasharray="6,4" stroke-width="2.5"></path>
+<path class="opacity-80 animate-dash" d="M 230,340 Q 250,300 290,280 T 360,245" fill="none" id="route-bravo-path" stroke="#acf0de" stroke-dasharray="6,4" stroke-width="2.5"></path>
 <!-- Traverse Route Alpha: Bharati Coastal Shelf to Larsemann Ice Dome (32km) -->
 <path class="opacity-95" d="M 460,370 Q 520,330 580,360 T 710,310" fill="none" id="route-alpha-path" stroke="url(#routeAlphaGrad)" stroke-width="3.5"></path>
+<path class="opacity-50 animate-dash" d="M 460,370 Q 520,330 580,360 T 710,310" fill="none" stroke="#fff" stroke-dasharray="10,20" stroke-width="1.5"></path>
 <!-- Traverse Route Charlie: Heavy Sled Corridor to Coastal Ice Shelf (84km) -->
-<path d="M 230,340 Q 200,390 180,440 T 130,490" fill="none" id="route-charlie-path" stroke="#809b8c" stroke-dasharray="4,4" stroke-width="2"></path>
+<path class="animate-dash" d="M 230,340 Q 200,390 180,440 T 130,490" fill="none" id="route-charlie-path" stroke="#809b8c" stroke-dasharray="4,4" stroke-width="2"></path>
 <!-- Animated Radar Sweep Wedge -->
-<g class="origin-center animate-[spin_8s_linear_infinite]" id="radar-sweep-wedge">
+<g class="animate-sweep" id="radar-sweep-wedge">
 <path d="M 50% 50% L 90% 40% A 400 400 0 0 1 90% 60% Z" fill="#91d3c2" fill-opacity="0.08"></path>
+<line stroke="#91d3c2" stroke-opacity="0.4" stroke-width="1.5" x1="50%" x2="90%" y1="50%" y2="60%"></line>
 </g>
 </svg>
 <!-- Tactical HUD Location Elements & Beacons Layered Over Polar Map -->
 <div class="absolute inset-0 p-space-base pointer-events-auto">
 <!-- STATION 1: BHARATI (BHT-02) -->
-<div class="absolute top-[45%] right-[22%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer" onclick="selectFleetUnit('BHARATI_HUB')">
+<div class="absolute top-[45%] right-[22%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer active:scale-95 transition-transform" onclick="selectFleetUnit('BHARATI_HUB')">
 <div class="relative flex items-center justify-center">
 <span class="absolute w-8 h-8 rounded-full bg-secondary/20 animate-ping"></span>
 <div class="w-4 h-4 rounded bg-secondary flex items-center justify-center shadow-lg">
 <span class="w-1.5 h-1.5 rounded-full bg-surface-container-lowest"></span>
 </div>
 </div>
-<div class="mt-1 bg-surface-container-low/90 backdrop-blur-sm p-1.5 rounded shadow text-center whitespace-nowrap">
-<div class="font-label-xs text-secondary font-bold">BHARATI STATION</div>
+<div class="mt-1 bg-surface-container-lowest/80 backdrop-blur-md p-1.5 rounded shadow text-center whitespace-nowrap border border-surface-container-highest">
+<div class="font-label-xs text-secondary font-bold drop-shadow-sm">BHARATI STATION</div>
 <div class="font-telemetry-code text-[10px] text-on-surface-variant">69°24'S, 76°11'E</div>
 </div>
 </div>
 <!-- STATION 2: MAITRI (MTR-01) -->
-<div class="absolute top-[68%] left-[28%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer" onclick="selectFleetUnit('MAITRI_HUB')">
+<div class="absolute top-[68%] left-[28%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer active:scale-95 transition-transform" onclick="selectFleetUnit('MAITRI_HUB')">
 <div class="relative flex items-center justify-center">
 <span class="absolute w-7 h-7 rounded-full bg-primary/25"></span>
 <div class="w-4 h-4 rounded bg-primary flex items-center justify-center shadow-lg">
 <span class="w-1.5 h-1.5 rounded-full bg-surface-container-lowest"></span>
 </div>
 </div>
-<div class="mt-1 bg-surface-container-low/90 backdrop-blur-sm p-1.5 rounded shadow text-center whitespace-nowrap">
-<div class="font-label-xs text-primary font-bold">MAITRI STATION</div>
+<div class="mt-1 bg-surface-container-lowest/80 backdrop-blur-md p-1.5 rounded shadow text-center whitespace-nowrap border border-surface-container-highest">
+<div class="font-label-xs text-primary font-bold drop-shadow-sm">MAITRI STATION</div>
 <div class="font-telemetry-code text-[10px] text-on-surface-variant">70°45'S, 11°43'E</div>
 </div>
 </div>
 <!-- SURVEY SITE: MAITRI-II SURVEY SITE (MTR2-03) -->
-<div class="absolute top-[48%] left-[45%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer" onclick="selectFleetUnit('MAITRI_II_SITE')">
+<div class="absolute top-[48%] left-[45%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer active:scale-95 transition-transform" onclick="selectFleetUnit('MAITRI_II_SITE')">
 <div class="w-3.5 h-3.5 rounded-full bg-secondary-fixed/70 flex items-center justify-center shadow">
 <span class="w-1 h-1 rounded-full bg-surface-container-lowest"></span>
 </div>
-<div class="mt-1 bg-surface-container-low/80 backdrop-blur-sm px-1.5 py-0.5 rounded shadow whitespace-nowrap">
-<div class="font-label-xs text-tertiary">MAITRI-II ADVANCE SITE</div>
+<div class="mt-1 bg-surface-container-lowest/80 backdrop-blur-md px-1.5 py-0.5 rounded shadow whitespace-nowrap border border-surface-container-highest">
+<div class="font-label-xs text-tertiary drop-shadow-sm">MAITRI-II ADVANCE SITE</div>
 <div class="font-telemetry-code text-[9px] text-on-surface-variant">Dist: 14.2 km (NE)</div>
 </div>
 </div>
 <!-- ACTIVE TRACKED UNIT 1: PISTENBULLY 300 POLAR #PB-01 -->
-<div class="absolute top-[62%] right-[32%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20" id="unit-pb01" onclick="selectFleetUnit('PB-01')">
+<div class="absolute top-[62%] right-[32%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20 active:scale-95 transition-transform" id="unit-pb01" onclick="selectFleetUnit('PB-01')">
 <div class="relative flex items-center justify-center">
 <div class="w-5 h-5 rounded-full bg-telemetry-safe flex items-center justify-center shadow-md ring-2 ring-secondary">
 <span class="material-symbols-outlined text-[12px] text-surface-cream-light font-bold">navigation</span>
 </div>
 </div>
-<div class="mt-1 bg-surface-container-high/95 p-1.5 rounded shadow text-left border-l-2 border-secondary min-w-[130px]">
+<div class="mt-1 bg-surface-container-lowest/80 backdrop-blur-md p-1.5 rounded shadow text-left border-l-2 border-secondary min-w-[130px]">
 <div class="flex items-center justify-between">
-<span class="font-label-xs text-secondary font-bold">PB-01 (LEAD)</span>
+<span class="font-label-xs text-secondary font-bold drop-shadow-sm">PB-01 (LEAD)</span>
 <span class="font-label-xs text-telemetry-safe bg-telemetry-safe/20 px-1 rounded">8.2 km/h</span>
 </div>
-<div class="font-telemetry-code text-[10px] text-on-surface">Traverse-04 Bharati</div>
+<div class="font-telemetry-code text-[10px] text-on-surface drop-shadow-sm">Traverse-04 Bharati</div>
 <div class="font-telemetry-code text-[9px] text-on-surface-variant">HDG: 194° // 69°28'S</div>
 </div>
 </div>
 <!-- ACTIVE TRACKED UNIT 2: KÄSSBOHRER PB-100 #PB-03 (FUEL SLED) -->
-<div class="absolute top-[65%] right-[38%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20" id="unit-pb03" onclick="selectFleetUnit('PB-03')">
+<div class="absolute top-[65%] right-[38%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20 active:scale-95 transition-transform" id="unit-pb03" onclick="selectFleetUnit('PB-03')">
 <div class="w-4 h-4 rounded bg-secondary-container flex items-center justify-center shadow">
 <span class="material-symbols-outlined text-[10px] text-secondary">oil_barrel</span>
 </div>
-<div class="mt-1 bg-surface-container-high/90 p-1.5 rounded shadow text-left min-w-[120px]">
-<div class="font-label-xs text-secondary font-bold">PB-03 // FUEL SLED</div>
+<div class="mt-1 bg-surface-container-lowest/80 backdrop-blur-md p-1.5 rounded shadow text-left min-w-[120px] border border-surface-container-highest">
+<div class="font-label-xs text-secondary font-bold drop-shadow-sm">PB-03 // FUEL SLED</div>
 <div class="font-telemetry-code text-[10px] text-on-surface-variant">12kL Fuel Bladders</div>
 </div>
 </div>
 <!-- STATIONARY UNIT 3: TUCKER SNO-CAT #TC-02 (WAYPOINT ECHO) -->
-<div class="absolute top-[52%] left-[34%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20" id="unit-tc02" onclick="selectFleetUnit('TC-02')">
+<div class="absolute top-[52%] left-[34%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20 active:scale-95 transition-transform" id="unit-tc02" onclick="selectFleetUnit('TC-02')">
 <div class="w-4 h-4 rounded-full bg-telemetry-warning flex items-center justify-center shadow ring-2 ring-telemetry-warning/40">
 <span class="material-symbols-outlined text-[10px] text-surface-container-lowest">build</span>
 </div>
-<div class="mt-1 bg-surface-container-high/90 p-1.5 rounded shadow text-left min-w-[125px]">
+<div class="mt-1 bg-surface-container-lowest/80 backdrop-blur-md p-1.5 rounded shadow text-left min-w-[125px] border border-surface-container-highest">
 <div class="flex items-center justify-between">
-<span class="font-label-xs text-telemetry-warning font-bold">TC-02 // STAT</span>
+<span class="font-label-xs text-telemetry-warning font-bold drop-shadow-sm">TC-02 // STAT</span>
 <span class="font-label-xs text-on-surface-variant">WP-ECHO</span>
 </div>
-<div class="font-telemetry-code text-[9px] text-on-surface">Maint: Radar Calibration</div>
+<div class="font-telemetry-code text-[9px] text-on-surface drop-shadow-sm">Maint: Radar Calibration</div>
 </div>
 </div>
 <!-- AIR ROUTE: BASLER BT-67 IN-FLIGHT / ON-HOLD VECTOR -->
-<div class="absolute top-[22%] left-[32%] cursor-pointer group z-20" id="unit-basler" onclick="selectFleetUnit('BASLER-802')">
-<div class="flex items-center gap-space-xs bg-surface-container-high/95 p-1.5 rounded shadow">
-<span class="material-symbols-outlined text-[18px] text-telemetry-warning animate-bounce">flight</span>
+<div class="absolute top-[22%] left-[32%] cursor-pointer group z-20 active:scale-95 transition-transform" id="unit-basler" onclick="selectFleetUnit('BASLER-802')">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest/80 backdrop-blur-md p-1.5 rounded shadow border border-surface-container-highest">
+<span class="material-symbols-outlined text-[18px] text-telemetry-warning animate-bounce drop-shadow-sm">flight</span>
 <div>
-<div class="font-label-xs text-telemetry-warning font-bold">BAS-802 (BT-67)</div>
+<div class="font-label-xs text-telemetry-warning font-bold drop-shadow-sm">BAS-802 (BT-67)</div>
 <div class="font-telemetry-code text-[9px] text-on-surface-variant">WX HOLD @ TROLL</div>
 </div>
 </div>
@@ -353,7 +362,7 @@
 <span class="text-secondary">42% Prepared</span>
 </div>
 <div class="w-full bg-surface-container-highest h-2 rounded overflow-hidden">
-<div class="bg-secondary h-full rounded" style="width: 42%;"></div>
+<div class="bg-secondary h-full rounded transition-all duration-1000 ease-out" style="width: 42%;"></div>
 </div>
 </div>
 </div>
@@ -395,7 +404,7 @@
 <span class="text-telemetry-warning">100% READY // AWAITING WX GO</span>
 </div>
 <div class="w-full bg-surface-container-highest h-2 rounded overflow-hidden">
-<div class="bg-telemetry-warning h-full rounded" style="width: 100%;"></div>
+<div class="bg-telemetry-warning h-full rounded transition-all duration-1000 ease-out" style="width: 100%;"></div>
 </div>
 </div>
 </div>
@@ -503,11 +512,11 @@
 </div>
 <!-- Real-time Comm Link Action -->
 <div class="pt-space-xs flex items-center gap-space-sm">
-<button class="flex-1 flex items-center justify-center gap-space-xs py-2 px-space-sm rounded bg-secondary-container text-secondary font-label-md hover:bg-secondary hover:text-on-secondary transition-colors" onclick="pingConvoy()">
+<button class="flex-1 flex items-center justify-center gap-space-xs py-2 px-space-sm rounded bg-secondary-container text-secondary font-label-md hover:bg-secondary hover:text-on-secondary transition-colors active:scale-95" onclick="pingConvoy()">
 <span class="material-symbols-outlined text-[18px]">cell_tower</span>
 <span>SEND IRIDIUM COMMS PING</span>
 </button>
-<button class="p-2 rounded bg-surface-container text-on-surface-variant hover:text-on-surface" title="Emergency Transponder Listen">
+<button class="p-2 rounded bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors active:scale-95" title="Emergency Transponder Listen">
 <span class="material-symbols-outlined text-[20px]">volume_up</span>
 </button>
 </div>
@@ -534,7 +543,7 @@
 <span>Min Reserve: 3</span>
 </div>
 <div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
-<div class="bg-secondary h-full rounded" style="width: 80%;"></div>
+<div class="bg-secondary h-full rounded transition-all duration-1000 ease-out" style="width: 80%;"></div>
 </div>
 </div>
 <!-- Item 2 -->
@@ -548,7 +557,7 @@
 <span>Min Reserve: 4</span>
 </div>
 <div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
-<div class="bg-telemetry-warning h-full rounded" style="width: 35%;"></div>
+<div class="bg-telemetry-warning h-full rounded transition-all duration-1000 ease-out" style="width: 35%;"></div>
 </div>
 </div>
 <!-- Item 3 -->
@@ -562,7 +571,7 @@
 <span>Min Reserve: 8</span>
 </div>
 <div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
-<div class="bg-secondary h-full rounded" style="width: 90%;"></div>
+<div class="bg-secondary h-full rounded transition-all duration-1000 ease-out" style="width: 90%;"></div>
 </div>
 </div>
 <!-- Item 4 -->
@@ -576,7 +585,7 @@
 <span>Reserve: 100%</span>
 </div>
 <div class="w-full bg-surface-container-highest h-1 rounded overflow-hidden">
-<div class="bg-secondary h-full rounded" style="width: 94%;"></div>
+<div class="bg-secondary h-full rounded transition-all duration-1000 ease-out" style="width: 94%;"></div>
 </div>
 </div>
 </div>
@@ -599,10 +608,10 @@
     if (!sweep) return;
     sweepActive = !sweepActive;
     if (sweepActive) {
-      sweep.classList.add('animate-[spin_8s_linear_infinite]');
+      sweep.classList.add('animate-sweep');
       sweep.style.opacity = '1';
     } else {
-      sweep.classList.remove('animate-[spin_8s_linear_infinite]');
+      sweep.classList.remove('animate-sweep');
       sweep.style.opacity = '0';
     }
   }

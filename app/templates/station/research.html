@@ -1,0 +1,23 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+    <div>
+        <div class="flex items-center gap-space-sm mb-space-2xs">
+            <span class="material-symbols-outlined text-[24px] {% if station_id == 'bharati' %}text-secondary{% else %}text-tertiary{% endif %}">biotech</span>
+            <span class="font-telemetry-code text-label-md tracking-widest uppercase {% if station_id == 'bharati' %}text-secondary{% else %}text-tertiary{% endif %}">{{ station_id }} Local Science</span>
+        </div>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Science Operations</h1>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl border border-outline/10 p-space-md opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+    <div class="flex items-center justify-center py-20 flex-col gap-4">
+        <span class="material-symbols-outlined text-[64px] text-on-surface-variant/50">science</span>
+        <h3 class="font-body-lg text-on-surface">Local Lab Modules Active</h3>
+        <p class="text-on-surface-variant text-sm max-w-md text-center">Data is actively downlinking to the Continental HQ. Use the HQ Research dashboard to view continent-wide aggregates.</p>
+        <button class="glass-button px-4 py-2 mt-4 rounded border border-outline/20 text-on-surface">Open Lab Control Interface</button>
+    </div>
+</div>
+{% endblock %}

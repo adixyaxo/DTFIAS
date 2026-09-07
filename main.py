@@ -25,6 +25,6 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.include_router(main_router)
 
 
-@app.get("/")
-async def root():
-    return RedirectResponse(url="/hq/")
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    return templates.TemplateResponse(request=request, name="index.html")

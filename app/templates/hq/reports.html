@@ -1,0 +1,80 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+    <div>
+        <div class="flex items-center gap-space-sm mb-space-2xs">
+            <span class="material-symbols-outlined text-status-info text-[24px]">summarize</span>
+            <span class="font-telemetry-code text-label-md text-status-info tracking-widest uppercase">Documentation</span>
+        </div>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Reports & Compliance</h1>
+    </div>
+    <div class="flex gap-space-sm">
+        <button class="px-space-md py-space-xs rounded bg-status-info/10 border border-status-info/30 text-status-info font-label-md tracking-wider uppercase hover:bg-status-info/20 transition-colors flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[18px]">add</span> Generate Report
+        </button>
+    </div>
+</div>
+
+<!-- Main Content Area -->
+<div class="glass-card rounded-xl border border-outline/10 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards] p-space-md">
+    <div class="flex flex-col md:flex-row gap-space-md mb-space-md border-b border-outline/10 pb-space-sm">
+        <!-- Search and Filter -->
+        <div class="flex-1 flex gap-2">
+            <div class="flex-1 flex items-center bg-surface-container-lowest border border-outline/20 rounded px-3 py-1.5 focus-within:border-status-info/50 transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant text-[18px] mr-2">search</span>
+                <input type="text" placeholder="Search regulatory docs, ATSCM reports..." class="bg-transparent border-none outline-none text-sm text-on-surface w-full placeholder:text-on-surface-variant/50">
+            </div>
+            <button class="glass-button px-3 rounded border border-outline/20 flex items-center justify-center text-on-surface-variant hover:text-on-surface">
+                <span class="material-symbols-outlined text-[18px]">filter_list</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Reports Table -->
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-surface-container-lowest/50">
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Document ID</th>
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Type</th>
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Station</th>
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Date Filed</th>
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Status</th>
+                    <th class="p-space-sm"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline/5 font-ui text-sm">
+                <!-- Row 1 -->
+                <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+                    <td class="p-space-sm font-telemetry-code text-on-surface">ATCM-26-004</td>
+                    <td class="p-space-sm text-on-surface-variant">Environmental Impact (EIA)</td>
+                    <td class="p-space-sm text-on-surface">Bharati</td>
+                    <td class="p-space-sm text-on-surface-variant font-telemetry-code">2026-08-15</td>
+                    <td class="p-space-sm"><span class="px-2 py-0.5 rounded bg-status-ok/10 text-status-ok border border-status-ok/20 text-xs">Approved</span></td>
+                    <td class="p-space-sm text-right"><span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors text-[18px]">download</span></td>
+                </tr>
+                <!-- Row 2 -->
+                <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+                    <td class="p-space-sm font-telemetry-code text-on-surface">LOG-FWD-892</td>
+                    <td class="p-space-sm text-on-surface-variant">Vessel Manifest (Ivan Papanin)</td>
+                    <td class="p-space-sm text-on-surface">Continental</td>
+                    <td class="p-space-sm text-on-surface-variant font-telemetry-code">2026-09-02</td>
+                    <td class="p-space-sm"><span class="px-2 py-0.5 rounded bg-status-info/10 text-status-info border border-status-info/20 text-xs">Pending Review</span></td>
+                    <td class="p-space-sm text-right"><span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors text-[18px]">download</span></td>
+                </tr>
+                <!-- Row 3 -->
+                <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+                    <td class="p-space-sm font-telemetry-code text-on-surface">MED-INC-044</td>
+                    <td class="p-space-sm text-on-surface-variant">Medical Evac Post-Action</td>
+                    <td class="p-space-sm text-on-surface">Maitri</td>
+                    <td class="p-space-sm text-on-surface-variant font-telemetry-code">2026-07-22</td>
+                    <td class="p-space-sm"><span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant border border-outline/20 text-xs">Archived (Confidential)</span></td>
+                    <td class="p-space-sm text-right"><span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors text-[18px]">lock</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

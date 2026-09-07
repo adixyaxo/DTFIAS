@@ -1,21 +1,12 @@
-# ANARCTIC --- Frontend Endpoints, Stitch Prompts & Design System
+# DTFIAS --- Frontend Endpoints, Stitch Prompts & Design System
 
 ## Purpose
 
-This is the **frontend source of truth** for ANARCTIC, the Antarctic
-remote-operations and digital-twin platform. Use it to generate screens
-in Stitch and to keep the frontend implementation consistent.
+This is the **frontend source of truth** for DTFIAS, the Digital Twin for Indian Antarctic Stations remote-operations platform. Use it to generate screens in Stitch and keep the frontend implementation consistent.
 
-The visual concept is **scientific mission control + Antarctic
-operations + 2D/2.5D digital twin**. The station illustration is a
-spatial interface to operational data, not decorative artwork.
+The visual concept is **scientific mission control + Antarctic operations + 2D/2.5D digital twin**. The station illustration is a spatial interface to operational data, not decorative artwork.
 
-Project context: Maitri, Bharati, future expandable stations, and NCPOR
-HQ. The station reference material identifies Maitri as a
-research/logistics hub, Bharati as a research station hosting AGEOS,
-Maitri-II as a planned next-generation station with automated
-monitoring, and NCPOR HQ as the nodal operational context.
-fileciteturn1file0L10-L24 fileciteturn1file1L1-L7
+Project context: Maitri, Bharati, future expandable stations, and NCPOR HQ (National Centre for Polar and Ocean Research, Goa). The station reference material identifies Maitri as a research/logistics hub (Schirmacher Oasis), Bharati as a high-technology research station (Larsemann Hills), Maitri-II as a planned next-generation station with automated monitoring, and NCPOR HQ as the central operational authority.
 
 
 # Frontend Endpoints & Stitch Screen Mapping
@@ -25,7 +16,7 @@ This document categorizes all UI screens downloaded from the Stitch project and 
 ## 1. Authentication & Base
 | Stitch Screen File | Original Name | Target FastAPI Endpoint | Description |
 |--------------------|---------------|-------------------------|-------------|
-| `screen2.html` | ANARCTIC Secure Institutional Login Gateway | `/auth/login` | Main RBAC login screen. |
+| `screen2.html` | DTFIAS Secure Institutional Login Gateway | `/auth/login` | Main RBAC login screen. |
 | `screen3.html` | Institutional Password Recovery Screen | `/auth/recover` | Password recovery/reset view. |
 
 ## 2. HQ / Continental Command Center (`/hq`)
@@ -75,7 +66,7 @@ This document categorizes all UI screens downloaded from the Stitch project and 
 
 ## Product character
 
-ANARCTIC must feel:
+DTFIAS must feel:
 
 -   Scientific
 -   Operational
@@ -97,35 +88,37 @@ It must **not** feel like:
 -   decorative 3D showcase
 
 Use restrained geometry, strong hierarchy, compact technical data,
-generous whitespace and subtle state-driven motion.
+expanded premium whitespace (layout spacing has been globally increased by 30% to reduce congestion) and subtle hardware-accelerated core animations for interactive elements.
+
+## Layout & Animation Standard
+
+To maintain the premium minimalistic aesthetic:
+- **Spacing**: Do not tightly pack UI elements. Always use the globally enhanced Tailwind `space-*` and `panel-gutter` tokens which are pre-scaled for premium breathing room.
+- **Animation**: Do not use layout-thrashing animations. A global CSS rule sets a 0.25s ease-in-out transition for `opacity` and `transform` on interactive elements (buttons, inputs, cards, hotspots).
 
 ## Typography
 
-**Inter is the only font.**
+The DTFIAS typography stack uses a structured 4-font hierarchy matching `.agents/brand_design/SKILL.md`:
 
-Use it for:
-
--   headings
--   body
--   buttons
--   navigation
--   tables
--   dashboard data
--   labels
--   forms
--   telemetry
+| Font | Role | CSS Variable | Usage |
+|------|------|-------------|-------|
+| **Playfair Display** | Headings / Display | `--font-heading` | Page titles, hero banners, section headings, dashboard titles |
+| **Playfair** | Body / Editorial | `--font-body` | Narrative copy, station mission summaries, callouts, descriptions |
+| **Inter** | UI Chrome | `--font-ui` | Navigation, buttons, labels, form controls, tables, modal actions |
+| **JetBrains Mono** | Monospace / Data | `--font-mono` | Sensor telemetry values, timestamps, GPS coordinates, asset codes |
 
 Suggested scale:
 
-  Element                Size
-  --------------- -----------
-  Hero              48--64 px
-  Page title        32--40 px
-  Section title     22--28 px
-  Card title        16--18 px
-  Body              14--16 px
-  Secondary         12--14 px
-  KPI               28--40 px
+| Element | Size | Target Font |
+|---------|------|-------------|
+| Hero / Display | 48–64 px | Playfair Display (700) |
+| Page Title | 32–40 px | Playfair Display (600–700) |
+| Section Title | 22–28 px | Playfair Display (600) |
+| Card Title | 16–18 px | Inter (600) / Playfair Display |
+| Body Text | 14–16 px | Playfair (400–500) |
+| UI Chrome / Label | 12–14 px | Inter (400–600) |
+| KPI Headline | 28–40 px | Inter (700) / Playfair Display |
+| Telemetry / Code | 12–14 px | JetBrains Mono (500) |
 
 Weights: 400, 500, 600, 700.
 
@@ -133,26 +126,15 @@ Weights: 400, 500, 600, 700.
 
 # 2. Master Colour Palette
 
-## Brand
+## Brand Base Palette
 
-  -----------------------------------------------------------------------
-  Token                   Hex                     Use
-  ----------------------- ----------------------- -----------------------
-  Deep Green              `#1A312C`               header, navigation,
-                                                  dark backgrounds, major
-                                                  headings, footer
-
-  Teal Green              `#428475`               buttons, active states,
-                                                  section accents, icons,
-                                                  highlights
-
-  Light Mint              `#E8F3EF`               soft backgrounds,
-                                                  selected surfaces,
-                                                  hover states
-
-  Warm Off-White          `#F7F4ED`               primary application
-                                                  background
-  -----------------------------------------------------------------------
+| Token | Hex | CSS Variable | Use |
+|-------|-----|--------------|-----|
+| Deep Green | `#1A312C` | `--brand-deep-green` | Headers, navigation, dark backgrounds, major headings, footer |
+| Teal Green | `#428475` | `--brand-teal` | Buttons, active states, section accents, icons, highlights |
+| Light Mint | `#C8E6D7` | `--brand-mint` | Background sections, info cards, hover states (`#E8F3EF` light tint) |
+| Cream / Off-White | `#F5F2EB` | `--brand-cream` | Primary application background (`#F7F4ED` card surface) |
+| Cream Dark / Border | `#E8E3D9` | `--brand-cream-dark` | Borders, dividers, subtle separators (`#D8E0DC`) |
 
 ## Light surfaces
 
@@ -285,58 +267,53 @@ Avoid excessive pill-shaped UI.
 ## Public
 
 ``` text
-/
-/login
-/forgot-password
+/                  (Redirects to /hq/)
+/auth/login
+/auth/recover
 ```
 
 ## Station operations
 
 ``` text
-/app
-/app/overview
-/app/stations
-/app/stations/:stationId
-/app/stations/:stationId/digital-twin
-/app/stations/:stationId/environment
-/app/stations/:stationId/energy
-/app/stations/:stationId/logistics
-/app/stations/:stationId/personnel
-/app/stations/:stationId/health
-/app/stations/:stationId/research
-/app/stations/:stationId/telemetry
-/app/stations/:stationId/alerts
-/app/stations/:stationId/simulations
-/app/stations/:stationId/assets/:assetId
-/app/stations/:stationId/assets/:assetId/telemetry
-/app/stations/:stationId/assets/:assetId/history
+/{station_id}/                     (Dashboard)
+/{station_id}/twin                 (Digital Twin)
+/{station_id}/environment          (Geospatial & Science)
+/{station_id}/energy               (Microgrid)
+/{station_id}/infrastructure       (Life Support)
+/{station_id}/logistics            (Fuel & Supply)
+/{station_id}/personnel            (Roster)
+/{station_id}/health               (Medical Readiness)
+/{station_id}/research             (Operations)
+/{station_id}/telemetry            (Sensor Streams)
+/{station_id}/alerts               (Local Triage)
+/{station_id}/assets/:assetId
+/{station_id}/assets/:assetId/telemetry
+/{station_id}/assets/:assetId/history
 ```
 
-## Global views
+## Global views (NCPOR HQ)
 
 ``` text
-/app/environment
-/app/energy
-/app/logistics
-/app/personnel
-/app/health
-/app/research
-/app/telemetry
-/app/alerts
-/app/simulations
-/app/reports
+/hq/environment
+/hq/energy
+/hq/logistics
+/hq/health
+/hq/research
+/hq/telemetry
+/hq/alerts
+/hq/simulations
+/hq/reports
 ```
 
-## Administration
+## Administration (NCPOR HQ)
 
 ``` text
-/app/admin
-/app/admin/users
-/app/admin/roles
-/app/admin/stations
-/app/admin/assets
-/app/admin/audit
-/app/settings
+/hq/stations
+/hq/users
+/hq/roles
+/hq/assets
+/hq/audit
+/hq/settings
 ```
 
 ------------------------------------------------------------------------
@@ -495,10 +472,10 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/` --- Landing
 
-> Design the ANARCTIC landing page, an institutional Antarctic
+> Design the DTFIAS landing page, an institutional Antarctic
 > remote-operations and digital-twin platform. Use Inter exclusively.
 > Use Deep Green #1A312C, Teal Green #428475, Light Mint #E8F3EF and
-> Warm Off-White #F7F4ED. Create a calm scientific hero titled "ANARCTIC
+> Warm Off-White #F7F4ED. Create a calm scientific hero titled "DTFIAS
 > --- Antarctic Remote Operations & Digital Twin Platform". Show a
 > refined 2D/isometric Antarctic visual connecting Maitri, Bharati and
 > NCPOR HQ. Include mission, stations, environmental monitoring,
@@ -509,7 +486,7 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/login`
 
-> Design a secure institutional ANARCTIC login screen. Use Deep Green
+> Design a secure institutional DTFIAS login screen. Use Deep Green
 > #1A312C for the identity area, Warm Off-White #F7F4ED for the form
 > area and Teal Green #428475 for interaction. Use Inter. Include email,
 > password, sign-in, forgot password and authentication status. Use a
@@ -519,14 +496,14 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/forgot-password`
 
-> Design a minimal ANARCTIC password-recovery screen using Inter, Warm
+> Design a minimal DTFIAS password-recovery screen using Inter, Warm
 > Off-White #F7F4ED, Deep Green #1A312C and Teal Green #428475. Include
 > email, recovery action, success state and return-to-login. Match the
 > login design exactly.
 
 ## `/app/overview`
 
-> Design the ANARCTIC NCPOR command-center overview. This is the primary
+> Design the DTFIAS NCPOR command-center overview. This is the primary
 > authenticated screen. Use a structured sidebar and compact header.
 > Make an Antarctica operational map the dominant visual element,
 > showing Maitri and Bharati with operational and communication states.
@@ -539,12 +516,12 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/app/stations`
 
-> Design the ANARCTIC station directory for Maitri, Bharati and future
+> Design the DTFIAS station directory for Maitri, Bharati and future
 > stations. Treat stations as operational assets. Show location,
 > operational status, personnel, power, fuel, communications, alerts and
 > last synchronization. Use compact cards plus a comparison table.
 > Include an authorized-only "Add Station" action. Make future station
-> extensibility visually obvious. Use Inter and the exact ANARCTIC
+> extensibility visually obvious. Use Inter and the exact DTFIAS
 > palette.
 
 ## `/app/stations/:stationId`
@@ -554,13 +531,13 @@ Use pulsing only for meaningful warnings/critical events.
 > interactive-looking hotspots for power, research, medical, water,
 > waste, fuel, communications, environment and logistics. Surround it
 > with concise KPIs for personnel, energy, fuel, environment,
-> communications and alerts. Use the ANARCTIC palette and semantic
+> communications and alerts. Use the DTFIAS palette and semantic
 > states. The illustration must feel like a digital twin, not
 > decoration.
 
 ## `/app/stations/:stationId/digital-twin`
 
-> Design the dedicated ANARCTIC station digital-twin interface using a
+> Design the dedicated DTFIAS station digital-twin interface using a
 > clean 2D/isometric scientific illustration. The station model is the
 > dominant element. Add SVG/HTML hotspot markers and connector callouts
 > for power infrastructure, laboratories, medical, water, waste, fuel,
@@ -572,12 +549,12 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/app/stations/:stationId/assets/:assetId`
 
-> Design an ANARCTIC physical-asset detail screen. Show asset name,
+> Design an DTFIAS physical-asset detail screen. Show asset name,
 > type, station, operational state, condition, maintenance state, linked
 > sensors, key metrics, alerts and historical activity. Include a small
 > visual reference to the selected station object. Prioritize readable
 > engineering information over decorative cards. Use Inter and the
-> established ANARCTIC system.
+> established DTFIAS system.
 
 ## `/app/stations/:stationId/assets/:assetId/telemetry`
 
@@ -589,10 +566,10 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/app/stations/:stationId/assets/:assetId/history`
 
-> Design an asset history and maintenance timeline for ANARCTIC. Show
+> Design an asset history and maintenance timeline for DTFIAS. Show
 > state changes, alerts, maintenance events, telemetry anomalies and
 > important operational events chronologically. Use a dense but readable
-> technical timeline with filters. Preserve the ANARCTIC visual system.
+> technical timeline with filters. Preserve the DTFIAS visual system.
 
 ## `/app/stations/:stationId/environment`
 
@@ -676,7 +653,7 @@ Use pulsing only for meaningful warnings/critical events.
 > Maitri, Bharati and future stations. Include geographic context,
 > station comparison, current conditions, sensor health and time-series
 > trends. Use a scientific research-console aesthetic and the exact
-> ANARCTIC palette.
+> DTFIAS palette.
 
 ## `/app/energy`
 
@@ -713,18 +690,18 @@ Use pulsing only for meaningful warnings/critical events.
 > Design the cross-station scientific research operations dashboard.
 > Show projects, stations, research domains, personnel, equipment and
 > data-collection status. Use a calm scientific operations aesthetic
-> with the ANARCTIC palette.
+> with the DTFIAS palette.
 
 ## `/app/telemetry`
 
-> Design the global telemetry console for ANARCTIC. Allow filtering by
+> Design the global telemetry console for DTFIAS. Allow filtering by
 > station, asset, sensor, metric and time range. Show current values,
 > historical time-series charts and communication health. Use precise
 > engineering formatting and visible data freshness.
 
 ## `/app/alerts`
 
-> Design the global ANARCTIC alert-management console. Include filters
+> Design the global DTFIAS alert-management console. Include filters
 > for station, severity, category, source, status and time. Show concise
 > alert rows with timestamp and action state. Critical must be visually
 > obvious but not visually dominant when there are no critical events.
@@ -732,7 +709,7 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/app/simulations`
 
-> Design the global ANARCTIC scenario-planning workspace. Let users
+> Design the global DTFIAS scenario-planning workspace. Let users
 > choose station and scenario, configure parameters and run simulations.
 > Present baseline versus projected impact across energy, logistics,
 > infrastructure, personnel and alerts. Use a decision-support visual
@@ -740,7 +717,7 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/app/reports`
 
-> Design the ANARCTIC operational reporting interface. Include daily
+> Design the DTFIAS operational reporting interface. Include daily
 > station reports, energy, environment, logistics, personnel, incidents,
 > telemetry exports and compliance reports. Use a structured list and
 > document preview instead of oversized cards. Include
@@ -748,21 +725,21 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/app/admin`
 
-> Design the restricted ANARCTIC administration console. Include users,
+> Design the restricted DTFIAS administration console. Include users,
 > roles, stations, assets, permissions, system health and audit
 > activity. Use a denser technical layout while preserving the same
 > visual system. Make security and controlled access explicit.
 
 ## `/app/admin/users`
 
-> Design the ANARCTIC RBAC user-management screen. Show users, roles,
+> Design the DTFIAS RBAC user-management screen. Show users, roles,
 > station access, account status, last login and permission summaries.
 > Include search/filter/create/edit actions where authorized. Make
 > security administration clear and professional.
 
 ## `/app/admin/roles`
 
-> Design the ANARCTIC role and permission matrix. Cover stations,
+> Design the DTFIAS role and permission matrix. Cover stations,
 > infrastructure, telemetry, personnel, basic health, logistics,
 > research, alerts, simulations, reports and administration. Show
 > read/write/manage distinctions clearly. Preserve the institutional
@@ -777,23 +754,23 @@ Use pulsing only for meaningful warnings/critical events.
 
 ## `/app/admin/assets`
 
-> Design the ANARCTIC asset-administration interface. Show assets by
+> Design the DTFIAS asset-administration interface. Show assets by
 > station, type, model-object ID, status, sensor relationships and
 > configuration. Include authorized create/edit/archive controls. Make
 > the link between physical assets and digital-twin objects explicit.
 
 ## `/app/admin/audit`
 
-> Design the ANARCTIC audit-log interface. Show user, action, resource,
+> Design the DTFIAS audit-log interface. Show user, action, resource,
 > station, timestamp and result in a dense readable table. Include
 > filters by user, station, action and date. Communicate traceability
 > and accountability.
 
 ## `/app/settings`
 
-> Design the ANARCTIC user settings screen. Include profile,
+> Design the DTFIAS user settings screen. Include profile,
 > notifications, display, timezone, dashboard preferences and security.
-> Use a clean configuration layout and preserve the exact ANARCTIC
+> Use a clean configuration layout and preserve the exact DTFIAS
 > design system.
 
 ------------------------------------------------------------------------
@@ -802,7 +779,7 @@ Use pulsing only for meaningful warnings/critical events.
 
 Use this before generating the complete application:
 
-> Design the complete ANARCTIC frontend, an institutional Antarctic
+> Design the complete DTFIAS frontend, an institutional Antarctic
 > remote-operations and digital-twin platform for monitoring and
 > managing Indian Antarctic research stations. Support Maitri, Bharati
 > and future stations through a generic station architecture. Primary
@@ -906,7 +883,7 @@ established system for all other screens.
 
 # 12. Consistency Prompt
 
-> Continue ANARCTIC using the exact established design system from the
+> Continue DTFIAS using the exact established design system from the
 > previous screens. Do not invent a new visual language. Preserve Inter,
 > Deep Green #1A312C, Teal Green #428475, Light Mint #E8F3EF, Warm
 > Off-White #F7F4ED, the light/dark semantic status system, spacing,
@@ -918,12 +895,12 @@ established system for all other screens.
 
 # 13. Anti-Drift Prompt
 
-> Do not redesign ANARCTIC as a generic SaaS dashboard. Do not introduce
+> Do not redesign DTFIAS as a generic SaaS dashboard. Do not introduce
 > purple, neon cyan, neon green, random gradients, excessive
 > glassmorphism, giant rounded cards, cartoon illustrations, consumer
 > onboarding, excessive pill buttons or decorative 3D. Do not use
 > semantic red/blue arbitrarily. Preserve the institutional Antarctic
-> scientific aesthetic and exact ANARCTIC design tokens.
+> scientific aesthetic and exact DTFIAS design tokens.
 
 ------------------------------------------------------------------------
 
@@ -1023,7 +1000,7 @@ Include:
 The frontend skill must enforce:
 
 1.  Inter typography.
-2.  Exact ANARCTIC palette.
+2.  Exact DTFIAS palette.
 3.  Separate semantic light/dark tokens.
 4.  No arbitrary colors.
 5.  2D/isometric digital twin.
@@ -1053,7 +1030,7 @@ A screen is complete only when:
 ### Visual
 
 -   [ ] Inter
--   [ ] exact ANARCTIC colors
+-   [ ] exact DTFIAS colors
 -   [ ] no arbitrary colors
 -   [ ] correct light/dark semantic tokens
 -   [ ] consistent spacing
@@ -1099,7 +1076,7 @@ A screen is complete only when:
 
 # 19. Final Product Statement
 
-ANARCTIC should communicate:
+DTFIAS should communicate:
 
 > **A remote command interface for understanding and operating an
 > Antarctic research station.**

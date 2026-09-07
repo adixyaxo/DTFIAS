@@ -1,0 +1,64 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+    <div>
+        <div class="flex items-center gap-space-sm mb-space-2xs">
+            <span class="material-symbols-outlined text-on-surface-variant text-[24px]">settings</span>
+            <span class="font-telemetry-code text-label-md text-on-surface-variant tracking-widest uppercase">Configuration</span>
+        </div>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">System Settings</h1>
+    </div>
+    <div class="flex gap-space-sm">
+        <button class="px-space-md py-space-xs rounded bg-primary/10 border border-primary/30 text-primary font-label-md tracking-wider uppercase hover:bg-primary/20 transition-colors flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[18px]">save</span> Save Config
+        </button>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+    <div class="glass-card rounded-xl border border-outline/10 p-space-md col-span-1 md:col-span-2 space-y-space-md">
+        
+        <div class="space-y-4 border-b border-outline/10 pb-6">
+            <h3 class="font-body-lg text-on-surface font-medium" style="font-family: 'Playfair Display', serif;">Network & Uplink</h3>
+            <div class="flex justify-between items-center bg-surface-container-low p-4 rounded-lg border border-outline/10">
+                <div>
+                    <div class="font-ui text-on-surface mb-1">Satcom Failover</div>
+                    <div class="text-xs text-on-surface-variant">Automatically switch to low-bandwidth Iridium when Ku-band fails.</div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" value="" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+            </div>
+            <div class="flex justify-between items-center bg-surface-container-low p-4 rounded-lg border border-outline/10">
+                <div>
+                    <div class="font-ui text-on-surface mb-1">Telemetry Polling Rate</div>
+                    <div class="text-xs text-on-surface-variant">Frequency of data sync with polar stations.</div>
+                </div>
+                <select class="bg-surface-container-highest border border-outline/20 text-on-surface text-sm rounded focus:ring-primary focus:border-primary block p-2 outline-none">
+                    <option>Real-time (WebSocket)</option>
+                    <option selected>10s interval (SSE)</option>
+                    <option>60s interval</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <h3 class="font-body-lg text-on-surface font-medium" style="font-family: 'Playfair Display', serif;">Security & Sync</h3>
+            <div class="flex justify-between items-center bg-surface-container-low p-4 rounded-lg border border-outline/10">
+                <div>
+                    <div class="font-ui text-on-surface mb-1">Strict RBAC Enforcement</div>
+                    <div class="text-xs text-on-surface-variant">Deny all operations outside of explicit role grants.</div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" value="" class="sr-only peer" checked disabled>
+                    <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-status-ok opacity-70"></div>
+                </label>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

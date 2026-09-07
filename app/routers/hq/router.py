@@ -6,7 +6,7 @@ from app.config.templates import templates
 router = APIRouter(prefix="/hq", tags=["hq"])
 
 def render_hq(request: Request, name: str):
-    return templates.TemplateResponse(request=request, name=f"hq/{name}.html", context={})
+    return templates.TemplateResponse(request=request, name=f"hq/{name}.html", context={"station_id": "hq"})
 
 @router.get("/", response_class=HTMLResponse)
 async def hq_home(request: Request):
@@ -47,3 +47,35 @@ async def hq_telemetry(request: Request):
 @router.get("/alerts", response_class=HTMLResponse)
 async def hq_alerts(request: Request):
     return render_hq(request, "alerts")
+
+@router.get("/stations", response_class=HTMLResponse)
+async def hq_stations(request: Request):
+    return render_hq(request, "stations")
+
+@router.get("/commands", response_class=HTMLResponse)
+async def hq_commands(request: Request):
+    return render_hq(request, "commands")
+
+@router.get("/health", response_class=HTMLResponse)
+async def hq_health(request: Request):
+    return render_hq(request, "health")
+
+@router.get("/research", response_class=HTMLResponse)
+async def hq_research(request: Request):
+    return render_hq(request, "research")
+
+@router.get("/simulations", response_class=HTMLResponse)
+async def hq_simulations(request: Request):
+    return render_hq(request, "simulations")
+
+@router.get("/reports", response_class=HTMLResponse)
+async def hq_reports(request: Request):
+    return render_hq(request, "reports")
+
+@router.get("/roles", response_class=HTMLResponse)
+async def hq_roles(request: Request):
+    return render_hq(request, "roles")
+
+@router.get("/settings", response_class=HTMLResponse)
+async def hq_settings(request: Request):
+    return render_hq(request, "settings")

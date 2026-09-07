@@ -1,0 +1,87 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+    <div>
+        <div class="flex items-center gap-space-sm mb-space-2xs">
+            <span class="material-symbols-outlined text-status-info text-[24px]">monitor_heart</span>
+            <span class="font-telemetry-code text-label-md text-status-info tracking-widest uppercase">{{ station_id }} MED-BAY</span>
+        </div>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Medical Readiness</h1>
+    </div>
+    <div class="flex gap-space-sm">
+        <button class="px-space-md py-space-xs rounded bg-status-info/10 border border-status-info/30 text-status-info font-label-md tracking-wider uppercase hover:bg-status-info/20 transition-colors flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[18px]">add</span> Log Vitals
+        </button>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+    
+    <!-- Active Roster Vitals -->
+    <div class="glass-card rounded-xl border border-outline/10 p-space-md">
+        <div class="flex justify-between items-center mb-space-md">
+            <h3 class="font-body-lg text-on-surface font-medium" style="font-family: 'Playfair Display', serif;">Active Roster Vitals</h3>
+            <span class="px-2 py-1 rounded bg-status-ok/10 text-status-ok border border-status-ok/20 font-telemetry-code text-[10px] tracking-wider uppercase">ALL NOMINAL</span>
+        </div>
+        <div class="space-y-4">
+            <div class="flex items-center justify-between p-3 rounded bg-surface-container-lowest border border-outline/10">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-sm">RK</div>
+                    <div>
+                        <div class="font-ui text-sm text-on-surface">Dr. R. Kapoor</div>
+                        <div class="font-label-xs text-on-surface-variant">Medical Lead</div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="font-telemetry-code text-status-ok">68 BPM / 98%</div>
+                    <div class="font-label-xs text-on-surface-variant">Cleared for EVA</div>
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-between p-3 rounded bg-surface-container-lowest border border-outline/10">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-sm">MN</div>
+                    <div>
+                        <div class="font-ui text-sm text-on-surface">M. Nair</div>
+                        <div class="font-label-xs text-on-surface-variant">Glaciologist</div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="font-telemetry-code text-status-ok">74 BPM / 99%</div>
+                    <div class="font-label-xs text-on-surface-variant">Cleared for EVA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory & Telemed -->
+    <div class="flex flex-col gap-space-md">
+        <div class="glass-card rounded-xl border border-outline/10 p-space-md flex-1">
+            <h3 class="font-body-lg text-on-surface font-medium mb-space-sm" style="font-family: 'Playfair Display', serif;">Med-Bay Inventory</h3>
+            <div class="space-y-3 mt-4">
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="text-on-surface-variant">Emergency Oxygen</span>
+                        <span class="text-status-ok font-telemetry-code">92%</span>
+                    </div>
+                    <div class="w-full bg-surface-container-highest h-1.5 rounded overflow-hidden">
+                        <div class="bg-status-ok h-full rounded" style="width: 92%;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="text-on-surface-variant">Trauma Kits (Type A)</span>
+                        <span class="text-status-warning font-telemetry-code">4/12</span>
+                    </div>
+                    <div class="w-full bg-surface-container-highest h-1.5 rounded overflow-hidden">
+                        <div class="bg-status-warning h-full rounded" style="width: 33%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

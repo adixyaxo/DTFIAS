@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="min-h-screen bg-background text-on-surface">
-    {% include "components/sidebar.html" %}
+    {% include "components/sidebar_" ~ station_id ~ ".html" %}
     <div class="lg:pl-72 flex flex-col min-h-screen">
         {% include "components/topnav.html" %}
         <main class="relative flex-grow pt-14 w-full px-4 sm:px-6 lg:px-canvas-margin overflow-x-hidden">

@@ -1,23 +1,24 @@
-# Stage 1: Build Tailwind CSS
-FROM node:20-slim AS frontend-builder
+# DTFIAS Antarctic Stations Digital Twin — Production Container
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PORT=8000
+
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+# Install system dependencies if required for asyncpg/compilation
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY . .
-RUN npx tailwindcss -i ./app/static/css/input.css -o ./app/static/css/app.css --minify
-
-# Stage 2: Build Python Backend
-FROM python:3.11-slim
-WORKDIR /app
-
+# Install Python backend dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy application source code
 COPY . .
-# Copy built css from the frontend stage
-COPY --from=frontend-builder /app/app/static/css/app.css ./app/static/css/app.css
 
 EXPOSE 8000
+
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

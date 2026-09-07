@@ -176,8 +176,8 @@
 </div>
 <!-- Vector Interactive Schematic Canvas -->
 <div class="w-full overflow-x-auto bg-surface-container-lowest rounded p-space-base">
-<div class="min-w-[960px] relative">
-<svg class="w-full h-auto select-none" fill="none" viewbox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg">
+<div class="min-w-[1200px] relative">
+<svg class="w-full h-auto select-none" fill="none" viewbox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
 <!-- Background Grid Matrix -->
 <defs>
 <pattern height="40" id="grid" patternunits="userSpaceOnUse" width="40">
@@ -191,109 +191,155 @@
 <stop offset="0%" stop-color="#D9822B" stop-opacity="0.3"></stop>
 <stop offset="100%" stop-color="#D9822B" stop-opacity="0.9"></stop>
 </lineargradient>
+<style>
+  @keyframes flow-dash {
+    to { stroke-dashoffset: -40; }
+  }
+  .animate-flow {
+    animation: flow-dash 1.5s linear infinite;
+  }
+  .animate-flow-slow {
+    animation: flow-dash 3s linear infinite;
+  }
+</style>
 </defs>
-<rect fill="url(#grid)" height="320" width="1000"></rect>
+<rect fill="url(#grid)" height="400" width="1200"></rect>
+
 <!-- STAGE 1: Bunkering / Bulk Storage -->
-<g transform="translate(20, 30)">
-<rect class="fill-surface-container-low" height="260" rx="4" width="160" x="0" y="0"></rect>
-<text class="fill-outline font-label-xs uppercase font-bold tracking-wider" x="16" y="24">01 // BULK STORAGE</text>
-<text class="fill-on-surface font-title-sm font-semibold" x="16" y="44">Fuel Tanks ISO-1496</text>
+<g transform="translate(40, 50)" class="group cursor-pointer">
+<rect class="fill-surface-container-low/60 stroke-outline-variant/20 group-hover:stroke-outline-variant/60 transition-all duration-300 backdrop-blur-sm" height="260" rx="8" stroke-width="1" width="180" x="0" y="0"></rect>
+<text class="fill-outline font-label-xs uppercase font-bold tracking-wider" x="20" y="28">01 // BULK STORAGE</text>
+<text class="fill-on-surface font-title-sm font-semibold" x="20" y="50">Fuel Tanks ISO-1496</text>
+
 <!-- Tank 1: Bharati -->
-<rect class="fill-surface-panel" height="80" rx="3" width="128" x="16" y="60"></rect>
-<rect class="fill-secondary/20" height="60" rx="2" width="124" x="18" y="78"></rect>
-<text class="fill-on-surface font-body-sm font-semibold" x="24" y="80">Bharati Bunkers</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="24" y="98">242,000 L</text>
-<text class="fill-on-surface-variant font-label-xs" x="24" y="114">Tank Temp: -4.2°C</text>
-<text class="fill-outline font-label-xs" x="24" y="128">Viscosity: 2.1 cSt</text>
+<rect class="fill-surface-panel/80 stroke-outline-variant/10 group-hover:fill-surface-panel transition-all duration-300" height="80" rx="6" stroke-width="1" width="140" x="20" y="70"></rect>
+<rect class="fill-secondary/20" height="60" rx="4" width="136" x="22" y="88"></rect>
+<text class="fill-on-surface font-body-sm font-semibold" x="30" y="90">Bharati Bunkers</text>
+<text class="fill-secondary font-telemetry-code font-bold" x="30" y="110">242,000 L</text>
+<text class="fill-on-surface-variant font-label-xs" x="30" y="128">Tank Temp: -4.2°C</text>
+<text class="fill-outline font-label-xs" x="30" y="142">Viscosity: 2.1 cSt</text>
+
 <!-- Tank 2: Maitri -->
-<rect class="fill-surface-panel" height="80" rx="3" width="128" x="16" y="152"></rect>
-<rect class="fill-secondary/20" height="56" rx="2" width="124" x="18" y="174"></rect>
-<text class="fill-on-surface font-body-sm font-semibold" x="24" y="172">Maitri Bunkers</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="24" y="190">176,000 L</text>
-<text class="fill-on-surface-variant font-label-xs" x="24" y="206">Tank Temp: -6.8°C</text>
-<text class="fill-outline font-label-xs" x="24" y="220">Burn: 890 L/day</text>
+<rect class="fill-surface-panel/80 stroke-outline-variant/10 group-hover:fill-surface-panel transition-all duration-300" height="80" rx="6" stroke-width="1" width="140" x="20" y="160"></rect>
+<rect class="fill-secondary/20" height="56" rx="4" width="136" x="22" y="182"></rect>
+<text class="fill-on-surface font-body-sm font-semibold" x="30" y="182">Maitri Bunkers</text>
+<text class="fill-secondary font-telemetry-code font-bold" x="30" y="202">176,000 L</text>
+<text class="fill-on-surface-variant font-label-xs" x="30" y="220">Tank Temp: -6.8°C</text>
+<text class="fill-outline font-label-xs" x="30" y="234">Burn: 890 L/day</text>
 </g>
+
 <!-- PIPES: Bunkers to Generators -->
-<path d="M 180 100 C 230 100, 230 90, 260 90" stroke="#8c928f" stroke-dasharray="4 3" stroke-width="4"></path>
-<path d="M 180 190 C 230 190, 230 190, 260 190" stroke="#8c928f" stroke-dasharray="4 3" stroke-width="4"></path>
+<path d="M 220 120 C 270 120, 270 110, 320 110" stroke="#8c928f" stroke-dasharray="6 4" stroke-width="4" class="animate-flow-slow"></path>
+<path d="M 220 210 C 270 210, 270 210, 320 210" stroke="#8c928f" stroke-dasharray="6 4" stroke-width="4" class="animate-flow-slow"></path>
+
 <!-- STAGE 2: Generation Fleet -->
-<g transform="translate(260, 30)">
-<rect class="fill-surface-container-low" height="260" rx="4" width="180" x="0" y="0"></rect>
-<text class="fill-outline font-label-xs uppercase font-bold tracking-wider" x="16" y="24">02 // GENERATION FLEET</text>
-<text class="fill-on-surface font-title-sm font-semibold" x="16" y="44">Primary Prime Movers</text>
-<rect class="fill-surface-panel" height="50" rx="3" width="148" x="16" y="60"></rect>
-<circle class="fill-secondary animate-pulse" cx="28" cy="85" r="4"></circle>
-<text class="fill-on-surface font-body-sm font-medium" x="38" y="80">BHT Genset 01 &amp; 03</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="38" y="96">186.6 kW Output</text>
-<rect class="fill-surface-panel" height="42" rx="3" width="148" x="16" y="118"></rect>
-<circle class="fill-secondary" cx="28" cy="139" r="4"></circle>
-<text class="fill-on-surface font-body-sm font-medium" x="38" y="134">Renewables Array</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="38" y="148">112.6 kW (Wind/PV)</text>
-<rect class="fill-surface-panel" height="50" rx="3" width="148" x="16" y="168"></rect>
-<circle class="fill-secondary animate-pulse" cx="28" cy="193" r="4"></circle>
-<text class="fill-on-surface font-body-sm font-medium" x="38" y="188">MTR Kirloskar 01 &amp; 02</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="38" y="204">187.4 kW Output</text>
-<rect class="fill-surface-panel" height="34" rx="3" width="148" x="16" y="226"></rect>
-<circle class="fill-secondary-fixed" cx="28" cy="243" r="4"></circle>
-<text class="fill-on-surface font-label-xs font-medium" x="38" y="241">LiFePO4 BESS Storage</text>
-<text class="fill-secondary-fixed font-telemetry-code font-semibold" x="38" y="252">+40.0 kW Discharging</text>
+<g transform="translate(320, 40)" class="group cursor-pointer">
+<rect class="fill-surface-container-low/60 stroke-outline-variant/20 group-hover:stroke-outline-variant/60 transition-all duration-300 backdrop-blur-sm" height="280" rx="8" stroke-width="1" width="220" x="0" y="0"></rect>
+<text class="fill-outline font-label-xs uppercase font-bold tracking-wider" x="20" y="28">02 // GENERATION FLEET</text>
+<text class="fill-on-surface font-title-sm font-semibold" x="20" y="50">Primary Prime Movers</text>
+
+<g class="hover:opacity-80 transition-opacity">
+<rect class="fill-surface-panel" height="50" rx="6" width="180" x="20" y="70"></rect>
+<circle class="fill-secondary animate-pulse" cx="36" cy="95" r="5"></circle>
+<text class="fill-on-surface font-body-sm font-medium" x="50" y="90">BHT Genset 01 &amp; 03</text>
+<text class="fill-secondary font-telemetry-code font-bold" x="50" y="108">186.6 kW Output</text>
 </g>
+
+<g class="hover:opacity-80 transition-opacity">
+<rect class="fill-surface-panel" height="42" rx="6" width="180" x="20" y="130"></rect>
+<circle class="fill-secondary" cx="36" cy="151" r="5"></circle>
+<text class="fill-on-surface font-body-sm font-medium" x="50" y="146">Renewables Array</text>
+<text class="fill-secondary font-telemetry-code font-bold" x="50" y="162">112.6 kW (Wind/PV)</text>
+</g>
+
+<g class="hover:opacity-80 transition-opacity">
+<rect class="fill-surface-panel" height="50" rx="6" width="180" x="20" y="182"></rect>
+<circle class="fill-secondary animate-pulse" cx="36" cy="207" r="5"></circle>
+<text class="fill-on-surface font-body-sm font-medium" x="50" y="202">MTR Kirloskar 01 &amp; 02</text>
+<text class="fill-secondary font-telemetry-code font-bold" x="50" y="220">187.4 kW Output</text>
+</g>
+
+<g class="hover:opacity-80 transition-opacity">
+<rect class="fill-surface-panel" height="34" rx="6" width="180" x="20" y="242"></rect>
+<circle class="fill-secondary-fixed" cx="36" cy="259" r="5"></circle>
+<text class="fill-on-surface font-label-xs font-medium" x="50" y="256">LiFePO4 BESS Storage</text>
+<text class="fill-secondary-fixed font-telemetry-code font-semibold" x="50" y="268">+40.0 kW Discharging</text>
+</g>
+</g>
+
 <!-- BUS CONNECTIONS: Generation to Central Bus -->
-<path d="M 440 85 L 500 85 L 500 130 L 520 130" stroke="url(#flowGreen)" stroke-width="6"></path>
-<path d="M 440 139 L 520 139" stroke="url(#flowGreen)" stroke-width="4"></path>
-<path d="M 440 193 L 500 193 L 500 150 L 520 150" stroke="url(#flowGreen)" stroke-width="6"></path>
-<path d="M 440 243 L 510 243 L 510 160 L 520 160" stroke="url(#flowGreen)" stroke-width="3"></path>
+<path d="M 540 135 L 600 135 L 600 160 L 640 160" stroke="url(#flowGreen)" stroke-dasharray="8 6" stroke-width="6" class="animate-flow"></path>
+<path d="M 540 191 L 640 191" stroke="url(#flowGreen)" stroke-dasharray="8 6" stroke-width="4" class="animate-flow"></path>
+<path d="M 540 247 L 600 247 L 600 200 L 640 200" stroke="url(#flowGreen)" stroke-dasharray="8 6" stroke-width="6" class="animate-flow"></path>
+<path d="M 540 299 L 610 299 L 610 220 L 640 220" stroke="url(#flowGreen)" stroke-dasharray="8 6" stroke-width="3" class="animate-flow"></path>
+
 <!-- THERMAL RECOVERY BYPASS -->
-<path d="M 440 95 C 470 95, 470 270, 750 270" stroke="url(#flowHeat)" stroke-dasharray="6 3" stroke-width="4"></path>
+<path d="M 540 145 C 580 145, 580 340, 900 340" stroke="url(#flowHeat)" stroke-dasharray="8 4" stroke-width="4" class="animate-flow-slow"></path>
+
 <!-- STAGE 3: Central Grid Synchronization Bus -->
-<g transform="translate(520, 30)">
-<rect class="fill-surface-container-high" height="260" rx="4" width="170" x="0" y="0"></rect>
-<text class="fill-secondary font-label-xs uppercase font-bold tracking-wider" x="16" y="24">03 // MAIN CONTINENTAL BUS</text>
-<text class="fill-on-surface font-title-sm font-semibold" x="16" y="44">400V 3Φ Synchronizer</text>
+<g transform="translate(640, 40)" class="group cursor-pointer">
+<rect class="fill-surface-container-high/80 stroke-secondary/30 group-hover:stroke-secondary/70 transition-all duration-300 backdrop-blur-sm" height="280" rx="8" stroke-width="1.5" width="200" x="0" y="0"></rect>
+<text class="fill-secondary font-label-xs uppercase font-bold tracking-wider" x="20" y="28">03 // MAIN CONTINENTAL BUS</text>
+<text class="fill-on-surface font-title-sm font-semibold" x="20" y="50">400V 3Φ Synchronizer</text>
+
 <!-- Gauge Meter in Center -->
-<circle class="fill-surface-container-lowest stroke-secondary" cx="85" cy="120" r="48" stroke-width="2"></circle>
-<path d="M 50 140 A 40 40 0 1 1 120 140" stroke="#428475" stroke-dasharray="160" stroke-dashoffset="30" stroke-width="8"></path>
-<text class="fill-on-surface font-headline-md font-bold" text-anchor="middle" x="85" y="115">472.4</text>
-<text class="fill-secondary font-label-xs font-telemetry-code" text-anchor="middle" x="85" y="132">kW ACTIVE</text>
-<text class="fill-outline font-label-xs" text-anchor="middle" x="85" y="146">PF 0.94</text>
-<rect class="fill-surface-panel" height="55" rx="3" width="138" x="16" y="195"></rect>
-<text class="fill-on-surface-variant font-label-xs uppercase" x="24" y="212">Power Factor &amp; THD</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="24" y="228">V-THD: 1.8% // PF: 0.94</text>
-<text class="fill-outline font-label-xs" x="24" y="242">Phase Bal: 99.1%</text>
+<circle class="fill-surface-container-lowest stroke-secondary" cx="100" cy="140" r="56" stroke-width="2"></circle>
+<path d="M 58 165 A 48 48 0 1 1 142 165" stroke="#428475" stroke-dasharray="190" stroke-dashoffset="40" stroke-width="8"></path>
+<text class="fill-on-surface font-headline-md font-bold" text-anchor="middle" x="100" y="132">472.4</text>
+<text class="fill-secondary font-label-xs font-telemetry-code" text-anchor="middle" x="100" y="152">kW ACTIVE</text>
+<text class="fill-outline font-label-xs" text-anchor="middle" x="100" y="168">PF 0.94</text>
+
+<rect class="fill-surface-panel" height="55" rx="6" width="160" x="20" y="210"></rect>
+<text class="fill-on-surface-variant font-label-xs uppercase" x="28" y="228">Power Factor &amp; THD</text>
+<text class="fill-secondary font-telemetry-code font-bold text-[11px]" x="28" y="244">V-THD: 1.8% // PF: 0.94</text>
+<text class="fill-outline font-label-xs text-[10px]" x="28" y="258">Phase Bal: 99.1%</text>
 </g>
+
 <!-- BUS TO CONSUMERS -->
-<path d="M 690 110 C 720 110, 720 65, 750 65" stroke="url(#flowGreen)" stroke-width="4"></path>
-<path d="M 690 125 C 720 125, 720 120, 750 120" stroke="url(#flowGreen)" stroke-width="4"></path>
-<path d="M 690 140 C 720 140, 720 175, 750 175" stroke="url(#flowGreen)" stroke-width="4"></path>
-<path d="M 690 155 C 720 155, 720 230, 750 230" stroke="url(#flowGreen)" stroke-width="4"></path>
+<path d="M 840 140 C 870 140, 870 95, 900 95" stroke="url(#flowGreen)" stroke-dasharray="8 6" stroke-width="4" class="animate-flow"></path>
+<path d="M 840 160 C 870 160, 870 155, 900 155" stroke="url(#flowGreen)" stroke-dasharray="8 6" stroke-width="4" class="animate-flow"></path>
+<path d="M 840 180 C 870 180, 870 215, 900 215" stroke="url(#flowGreen)" stroke-dasharray="8 6" stroke-width="4" class="animate-flow"></path>
+<path d="M 840 200 C 870 200, 870 280, 900 280" stroke="url(#flowGreen)" stroke-dasharray="8 6" stroke-width="4" class="animate-flow"></path>
+
 <!-- STAGE 4: Sector Loads -->
-<g transform="translate(750, 30)">
-<rect class="fill-surface-container-low" height="260" rx="4" width="230" x="0" y="0"></rect>
-<text class="fill-outline font-label-xs uppercase font-bold tracking-wider" x="16" y="24">04 // SECTOR CONSUMPTION</text>
-<text class="fill-on-surface font-title-sm font-semibold" x="16" y="44">Demands by Operational Tier</text>
+<g transform="translate(900, 40)" class="group cursor-pointer">
+<rect class="fill-surface-container-low/60 stroke-outline-variant/20 group-hover:stroke-outline-variant/60 transition-all duration-300 backdrop-blur-sm" height="280" rx="8" stroke-width="1" width="260" x="0" y="0"></rect>
+<text class="fill-outline font-label-xs uppercase font-bold tracking-wider" x="20" y="28">04 // SECTOR CONSUMPTION</text>
+<text class="fill-on-surface font-title-sm font-semibold" x="20" y="50">Demands by Operational Tier</text>
+
 <!-- Load 1: Life Support Habitat -->
-<rect class="fill-surface-panel" height="42" rx="3" width="202" x="14" y="55"></rect>
-</g></svg><div class="flex items-center">
-<text class="fill-on-surface font-body-sm font-semibold" x="24" y="72">Life Support &amp; Habitat (Tier 1)</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="24" y="88">164.2 kW</text>
-<text class="fill-outline font-label-xs" x="140" y="88">Pressurization/O2</text>
-</div>
+<g class="hover:opacity-80 transition-opacity">
+<rect class="fill-surface-panel" height="46" rx="6" width="220" x="20" y="70"></rect>
+<text class="fill-on-surface font-body-sm font-semibold" x="32" y="88">Life Support &amp; Habitat (Tier 1)</text>
+<text class="fill-secondary font-telemetry-code font-bold" x="32" y="106">164.2 kW</text>
+<text class="fill-outline font-label-xs" x="120" y="106">Pressurization/O2</text>
+</g>
+
 <!-- Load 2: Anti-Icing Trace Heating (Critical) -->
-<rect class="fill-surface-panel stroke-telemetry-warning/40" height="46" rx="3" stroke-width="1" width="202" x="14" y="105"></rect>
-<text class="fill-telemetry-warning font-body-sm font-semibold" x="24" y="122">Conduit Anti-Icing Trace Htg</text>
-<text class="fill-on-surface font-telemetry-code font-bold" x="24" y="139">107.5 kW</text>
-<text class="fill-telemetry-warning font-label-xs" x="100" y="139">Priyadarshini + BHT lines</text>
+<g class="hover:opacity-80 transition-opacity">
+<rect class="fill-surface-panel stroke-telemetry-warning/50 drop-shadow-md" height="50" rx="6" stroke-width="1" width="220" x="20" y="126"></rect>
+<text class="fill-telemetry-warning font-body-sm font-semibold" x="32" y="146">Conduit Anti-Icing Trace Htg</text>
+<text class="fill-on-surface font-telemetry-code font-bold" x="32" y="164">107.5 kW</text>
+<text class="fill-telemetry-warning font-label-xs" x="110" y="164">Priyadarshini + BHT lines</text>
+</g>
+
 <!-- Load 3: Scientific Payloads -->
-<rect class="fill-surface-panel" height="42" rx="3" width="202" x="14" y="159"></rect>
-<text class="fill-on-surface font-body-sm font-semibold" x="24" y="176">Science Labs, Radars, LIDAR</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="24" y="192">128.5 kW</text>
-<text class="fill-outline font-label-xs" x="130" y="192">Continuous Non-Shed</text>
+<g class="hover:opacity-80 transition-opacity">
+<rect class="fill-surface-panel" height="46" rx="6" width="220" x="20" y="186"></rect>
+<text class="fill-on-surface font-body-sm font-semibold" x="32" y="204">Science Labs, Radars, LIDAR</text>
+<text class="fill-secondary font-telemetry-code font-bold" x="32" y="222">128.5 kW</text>
+<text class="fill-outline font-label-xs" x="120" y="222">Continuous Non-Shed</text>
+</g>
+
 <!-- Load 4: Heavy Workshops & Co-Gen Glycol -->
-<rect class="fill-surface-panel" height="44" rx="3" width="202" x="14" y="209"></rect>
-<text class="fill-on-surface font-body-sm font-semibold" x="24" y="226">Maint Hangar + Cogen Dump</text>
-<text class="fill-secondary font-telemetry-code font-bold" x="24" y="242">72.2 kW</text>
-<text class="fill-tertiary font-label-xs" x="110" y="242">+342 kWth Glycol Loop</text>
-</div>
+<g class="hover:opacity-80 transition-opacity">
+<rect class="fill-surface-panel" height="46" rx="6" width="220" x="20" y="242"></rect>
+<text class="fill-on-surface font-body-sm font-semibold" x="32" y="260">Maint Hangar + Cogen Dump</text>
+<text class="fill-secondary font-telemetry-code font-bold" x="32" y="278">72.2 kW</text>
+<text class="fill-tertiary font-label-xs" x="110" y="278">+342 kWth Glycol Loop</text>
+</g>
+</g>
+</svg>
 </div>
 </div>
 <!-- SECTION 3: Station Microgrid Side-by-Side Architectural Comparison -->
@@ -592,9 +638,23 @@
 <svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 240">
 <defs>
 <lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
-<stop offset="0%" stop-color="#91d3c2" stop-opacity="0.3"></stop>
+<stop offset="0%" stop-color="#91d3c2" stop-opacity="0.4"></stop>
 <stop offset="100%" stop-color="#91d3c2" stop-opacity="0.0"></stop>
 </lineargradient>
+<style>
+  @keyframes drawLine {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+  }
+  .animate-draw {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>
 </defs>
 <!-- Horizontal Guideline grids -->
 <line stroke="#1c2d29" stroke-width="1" x1="60" x2="960" y1="30" y2="30"></line>
@@ -605,9 +665,11 @@
 <text class="fill-outline font-telemetry-code text-[11px]" text-anchor="end" x="50" y="124">300kL</text>
 <line stroke="#1c2d29" stroke-width="1" x1="60" x2="960" y1="165" y2="165"></line>
 <text class="fill-outline font-telemetry-code text-[11px]" text-anchor="end" x="50" y="169">200kL</text>
+
 <!-- Critical Reserve Threshold Line -->
-<line stroke="#C44536" stroke-dasharray="4 4" stroke-width="1.5" x1="60" x2="960" y1="190" y2="190"></line>
-<text class="fill-telemetry-critical font-telemetry-code text-[10px]" text-anchor="end" x="955" y="185">MIN RESUPPLY THRESHOLD: 110kL</text>
+<line stroke="#C44536" stroke-dasharray="4 4" stroke-width="1.5" x1="60" x2="960" y1="190" y2="190" class="animate-pulse-slow"></line>
+<text class="fill-telemetry-critical font-telemetry-code text-[10px] animate-pulse-slow drop-shadow-md" text-anchor="end" x="955" y="185">MIN RESUPPLY THRESHOLD: 110kL</text>
+
 <!-- Vertical Months -->
 <g class="fill-outline font-telemetry-code text-[11px]" text-anchor="middle">
 <text x="100" y="225">DEC</text>
@@ -622,23 +684,27 @@
 <text x="860" y="225">SEP</text>
 <text x="940" y="225">OCT</text>
 </g>
+
 <!-- Planned Projected Depletion Path -->
 <path d="M 100 45 L 180 55 L 260 62 L 340 78 L 420 95 L 500 115 L 620 138 L 700 156 L 780 170 L 860 179 L 940 186" fill="none" stroke="#424846" stroke-dasharray="6 4" stroke-width="2"></path>
+
 <!-- Actual Fuel Trajectory Curve Area -->
 <path d="M 100 45 L 180 52 L 260 58 L 340 70 L 420 85 L 500 102 L 500 210 L 100 210 Z" fill="url(#chartGradient)"></path>
 <!-- Actual Curve Stroke up to current month (May) -->
-<path d="M 100 45 L 180 52 L 260 58 L 340 70 L 420 85 L 500 102" fill="none" stroke="#91d3c2" stroke-width="3.5"></path>
+<path d="M 100 45 L 180 52 L 260 58 L 340 70 L 420 85 L 500 102" fill="none" stroke="#91d3c2" stroke-width="3.5" class="animate-draw drop-shadow-md"></path>
+
 <!-- Resupply Vessel Target Marker Nov 2025 -->
 <line stroke="#91d3c2" stroke-dasharray="2 2" stroke-width="1.5" x1="500" x2="500" y1="20" y2="210"></line>
-<circle class="fill-secondary stroke-surface-container-lowest" cx="500" cy="102" r="6" stroke-width="2"></circle>
-<g transform="translate(510, 85)">
-<rect class="fill-surface-panel" height="42" rx="3" width="130" x="0" y="0"></rect>
+<circle class="fill-secondary stroke-surface-container-lowest drop-shadow-lg" cx="500" cy="102" r="6" stroke-width="2"></circle>
+<g transform="translate(510, 85)" class="group cursor-pointer">
+<rect class="fill-surface-panel/80 backdrop-blur-sm stroke-outline-variant/30 group-hover:stroke-secondary/80 group-hover:scale-105 transition-all duration-300 origin-left" height="42" rx="4" width="130" x="0" y="0"></rect>
 <text class="fill-on-surface font-label-xs font-bold" x="8" y="16">CURRENT: 418 kL</text>
 <text class="fill-secondary font-telemetry-code text-[11px]" x="8" y="32">+22 kL Over Target</text>
 </g>
+
 <!-- Scheduled Resupply Note -->
-<g transform="translate(860, 40)">
-<rect class="fill-surface-container-high" height="46" rx="3" width="105" x="-10" y="0"></rect>
+<g transform="translate(860, 40)" class="group cursor-pointer">
+<rect class="fill-surface-container-high/80 backdrop-blur-sm stroke-outline-variant/30 group-hover:stroke-outline-variant/80 group-hover:-translate-y-1 transition-all duration-300" height="46" rx="4" width="105" x="-10" y="0"></rect>
 <text class="fill-secondary font-label-xs font-bold" text-anchor="middle" x="42" y="18">R/V POLAR DUKE</text>
 <text class="fill-outline font-telemetry-code text-[10px]" text-anchor="middle" x="42" y="34">ETA NOV 28, 2025</text>
 </g>

@@ -73,12 +73,12 @@ DTFIAS/
 | Code | Rule |
 |------|------|
 | **C1** | `engine/**` MUST NOT import `fastapi`, `starlette`, `jinja2`, `sqlalchemy`, `asyncpg`, or any HTTP/DB library. `grep -rE "^(import|from) (fastapi|sqlalchemy|asyncpg|jinja2)" engine/` MUST return zero matches. |
-| **C2** | Every station-scoped table MUST have `station_id station_id_enum NOT NULL` — Postgres native enum, never free text. |
+| **C2** | Station-scoped tables enforce station scoping via `station_id UUID REFERENCES stations(id) NOT NULL` (indexed FK, never free text). Multi-station extensibility is row-based in `stations` per `docs/database.md`. |
 | **C3** | `station_id` MUST be set server-side only, hard-coded as a class constant in the portal service files. MUST NOT be read from request body, query params, or any client-supplied field. |
 | **C4** | `maitri_portal_service.py` / `bharati_portal_service.py` MUST NOT define `issue_command`, `manage_users`, or `view_audit`. Only `hq_portal_service.py` may. |
 | **C5** | Every `APIRouter` under `app/routers/<portal>/` MUST declare its role guard via `dependencies=`, NOT per-endpoint decorators. |
 | **C6** | Passwords MUST be hashed with argon2 (`infrastructure/security/authentication/passwords.py`). MUST NOT log or store plaintext. |
-| **C7** | Every login, state write, command issuance, and permission denial MUST produce one `audit_log` row. |
+| **C7** | Every login, state write, command issuance, and permission denial MUST produce one `audit_logs` row. |
 | **C8** | All SQL access MUST go through SQLAlchemy ORM/parameterized queries. MUST NOT build raw SQL via string concatenation or f-strings. |
 | **C9** | `shared/**` MUST contain only code imported by 2+ of {`engine`, `app`, `infrastructure`}. |
 | **C10** | Session cookies MUST be `httponly=True`, `secure=True`, `samesite="strict"`. |
@@ -87,7 +87,7 @@ DTFIAS/
 | **C14** | Supabase Realtime subscriptions MUST originate server-side only. Client-side `supabase-js` Realtime from the browser is **FORBIDDEN**. |
 | **C15** | Row-Level Security (RLS) is NOT part of this project's access control model. Leave RLS disabled/default-deny. |
 | **C16** | `app/static/js/three/` MUST be loaded lazily. NEVER include in `layouts/base.html` unconditional script tags. |
-| **C17** | Tailwind MUST be loaded via CDN: `<script src="https://cdn.tailwindcss.com">`. No Node/npm build pipeline. |
+| **C17** | Bundler-free runtime: Tailwind via CDN `<script src="https://cdn.tailwindcss.com">`. No npm build pipeline required to run. |
 
 ---
 
@@ -107,6 +107,8 @@ DTFIAS/
 
 ## 5. Database — Supabase PostgreSQL
 
+> **Canonical Authority**: Refer to **`docs/database.md`** (v1 Lock) and **`docs/databaseTables.md`** for column-level definitions, and **`scripts/migrations/001_initial_schema.sql`** for executable DDL.
+
 ### Connection
 - **Auth**: Supabase Auth manages `auth.users` — do NOT create custom password tables
 - **Driver**: `postgresql+asyncpg://` for async SQLAlchemy
@@ -114,13 +116,19 @@ DTFIAS/
 - **Config**: `DATABASE_URL` in `.env` -> read by `app/config/settings.py` -> used by `app/config/database.py`
 - **Password**: Must be the actual Postgres database password (from Supabase Dashboard > Project Settings > Database > URI). NOT the `sb_publishable_*` anon API key.
 
-### Key Postgres ENUMs
+### Canonical Postgres ENUMs (from `docs/database.md §3`)
+Operational states use PostgreSQL native ENUMs:
 ```sql
-station_id_enum: 'maitri' | 'bharati'
-role_enum: 'maitri_operator' | 'bharati_operator' | 'hq_operator' | 'hq_admin'
-alert_severity_enum: 'info' | 'warning' | 'critical'
-command_state_enum: 'SENT' | 'RECEIVED' | 'EXECUTING' | 'EXECUTED' | 'REJECTED' | 'FAILED'
+station_status: 'ACTIVE' | 'INACTIVE' | 'UNDER_MAINTENANCE' | 'DECOMMISSIONED'
+station_type: 'RESEARCH_STATION' | 'SUMMER_CAMP' | 'FIELD_BASE' | 'RELAY_STATION'
+profile_status: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED'
+reading_quality: 'GOOD' | 'UNCERTAIN' | 'BAD' | 'MISSING'
+alert_severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'INFO'
+alert_status: 'ACTIVE' | 'ACKNOWLEDGED' | 'RESOLVED' | 'EXPIRED'
+command_type: 'SYSTEM_CONTROL' | 'SENSOR_CONTROL' | 'ENERGY_CONTROL' | 'LOGISTICS_CONTROL' | 'PERSONNEL_CONTROL' | 'ALERT_CONTROL'
+command_status: 'PENDING' | 'RECEIVED' | 'VALIDATED' | 'REJECTED' | 'EXECUTING' | 'EXECUTED' | 'FAILED' | 'EXPIRED'
 ```
+*(Note: Stations and Roles are managed as normalized tables with UUID keys — `stations` and `roles` — to allow dynamic extensibility without schema migrations).*
 
 ### Domain Map (see `docs/database.md` for full detail)
 - **AUTH**: `auth.users` (Supabase-managed) -> `profiles` (1:1)

@@ -41,13 +41,13 @@ structural authority — file placement, ownership, interfaces.
 | # | Constraint |
 |---|---|
 | C1 | `engine/**` MUST NOT import `fastapi`, `starlette`, `jinja2`, `sqlalchemy`, `asyncpg`, or any HTTP/DB library. `grep -rE "^(import\|from) (fastapi\|sqlalchemy\|asyncpg\|jinja2)" engine/` MUST return zero matches. |
-| C2 | Every station-scoped table MUST have `station_id station_id_enum NOT NULL` (Postgres native enum type — see Section 8), never free text. |
+| C2 | Every station-scoped table MUST enforce station scoping via `station_id UUID REFERENCES stations(id) NOT NULL` (PostgreSQL foreign key, never free text), indexed for tenant isolation. Station extensibility is dynamic (new stations are data rows in `stations`, see `docs/database.md`). |
 | C3 | `station_id` MUST be set server-side only, hard-coded as a class constant in `engine/services/portals/{maitri,bharati}_portal_service.py`. MUST NOT be read from request body, query params, or any client-supplied field. |
 | C4 | `maitri_portal_service.py` / `bharati_portal_service.py` MUST NOT define `issue_command`, `manage_users`, or `view_audit`. Only `hq_portal_service.py` may. |
 | C5 | Every `APIRouter` under `app/routers/<portal>/` MUST declare its role guard via `dependencies=`, not per-endpoint decorators. |
 | C6 | Passwords MUST be hashed with argon2 (`infrastructure/security/authentication/passwords.py`). MUST NOT log or store plaintext, ever, including debug logs. |
-| C7 | Every login, state write, command issuance, and permission denial MUST produce one `audit_log` row. |
-| C8 | All SQL access MUST go through SQLAlchemy ORM/parameterized queries. MUST NOT build raw SQL via string concatenation or f-strings anywhere. (Note: Models currently reside in `app/models/` instead of `infrastructure/`). |
+| C7 | Every login, state write, command issuance, and permission denial MUST produce one `audit_logs` row. |
+| C8 | All SQL access MUST go through SQLAlchemy ORM/parameterized queries. MUST NOT build raw SQL via string concatenation or f-strings anywhere. (Note: Models reside in `app/models/`). |
 | C9 | `shared/**` MUST contain only code imported by 2+ of {`engine`, `app`, `infrastructure`}. Single-importer code moves into that layer. |
 | C10 | Session cookies MUST be `httponly=True`, `secure=True`, `samesite="strict"`. |
 | C11 | CSRF tokens MUST be verified on every `POST`/`PUT`/`DELETE` route. |
@@ -56,7 +56,7 @@ structural authority — file placement, ownership, interfaces.
 | C14 | If Supabase Realtime is used at all (Section 7), the subscription MUST originate server-side (`infrastructure/realtime/supabase_listener.py`, service-role key) and be re-broadcast to browsers only through FastAPI's own RBAC-aware SSE endpoint. Client-side `supabase-js` Realtime subscriptions from the browser are FORBIDDEN — there is no Supabase Auth session to scope them by role. |
 | C15 | Row-Level Security (RLS) on Supabase tables is NOT part of this project's access-control model — only the backend connects directly to Postgres, using a role with full table access. Leave RLS disabled or default-deny; do not rely on it, and do not assume enabling it adds protection here (it protects against a client connecting directly, which never happens in this architecture). |
 | C16 | Any script under `app/static/js/three/` MUST be loaded lazily (dynamic `<script>` injection triggered by opening the 3D view, or `hx-trigger="revealed"`) — never included in `layouts/base.html`'s unconditional script tags. |
-| C17 | Tailwind MUST be loaded via the CDN `<script src="https://cdn.tailwindcss.com">` for this build (no Node/npm build pipeline) — consistent with the no-bundler approach already used for htmx/Alpine. |
+| C17 | The application runtime is bundler-free: Tailwind is loaded via CDN `<script src="https://cdn.tailwindcss.com">` with no Node/npm build pipeline required to run the system. (Optional pre-compilation via `package.json` CLI is provided for offline workflows, but runtime does not depend on Node). |
 
 ---
 
@@ -261,82 +261,117 @@ time is unaffected regardless of how elaborate the 3D view becomes.
 
 ---
 
-## 8. Postgres Schema (Supabase-hosted)
+## 8. Postgres Schema (Supabase-hosted — v1 Lock)
+
+> **Schema Authority**: The canonical, column-by-column database schema authority is **`docs/database.md`** (v1 Lock), accompanied by **`docs/databaseTables.md`** and the migration DDL **`scripts/migrations/001_initial_schema.sql`**.
+
+The database runs on Supabase PostgreSQL (25 normalized tables across 13 domains). All primary keys for entities use `UUID` (via `gen_random_uuid()`). Multi-station extensibility is row-based via `stations (id UUID, code TEXT UNIQUE)` rather than schema DDL enums, enabling new stations (`MAT2`, etc.) to be provisioned as data without database migrations.
+
+### Key Core Tables (Excerpts from `docs/database.md`)
 
 ```sql
-CREATE TYPE station_id_enum AS ENUM ('maitri', 'bharati');
-CREATE TYPE role_enum AS ENUM ('maitri_operator', 'bharati_operator', 'hq_operator', 'hq_admin');
-CREATE TYPE alert_severity_enum AS ENUM ('info', 'warning', 'critical');
-CREATE TYPE command_state_enum AS ENUM ('SENT','RECEIVED','EXECUTING','EXECUTED','REJECTED','FAILED');
-
-CREATE TABLE users (
-    id            BIGSERIAL PRIMARY KEY,
-    username      VARCHAR(64) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    role          role_enum NOT NULL,
-    created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
-    is_active     BOOLEAN NOT NULL DEFAULT TRUE
+-- 1. AUTH & PROFILES (Supabase Auth manages auth.users)
+CREATE TABLE profiles (
+    id              UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    full_name       TEXT NOT NULL,
+    employee_code   TEXT UNIQUE NOT NULL,
+    designation     TEXT,
+    organization    TEXT,
+    phone           TEXT,
+    status          profile_status NOT NULL DEFAULT 'ACTIVE',
+    avatar_url      TEXT,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- 2. STATIONS (Row-extensible multi-station architecture)
+CREATE TABLE stations (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    code            TEXT UNIQUE NOT NULL, -- e.g. 'MAT', 'BHA', 'MAT2'
+    name            TEXT NOT NULL,
+    description     TEXT,
+    station_type    station_type NOT NULL,
+    status          station_status NOT NULL DEFAULT 'ACTIVE',
+    latitude        DOUBLE PRECISION,
+    longitude       DOUBLE PRECISION,
+    elevation_m     DOUBLE PRECISION,
+    capacity        INTEGER,
+    commissioned_at DATE,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- 3. TELEMETRY: ENERGY READINGS (Partitioned by time, 30-day rolling window)
 CREATE TABLE energy_readings (
-    id                BIGSERIAL PRIMARY KEY,
-    station_id        station_id_enum NOT NULL,
-    solar_output_kw   DOUBLE PRECISION,
-    wind_output_kw    DOUBLE PRECISION,
-    diesel_output_kw  DOUBLE PRECISION,
-    battery_soc_pct   DOUBLE PRECISION,
-    load_kw           DOUBLE PRECISION,
-    fuel_remaining_l  DOUBLE PRECISION,
-    generator_temp_c  DOUBLE PRECISION,
-    recorded_at       TIMESTAMPTZ NOT NULL,
-    created_by        BIGINT NOT NULL REFERENCES users(id)
+    time                 TIMESTAMPTZ NOT NULL,
+    station_id           UUID NOT NULL REFERENCES stations(id),
+    energy_asset_id      UUID REFERENCES assets(id),
+    generation_kw        DOUBLE PRECISION,
+    consumption_kw       DOUBLE PRECISION,
+    battery_soc_pct      DOUBLE PRECISION,
+    voltage_v            DOUBLE PRECISION,
+    current_a            DOUBLE PRECISION,
+    fuel_consumption_lph DOUBLE PRECISION,
+    quality              reading_quality NOT NULL DEFAULT 'GOOD',
+    PRIMARY KEY (time, station_id)
 );
-CREATE INDEX idx_energy_station_time ON energy_readings (station_id, recorded_at);
--- environment_readings / logistics_readings / infrastructure_readings mirror this shape
+CREATE INDEX idx_energy_station_time ON energy_readings (station_id, time DESC);
 
-CREATE TABLE alerts (
-    id                BIGSERIAL PRIMARY KEY,
-    station_id        station_id_enum NOT NULL,
-    subsystem         VARCHAR(32) NOT NULL,
-    severity          alert_severity_enum NOT NULL,
-    message           TEXT NOT NULL,
-    triggered_by_rule VARCHAR(64),
-    acknowledged      BOOLEAN NOT NULL DEFAULT FALSE,
-    acknowledged_by   BIGINT REFERENCES users(id),
-    created_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+-- 4. ALERTS: ACTIVE ALERTS (Temporary live alerts — resolved/expired alerts purged)
+CREATE TABLE active_alerts (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    station_id      UUID NOT NULL REFERENCES stations(id),
+    asset_id        UUID REFERENCES assets(id),
+    sensor_id       UUID REFERENCES sensors(id),
+    alert_rule_id   UUID REFERENCES alert_rules(id) ON DELETE SET NULL,
+    severity        alert_severity NOT NULL,
+    alert_type      TEXT NOT NULL,
+    message         TEXT NOT NULL,
+    status          alert_status NOT NULL DEFAULT 'ACTIVE',
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    acknowledged_at TIMESTAMPTZ,
+    acknowledged_by UUID REFERENCES profiles(id),
+    expires_at      TIMESTAMPTZ
 );
-CREATE INDEX idx_alerts_station_severity ON alerts (station_id, severity, acknowledged);
+CREATE INDEX idx_active_alerts_station_severity ON active_alerts (station_id, severity, status);
 
+-- 5. COMMANDS (HQ creates, station validates and executes)
 CREATE TABLE commands (
-    id            BIGSERIAL PRIMARY KEY,
-    station_id    station_id_enum NOT NULL,
-    action        VARCHAR(64) NOT NULL,
-    parameters    JSONB,
-    issued_by     BIGINT NOT NULL REFERENCES users(id),
-    state         command_state_enum NOT NULL DEFAULT 'SENT',
-    created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+    id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    station_id       UUID NOT NULL REFERENCES stations(id),
+    created_by       UUID NOT NULL REFERENCES profiles(id),
+    command_type     command_type NOT NULL,
+    parameters       JSONB,
+    status           command_status NOT NULL DEFAULT 'PENDING',
+    rejection_reason TEXT,
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+    expires_at       TIMESTAMPTZ,
+    updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+CREATE INDEX idx_commands_station_status ON commands (station_id, status);
 
-CREATE TABLE audit_log (
-    id          BIGSERIAL PRIMARY KEY,
-    user_id     BIGINT,
-    role        VARCHAR(32),
-    station_id  VARCHAR(16),
-    action      VARCHAR(64) NOT NULL,
-    detail      JSONB,
-    ip_address  VARCHAR(45),
+-- 6. AUDIT LOGS (Immutable append-only trail)
+CREATE TABLE audit_logs (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id     UUID REFERENCES profiles(id),
+    station_id  UUID REFERENCES stations(id),
+    action      TEXT NOT NULL,
+    entity_type TEXT NOT NULL,
+    entity_id   UUID,
+    old_value   JSONB,
+    new_value   JSONB,
+    ip_address  INET,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-CREATE INDEX idx_audit_user_time ON audit_log (user_id, created_at);
-
--- RLS deliberately not configured as a security boundary here — see C15.
+CREATE INDEX idx_audit_logs_user_time ON audit_logs (user_id, created_at DESC);
+CREATE INDEX idx_audit_logs_entity ON audit_logs (entity_type, entity_id);
 ```
 
-**Connection string:** use Supabase's **pooled ("Transaction mode")**
-connection URI for `SUPABASE_DB_URL`, not the direct connection —
-Supabase's smaller compute tiers cap total simultaneous direct Postgres
-connections, and a pooled connection avoids exhausting that limit
-under concurrent requests from one FastAPI process.
+**Connection string:** use Supabase's **pooled ("Transaction mode")** connection URI for `DATABASE_URL` / `SUPABASE_DB_URL`:
+```
+postgresql+asyncpg://postgres:[PASSWORD]@db.[REF].supabase.co:5432/postgres
+```
+Supabase's smaller compute tiers cap total simultaneous direct Postgres connections; a pooled connection avoids exhausting that limit under concurrent requests from FastAPI.
 
 ---
 

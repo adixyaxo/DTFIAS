@@ -5,6 +5,19 @@ description: Create distinctive, production-grade frontend interfaces with high 
 
 # Complete Frontend Design Guidelines
 
+> [!IMPORTANT]
+> **DTFIAS PROJECT BRAND OVERRIDE (MANDATORY)**  
+> When working on DTFIAS (`Digital Twin for Indian Antarctic Stations`), the official brand tokens defined in [`.agents/brand_design/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/brand_design/SKILL.md) and [`GEMINI.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/GEMINI.md) **SUPERSEDE AND OVERRIDE** all generic aesthetic prohibitions below:
+> 1. **Page Background**: `--brand-cream: #F5F2EB` is the canonical institutional paper background. Do NOT replace it with pure white or dark mode by default.
+> 2. **Typography**: The official 4-tier typography system is strictly mandatory:
+>    - `--font-heading`: **Playfair Display** (Page titles, section headers)
+>    - `--font-body`: **Playfair** (Important descriptions, callout narrative copy)
+>    - `--font-ui`: **Inter** (Buttons, tabs, tables, forms, navigation chrome)
+>    - `--font-mono`: **JetBrains Mono** (Sensor values, timestamps, coordinates, raw telemetry)
+>    - *Do NOT replace Inter for UI chrome with alternative sans fonts unless authorized.*
+> 3. **Brand Palette**: `--brand-deep-green: #1A312C`, `--brand-teal: #428475`, `--brand-mint: #C8E6D7`, and the dual-context status color system (light vs dark bg) are hard requirements.
+> 4. **Aesthetic Direction**: DTFIAS follows an **"Antarctic Scientific Research & Exploration Station Console"** aesthetic—combining authoritative institutional editorial typography with rugged industrial telemetry instruments.
+
 This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics while ensuring proper mobile responsiveness and cross-element consistency.
 
 ---
@@ -15,7 +28,7 @@ This skill guides creation of distinctive, production-grade frontend interfaces 
 
 Before coding, understand the context and commit to a BOLD aesthetic direction:
 - **Purpose**: What problem does this interface solve? Who uses it?
-- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.
+- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. For DTFIAS, the tone is **Authoritative Antarctic Scientific Instrumentation & Editorial Control**.
 - **Constraints**: Technical requirements (framework, performance, accessibility).
 - **Differentiation**: What makes this UNFORGETTABLE? What's the one thing someone will remember?
 
@@ -31,23 +44,23 @@ Then implement working code (HTML/CSS/JS, React, Vue, etc.) that is:
 ### Frontend Aesthetics Guidelines
 
 Focus on:
-- **Typography**: Choose fonts that are beautiful, unique, and interesting. Avoid generic fonts like Arial and Inter; opt instead for distinctive choices that elevate the frontend's aesthetics; unexpected, characterful font choices. Pair a distinctive display font with a refined body font.
-- **Color & Theme**: Commit to a cohesive aesthetic. Use CSS variables for consistency. Dominant colors with sharp accents outperform timid, evenly-distributed palettes.
+- **Typography**: Choose fonts that elevate the frontend's aesthetics. Pair a distinctive display font with a refined body font. In DTFIAS, adhere to the 4-tier stack: Playfair Display, Playfair, Inter (UI chrome), and JetBrains Mono (telemetry).
+- **Color & Theme**: Commit to a cohesive aesthetic. Use CSS variables for consistency. Dominant colors with sharp accents outperform timid, evenly-distributed palettes. In DTFIAS, use the Deep Green / Teal / Mint / Cream system.
 - **Motion**: Use animations for effects and micro-interactions. Prioritize CSS-only solutions for HTML. Use Motion library for React when available. Focus on high-impact moments: one well-orchestrated page load with staggered reveals (animation-delay) creates more delight than scattered micro-interactions. Use scroll-triggering and hover states that surprise.
 - **Spatial Composition**: Unexpected layouts. Asymmetry. Overlap. Diagonal flow. Grid-breaking elements. Generous negative space OR controlled density.
 - **Backgrounds & Visual Details**: Create atmosphere and depth rather than defaulting to solid colors. Add contextual effects and textures that match the overall aesthetic. Apply creative forms like gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, decorative borders, custom cursors, and grain overlays.
 
-NEVER use generic AI-generated aesthetics like overused font families (Inter, Roboto, Arial, system fonts), cliched color schemes (particularly purple gradients on white backgrounds), predictable layouts and component patterns, and cookie-cutter design that lacks context-specific character.
+Avoid generic, thoughtless UI templates lacking context-specific character (e.g., purple gradients on plain white cards or standard bootstrap tables).
 
-### AI Slop Patterns to Avoid
+### AI Slop Patterns to Avoid (In General Web Applications)
 
-These specific patterns have become telltale signs of AI-generated design. Avoid them:
+*(Note: Unless explicitly mandated by project brand guidelines like DTFIAS's cream and Inter UI stack, avoid these telltale signs of generic AI-generated design:)*
 
 **Colors:**
-- Cream/off-white backgrounds (`#f8f6f3`, `#fdfcfb`, `#faf8f5` type colors)
+- Unintentional cream/off-white backgrounds (`#f8f6f3`, `#fdfcfb`, `#faf8f5` type colors) when not part of an institutional brand system
 - Terracotta/coral/rust accents (`#c45c48`, `#e07860`, `#d4715f`, `#bf4a37`)
 - Orange and teal combinations
-- Purple/blue gradients on white backgrounds
+- Generic purple/blue gradients on white backgrounds
 - Warm shadows with colored tints
 
 **Layout & Components:**
@@ -55,7 +68,7 @@ These specific patterns have become telltale signs of AI-generated design. Avoid
 - Left-border accent lines on cards (the colored vertical stripe)
 - Pill-shaped tabs and buttons
 - Cards with subtle warm shadows and hover lift effects
-- Overly "friendly" and "approachable" feeling
+- Overly "friendly" and "approachable" feeling for mission-critical interfaces
 
 **Visual Effects:**
 - Texture overlays (noise, grain, paper textures)
@@ -69,7 +82,7 @@ These specific patterns have become telltale signs of AI-generated design. Avoid
 - Safe, inoffensive, "premium but accessible" feeling
 - Lack of sharp contrast or bold decisions
 
-Instead, make distinctive choices: cooler color temperatures, sharper geometry, unexpected color combinations, higher contrast, or commit fully to a specific design tradition (Swiss, Japanese, Brutalist, Editorial, etc.) rather than the generic "modern SaaS" look.
+Instead, make distinctive choices: cooler color temperatures, sharper geometry, unexpected color combinations, higher contrast, or commit fully to a specific design tradition (Swiss, Japanese, Brutalist, Editorial, Scientific Station Console, etc.) rather than the generic "modern SaaS" look.
 
 Interpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. NEVER converge on common choices (Space Grotesk, for example) across generations.
 

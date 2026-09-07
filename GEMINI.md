@@ -134,12 +134,12 @@ DTFIAS/
 | Code | Constraint |
 |------|-----------|
 | **C1** | `engine/**` imports ZERO HTTP/DB libraries. Grep enforced. |
-| **C2** | Station-scoped tables: `station_id station_id_enum NOT NULL` — Postgres enum, never text. |
+| **C2** | Station-scoped tables enforce station scoping via `station_id UUID REFERENCES stations(id) NOT NULL` (indexed FK, never free text). Multi-station extensibility is row-based in `stations` per `docs/database.md`. |
 | **C3** | `station_id` is set server-side only (class constant in portal services). Never from request body/params. |
 | **C4** | `maitri_portal_service` and `bharati_portal_service` MUST NOT define `issue_command`, `manage_users`, or `view_audit`. Only `hq_portal_service` may. |
 | **C5** | Role guards MUST be on the `APIRouter` via `dependencies=`, not per-endpoint. |
 | **C6** | Argon2 only for password hashing. Never log plaintext — including debug. |
-| **C7** | Every login, state write, command issuance, and permission denial → one `audit_log` row. |
+| **C7** | Every login, state write, command issuance, and permission denial → one `audit_logs` row. |
 | **C8** | All SQL via SQLAlchemy ORM/parameterized queries. Zero f-string SQL construction. |
 | **C9** | `shared/**` only contains code used by 2+ of {`engine`, `app`, `infrastructure`}. |
 | **C10** | Session cookies: `httponly=True`, `secure=True`, `samesite="strict"`. |
@@ -148,11 +148,13 @@ DTFIAS/
 | **C14** | Supabase Realtime: server-side only (`infrastructure/realtime/supabase_listener.py`). No `supabase-js` Realtime in browser. |
 | **C15** | RLS is NOT the access control mechanism. Only backend connects to Postgres. RLS = disabled/default-deny. |
 | **C16** | Three.js/`station_3d_view.js`: lazy-loaded only. Never in `layouts/base.html` unconditional scripts. |
-| **C17** | Tailwind via CDN: `<script src="https://cdn.tailwindcss.com">`. No npm build pipeline. |
+| **C17** | Bundler-free runtime: Tailwind via CDN `<script src="https://cdn.tailwindcss.com">`. No npm build pipeline required to run. |
 
 ---
 
 ## 5. Database Schema
+
+> **Canonical Authority**: Refer to **`docs/database.md`** (v1 Lock) and **`docs/databaseTables.md`** for column-level definitions, and **`scripts/migrations/001_initial_schema.sql`** for executable DDL.
 
 ### Connection String Format
 ```
@@ -163,13 +165,19 @@ postgresql+asyncpg://postgres:<DB_PASSWORD>@db.<PROJECT_REF>.supabase.co:5432/po
 
 > **Common mistake**: Including `https://` in the host. The host is `db.<PROJECT_REF>.supabase.co`, not `db.https://<PROJECT_REF>.supabase.co`.
 
-### Postgres ENUMs (define before tables)
+### Canonical Postgres ENUMs (from `docs/database.md §3`)
+Operational states use PostgreSQL native ENUMs:
 ```sql
-CREATE TYPE station_id_enum AS ENUM ('maitri', 'bharati');
-CREATE TYPE role_enum AS ENUM ('maitri_operator', 'bharati_operator', 'hq_operator', 'hq_admin');
-CREATE TYPE alert_severity_enum AS ENUM ('info', 'warning', 'critical');
-CREATE TYPE command_state_enum AS ENUM ('SENT','RECEIVED','EXECUTING','EXECUTED','REJECTED','FAILED');
+CREATE TYPE station_status    AS ENUM ('ACTIVE', 'INACTIVE', 'UNDER_MAINTENANCE', 'DECOMMISSIONED');
+CREATE TYPE station_type      AS ENUM ('RESEARCH_STATION', 'SUMMER_CAMP', 'FIELD_BASE', 'RELAY_STATION');
+CREATE TYPE profile_status    AS ENUM ('ACTIVE', 'INACTIVE', 'SUSPENDED');
+CREATE TYPE reading_quality   AS ENUM ('GOOD', 'UNCERTAIN', 'BAD', 'MISSING');
+CREATE TYPE alert_severity    AS ENUM ('CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'INFO');
+CREATE TYPE alert_status      AS ENUM ('ACTIVE', 'ACKNOWLEDGED', 'RESOLVED', 'EXPIRED');
+CREATE TYPE command_type      AS ENUM ('SYSTEM_CONTROL', 'SENSOR_CONTROL', 'ENERGY_CONTROL', 'LOGISTICS_CONTROL', 'PERSONNEL_CONTROL', 'ALERT_CONTROL');
+CREATE TYPE command_status    AS ENUM ('PENDING', 'RECEIVED', 'VALIDATED', 'REJECTED', 'EXECUTING', 'EXECUTED', 'FAILED', 'EXPIRED');
 ```
+*(Note: Stations and Roles are managed as normalized tables with UUID keys — `stations` and `roles` — to allow dynamic extensibility without schema migrations).*
 
 ### DTFIAS Full Domain Map
 

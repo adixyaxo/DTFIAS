@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from app.config.templates import templates
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -19,3 +19,9 @@ async def recover_page(request: Request):
     return templates.TemplateResponse(
         request=request, name="auth/recover.html", context={}
     )
+
+@router.get("/logout")
+@router.post("/logout")
+async def logout():
+    return RedirectResponse(url="/auth/login", status_code=302)
+

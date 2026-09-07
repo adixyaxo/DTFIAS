@@ -1,0 +1,168 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+    <div>
+        <div class="flex items-center gap-space-sm mb-space-2xs">
+            <span class="material-symbols-outlined text-status-info text-[24px]">monitor_heart</span>
+            <span class="font-telemetry-code text-label-md text-status-info tracking-widest uppercase">Global Medical Grid</span>
+        </div>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Health & Readiness</h1>
+    </div>
+    <div class="flex gap-space-sm">
+        <button class="glass-button px-space-md py-space-xs rounded flex items-center gap-space-sm text-label-md font-medium text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[18px]">download</span> Export Records
+        </button>
+        <button class="px-space-md py-space-xs rounded bg-status-info/10 border border-status-info/30 text-status-info font-label-md tracking-wider uppercase hover:bg-status-info/20 transition-colors flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[18px]">add_alert</span> Deploy Medevac
+        </button>
+    </div>
+</div>
+
+<!-- Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+    <!-- Total Personnel -->
+    <div class="glass-card rounded-xl p-space-md flex flex-col justify-between h-32 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-xl group-hover:bg-primary/10 transition-colors"></div>
+        <div class="flex justify-between items-start relative z-10">
+            <span class="font-label-sm text-on-surface-variant tracking-wider uppercase">Active Roster</span>
+            <span class="material-symbols-outlined text-primary text-[20px]">groups</span>
+        </div>
+        <div class="flex items-baseline gap-space-xs relative z-10">
+            <span class="font-telemetry-code text-4xl text-on-surface font-light">142</span>
+            <span class="font-label-xs text-status-ok">100% Fit</span>
+        </div>
+    </div>
+
+    <!-- Active Medevacs -->
+    <div class="glass-card rounded-xl p-space-md flex flex-col justify-between h-32 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-status-ok/5 rounded-full blur-xl group-hover:bg-status-ok/10 transition-colors"></div>
+        <div class="flex justify-between items-start relative z-10">
+            <span class="font-label-sm text-on-surface-variant tracking-wider uppercase">Active Evacs</span>
+            <span class="material-symbols-outlined text-status-ok text-[20px]">flight_takeoff</span>
+        </div>
+        <div class="flex items-baseline gap-space-xs relative z-10">
+            <span class="font-telemetry-code text-4xl text-on-surface font-light">0</span>
+            <span class="font-label-xs text-status-stale">Standby</span>
+        </div>
+    </div>
+
+    <!-- Telemed Consults -->
+    <div class="glass-card rounded-xl p-space-md flex flex-col justify-between h-32 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-status-info/5 rounded-full blur-xl group-hover:bg-status-info/10 transition-colors"></div>
+        <div class="flex justify-between items-start relative z-10">
+            <span class="font-label-sm text-on-surface-variant tracking-wider uppercase">Telemed Active</span>
+            <span class="material-symbols-outlined text-status-info text-[20px]">video_camera_front</span>
+        </div>
+        <div class="flex items-baseline gap-space-xs relative z-10">
+            <span class="font-telemetry-code text-4xl text-on-surface font-light">3</span>
+            <span class="font-label-xs text-status-info">In Progress</span>
+        </div>
+    </div>
+
+    <!-- Critical Incidents -->
+    <div class="glass-card rounded-xl p-space-md flex flex-col justify-between h-32 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-status-warning/5 rounded-full blur-xl group-hover:bg-status-warning/10 transition-colors"></div>
+        <div class="flex justify-between items-start relative z-10">
+            <span class="font-label-sm text-on-surface-variant tracking-wider uppercase">24H Incidents</span>
+            <span class="material-symbols-outlined text-status-warning text-[20px]">medical_services</span>
+        </div>
+        <div class="flex items-baseline gap-space-xs relative z-10">
+            <span class="font-telemetry-code text-4xl text-on-surface font-light">1</span>
+            <span class="font-label-xs text-status-warning">Minor Frostbite</span>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Area -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
+    
+    <!-- Personnel Health Matrix -->
+    <div class="glass-card rounded-xl border border-outline/10 lg:col-span-2">
+        <div class="p-space-md border-b border-outline/10 flex justify-between items-center">
+            <h3 class="font-body-lg text-on-surface font-medium" style="font-family: 'Playfair Display', serif;">Vitals Telemetry Feed</h3>
+            <span class="px-2 py-1 rounded bg-status-ok/10 text-status-ok font-telemetry-code text-[10px] tracking-wider border border-status-ok/20 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-status-ok animate-pulse"></span>LIVE FEED</span>
+        </div>
+        <div class="p-0 overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-surface-container-lowest/50">
+                        <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Operative</th>
+                        <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Station</th>
+                        <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Heart Rate</th>
+                        <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">SpO2</th>
+                        <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Core Temp</th>
+                        <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline/5 font-telemetry-code text-sm">
+                    <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+                        <td class="p-space-sm flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-sm">RK</div>
+                            <div class="flex flex-col">
+                                <span class="text-on-surface font-ui">Dr. R. Kapoor</span>
+                                <span class="text-on-surface-variant text-xs">Medical Lead</span>
+                            </div>
+                        </td>
+                        <td class="p-space-sm text-secondary">Bharati</td>
+                        <td class="p-space-sm text-on-surface">68 bpm</td>
+                        <td class="p-space-sm text-on-surface">98%</td>
+                        <td class="p-space-sm text-on-surface">36.5°C</td>
+                        <td class="p-space-sm"><span class="px-2 py-0.5 rounded-full bg-status-ok/10 border border-status-ok/30 text-status-ok text-xs font-ui">Nominal</span></td>
+                    </tr>
+                    <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+                        <td class="p-space-sm flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-sm">AS</div>
+                            <div class="flex flex-col">
+                                <span class="text-on-surface font-ui">A. Sharma</span>
+                                <span class="text-on-surface-variant text-xs">Convoy Operator</span>
+                            </div>
+                        </td>
+                        <td class="p-space-sm text-tertiary">Maitri (Traverse)</td>
+                        <td class="p-space-sm text-status-warning font-semibold">112 bpm</td>
+                        <td class="p-space-sm text-on-surface">96%</td>
+                        <td class="p-space-sm text-status-warning">35.8°C</td>
+                        <td class="p-space-sm"><span class="px-2 py-0.5 rounded-full bg-status-warning/10 border border-status-warning/30 text-status-warning text-xs font-ui">Elevated Stress</span></td>
+                    </tr>
+                    <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+                        <td class="p-space-sm flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-sm">MN</div>
+                            <div class="flex flex-col">
+                                <span class="text-on-surface font-ui">M. Nair</span>
+                                <span class="text-on-surface-variant text-xs">Glaciologist</span>
+                            </div>
+                        </td>
+                        <td class="p-space-sm text-secondary">Bharati</td>
+                        <td class="p-space-sm text-on-surface">74 bpm</td>
+                        <td class="p-space-sm text-on-surface">99%</td>
+                        <td class="p-space-sm text-on-surface">36.6°C</td>
+                        <td class="p-space-sm"><span class="px-2 py-0.5 rounded-full bg-status-ok/10 border border-status-ok/30 text-status-ok text-xs font-ui">Nominal</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Active Consultations & Alerts -->
+    <div class="flex flex-col gap-space-md">
+        <!-- AI Diagnosis Panel -->
+        <div class="glass-card rounded-xl border border-outline/10 p-space-md flex-1">
+            <h3 class="font-body-lg text-on-surface font-medium mb-space-sm" style="font-family: 'Playfair Display', serif;">Tele-Diagnosis Queue</h3>
+            <div class="space-y-space-sm mt-space-md">
+                <div class="p-space-sm rounded bg-surface-container-low border border-outline/10">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-telemetry-code text-status-info text-xs tracking-wider">CASE 409-B</span>
+                        <span class="font-label-xs text-on-surface-variant">12m ago</span>
+                    </div>
+                    <p class="font-body-sm text-on-surface mb-2">Mild hypothermia suspected during exterior maintenance EVA. Prescribed warming protocols.</p>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant text-[10px] uppercase">Bharati</span>
+                        <span class="px-2 py-0.5 rounded bg-status-info/10 text-status-info text-[10px] uppercase border border-status-info/20">Monitoring</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+<aside
+  class="hidden lg:flex fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex-col shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
+  <div class="h-14 px-space-base flex items-center gap-space-sm bg-surface-container"><span
+      class="material-symbols-outlined text-secondary text-[20px]">domain</span>
+    <div class="flex flex-col"><span
+        class="font-label-md text-label-md text-on-surface tracking-wider uppercase font-semibold">BHARATI COASTAL CMD</span><span class="font-label-xs text-label-xs text-on-surface-variant font-medium">LARSEMANN HILLS •
+        69°24'S</span></div>
+  </div>
+  <div class="flex-1 overflow-y-auto px-space-sm py-space-md space-y-space-lg">
+    <div class="space-y-space-xs">
+      <div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">OVERVIEW</div>
+      <nav class="space-y-space-2xs">
+          <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/">
+            <span class="material-symbols-outlined text-[18px]">dashboard</span><span>Station Dashboard</span>
+          </a>
+          <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/station-twin' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/station-twin">
+            <span class="material-symbols-outlined text-[18px]">view_in_ar</span><span>Digital Twin (2.5D)</span>
+          </a>
+      </nav>
+    </div>
+    
+    <div class="space-y-space-xs">
+      <div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">OPERATIONAL DOMAINS</div>
+      <nav class="space-y-space-2xs">
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/energy' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/energy">
+          <span class="material-symbols-outlined text-[18px]">electric_bolt</span><span>Microgrid &amp; Power</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/infrastructure' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/infrastructure">
+          <span class="material-symbols-outlined text-[18px]">engineering</span><span>Infrastructure &amp; LSS</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/environment' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/environment">
+          <span class="material-symbols-outlined text-[18px]">satellite_alt</span><span>Local Environment</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/logistics' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/logistics">
+          <span class="material-symbols-outlined text-[18px]">local_shipping</span><span>Logistics &amp; Supply</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/telemetry' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/telemetry">
+          <span class="material-symbols-outlined text-[18px]">sensors</span><span>Telemetry Streams</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/alerts' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/alerts">
+          <span class="material-symbols-outlined text-[18px]">warning</span><span>Station Alerts</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="space-y-space-xs">
+      <div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">PERSONNEL &amp; SCIENCE</div>
+      <nav class="space-y-space-2xs">
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/personnel' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/personnel">
+          <span class="material-symbols-outlined text-[18px]">group</span><span>Station Roster</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/health' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/health">
+          <span class="material-symbols-outlined text-[18px]">monitor_heart</span><span>Medical Readiness</span>
+        </a>
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/research' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/bharati/research">
+          <span class="material-symbols-outlined text-[18px]">biotech</span><span>Science Operations</span>
+        </a>
+      </nav>
+    </div>
+
+  </div>
+  <div class="p-space-base bg-surface-container-lowest space-y-space-xs font-telemetry-code text-telemetry-code">
+    <div class="flex items-center justify-between text-on-surface-variant"><span class="flex items-center gap-1.5"><span
+          class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span>AES-256 GCM</span><span
+        class="text-outline text-label-xs">SECURE</span></div>
+    <div class="flex items-center justify-between text-outline text-label-xs"><span>Node:
+        BHA-LOCAL-GW</span><span>14:28:10 UTC</span></div>
+  </div>
+</aside>

@@ -1,12 +1,15 @@
-# 🤖 2.5D Interactive Station View — Agent Implementation Guide (SIH26060)
+# 2.5D Interactive Station View — Agent Implementation Guide (SIH26060)
 
-## 0. Who this file is for
+## 0. Purpose & Authority
 
-This file is written to be handed directly to a coding agent (Claude Code, Cursor, Cowork, etc.) as its brief for building the **interactive schematic/2.5D station view** — the "Should-Have" item in `1-project-overview.md` §5 ("Simple schematic/2D layout view showing which subsystem an alert maps to").
+This guide defines the engineering specification for building and maintaining the **2.5D interactive digital twin station view** for DTFIAS.
+It guides AI coding agents and frontend engineers in parsing SVG schematics, wiring Alpine.js interactivity, displaying real-time telemetry, and integrating with FastAPI.
 
-The companion file, **`8-station-view-figma-guide.md`**, is for the human/design side of this same feature — producing the actual illustration. This file assumes that artifact exists (or is being produced in parallel) and focuses entirely on the code: parsing the SVG, wiring interactivity, and integrating it into the rest of the app.
-
-**Before starting, read:** `1-project-overview.md` (scope/MVP boundaries), `3-data-transmission-antarctic-to-hq.md` §4–6 (data categories and priority tiers — the status model below is built directly on this), and your team's `architecture.md` if one exists in the repo (referenced throughout the project files but not included in this set — if it's missing, ask the user for it or for the store-and-forward sync design before wiring live data).
+**Authoritative References:**
+- **Structural Architecture:** [`docs/architecture.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/architecture.md)
+- **Database & Asset Taxonomy:** [`docs/database.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/database.md) (v1 Lock)
+- **Frontend Routes & Endpoints:** [`docs/frontend-endpoints.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/frontend-endpoints.md)
+- **Brand Tokens & Status Colors:** [`.agents/brand_design/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/brand_design/SKILL.md)
 
 ---
 
@@ -37,35 +40,35 @@ The companion file, **`8-station-view-figma-guide.md`**, is for the human/design
 - [ ]  Replace hardcoded fill/stroke colors with CSS custom properties (`var(--status-ok)`, etc.) so status-driven recoloring works without touching the SVG file again later.
 - [ ]  Confirm `viewBox` is set (not fixed `width`/`height`) so the illustration scales responsively.
 
-## 4. Component architecture (Phase B)
+## 4. Component Architecture (FastAPI + Jinja2 + Alpine.js)
 
-- [ ]  Build a station-agnostic `<StationTwin stationId="bharati" />` component — don't hardcode Bharati-specific logic into it.
-- [ ]  Inline the SVG (via `import ... ?react` / raw import / equivalent), **not** an `<img>` tag — interactivity requires DOM access to individual elements.
-- [ ]  Create `hotspotConfig.ts`: an array mapping each SVG hotspot id → `{ assetId, label, category, dataKey }`.
-- [ ]  Build `AssetStatusPanel` — the side panel shown on hotspot click, displaying the asset's current value, status, and last-updated time.
-- [ ]  Implement a pure `statusToVisual(status, priority)` function returning a CSS class — keep visual logic out of the SVG and out of the panel component so it's testable in isolation.
-- [ ]  Implement a category/layer toggle (Infrastructure / Energy / Environmental / Logistics — matching `3-data-transmission-antarctic-to-hq.md` §4) that filters which hotspots are visible/active, reusing the same underlying SVG.
-- [ ]  Wire the component to the app's simulated data feed so it reflects `stale: true` states distinctly (dimmed/greyed hotspot + a small "last updated Xm ago" label), not just live values.
+- **Station-Agnostic Layout**: Implement a parameterized template (`app/templates/station/twin.html` or `app/templates/bharati/station_twin.html`) driven by station route parameters (`/{station_id}/twin`).
+- **Inline SVG Only**: Embed the SVG directly within the template (`{% include ... %}` or inline markup), **never** as an `<img>` tag — interactivity and CSS variable inheritance require DOM access to individual elements.
+- **Client Runtime (`app/static/js/station_twin.js`)**: An Alpine.js component (`x-data="stationTwin()"`) manages hotspot bindings, hover highlights, and active selection state.
+- **Asset Status Panel (`app/templates/components/asset_drawer.html`)**: The flyout drawer shown on hotspot click, displaying the asset's current value, operational status, threshold range, and freshness timestamp.
+- **Layer Filters**: Implement category toggles (`Infrastructure`, `Energy`, `Environmental`, `Logistics`) to filter active hotspots without page reload.
+- **Data Freshness / Staleness**: Reflect `stale: true` states distinctly (dimmed/desaturated hotspot + "last updated Xm ago" badge).
 
-## 5. Data contract (Phase C)
+## 5. Data Contract
 
-Suggested per-asset schema — adjust field names to match your actual backend/simulation output, but keep the shape:
+Per-asset telemetry schema delivered to the twin:
 
 ```json
 {
   "asset_id": "power_plant",
-  "category": "infrastructure",
+  "name": "CHP Generator #01",
+  "category": "energy",
   "priority": "P1",
   "status": "warning",
-  "value": 742,
+  "value": 282.4,
   "unit": "kW",
-  "last_updated": "2026-08-23T06:24:00Z",
+  "capacity_kw": 340.0,
+  "last_updated": "2026-09-07T14:30:00Z",
   "stale": false
 }
 ```
 
-- [ ]  Define matching TypeScript types.
-- [ ]  Ensure a 1:1 mapping between `asset_id` values and SVG hotspot ids.
+- Ensure a 1:1 mapping between `asset_id` values and SVG hotspot IDs (`hotspot-{asset_id}`).
 
 **Starting asset list** (grounded in real, documented subsystems from `3-` and `4-` — extend as your simulation grows, don't invent unrelated ones for the MVP demo):
 
@@ -108,47 +111,41 @@ Deliberately **not** included: AGEOS/the X-S band earth station — it's ISRO in
 
 ---
 
-## 9. Suggested file structure
+## 9. File Structure in DTFIAS
 
 ```
-/src
-  /components/StationTwin/
-    StationTwin.tsx
-    AssetStatusPanel.tsx
-    hotspotConfig.ts
-    statusToVisual.ts
-    stationTwin.module.css
-  /assets/stations/
-    bharati.svg
-    maitri.svg
-  /types/
-    stationAsset.ts
+DTFIAS/
+├── app/
+│   ├── routers/
+│   │   ├── bharati/router.py          # GET /bharati/twin and /bharati/station-twin
+│   │   └── maitri/router.py           # GET /maitri/twin and /maitri/station-twin
+│   ├── static/
+│   │   ├── js/
+│   │   │   └── station_twin.js        # Alpine.js component and SVG hotspot binders
+│   │   └── img/stations/
+│   │       ├── bharati_isometric.svg  # Master vector illustration
+│   │       └── maitri_isometric.svg
+│   └── templates/
+│       ├── components/
+│       │   └── asset_drawer.html      # Flyout panel for selected asset telemetry
+│       └── station/
+│           └── twin.html              # Parameterized 2.5D station twin view
 ```
 
 ---
 
-## 10. Pitfalls specific to this task
+## 10. Implementation Pitfalls to Avoid
 
-- Don't regenerate or redraw the illustration yourself — that's `8-station-view-figma-guide.md`'s job. If the art is missing, wrong, or low-quality, flag it back rather than working around it in code.
-- Don't hardcode colors inside the SVG file itself — externalize to CSS variables so a single theme change updates every station view.
+- Don't hardcode colors inside the SVG file itself — externalize to CSS variables (`var(--status-ok)`, `var(--status-warning)`, `var(--status-critical)`) so theme changes propagate instantly.
 - Don't use `<img src="station.svg">` — you lose the ability to target individual elements with JS/CSS.
-- Don't build a separate SVG per status combination — one illustration, driven entirely by data.
-- Don't add 3D/WebGL "just in case" — it's explicitly de-scoped (`1-project-overview.md` §3, §5 Nice-to-Have).
+- Don't build separate SVG files per status combination — one master illustration, driven dynamically by telemetry data.
+- Don't add Three.js/WebGL to the 2.5D view — 3D view is an optional lazy-loaded module (`station_3d_view.js` under `x-init`, C16), whereas the 2.5D twin is the primary zero-dependency SCADA interface.
 
 ---
 
-## 11. Open questions to raise with the human team before/while building
+## 11. Authoritative Related Documentation
 
-- [ ]  Final call: Bharati only for MVP, or Bharati + Maitri from day one?
-- [ ]  Does an `architecture.md` already exist with a finalized asset/category taxonomy? If so, this file's asset list (§5) should defer to it.
-- [ ]  What's the actual simulated-data update interval, and should the "stale" threshold in the UI match it?
-- [ ]  Confirm design tokens/color palette with whoever owns the Figma file in `8-station-view-figma-guide.md`, rather than picking arbitrary status colors independently.
-
----
-
-## 12. Related files
-
-- `1-project-overview.md` — MVP scope and feature priority
-- `3-data-transmission-antarctic-to-hq.md` — data categories, priority tiers, message envelope
-- `4-stations-and-headquarters.md` — real subsystem names/facts to ground the asset list
-- `8-station-view-figma-guide.md` — companion file: how the illustration itself gets made
+- [`docs/architecture.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/architecture.md) — Four-layer architecture, constraints C1–C17, portal segregation
+- [`docs/database.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/database.md) — Asset hierarchy, sensor configurations, and telemetry retention
+- [`docs/frontend-endpoints.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/frontend-endpoints.md) — UI layout, component inventory, route mapping
+- [`.agents/brand_design/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/brand_design/SKILL.md) — Official color palette, status tokens, typography standards

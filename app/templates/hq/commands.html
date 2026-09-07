@@ -1,0 +1,197 @@
+{% extends "layouts/dashboard.html" %}
+{% block dashboard_content %}
+<!-- Continental Remote Command & Control Console -->
+<section class="w-full bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col gap-space-md">
+    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-base">
+        <div class="flex items-center gap-space-base">
+            <div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-secondary text-[28px]">terminal</span>
+            </div>
+            <div class="flex flex-col">
+                <div class="flex items-center gap-space-sm flex-wrap">
+                    <span class="font-headline-md text-headline-md text-surface-cream tracking-tight" style="font-family: 'Playfair Display', serif;">Remote Operations & Command Dispatch</span>
+                    <div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded bg-surface-container-highest">
+                        <span class="w-2 h-2 rounded-full bg-telemetry-safe animate-pulse"></span>
+                        <span class="font-label-xs text-label-xs text-surface-cream uppercase tracking-wider">COMMAND LINK ACTIVE</span>
+                    </div>
+                    <span class="font-label-xs text-label-xs text-on-surface-variant font-telemetry-code">FIPS 140-3 ED25519 SIGNED</span>
+                </div>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">NCPOR Central Polar Authority • Remote Subsystem Execution & Store-and-Forward Telemetry</span>
+            </div>
+        </div>
+        <!-- Quick Action Trigger -->
+        <div class="flex items-center gap-space-sm flex-wrap">
+            <button class="px-space-md py-space-sm rounded bg-surface-container-highest hover:bg-surface-bright text-surface-cream font-label-md text-label-md flex items-center gap-space-xs transition-colors" onclick="document.getElementById('commandModal').classList.remove('hidden')">
+                <span class="material-symbols-outlined text-secondary">send</span>
+                <span>Dispatch New Command</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Command Status Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-panel-gutter pt-space-xs">
+        <div class="bg-surface-container rounded-lg p-space-sm flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+                <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center">
+                    <span class="material-symbols-outlined text-telemetry-info text-[20px]">schedule</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Pending / Queued</span>
+                    <span class="font-title-sm text-title-sm text-surface-cream">3 Commands</span>
+                </div>
+            </div>
+            <span class="px-space-xs py-space-2xs rounded bg-status-info/10 text-status-info font-label-xs font-bold">STORE & FWD</span>
+        </div>
+
+        <div class="bg-surface-container rounded-lg p-space-sm flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+                <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center">
+                    <span class="material-symbols-outlined text-telemetry-safe text-[20px]">sync</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-label-xs text-label-xs text-on-surface-variant uppercase">In Execution</span>
+                    <span class="font-title-sm text-title-sm text-surface-cream">1 Active</span>
+                </div>
+            </div>
+            <span class="px-space-xs py-space-2xs rounded bg-status-ok/10 text-status-ok font-label-xs font-bold">EXECUTING</span>
+        </div>
+
+        <div class="bg-surface-container rounded-lg p-space-sm flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+                <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center">
+                    <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Completed (24h)</span>
+                    <span class="font-title-sm text-title-sm text-surface-cream">28 Acknowledged</span>
+                </div>
+            </div>
+            <span class="px-space-xs py-space-2xs rounded bg-surface-container-high text-secondary font-label-xs font-bold">99.2% OK</span>
+        </div>
+
+        <div class="bg-surface-container rounded-lg p-space-sm flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+                <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center">
+                    <span class="material-symbols-outlined text-telemetry-critical text-[20px]">gavel</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Security Authority</span>
+                    <span class="font-title-sm text-title-sm text-surface-cream">HQ-Admin Level</span>
+                </div>
+            </div>
+            <span class="px-space-xs py-space-2xs rounded bg-status-critical/10 text-status-critical font-label-xs font-bold">RBAC GUARD</span>
+        </div>
+    </div>
+</section>
+
+<!-- Active Dispatch Queue & Historical Command Stream -->
+<section class="w-full bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col gap-space-md">
+    <div class="flex items-center justify-between">
+        <h2 class="font-headline-md text-headline-md text-surface-cream" style="font-family: 'Playfair Display', serif;">Tactical Command Ledger</h2>
+        <span class="font-telemetry-code text-xs text-on-surface-variant">AUTO-REFRESH: 5s • AUDIT VERIFIED</span>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-on-surface border-collapse">
+            <thead>
+                <tr class="border-b border-outline/20 font-label-xs text-on-surface-variant uppercase tracking-wider">
+                    <th class="py-3 px-4">Command ID</th>
+                    <th class="py-3 px-4">Station</th>
+                    <th class="py-3 px-4">Subsystem</th>
+                    <th class="py-3 px-4">Action & Payload</th>
+                    <th class="py-3 px-4">Priority</th>
+                    <th class="py-3 px-4">Issued By</th>
+                    <th class="py-3 px-4">State</th>
+                    <th class="py-3 px-4">Timestamp</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline/10 font-body-sm">
+                <tr class="hover:bg-surface-container/50 transition-colors">
+                    <td class="py-3 px-4 font-telemetry-code text-secondary">CMD-2026-0891</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-surface-container text-xs font-semibold uppercase">Bharati</span></td>
+                    <td class="py-3 px-4 text-on-surface">Energy / CHP-02</td>
+                    <td class="py-3 px-4 font-telemetry-code text-xs">SET_POWER_OUTPUT(generator_id="CHP-02", target_kw=420)</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-status-warning/10 text-status-warning text-xs font-bold">P1</span></td>
+                    <td class="py-3 px-4">hq_admin@ncpor.gov.in</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-status-ok/10 text-status-ok text-xs font-semibold">EXECUTED</span></td>
+                    <td class="py-3 px-4 font-telemetry-code text-xs text-on-surface-variant">2026-09-07 14:15:22 UTC</td>
+                </tr>
+                <tr class="hover:bg-surface-container/50 transition-colors">
+                    <td class="py-3 px-4 font-telemetry-code text-secondary">CMD-2026-0892</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-surface-container text-xs font-semibold uppercase">Maitri</span></td>
+                    <td class="py-3 px-4 text-on-surface">HVAC / Hab-Block</td>
+                    <td class="py-3 px-4 font-telemetry-code text-xs">SET_TEMPERATURE_TARGET(zone="HAB-01", target_c=21.5)</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-status-info/10 text-status-info text-xs font-bold">P2</span></td>
+                    <td class="py-3 px-4">hq_operator@ncpor.gov.in</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-status-ok/10 text-status-ok text-xs font-semibold">EXECUTED</span></td>
+                    <td class="py-3 px-4 font-telemetry-code text-xs text-on-surface-variant">2026-09-07 14:02:11 UTC</td>
+                </tr>
+                <tr class="hover:bg-surface-container/50 transition-colors">
+                    <td class="py-3 px-4 font-telemetry-code text-secondary">CMD-2026-0893</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-surface-container text-xs font-semibold uppercase">Bharati</span></td>
+                    <td class="py-3 px-4 text-on-surface">Fuel Storage</td>
+                    <td class="py-3 px-4 font-telemetry-code text-xs">ISOLATE_VALVE_TRANSFER(line="Aviation-A1", valve="V-04")</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-status-critical/10 text-status-critical text-xs font-bold">P0</span></td>
+                    <td class="py-3 px-4">hq_admin@ncpor.gov.in</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-status-info/10 text-status-info text-xs font-semibold animate-pulse">EXECUTING</span></td>
+                    <td class="py-3 px-4 font-telemetry-code text-xs text-on-surface-variant">2026-09-07 14:26:40 UTC</td>
+                </tr>
+                <tr class="hover:bg-surface-container/50 transition-colors">
+                    <td class="py-3 px-4 font-telemetry-code text-secondary">CMD-2026-0894</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-surface-container text-xs font-semibold uppercase">Maitri</span></td>
+                    <td class="py-3 px-4 text-on-surface">Comms / SATCOM</td>
+                    <td class="py-3 px-4 font-telemetry-code text-xs">SWITCH_BACKUP_CARRIER(transponder="GSAT-7A-Backup")</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-status-warning/10 text-status-warning text-xs font-bold">P1</span></td>
+                    <td class="py-3 px-4">hq_admin@ncpor.gov.in</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant text-xs font-semibold">QUEUED</span></td>
+                    <td class="py-3 px-4 font-telemetry-code text-xs text-on-surface-variant">2026-09-07 14:27:55 UTC</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Dispatch Modal -->
+<div id="commandModal" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+    <div class="bg-surface-container-low border border-outline/20 rounded-xl max-w-xl w-full p-space-base shadow-2xl space-y-space-md">
+        <div class="flex items-center justify-between border-b border-outline/10 pb-space-sm">
+            <h3 class="font-headline-md text-headline-md text-surface-cream" style="font-family: 'Playfair Display', serif;">Issue Remote Tactical Command</h3>
+            <button onclick="document.getElementById('commandModal').classList.add('hidden')" class="text-on-surface-variant hover:text-surface-cream">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form class="space-y-space-sm" onsubmit="event.preventDefault(); alert('Command dispatched and appended to Cryptographic Audit Ledger (C7).'); document.getElementById('commandModal').classList.add('hidden');">
+            <div>
+                <label class="block font-label-xs text-on-surface-variant uppercase mb-1">Target Station</label>
+                <select class="w-full bg-surface-container border border-outline/20 rounded px-3 py-2 text-surface-cream font-body-sm">
+                    <option value="bharati">Bharati Coastal Station (69°24'S 76°11'E)</option>
+                    <option value="maitri">Maitri Inland Station (70°45'S 11°44'E)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-label-xs text-on-surface-variant uppercase mb-1">Target Subsystem</label>
+                <select class="w-full bg-surface-container border border-outline/20 rounded px-3 py-2 text-surface-cream font-body-sm">
+                    <option value="energy">Energy & Microgrid (CHP Generators, Battery Bank)</option>
+                    <option value="infrastructure">Habitat & Life Support (HVAC, Water Loop)</option>
+                    <option value="logistics">Fuel Farm & Convoy Transfer</option>
+                    <option value="comms">SATCOM & Emergency Beacons</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-label-xs text-on-surface-variant uppercase mb-1">Command Action Type</label>
+                <input type="text" value="SET_THRESHOLD" class="w-full bg-surface-container border border-outline/20 rounded px-3 py-2 text-surface-cream font-telemetry-code text-sm" placeholder="e.g. POWER_CYCLE, ISOLATE_CIRCUIT, SET_PARAM">
+            </div>
+            <div>
+                <label class="block font-label-xs text-on-surface-variant uppercase mb-1">JSON Payload Parameter</label>
+                <textarea rows="3" class="w-full bg-surface-container border border-outline/20 rounded px-3 py-2 text-surface-cream font-telemetry-code text-xs">{"target_subsystem": "CHP-03", "action": "ENGAGE_PEAK_SHAVING", "duration_minutes": 120}</textarea>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="document.getElementById('commandModal').classList.add('hidden')" class="px-4 py-2 rounded bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-sm">Cancel</button>
+                <button type="submit" class="px-4 py-2 rounded bg-secondary text-surface-container-lowest font-semibold hover:bg-secondary-dim transition-colors font-label-md text-sm flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[18px]">lock</span> Authorize & Dispatch
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

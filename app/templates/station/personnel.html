@@ -1,0 +1,60 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+    <div>
+        <div class="flex items-center gap-space-sm mb-space-2xs">
+            <span class="material-symbols-outlined text-on-surface-variant text-[24px]">group</span>
+            <span class="font-telemetry-code text-label-md text-on-surface-variant tracking-widest uppercase">{{ station_id }} Roster</span>
+        </div>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Station Personnel</h1>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl border border-outline/10 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards] p-space-md">
+    
+    <div class="flex gap-4 mb-6 border-b border-outline/10 pb-4">
+        <button class="px-4 py-2 rounded bg-surface-container-highest text-on-surface font-label-sm font-medium tracking-wider uppercase border border-outline/20">All Personnel</button>
+        <button class="px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-low font-label-sm font-medium tracking-wider uppercase transition-colors">Scientists</button>
+        <button class="px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-low font-label-sm font-medium tracking-wider uppercase transition-colors">Logistics</button>
+        <button class="px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-low font-label-sm font-medium tracking-wider uppercase transition-colors">Command</button>
+    </div>
+
+    <!-- Roster Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md">
+        
+        <!-- Person 1 -->
+        <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline/10 flex items-center gap-4 hover:border-primary/30 transition-colors cursor-pointer group">
+            <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-lg group-hover:bg-primary/10 group-hover:text-primary transition-colors">RK</div>
+            <div class="flex-1">
+                <div class="font-ui text-on-surface font-medium">Dr. R. Kapoor</div>
+                <div class="font-label-xs text-on-surface-variant">Medical Lead</div>
+            </div>
+            <span class="material-symbols-outlined text-status-ok text-[18px]">verified_user</span>
+        </div>
+
+        <!-- Person 2 -->
+        <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline/10 flex items-center gap-4 hover:border-primary/30 transition-colors cursor-pointer group">
+            <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-lg group-hover:bg-primary/10 group-hover:text-primary transition-colors">MN</div>
+            <div class="flex-1">
+                <div class="font-ui text-on-surface font-medium">M. Nair</div>
+                <div class="font-label-xs text-on-surface-variant">Glaciologist</div>
+            </div>
+            <span class="material-symbols-outlined text-status-ok text-[18px]">verified_user</span>
+        </div>
+
+        <!-- Person 3 -->
+        <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline/10 flex items-center gap-4 hover:border-primary/30 transition-colors cursor-pointer group">
+            <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-lg group-hover:bg-primary/10 group-hover:text-primary transition-colors">AS</div>
+            <div class="flex-1">
+                <div class="font-ui text-on-surface font-medium">A. Sharma</div>
+                <div class="font-label-xs text-on-surface-variant">Convoy Operator</div>
+            </div>
+            <span class="material-symbols-outlined text-status-warning text-[18px]">warning</span>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

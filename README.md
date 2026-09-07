@@ -33,11 +33,23 @@ DATABASE_URL=postgresql+asyncpg://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT-REF]
 3. Scroll to **Connection string** → select **URI**
 4. Copy the string and **replace** `postgresql://` with `postgresql+asyncpg://`
 
+### 2. Apply Database Schema
+
+Before starting the backend, apply the initial schema to your Supabase project:
+- Open your Supabase Dashboard → **SQL Editor** → **New Query**
+- Paste and run the contents of `scripts/migrations/001_initial_schema.sql`
+- Or run via `psql "postgresql://postgres:[PASSWORD]@db.[REF].supabase.co:5432/postgres" -f scripts/migrations/001_initial_schema.sql`
+
+To verify database connectivity:
+```bash
+python scripts/test_db_connection.py
+```
+
 ---
 
 ## Running with Docker
 
-### 2. Build and Start
+### 3. Build and Start
 
 ```bash
 docker compose up --build
@@ -45,14 +57,12 @@ docker compose up --build
 
 *(Add `-d` to run detached in the background)*
 
-The app will:
-1. Build the Tailwind CSS
-2. Install Python dependencies
-3. Test the Supabase connection
-4. Auto-create any missing database tables (via SQLAlchemy)
-5. Start the FastAPI server on port 8000
+The container will:
+1. Pre-build Tailwind CSS
+2. Install Python 3.12+ dependencies
+3. Start the FastAPI server on port 8000
 
-### 3. Access the Application
+### 4. Access the Application
 
 | URL | Description |
 |-----|-------------|
@@ -60,7 +70,7 @@ The app will:
 | [http://localhost:8000/docs](http://localhost:8000/docs) | Swagger API Docs |
 | [http://localhost:8000/redoc](http://localhost:8000/redoc) | ReDoc API Docs |
 
-### 4. Stop the Application
+### 5. Stop the Application
 
 ```bash
 docker compose down

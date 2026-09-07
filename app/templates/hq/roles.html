@@ -1,0 +1,61 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+    <div>
+        <div class="flex items-center gap-space-sm mb-space-2xs">
+            <span class="material-symbols-outlined text-primary text-[24px]">admin_panel_settings</span>
+            <span class="font-telemetry-code text-label-md text-primary tracking-widest uppercase">Access Control</span>
+        </div>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Roles & Matrix</h1>
+    </div>
+    <div class="flex gap-space-sm">
+        <button class="px-space-md py-space-xs rounded bg-primary/10 border border-primary/30 text-primary font-label-md tracking-wider uppercase hover:bg-primary/20 transition-colors flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[18px]">add</span> Define Role
+        </button>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl border border-outline/10 p-space-md opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+    <h3 class="font-body-lg text-on-surface font-medium mb-space-md" style="font-family: 'Playfair Display', serif;">RBAC Definitions</h3>
+    <p class="font-body-sm text-on-surface-variant mb-space-lg max-w-2xl">Modify permissions across domains for specific roles. Station operators are restricted to their assigned terminal context.</p>
+    
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-surface-container-lowest/50">
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Role Name</th>
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium text-center">Energy SCADA</th>
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium text-center">Logistics</th>
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium text-center">Medical</th>
+                    <th class="p-space-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-medium text-center">Audit</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline/5 font-ui text-sm">
+                <tr class="hover:bg-surface-container-low transition-colors">
+                    <td class="p-space-sm font-telemetry-code text-primary">HQ_ADMIN</td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-ok text-[18px]">check_circle</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-ok text-[18px]">check_circle</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-ok text-[18px]">check_circle</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-ok text-[18px]">check_circle</span></td>
+                </tr>
+                <tr class="hover:bg-surface-container-low transition-colors">
+                    <td class="p-space-sm font-telemetry-code text-on-surface">STATION_OPERATOR</td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-ok text-[18px]">check_circle</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-on-surface-variant text-[18px]">visibility</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-warning text-[18px]">block</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-warning text-[18px]">block</span></td>
+                </tr>
+                <tr class="hover:bg-surface-container-low transition-colors">
+                    <td class="p-space-sm font-telemetry-code text-on-surface">SCIENTIST</td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-on-surface-variant text-[18px]">visibility</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-warning text-[18px]">block</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-warning text-[18px]">block</span></td>
+                    <td class="p-space-sm text-center"><span class="material-symbols-outlined text-status-warning text-[18px]">block</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

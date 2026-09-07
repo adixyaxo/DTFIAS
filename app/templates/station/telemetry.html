@@ -1,0 +1,48 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+    <div>
+        <div class="flex items-center gap-space-sm mb-space-2xs">
+            <span class="material-symbols-outlined text-on-surface-variant text-[24px]">sensors</span>
+            <span class="font-telemetry-code text-label-md text-on-surface-variant tracking-widest uppercase">{{ station_id }} Raw Telemetry</span>
+        </div>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Telemetry Streams</h1>
+    </div>
+</div>
+
+<div class="glass-card rounded-xl border border-outline/10 p-space-md opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+    <div class="font-telemetry-code text-xs text-status-ok mb-4 flex items-center gap-2"><span class="w-1.5 h-1.5 bg-status-ok rounded-full animate-pulse"></span> RAW SOCKET ACTIVE</div>
+    
+    <div class="bg-surface-container-lowest border border-outline/10 rounded p-4 h-96 overflow-y-auto font-telemetry-code text-xs space-y-1" id="telemetry-log">
+        <div class="text-on-surface-variant">[14:02:01 UTC] <span class="text-on-surface">SYS.BOOT:</span> Kernel init... OK</div>
+        <div class="text-on-surface-variant">[14:02:05 UTC] <span class="text-on-surface">NET.LINK:</span> Uplink established to NCPOR-HQ.</div>
+        <div class="text-on-surface-variant">[14:02:10 UTC] <span class="text-status-info">SENSOR.ENV:</span> Ext Temp -12.4C, Wind 45kt</div>
+        <div class="text-on-surface-variant">[14:02:15 UTC] <span class="text-status-ok">GRID.SYNC:</span> Load balancing nominal.</div>
+        <div class="text-on-surface-variant">[14:02:20 UTC] <span class="text-status-warning">WARN.SYS:</span> High latency on node 4.</div>
+    </div>
+</div>
+
+<script>
+    // Simulate incoming telemetry
+    const log = document.getElementById('telemetry-log');
+    const messages = [
+        '<span class="text-status-info">SENSOR.ENV:</span> Ext Temp -13.1C, Wind 42kt',
+        '<span class="text-status-ok">GRID.SYNC:</span> Microgrid steady state.',
+        '<span class="text-on-surface">NET.PING:</span> RTT 450ms',
+        '<span class="text-on-surface">LSS.HVAC:</span> Modulating air intake.',
+    ];
+    
+    setInterval(() => {
+        const div = document.createElement('div');
+        const now = new Date();
+        const time = now.toISOString().split('T')[1].slice(0,8) + ' UTC';
+        const msg = messages[Math.floor(Math.random() * messages.length)];
+        div.className = 'text-on-surface-variant animate-[fadeIn_0.3s_ease-out_forwards]';
+        div.innerHTML = `[${time}] ${msg}`;
+        log.appendChild(div);
+        log.scrollTop = log.scrollHeight;
+    }, 3000);
+</script>
+{% endblock %}

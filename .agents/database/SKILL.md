@@ -37,28 +37,48 @@ Reference these guidelines when:
 | 7 | Monitoring & Diagnostics | LOW-MEDIUM | `monitor-` |
 | 8 | Advanced Features | LOW | `advanced-` |
 
-## How to Use
+## Essential Rules for DTFIAS PostgreSQL & Supabase
 
-Read individual rule files for detailed explanations and SQL examples:
+### 1. Connection & Driver Strategy
+- **Driver Scheme**: Always use `postgresql+asyncpg://` for SQLAlchemy async engine.
+- **Port Selection**:
+  - Direct connection: `db.<ref>.supabase.co:5432/postgres` (default session mode for migrations and dev).
+  - Transaction pooler: `aws-0-<region>.pooler.supabase.com:6543/postgres` (use when scaling serverless or multi-worker).
+- **SSL / TLS**: Supabase requires SSL. In asyncpg, ensure SSL context is configured if connecting directly in production.
+- **NEVER** use anon key (`sb_publishable_*`) as database password. Use the database password from Supabase Project Settings.
 
-```
-references/query-missing-indexes.md
-references/query-partial-indexes.md
-references/_sections.md
-```
+### 2. Query Performance & Indexing Rules
+- **Foreign Key Indexing**: Postgres does NOT automatically index foreign key columns. Always index every `REFERENCES` column (e.g. `station_id`, `user_id`, `asset_id`).
+  ```sql
+  CREATE INDEX idx_assets_station_id ON assets(station_id);
+  ```
+- **Time-Series Telemetry Composite Index**: For rolling telemetry (`energy_readings`, `environment_readings`, `asset_readings`), queries filter by station and order by timestamp. Use a composite B-Tree index:
+  ```sql
+  CREATE INDEX idx_energy_readings_station_time ON energy_readings(station_id, recorded_at DESC);
+  ```
+- **Partial Indexes for Operational Status**: When querying active alerts or pending commands, use partial indexes to avoid full table scans:
+  ```sql
+  CREATE INDEX idx_active_alerts_unresolved ON active_alerts(station_id) WHERE resolved_at IS NULL;
+  CREATE INDEX idx_commands_executing ON commands(station_id) WHERE status IN ('SENT', 'RECEIVED', 'EXECUTING');
+  ```
 
-Each rule file contains:
-- Brief explanation of why it matters
-- Incorrect SQL example with explanation
-- Correct SQL example with explanation
-- Optional EXPLAIN output or metrics
-- Additional context and references
-- Supabase-specific notes (when applicable)
+### 3. Schema Design & Data Integrity
+- **Canonical Schema Authority**: Consult [`docs/database.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/database.md) and [`scripts/migrations/001_initial_schema.sql`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/scripts/migrations/001_initial_schema.sql) before adding or changing tables.
+- **IDs & Keys**:
+  - Use `UUID PRIMARY KEY DEFAULT gen_random_uuid()` for all entities (stations, users, assets, logs).
+  - Station references MUST be `station_id UUID REFERENCES stations(id) NOT NULL`.
+- **Enums**:
+  - Operational states use native Postgres enums: `station_status`, `alert_severity`, `command_status`, `telemetry_quality`.
+  - Roles and Stations are normalized relational tables (`roles`, `stations`).
+- **Timestamps**: Always use `TIMESTAMPTZ` (timestamp with time zone) and default to `NOW()`. Never use timezone-naive `TIMESTAMP`.
 
-## References
+### 4. Security & Access Control
+- **Backend Only (C15)**: The frontend never connects directly to Supabase Postgres. Only the FastAPI backend connects via async SQLAlchemy with backend credentials.
+- **Zero f-string SQL (C8)**: Construct all queries using SQLAlchemy ORM or parameterized `text("SELECT ... WHERE col = :val")`. Never interpolate Python strings into SQL.
+- **Audit Logging (C7)**: Every login, state write, command issuance, and permission denial MUST insert a record into `audit_logs`.
 
-- https://www.postgresql.org/docs/current/
-- https://supabase.com/docs
-- https://wiki.postgresql.org/wiki/Performance_Optimization
-- https://supabase.com/docs/guides/database/overview
-- https://supabase.com/docs/guides/auth/row-level-security
+### 5. References & Resources
+- [PostgreSQL Official Documentation](https://www.postgresql.org/docs/current/)
+- [Supabase Database Guides](https://supabase.com/docs/guides/database/overview)
+- [SQLAlchemy 2.0 Async Documentation](https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html)
+- DTFIAS Canonical Schema: [`docs/database.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/database.md)

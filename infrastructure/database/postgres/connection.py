@@ -1,7 +1,9 @@
-﻿# infrastructure/database/postgres/connection.py
-# Connection health check / diagnostics for the PostgreSQL/Supabase backend.
+# infrastructure/database/postgres/connection.py
+"""
+Connection health check and diagnostics for Supabase PostgreSQL.
+"""
 from sqlalchemy import text
-from app.config.database import engine
+from infrastructure.database.postgres.session import engine
 
 
 async def check_connection() -> bool:

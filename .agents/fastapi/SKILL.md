@@ -139,18 +139,64 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> str
 CurrentUser = Annotated[str, Depends(get_current_user)]
 ```
 
-## Reference Guide
+## DTFIAS Backend Reference Patterns
 
-Load detailed guidance based on context:
+### 1. Pydantic V2 Best Practices
+- Use `model_config = ConfigDict(from_attributes=True, str_strip_whitespace=True)` instead of Pydantic V1 `class Config`.
+- Use `@field_validator("field_name")` with `@classmethod` instead of `@validator`.
+- Use `@model_validator(mode="after")` for cross-field validation instead of `@root_validator`.
+- Use `typing.Annotated` with Pydantic types (e.g. `Annotated[str, Field(min_length=3)]`).
 
-| Topic | Reference | Load When |
-|-------|-----------|-----------|
-| Pydantic V2 | `references/pydantic-v2.md` | Creating schemas, validation, model_config |
-| SQLAlchemy | `references/async-sqlalchemy.md` | Async database, models, CRUD operations |
-| Endpoints | `references/endpoints-routing.md` | APIRouter, dependencies, routing |
-| Authentication | `references/authentication.md` | JWT, OAuth2, get_current_user |
-| Testing | `references/testing-async.md` | pytest-asyncio, httpx, fixtures |
-| Django Migration | `references/migration-from-django.md` | Migrating from Django/DRF to FastAPI |
+### 2. Async SQLAlchemy 2.0
+- Always use `select()` statements with `await db.execute()` and `.scalars().all()` or `.scalar_one_or_none()`.
+- Never use synchronous `.query()` from SQLAlchemy 1.x.
+- Keep ORM models in `app/models/` and do NOT import SQLAlchemy into `engine/` (Hard Constraint C1).
+
+### 3. Router-Level RBAC (Hard Constraint C5)
+- Role and station access guards MUST be applied to `APIRouter(dependencies=[...])`, not individual route functions:
+```python
+from fastapi import APIRouter, Depends
+from app.middleware.auth import require_role, require_station_access
+
+# Maitri operator router guard
+router = APIRouter(
+    prefix="/maitri",
+    tags=["maitri"],
+    dependencies=[Depends(require_station_access("maitri"))]
+)
+```
+
+### 4. Password Hashing (Hard Constraint C6)
+- Use **Argon2** only via `argon2-cffi`. Never use bcrypt or sha256.
+```python
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
+
+ph = PasswordHasher()
+
+def hash_password(password: str) -> str:
+    return ph.hash(password)
+
+def verify_password(hash: str, password: str) -> bool:
+    try:
+        return ph.verify(hash, password)
+    except VerifyMismatchError:
+        return False
+```
+
+### 5. Async Testing with Pytest
+- Use `pytest-asyncio` with `httpx.AsyncClient`:
+```python
+import pytest
+from httpx import AsyncClient, ASGITransport
+from main import app
+
+@pytest.mark.asyncio
+async def test_health_check():
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        response = await ac.get("/health")
+    assert response.status_code == 200
+```
 
 ## Constraints
 
