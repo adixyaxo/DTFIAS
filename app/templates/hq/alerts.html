@@ -1,0 +1,615 @@
+{% extends "layouts/dashboard.html" %}
+{% block dashboard_content %}
+<!-- Crisis Escalation & Telemetry Readiness Bar -->
+<section class="w-full bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col gap-space-md">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-base">
+<div class="flex items-center gap-space-base">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[28px]">shield_with_heart</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-md text-headline-md text-surface-cream tracking-tight">Polar Emergency Triage Console</span>
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded bg-surface-container-highest">
+<span class="w-2 h-2 rounded-full bg-telemetry-warning animate-ping"></span>
+<span class="font-label-xs text-label-xs text-surface-cream uppercase tracking-wider">DEFCON 4 • POLAR ADVISORY LVL-1</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface-variant">SITUATION INDEX: 3.4/10 ELEVATED</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">NCPOR Remote Tactical Override • Stations: Bharati (69°24'S) & Maitri (70°45'S)</span>
+</div>
+</div>
+<!-- Action Overrides -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="px-space-md py-space-sm rounded bg-surface-container-highest hover:bg-surface-bright text-surface-cream font-label-md text-label-md flex items-center gap-space-xs transition-colors group" id="musterBtn">
+<span class="material-symbols-outlined text-telemetry-warning group-hover:scale-110 transition-transform">crisis_alert</span>
+<span>Station Muster Alarm</span>
+</button>
+<button class="relative overflow-hidden px-space-md py-space-sm rounded bg-telemetry-critical hover:bg-opacity-90 text-surface-cream font-label-md text-label-md flex items-center gap-space-xs shadow-lg transition-all active:scale-95 group" id="sosBtn">
+<span class="material-symbols-outlined text-surface-cream animate-pulse">sos</span>
+<span>COMNAP / SAR Broadcast</span>
+<span class="absolute left-0 bottom-0 top-0 bg-surface-container-lowest/30 w-0 pointer-events-none transition-all duration-75" id="sosHoldProgress"></span>
+</button>
+</div>
+</div>
+<!-- Redundant Fallback Matrix -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-panel-gutter pt-space-xs">
+<!-- GSAT-7A -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-telemetry-safe text-[20px]">cell_tower</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Primary Link</span>
+<span class="font-title-sm text-title-sm text-surface-cream truncate">GSAT-7A Ku-Band</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-high text-telemetry-safe font-label-xs text-label-xs font-bold">ONLINE</span>
+<span class="font-telemetry-code text-telemetry-code text-secondary text-[11px]">28 ms • 99.4%</span>
+</div>
+</div>
+<!-- Iridium Certus -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[20px]">satellite</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Secondary Orbit</span>
+<span class="font-title-sm text-title-sm text-surface-cream truncate">Iridium Certus 700</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-high text-telemetry-safe font-label-xs text-label-xs font-bold">HOT STANDBY</span>
+<span class="font-telemetry-code text-telemetry-code text-secondary text-[11px]">112 ms • 100%</span>
+</div>
+</div>
+<!-- HF Polar Net -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-telemetry-info text-[20px]">radio</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Tertiary Polar</span>
+<span class="font-title-sm text-title-sm text-surface-cream truncate">HF Net 7.450 MHz</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-high text-telemetry-info font-label-xs text-label-xs font-bold">SYNCED</span>
+<span class="font-telemetry-code text-telemetry-code text-on-surface-variant text-[11px]">ALE 2G • SN:18dB</span>
+</div>
+</div>
+<!-- Terrestrial UHF -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">sensors</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Terrestrial Mesh</span>
+<span class="font-title-sm text-title-sm text-surface-cream truncate">UHF Station Handheld</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-high text-telemetry-safe font-label-xs text-label-xs font-bold">ACTIVE</span>
+<span class="font-telemetry-code text-telemetry-code text-secondary text-[11px]">Ch 4 / Ch 9 SAR</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Multi-Split Workspace: Incident Queue & SOP Playbook Deck -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT 60% (7 cols): Incident Triage Queue with Data Visualizations -->
+<div class="lg:col-span-7 flex flex-col gap-space-base">
+<!-- Incident Stream Meta Header -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="w-3 h-3 rounded-full bg-telemetry-critical"></span>
+<h2 class="font-headline-md text-headline-md text-surface-cream">Real-time Triage Queue</h2>
+<span class="px-space-xs py-space-2xs bg-surface-container rounded font-telemetry-code text-telemetry-code text-secondary">4 INCIDENTS LOGGED</span>
+</div>
+<!-- 4-Tier Legend Indicator Chips -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="flex items-center gap-1 text-[11px] font-label-xs px-2 py-0.5 rounded bg-surface-container text-telemetry-safe font-bold"><span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span>NORMAL</span>
+<span class="flex items-center gap-1 text-[11px] font-label-xs px-2 py-0.5 rounded bg-surface-container text-telemetry-info font-bold"><span class="w-1.5 h-1.5 rounded-full bg-telemetry-info"></span>INFO</span>
+<span class="flex items-center gap-1 text-[11px] font-label-xs px-2 py-0.5 rounded bg-surface-container text-telemetry-warning font-bold"><span class="w-1.5 h-1.5 rounded-full bg-telemetry-warning"></span>ATTENTION</span>
+<span class="flex items-center gap-1 text-[11px] font-label-xs px-2 py-0.5 rounded bg-surface-container text-telemetry-critical font-bold"><span class="w-1.5 h-1.5 rounded-full bg-telemetry-critical"></span>CRITICAL</span>
+</div>
+</div>
+<!-- Incident Cards Feed -->
+<div class="flex flex-col gap-space-md">
+<!-- INCIDENT 1: CRITICAL #INC-4091 -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-md flex flex-col gap-space-sm transition-all hover:bg-surface-container">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-space-2xs rounded bg-surface-container-highest text-telemetry-critical font-label-xs text-label-xs uppercase tracking-wider flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-telemetry-critical animate-ping"></span>
+                Tier 4 • Critical
+              </span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">#INC-4091</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">14:19:04 UTC (9m ago)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-highest text-on-surface font-label-xs text-label-xs">LOCUS: BHARATI SECTOR 3</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<h3 class="font-title-sm text-title-sm text-surface-cream">Generator #3 Main Fuel Feed Trace Element Drop</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Outer perimeter line temperature sank to <strong class="text-error font-medium">-12.4°C</strong> below flash-prevention threshold (Risk of fuel viscosity freeze). Primary electric heating element impedance spike detected.
+            </p>
+</div>
+<!-- Micro Telemetry Sparkline and Stat Box -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-panel-gutter bg-surface-container rounded-lg p-space-sm mt-space-2xs">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Current Temp</span>
+<span class="font-headline-md text-headline-md text-error">-38.2°C <span class="font-body-sm text-body-sm text-on-surface-variant">/ -25°C min</span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Auto-Mitigation</span>
+<span class="font-title-sm text-title-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-telemetry-safe">check_circle</span>
+                Secondary Loop #B Online
+              </span>
+</div>
+<!-- Sparkline Visual -->
+<div class="flex flex-col justify-center">
+<span class="font-label-xs text-label-xs text-on-surface-variant mb-1 uppercase">6-Hour Thermal Drift</span>
+<svg class="w-full h-8 overflow-visible" fill="none" viewbox="0 0 100 30">
+<path class="text-telemetry-critical" d="M0,8 L20,9 L40,11 L60,10 L75,22 L85,27 L100,28" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path>
+<circle class="fill-telemetry-critical animate-pulse" cx="100" cy="28" r="3"></circle>
+<line class="text-on-surface-variant/30" stroke="currentColor" stroke-dasharray="2 2" stroke-width="1" x1="0" x2="100" y1="18" y2="18"></line>
+</svg>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-xs text-secondary font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[16px]">engineering</span>
+<span>Assigned: Station Engineer S. Mukherjee (On Route)</span>
+</div>
+<button class="px-space-sm py-space-2xs rounded bg-surface-container-highest hover:bg-surface-bright text-surface-cream font-label-xs text-label-xs transition-colors">
+              Inspect Telemetry Loop →
+            </button>
+</div>
+</div>
+<!-- INCIDENT 2: ATTENTION #INC-4089 -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-md flex flex-col gap-space-sm transition-all hover:bg-surface-container">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-space-2xs rounded bg-surface-container-highest text-telemetry-warning font-label-xs text-label-xs uppercase tracking-wider flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-telemetry-warning"></span>
+                Tier 3 • Attention
+              </span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">#INC-4089</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">13:42:15 UTC (46m ago)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-highest text-on-surface font-label-xs text-label-xs">LOCUS: MAITRI OASES</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<h3 class="font-title-sm text-title-sm text-surface-cream">Class-III Katabatic Gale Formation — Schirmacher Oasis</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Inland ice-sheet barometric depression indicates sustained wind acceleration exceeding <strong class="text-surface-cream font-medium">118 km/h</strong> within next 3.5 hours. Severe drift blinding expected.
+            </p>
+</div>
+<!-- Weather Visual Metric Bar -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-panel-gutter bg-surface-container rounded-lg p-space-sm mt-space-2xs">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Current Gust Velocity</span>
+<span class="font-headline-md text-headline-md text-telemetry-warning">76 <span class="font-body-sm text-body-sm text-on-surface-variant">km/h</span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Visibility Estimate</span>
+<span class="font-headline-md text-headline-md text-surface-cream">450 <span class="font-body-sm text-body-sm text-on-surface-variant">meters</span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Protocol Trigger</span>
+<span class="font-title-sm text-title-sm text-secondary">Traverse Recall Auto-Active</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span>All 18 Maitri expeditionary personnel recalled to Main Bloc</span>
+</div>
+<button class="px-space-sm py-space-2xs rounded bg-surface-container-highest hover:bg-surface-bright text-surface-cream font-label-xs text-label-xs transition-colors">
+              Open Met Synoptic Radar →
+            </button>
+</div>
+</div>
+<!-- INCIDENT 3: INFORMATION #INC-4085 -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-md flex flex-col gap-space-sm transition-all hover:bg-surface-container">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-space-2xs rounded bg-surface-container-highest text-telemetry-info font-label-xs text-label-xs uppercase tracking-wider flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-telemetry-info"></span>
+                Tier 2 • Information
+              </span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">#INC-4085</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">11:05:22 UTC (3h 23m ago)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-highest text-on-surface font-label-xs text-label-xs">LOCUS: COMM RELAY</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<h3 class="font-title-sm text-title-sm text-surface-cream">Ionospheric Scintillation — SBD Packet Latency Jitter</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Class M1.2 Solar flare emission induced high-latitude electron density perturbation. Short Burst Data (SBD) telemetry packet buffering elevated to +680ms.
+            </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-xs text-label-xs text-secondary">Nominal buffering applied • Zero telemetry packets dropped</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">RESOLVED AUTO</span>
+</div>
+</div>
+<!-- INCIDENT 4: NORMAL #INC-4082 -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-md flex flex-col gap-space-sm transition-all hover:bg-surface-container">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-space-2xs rounded bg-surface-container-highest text-telemetry-safe font-label-xs text-label-xs uppercase tracking-wider flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe"></span>
+                Tier 1 • Normal
+              </span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">#INC-4082</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">08:14:10 UTC (6h 14m ago)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-highest text-on-surface font-label-xs text-label-xs">LOCUS: BHARATI AIRLOCK 2</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<h3 class="font-title-sm text-title-sm text-surface-cream">Secondary Habitation Airlock Seal Equalization Cleared</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Scheduled seal pressure test completed across 3 evacuation cycles. Hermetic seals rated 100% nominal.
+            </p>
+</div>
+</div>
+</div>
+<!-- Station Tactical Map / Sensor Canvas Card -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary">radar</span>
+<span class="font-title-sm text-title-sm text-surface-cream">Geospatial Sector Triangulation</span>
+</div>
+<span class="font-telemetry-code text-telemetry-code text-on-surface-variant text-[12px]">COORDINATES: 69°24'29"S, 76°11'14"E</span>
+</div>
+<div class="relative w-full h-56 rounded-lg overflow-hidden bg-surface-container">
+<div class="w-full h-full bg-cover bg-center" data-alt="High-resolution aerial satellite thermal radar image of Bharati Antarctic research station situated on rocky promontory surrounded by frozen turquoise ice shelves and dark polar ocean waters with telemetry radar grid lines overlaid." data-location="Bharati Station, Antarctica" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMBaQW2Ckv-_fM0muhnZohJJRm4ANVuZ6kXrFv4EKc0pT1PeTUDUITSKBmdVeyh1FEtyQzWtPNeraGQ1hBWRMs_WQzA47rz4NRI4iftGQ7_OL_vzGcuWJKNte1ah5uK0bgBVmd4D-GpFkcMvIdQwkUVuqNiF4bQTc_xNXHAkUCR3Ps1Pl6Xaqufcrb4xBBU6d1uhkzWVev4s6fiVzC7OWv3OTsH7PNAdm3Zs4ndxb_Z5ix-g2eMUiwqw')"></div>
+<!-- Tactical HUD Crosshair Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-surface-container-lowest/40 pointer-events-none"></div>
+<!-- Marker 1: Gen 3 Critical Issue -->
+<div class="absolute top-1/4 left-1/3 flex items-center gap-2 group cursor-pointer">
+<span class="w-4 h-4 rounded-full bg-telemetry-critical animate-ping absolute"></span>
+<span class="w-4 h-4 rounded-full bg-telemetry-critical relative flex items-center justify-center text-[9px] font-bold text-surface-cream">!</span>
+<div class="bg-surface-container-lowest/90 px-2 py-1 rounded text-[10px] font-label-xs text-error backdrop-blur-md">
+              GEN-3 CRIT (-38.2°C)
+            </div>
+</div>
+<!-- Marker 2: Muster Hub -->
+<div class="absolute bottom-1/3 right-1/4 flex items-center gap-2 group cursor-pointer">
+<span class="w-3 h-3 rounded-full bg-telemetry-safe relative flex items-center justify-center"></span>
+<div class="bg-surface-container-lowest/90 px-2 py-1 rounded text-[10px] font-label-xs text-secondary backdrop-blur-md">
+              CENTRAL HABITAT: 24/24 MUSTER
+            </div>
+</div>
+<!-- Bottom HUD Bar -->
+<div class="absolute bottom-2 left-2 right-2 flex items-center justify-between bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1.5 rounded text-[11px] font-telemetry-code text-on-surface-variant">
+<span>RADAR AZIMUTH: 184° SSE</span>
+<span>BAROMETRIC: 981.4 hPa (FALLING)</span>
+<span>POLAR ICE STATUS: PACK FAST</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT 40% (5 cols): SOP Execution Deck & Crisis Log -->
+<div class="lg:col-span-5 flex flex-col gap-space-base">
+<!-- Active SOP Playbook Container -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col gap-space-base">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-high text-secondary font-label-xs text-label-xs uppercase">ACTIVE PLAYBOOK</span>
+</div>
+<span class="font-telemetry-code text-telemetry-code text-on-surface-variant text-[12px]">SOP-ANT-04 / REV 12</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-md text-surface-cream font-semibold tracking-tight">POLAR BLIZZARD & REDUNDANCY</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Class-III Katabatic Storm Mitigation & Life Support Redirection</span>
+</div>
+<!-- Progress Track -->
+<div class="flex flex-col gap-space-xs bg-surface-container rounded-lg p-space-sm">
+<div class="flex items-center justify-between text-[12px] font-label-md">
+<span class="text-on-surface-variant">Playbook Execution State</span>
+<span class="text-secondary font-telemetry-code" id="sopProgressPercent">60% Complete</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full transition-all duration-300" id="sopProgressBar" style="width: 60%"></div>
+</div>
+</div>
+<!-- Interactive SOP Step-by-Step Checklist -->
+<div class="flex flex-col gap-space-sm" id="sopChecklist">
+<!-- Step 1: Completed -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-start gap-space-sm transition-colors">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-telemetry-safe flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div class="flex-1 flex flex-col">
+<span class="font-title-sm text-title-sm text-surface-cream line-through opacity-70">1. Generator Load Redundancy Transfer</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Non-critical lab circuits shedding executed. Load on Main #1: 44kW.</span>
+</div>
+</div>
+<!-- Step 2: Interactive Action -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-start gap-space-sm transition-colors" id="step2Container">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-xs text-label-xs font-bold" id="step2Indicator">2</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-surface-cream">2. External Blast Dampers & Louvers</span>
+<span class="font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-container-highest text-telemetry-warning" id="step2Status">PENDING</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Seal primary intake dampers against fine spindrift snow penetration.</span>
+<div class="pt-space-xs">
+<button class="px-space-md py-space-xs rounded bg-surface-container-highest hover:bg-surface-bright text-surface-cream font-label-md text-label-md flex items-center gap-space-xs transition-all" id="executeDampersBtn">
+<span class="material-symbols-outlined text-secondary text-[16px]">lock</span>
+<span>Seal All Louvers (Auto-Actuate)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Step 3: Completed Personnel Muster -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-start gap-space-sm transition-colors">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-telemetry-safe flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-surface-cream">3. Personnel Headcount Sweeps</span>
+<span class="text-telemetry-safe font-label-xs text-label-xs font-bold">24 / 24 VERIFIED</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">RFID geofence confirms zero personnel outside perimeter.</span>
+</div>
+</div>
+<!-- Step 4: Armed -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-start gap-space-sm transition-colors">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-xs text-label-xs font-bold">4</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-surface-cream">4. Emergency Snowcat Engine Preheat</span>
+<span class="font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-container-highest text-secondary">ARMED</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Block heaters engaged on Kassbohrer PistenBully 300 Polar.</span>
+</div>
+</div>
+<!-- Step 5: Ready to Transmit -->
+<div class="bg-surface-container rounded-lg p-space-sm flex items-start gap-space-sm transition-colors">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-xs text-label-xs font-bold">5</span>
+</div>
+<div class="flex-1 flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-surface-cream">5. Satellite SITREP to NCPOR HQ Goa</span>
+<span class="font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-container-highest text-telemetry-info">QUEUED</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Automated encrypted telemetry packet compilation ready.</span>
+<div class="pt-space-xs">
+<button class="px-space-md py-space-xs rounded bg-surface-container-highest hover:bg-surface-bright text-surface-cream font-label-md text-label-md flex items-center gap-space-xs transition-all" id="sendSitrepBtn">
+<span class="material-symbols-outlined text-secondary text-[16px]">send</span>
+<span>Dispatch SITREP [AES-256]</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Real-Time Crisis Audio & Terminal Transmission Log -->
+<div class="bg-surface-container-low rounded-xl p-space-base shadow-xl flex flex-col gap-space-sm flex-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary">record_voice_over</span>
+<span class="font-title-sm text-title-sm text-surface-cream">Encrypted Mission Comm-Log</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-telemetry-safe animate-pulse"></span>
+</div>
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col gap-space-sm h-64 overflow-y-auto font-telemetry-code text-telemetry-code" id="crisisTerminal">
+<div class="flex flex-col gap-0.5 border-l-2 border-secondary pl-2">
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span>[14:26:01 UTC] • BHARATI RADIO RM</span>
+<span class="text-secondary">VOICE RECOG: LEAD PHYSICIST</span>
+</div>
+<p class="text-surface-cream text-[12px]">"Weather radar echoes confirm squall line 14km south. Wind speed rising past 40 knots. Lab outdoor sensors anchored."</p>
+</div>
+<div class="flex flex-col gap-0.5 border-l-2 border-telemetry-critical pl-2">
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span>[14:21:18 UTC] • SYSTEM DAEMON</span>
+<span class="text-telemetry-critical">AUTO-ALERT</span>
+</div>
+<p class="text-error text-[12px]">"FAILSAFE: Gen-3 trace heating loop tripped. Line temp -38.2°C. Automated secondary trace loop engaged successfully."</p>
+</div>
+<div class="flex flex-col gap-0.5 border-l-2 border-telemetry-warning pl-2">
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span>[14:15:30 UTC] • MAITRI COMMS</span>
+<span class="text-telemetry-warning">HF DISPATCH</span>
+</div>
+<p class="text-surface-cream text-[12px]">"Traverse party Alpha-2 safely back inside green habitat zone. Vehicles secured on pad 1."</p>
+</div>
+<div class="flex flex-col gap-0.5 border-l-2 border-on-surface-variant/40 pl-2">
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span>[14:02:11 UTC] • NCPOR POLAR HQ (GOA)</span>
+<span class="text-secondary">DIRECTIVE</span>
+</div>
+<p class="text-on-surface-variant text-[12px]">"Acknowledged Katabatic Advisory. GSAT-7A transponder bandwidth locked for priority video link if required."</p>
+</div>
+</div>
+<!-- Terminal Quick Action -->
+<div class="flex items-center gap-space-xs pt-space-2xs">
+<input class="flex-1 bg-surface-container px-space-sm py-space-xs rounded text-body-sm font-body-sm text-surface-cream placeholder:text-on-surface-variant focus:outline-none focus:bg-surface-container-highest" id="logInput" placeholder="Enter tactical log entry or press space for VOX..." type="text"/>
+<button class="p-space-xs rounded bg-surface-container-highest hover:bg-surface-bright text-surface-cream transition-colors" id="sendTerminalBtn">
+<span class="material-symbols-outlined text-[18px]">subdirectory_arrow_left</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Toast Notification System -->
+<div class="fixed bottom-6 right-6 max-w-md bg-surface-container-highest text-surface-cream px-space-md py-space-sm rounded-lg shadow-2xl flex items-center gap-space-sm translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50" id="toastNotification">
+<span class="material-symbols-outlined text-secondary" id="toastIcon">info</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md" id="toastTitle">Notification</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="toastMsg">Details here.</span>
+</div>
+</div>
+</div>
+<script>
+  (function initEmergencyConsole() {
+    const musterBtn = document.getElementById('musterBtn');
+    const sosBtn = document.getElementById('sosBtn');
+    const sosHoldProgress = document.getElementById('sosHoldProgress');
+    const executeDampersBtn = document.getElementById('executeDampersBtn');
+    const sendSitrepBtn = document.getElementById('sendSitrepBtn');
+    const crisisTerminal = document.getElementById('crisisTerminal');
+    const logInput = document.getElementById('logInput');
+    const sendTerminalBtn = document.getElementById('sendTerminalBtn');
+    const toast = document.getElementById('toastNotification');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastMsg = document.getElementById('toastMsg');
+    const toastIcon = document.getElementById('toastIcon');
+
+    function showToast(title, msg, icon = 'info', isError = false) {
+      toastTitle.textContent = title;
+      toastMsg.textContent = msg;
+      toastIcon.textContent = icon;
+      toastIcon.className = `material-symbols-outlined ${isError ? 'text-error' : 'text-secondary'}`;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 4000);
+    }
+
+    // Muster Alarm Trigger
+    if (musterBtn) {
+      musterBtn.addEventListener('click', () => {
+        showToast('Station Muster Engaged', 'Bharati and Maitri klaxons sounding. Internal audio broadcast dispatched.', 'campaign');
+        addLogEntry('COMMAND OPERATOR', 'Muster Alarm initiated manually from remote console. All personnel checking in.');
+      });
+    }
+
+    // Sustained Press-to-Confirm for SOS (1.5s)
+    let holdTimeout = null;
+    let holdStart = 0;
+    let holdInterval = null;
+
+    if (sosBtn && sosHoldProgress) {
+      const startHold = () => {
+        holdStart = Date.now();
+        holdInterval = setInterval(() => {
+          const elapsed = Date.now() - holdStart;
+          const pct = Math.min(100, (elapsed / 1500) * 100);
+          sosHoldProgress.style.width = pct + '%';
+        }, 30);
+
+        holdTimeout = setTimeout(() => {
+          clearInterval(holdInterval);
+          sosHoldProgress.style.width = '0%';
+          showToast('CRITICAL SOS BROADCAST DISPATCHED', 'COMNAP, MRCC Cape Town, and Indian Navy notified with GPS beacon data.', 'emergency_home', true);
+          addLogEntry('TACTICAL COMMAND', 'INTERNATIONAL SAR DISTRESS SIGNAL BROADCAST via Iridium Constellation.');
+        }, 1500);
+      };
+
+      const cancelHold = () => {
+        if (holdTimeout) clearTimeout(holdTimeout);
+        if (holdInterval) clearInterval(holdInterval);
+        sosHoldProgress.style.width = '0%';
+      };
+
+      sosBtn.addEventListener('mousedown', startHold);
+      sosBtn.addEventListener('touchstart', startHold, { passive: true });
+      sosBtn.addEventListener('mouseup', cancelHold);
+      sosBtn.addEventListener('mouseleave', cancelHold);
+      sosBtn.addEventListener('touchend', cancelHold);
+    }
+
+    // SOP Step 2 Actuation
+    if (executeDampersBtn) {
+      executeDampersBtn.addEventListener('click', () => {
+        executeDampersBtn.disabled = true;
+        executeDampersBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        executeDampersBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">sync</span><span>Sealing Dampers...</span>';
+        
+        setTimeout(() => {
+          const statusElem = document.getElementById('step2Status');
+          const indicator = document.getElementById('step2Indicator');
+          const progressBar = document.getElementById('sopProgressBar');
+          const progressPercent = document.getElementById('sopProgressPercent');
+
+          if (statusElem) {
+            statusElem.textContent = 'SEALED 100%';
+            statusElem.className = 'font-label-xs text-label-xs px-2 py-0.5 rounded bg-surface-container-highest text-telemetry-safe';
+          }
+          if (indicator) {
+            indicator.parentElement.innerHTML = '<span class="material-symbols-outlined text-[16px] text-telemetry-safe">check</span>';
+          }
+          if (progressBar) progressBar.style.width = '80%';
+          if (progressPercent) progressPercent.textContent = '80% Complete';
+
+          executeDampersBtn.innerHTML = '<span class="material-symbols-outlined text-telemetry-safe text-[16px]">done_all</span><span>All Blast Dampers Closed</span>';
+          showToast('Blast Dampers Sealed', 'Outer actuators locked at 12 bar seal pressure against fine spindrift.', 'lock');
+          addLogEntry('ACTUATOR DAEMON', 'External Habitacle Blast Dampers & Vent Louvers confirmed sealed 100%.');
+        }, 1400);
+      });
+    }
+
+    // SITREP Dispatch
+    if (sendSitrepBtn) {
+      sendSitrepBtn.addEventListener('click', () => {
+        sendSitrepBtn.disabled = true;
+        sendSitrepBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">sync</span><span>Transmitting...</span>';
+        setTimeout(() => {
+          sendSitrepBtn.innerHTML = '<span class="material-symbols-outlined text-telemetry-safe text-[16px]">done_all</span><span>SITREP Transmitted</span>';
+          showToast('SITREP Acknowledged', 'NCPOR Operations Goa confirmed receipt of telemetry packet hash #04F-91B.', 'mark_email_read');
+          addLogEntry('SATELLITE ROUTER', 'Encrypted SITREP packet delivered to NCPOR Ground Terminal via GSAT-7A.');
+        }, 1200);
+      });
+    }
+
+    // Terminal Logging Interaction
+    function addLogEntry(sender, message) {
+      if (!crisisTerminal) return;
+      const now = new Date();
+      const timeStr = `${String(now.getUTCHours()).padStart(2,'0')}:${String(now.getUTCMinutes()).padStart(2,'0')}:${String(now.getUTCSeconds()).padStart(2,'0')} UTC`;
+      
+      const entry = document.createElement('div');
+      entry.className = 'flex flex-col gap-0.5 border-l-2 border-secondary pl-2 animate-fade-in';
+      entry.innerHTML = `
+        <div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+          <span>[${timeStr}] • ${sender}</span>
+          <span class="text-secondary">NEW ENTRY</span>
+        </div>
+        <p class="text-surface-cream text-[12px]">${message}</p>
+      `;
+      crisisTerminal.prepend(entry);
+    }
+
+    if (sendTerminalBtn && logInput) {
+      const handleSend = () => {
+        const val = logInput.value.trim();
+        if (!val) return;
+        addLogEntry('REMOTE COMMANDER', val);
+        logInput.value = '';
+      };
+
+      sendTerminalBtn.addEventListener('click', handleSend);
+      logInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleSend();
+      });
+    }
+  })();
+</script>
+{% endblock %}

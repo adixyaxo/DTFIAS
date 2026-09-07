@@ -1,12 +1,21 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse
+from app.config.templates import templates
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-@router.get("/login")
-async def login():
-    return {"message": "Login page goes here"}
+@router.get("/login", response_class=HTMLResponse)
+async def login(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="auth/login.html", context={}
+    )
 
 @router.post("/login")
 async def process_login():
     return {"message": "Login processing goes here"}
 
+@router.get("/recover", response_class=HTMLResponse)
+async def recover_page(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="auth/recover.html", context={}
+    )

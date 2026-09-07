@@ -1,0 +1,65 @@
+<header
+    class="fixed top-0 left-72 right-0 h-14 bg-surface-container-low/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.35)] z-40 flex items-center justify-between px-space-base">
+    <div class="flex items-center gap-space-base"><img alt="Clean modern vector logo emblem for Indian Antarctic Mission Command with stylized polar compass and subtle tricolor dot accent in dark deep green and teal. Design context: - Primary color: #1a312c
+- Font: inter
+- Mode: dark
+- Roundness: rounded-sm
+. The logo should be visually consistent with these brand tokens." class="h-8 w-auto object-contain"
+        src="https://lh3.googleusercontent.com/aida/AEtjO1WmulcB1HzfkxmeY76IcVjMHNoCYqPLLYlSF5JWTIX9cggoUqKexxIsDOIAW0WCgZSSLDUU2rJg60tpge45aC9vb2k8-BQwWf2ysMREe9JPys2eI-HqArlSZBYaVBuoDgCTBXoKmZmAkaLX6PnU5-UCeZfS4fVv_5hs_YbxDZ0cNiT5NlsQPBoeOt07KN8MwRzJLW4q0eEJQrbnYThVIde8_z8gZSpFzXvdn8Yo6onabBqXMenNynkoQ98" />
+      <div class="flex flex-col"><span
+          class="font-label-md text-label-md text-on-surface font-semibold tracking-wide">ANTARCTIC Remote-Ops &amp;
+          Digital Twin</span><span class="font-label-xs text-label-xs text-outline">v4.2 PROD • MoES GOI</span></div>
+      <div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs"><span
+          class="material-symbols-outlined text-secondary text-[16px]">location_on</span><select
+          class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-sm">
+          <option class="bg-surface-container text-on-surface" value="bharati">Bharati [69°24'S, 76°11'E]</option>
+          <option class="bg-surface-container text-on-surface" value="maitri">Maitri [70°46'S, 11°44'E]</option>
+          <option class="bg-surface-container text-on-surface" value="maitri-ii">Maitri-II [Projected]</option>
+          <option class="bg-surface-container text-on-surface" value="polar-all">Polar Overview (Combined)</option>
+        </select></div>
+      <div
+        class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg font-telemetry-code text-telemetry-code">
+        <span class="w-2 h-2 rounded-full bg-telemetry-safe"></span><span class="text-on-surface font-medium">LIVE
+          GSAT-7A</span><span class="text-outline text-label-xs">| 240ms</span></div>
+      <div
+        class="hidden xl:flex items-center gap-space-md font-telemetry-code text-telemetry-code text-on-surface-variant">
+        <div class="flex flex-col text-right"><span class="text-on-surface font-semibold">14:28:22 UTC</span><span
+            class="text-label-xs text-outline">UNIVERSAL TIME</span></div>
+        <div class="w-px h-6 bg-surface-container-highest"></div>
+        <div class="flex flex-col"><span class="text-secondary font-semibold">19:28:22 +05:00</span><span
+            class="text-label-xs text-outline">LARSEMANN HILLS</span></div>
+      </div>
+    </div>
+    <div class="flex items-center gap-space-base">
+      <div class="flex items-center gap-1.5 px-space-sm py-1 bg-surface-container rounded-lg"><span
+          class="w-2 h-2 rounded-full bg-telemetry-safe"></span><span
+          class="font-label-xs text-label-xs font-bold text-telemetry-safe tracking-wider">DEFCON 5 / NOMINAL</span>
+      </div>
+      <div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs"><span
+          class="material-symbols-outlined text-on-surface-variant text-[16px]">badge</span><select
+          class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-xs">
+          <option class="bg-surface-container text-on-surface" value="hq-operator">Role: NCPOR HQ Operator</option>
+          <option class="bg-surface-container text-on-surface" value="station-commander">Role: Station Commander
+          </option>
+          <option class="bg-surface-container text-on-surface" value="systems-engineer">Role: Systems Engineer</option>
+          <option class="bg-surface-container text-on-surface" value="research-lead">Role: Research Lead</option>
+          <option class="bg-surface-container text-on-surface" value="medical-lead">Role: Medical &amp; Logistics Lead
+          </option>
+        </select></div>
+      <div x-data="{ alertsOpen: false }" class="relative">
+        <button @click="alertsOpen = !alertsOpen"
+          class="relative p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span
+            class="material-symbols-outlined text-[20px]">notifications</span><span
+            class="absolute top-1 right-1 w-2 h-2 rounded-full bg-telemetry-warning"></span></button>
+        <div x-show="alertsOpen" @click.away="alertsOpen = false" x-transition
+          class="absolute right-0 mt-2 w-64 bg-surface-container-high border border-outline-variant rounded-lg shadow-lg p-3 z-50">
+          <h3 class="text-title-sm font-semibold mb-2">Recent Alerts</h3>
+          <p class="text-body-sm text-on-surface-variant">No new critical alerts.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-xs pl-space-xs">
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
+            class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+      </div>
+    </div>
+  </header>

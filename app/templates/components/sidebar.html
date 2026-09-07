@@ -1,0 +1,68 @@
+<aside
+  class="hidden lg:flex fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex-col shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
+  <div class="h-14 px-space-base flex items-center gap-space-sm bg-surface-container"><span
+      class="material-symbols-outlined text-secondary text-[20px]">radar</span>
+    <div class="flex flex-col"><span
+        class="font-label-md text-label-md text-on-surface tracking-wider uppercase font-semibold">NCPOR POLAR
+        CMD</span><span class="font-label-xs text-label-xs text-on-surface-variant font-medium">EARTH SCIENCES •
+        GOI</span></div>
+  </div>
+  <div class="flex-1 overflow-y-auto px-space-sm py-space-md space-y-space-lg">
+    <div class="space-y-space-xs">
+      <div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">STATION
+        SELECTOR &amp; OVERVIEW</div>
+      <nav class="space-y-space-2xs"
+        data-active-classes="bg-secondary-container text-on-secondary-container font-semibold shadow-inner"><a
+          class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}"
+          data-path="antarctica-overview" href="/hq/"><span
+            class="material-symbols-outlined text-[18px]">public</span><span>Antarctica Overview</span></a><a
+          class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/bharati/station-twin' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" data-path="station-digital-twin" href="/bharati/station-twin"><span
+            class="material-symbols-outlined text-[18px]">view_in_ar</span><span>Station Digital Twin</span></a></nav>
+    </div>
+    <div class="space-y-space-xs">
+      <div class="px-space-sm font-label-xs text-label-xs text-outline uppercase tracking-wider font-bold">OPERATIONAL
+        DOMAINS</div>
+      <nav class="space-y-space-2xs"
+        data-active-classes="bg-secondary-container text-on-secondary-container font-semibold shadow-inner"><a
+          class="flex items-center justify-between px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/energy' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" data-path="microgrid-energy-systems" href="/hq/energy">
+          <div class="flex items-center gap-space-sm"><span
+              class="material-symbols-outlined text-[18px]">electric_bolt</span><span>Microgrid &amp; Energy</span>
+          </div><span
+            class="font-label-xs text-label-xs px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary">412
+            kW</span>
+        </a><a
+          class="flex items-center justify-between px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/infrastructure' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" data-path="life-support-habitat" href="/hq/infrastructure">
+          <div class="flex items-center gap-space-sm"><span
+              class="material-symbols-outlined text-[18px]">air</span><span>Life Support &amp; Habitat</span></div><span
+            class="font-label-xs text-label-xs px-space-xs py-0.5 rounded bg-surface-container-highest text-telemetry-safe">NOMINAL</span>
+        </a><a
+          class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/environment' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" data-path="geospatial-earth-science" href="/hq/environment"><span
+            class="material-symbols-outlined text-[18px]">satellite_alt</span><span>Geospatial &amp;
+            Science</span></a><a
+          class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/logistics' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" data-path="logistics-fuel-supply" href="/hq/logistics"><span
+            class="material-symbols-outlined text-[18px]">local_gas_station</span><span>Logistics &amp; Jet
+            A-1</span></a><a
+          class="flex items-center justify-between px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/users' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" data-path="personnel-medical-readiness" href="/hq/users">
+          <div class="flex items-center gap-space-sm"><span
+              class="material-symbols-outlined text-[18px]">vital_signs</span><span>Personnel &amp; Medical</span></div>
+          <span
+            class="font-label-xs text-label-xs px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface">48/48</span>
+        </a><a
+          class="flex items-center justify-between px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/alerts' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" data-path="alert-triage-playbooks" href="/hq/alerts">
+          <div class="flex items-center gap-space-sm"><span
+              class="material-symbols-outlined text-[18px]">warning</span><span>Alert Triage</span></div><span
+            class="font-label-xs text-label-xs px-space-xs py-0.5 rounded bg-telemetry-warning/20 text-telemetry-warning font-bold">2
+            WARN</span>
+        </a><a
+          class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/compliance' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" data-path="simulations-scenarios" href="/hq/compliance"><span
+            class="material-symbols-outlined text-[18px]">science</span><span>Simulations &amp; Stress</span></a></nav>
+    </div>
+  </div>
+  <div class="p-space-base bg-surface-container-lowest space-y-space-xs font-telemetry-code text-telemetry-code">
+    <div class="flex items-center justify-between text-on-surface-variant"><span class="flex items-center gap-1.5"><span
+          class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span>AES-256 GCM</span><span
+        class="text-outline text-label-xs">SECURE</span></div>
+    <div class="flex items-center justify-between text-outline text-label-xs"><span>Node:
+        GOA-POLAR-GW</span><span>14:28:10 UTC</span></div>
+  </div>
+</aside>

@@ -1,0 +1,735 @@
+{% extends "layouts/dashboard.html" %}
+{% block dashboard_content %}
+<!-- TOP CONTEXT TICKER & EMERGENCY STATUS BAR -->
+<div class="relative overflow-hidden bg-surface-container-low rounded-xl p-space-md shadow-md">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-surface-panel text-secondary">
+<span class="material-symbols-outlined text-[24px]">power</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-xs text-label-xs uppercase tracking-widest text-primary">BHARATI POLAR CAMPUS</span>
+<span class="font-label-xs text-label-xs text-outline-variant">•</span>
+<span class="font-telemetry-code text-telemetry-code text-secondary font-semibold">GRID CELL ID // IN-ANT-BHT-02-PWR</span>
+</div>
+<span class="font-headline-md text-headline-md text-surface-cream tracking-tight">Microgrid &amp; Combined Heat-Power Command</span>
+</div>
+</div>
+<!-- Quick Island Mode Badges -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded bg-surface-container text-on-surface">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe animate-pulse"></span>
+<span class="font-label-xs text-label-xs uppercase text-surface-cream">ISLAND MODE // AUTONOMOUS</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded bg-surface-container text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">thermostat</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream">-28.4°C EXT</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">KATABATIC 44 KT</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded bg-primary-container text-on-primary-container">
+<span class="material-symbols-outlined text-[16px]">sync_alt</span>
+<span class="font-label-xs text-label-xs uppercase">Bifurcated CHP Bus</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 1. EXECUTIVE MICROGRID KPI STRIP (6 Metrics) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-panel-gutter">
+<!-- KPI 1: Instantaneous Load -->
+<div class="bg-primary-container p-space-md rounded-xl flex flex-col justify-between shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-xs text-label-xs uppercase text-on-primary-container tracking-wider">TOTAL LOAD</span>
+<span class="font-label-xs text-label-xs bg-surface-panel px-space-2xs py-0.5 rounded text-secondary font-semibold">83.0% CAP</span>
+</div>
+<div class="flex items-baseline gap-space-xs my-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">282.4</span>
+<span class="font-label-md text-label-md text-on-primary-container">kW</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-secondary h-full rounded-full" style="width: 83%"></div>
+</div>
+<div class="flex justify-between items-center mt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs">Max 340.0 kW</span>
+<span class="font-telemetry-code text-telemetry-code text-primary">+4.2 kW/15m</span>
+</div>
+</div>
+<!-- KPI 2: Diesel CHP -->
+<div class="bg-primary-container p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-xs text-label-xs uppercase text-on-primary-container tracking-wider">DIESEL CHP FLEET</span>
+<span class="font-label-xs text-label-xs bg-surface-panel text-telemetry-safe px-space-2xs py-0.5 rounded font-semibold">UNITS #01 &amp; #03</span>
+</div>
+<div class="flex items-baseline gap-space-xs my-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">185.0</span>
+<span class="font-label-md text-label-md text-on-primary-container">kW</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-primary h-full rounded-full" style="width: 65.5%"></div>
+</div>
+<div class="flex justify-between items-center mt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs">65.5% Microgrid Share</span>
+<span class="font-telemetry-code text-telemetry-code text-on-surface">#02 STBY WARM</span>
+</div>
+</div>
+<!-- KPI 3: Renewables -->
+<div class="bg-primary-container p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-xs text-label-xs uppercase text-on-primary-container tracking-wider">RENEWABLE MATRIX</span>
+<span class="font-label-xs text-label-xs bg-surface-panel text-secondary px-space-2xs py-0.5 rounded font-semibold">24.2% SHARE</span>
+</div>
+<div class="flex items-baseline gap-space-xs my-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">68.4</span>
+<span class="font-label-md text-label-md text-on-primary-container">kW</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs flex">
+<div class="bg-secondary h-full" style="width: 79%"></div>
+<div class="bg-tertiary h-full" style="width: 21%"></div>
+</div>
+<div class="flex justify-between items-center mt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs text-secondary font-medium">WIND 54.2 kW</span>
+<span class="font-label-xs text-label-xs text-tertiary font-medium">PV 14.2 kW</span>
+</div>
+</div>
+<!-- KPI 4: BESS Battery Storage -->
+<div class="bg-primary-container p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-xs text-label-xs uppercase text-on-primary-container tracking-wider">BESS BUFFER (LiFePO4)</span>
+<span class="font-label-xs text-label-xs bg-surface-panel text-secondary px-space-2xs py-0.5 rounded font-semibold">SoC 88.6%</span>
+</div>
+<div class="flex items-baseline gap-space-xs my-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">-29.0</span>
+<span class="font-label-md text-label-md text-on-primary-container">kW DISCH</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-secondary-fixed-dim h-full rounded-full" style="width: 88.6%"></div>
+</div>
+<div class="flex justify-between items-center mt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs">Cellar +52.4°C</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream">400 kWh Nominal</span>
+</div>
+</div>
+<!-- KPI 5: Fuel Autonomy -->
+<div class="bg-primary-container p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-xs text-label-xs uppercase text-on-primary-container tracking-wider">POLAR DIESEL RESERVE</span>
+<span class="font-label-xs text-label-xs bg-surface-panel text-telemetry-safe px-space-2xs py-0.5 rounded font-semibold">STABLE</span>
+</div>
+<div class="flex items-baseline gap-space-xs my-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">218</span>
+<span class="font-label-md text-label-md text-on-primary-container">DAYS</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-telemetry-safe h-full rounded-full" style="width: 74%"></div>
+</div>
+<div class="flex justify-between items-center mt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs">142,500 L Left</span>
+<span class="font-telemetry-code text-telemetry-code text-primary">680 L / 24h</span>
+</div>
+</div>
+<!-- KPI 6: Frequency & Stability -->
+<div class="bg-primary-container p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-xs text-label-xs uppercase text-on-primary-container tracking-wider">GRID STABILITY</span>
+<span class="font-label-xs text-label-xs bg-surface-panel text-telemetry-safe px-space-2xs py-0.5 rounded font-semibold">SYNCHRONIZED</span>
+</div>
+<div class="flex items-baseline gap-space-xs my-space-xs">
+<span class="font-headline-lg text-headline-lg text-surface-cream font-bold">49.98</span>
+<span class="font-label-md text-label-md text-on-primary-container">Hz</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-secondary h-full rounded-full" style="width: 99%"></div>
+</div>
+<div class="flex justify-between items-center mt-space-xs text-on-surface-variant">
+<span class="font-label-xs text-label-xs">±0.02 Hz DEV</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream">THD: 1.8%</span>
+</div>
+</div>
+</div>
+<!-- 2. INTERACTIVE SANKEY / ENERGY & HYDRONIC GLYCOL FLOW SCHEMATIC -->
+<div class="bg-primary-container rounded-xl p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">schema</span>
+<div>
+<span class="font-title-sm text-title-sm text-surface-cream">Energy Flow &amp; Hydronic Heat Recovery Topology</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Live thermodynamic and electrical bus routing across Station Core Pod and exterior arrays</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded">
+<span class="w-2.5 h-1.5 bg-secondary rounded-full inline-block"></span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Electrical Bus (400V AC)</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded">
+<span class="w-2.5 h-1.5 bg-telemetry-warning rounded-full inline-block"></span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Glycol Loop (+86.4°C)</span>
+</div>
+<button class="flex items-center gap-1 text-secondary bg-surface-panel hover:bg-surface-variant px-space-sm py-1 rounded text-label-md font-label-md transition-all" id="refreshFlowBtn">
+<span class="material-symbols-outlined text-[16px]">sync</span> Refresh Telemetry
+        </button>
+</div>
+</div>
+<!-- Interactive Topology Canvas / Grid Representation -->
+<div class="relative w-full rounded-xl bg-surface-container-lowest p-space-lg overflow-x-auto">
+<!-- Top Flow Legend & Bus Label -->
+<div class="flex items-center justify-between pb-space-md mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="font-telemetry-code text-telemetry-code text-surface-cream px-space-xs py-0.5 rounded bg-surface-container">BUS-A // MAIN 400V 3Φ 50Hz</span>
+<span class="font-label-xs text-label-xs text-telemetry-safe">ENERGIZED • SYNC RATIO: 1.000</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase tracking-wider">GLYCOL HEAT CYCLE:</span>
+<span class="font-telemetry-code text-telemetry-code text-telemetry-warning">SEND 86.4°C // RETURN 61.2°C (ΔT 25.2°C)</span>
+</div>
+</div>
+<!-- Grid Columns: Generation -> Microgrid Bus / Heat Exchange -> Distribution Loads -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md min-w-[900px] items-stretch">
+<!-- LEFT: Energy Sources (Cols 1-3) -->
+<div class="lg:col-span-3 flex flex-col gap-space-sm">
+<span class="font-label-xs text-label-xs uppercase tracking-widest text-on-surface-variant flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[14px]">bolt</span> PRIMARY INTAKE (282.4 kW)
+          </span>
+<!-- Gen 01 -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all cursor-pointer group">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-telemetry-safe text-[18px]">electric_bolt</span>
+<span class="font-title-sm text-title-sm text-surface-cream">CHP Diesel #01</span>
+</div>
+<span class="font-label-xs text-label-xs bg-primary-container text-secondary px-space-2xs py-0.5 rounded">LEAD</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">96.2 kW</span>
+<span class="font-label-xs text-label-xs text-telemetry-warning">Heat: 114 kWth</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant text-body-sm font-body-sm mt-1">
+<span>Lube 4.2 bar</span>
+<span class="text-secondary font-telemetry-code">52.0% MCR</span>
+</div>
+</div>
+<!-- Gen 03 -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all cursor-pointer group">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-telemetry-safe text-[18px]">electric_bolt</span>
+<span class="font-title-sm text-title-sm text-surface-cream">CHP Diesel #03</span>
+</div>
+<span class="font-label-xs text-label-xs bg-primary-container text-on-primary-container px-space-2xs py-0.5 rounded">LAG</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">88.8 kW</span>
+<span class="font-label-xs text-label-xs text-telemetry-warning">Heat: 106 kWth</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant text-body-sm font-body-sm mt-1">
+<span>Lube 4.1 bar</span>
+<span class="text-secondary font-telemetry-code">48.0% MCR</span>
+</div>
+</div>
+<!-- Wind Masts -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">air</span>
+<span class="font-title-sm text-title-sm text-surface-cream">Wind Mast Array (W1-3)</span>
+</div>
+<span class="font-label-xs text-label-xs text-telemetry-safe font-semibold">ACTIVE</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-secondary font-bold">54.2 kW</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Wind: 22.4 m/s</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant text-body-sm font-body-sm mt-1">
+<span>Furling: NOM</span>
+<span class="text-on-surface font-telemetry-code">3/3 Rotating</span>
+</div>
+</div>
+<!-- Solar PV -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px]">solar_power</span>
+<span class="font-title-sm text-title-sm text-surface-cream">Bifacial Solar PV</span>
+</div>
+<span class="font-label-xs text-label-xs text-tertiary font-semibold">ALBEDO 0.88</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-tertiary font-bold">14.2 kW</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Sun Elev: 12.1°</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant text-body-sm font-body-sm mt-1">
+<span>Snow clear: 94%</span>
+<span class="text-on-surface font-telemetry-code">DC-DC 680V</span>
+</div>
+</div>
+<!-- Battery Storage Draw -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">battery_charging_full</span>
+<span class="font-title-sm text-title-sm text-surface-cream">BESS LiFePO4 Cellar</span>
+</div>
+<span class="font-label-xs text-label-xs bg-surface-variant text-surface-cream px-space-2xs py-0.5 rounded">INVERTER 2</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-secondary font-bold">29.0 kW DISCH</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">SoC: 88.6%</span>
+</div>
+</div>
+</div>
+<!-- CENTER: Bus & Thermal Exchangers (Cols 4-8) -->
+<div class="lg:col-span-5 flex flex-col justify-between gap-space-md p-space-md rounded-xl bg-surface-container-low relative">
+<!-- Electrical Synchronous AC Bus Representation -->
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-label-xs uppercase text-primary tracking-widest font-bold">400V ISLAND SYNCHRONOUS BUSBAR</span>
+<span class="font-telemetry-code text-telemetry-code text-secondary">NET: 282.4 kW // 408 A</span>
+</div>
+<!-- Graphic dynamic flow pulse line -->
+<div class="h-4 bg-surface-container-lowest rounded-full p-1 relative flex items-center overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-secondary/20 via-secondary to-secondary/20 rounded-full animate-pulse"></div>
+<div class="relative w-full flex justify-between px-2 text-label-xs font-label-xs text-on-primary-container z-10">
+<span>GEN-IN // 282.4 kW</span>
+<span class="text-surface-cream font-bold font-telemetry-code">Δf: -0.02 Hz</span>
+<span>BUS LOAD // 282.4 kW</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-space-xs text-center">
+<div class="p-space-xs rounded bg-surface-container-lowest">
+<span class="font-label-xs text-label-xs text-outline">LINE VOLTAGE</span>
+<div class="font-telemetry-code text-telemetry-code text-surface-cream font-semibold">400.2 V</div>
+</div>
+<div class="p-space-xs rounded bg-surface-container-lowest">
+<span class="font-label-xs text-label-xs text-outline">FREQUENCY</span>
+<div class="font-telemetry-code text-telemetry-code text-telemetry-safe font-semibold">49.98 Hz</div>
+</div>
+<div class="p-space-xs rounded bg-surface-container-lowest">
+<span class="font-label-xs text-label-xs text-outline">COS PHI (PF)</span>
+<div class="font-telemetry-code text-telemetry-code text-secondary font-semibold">0.96 LAG</div>
+</div>
+</div>
+</div>
+<!-- Cross-Coupled Heat Exchanger Loop (Co-Gen) -->
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-telemetry-warning text-[18px]">heat_pump</span>
+<span class="font-label-xs text-label-xs uppercase text-telemetry-warning tracking-widest font-bold">HYDRONIC GLYCOL CO-GEN EXCHANGER</span>
+</div>
+<span class="font-telemetry-code text-telemetry-code text-telemetry-warning font-semibold">220.0 kWth RECOVERED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Exhaust gas economizers &amp; jacket water heat-exchangers on Gen #01 &amp; #03 inject hot fluid into the main station heating spine.
+            </p>
+<!-- Flow distribution sub-split -->
+<div class="flex flex-col gap-1 text-label-xs font-label-xs mt-space-xs">
+<div class="flex justify-between items-center bg-surface-container-lowest p-space-xs rounded">
+<span class="text-surface-cream font-medium">Habitat Main Pod Heating (HVAC Loop A)</span>
+<span class="text-telemetry-warning font-telemetry-code">112.0 kWth (50.9%)</span>
+</div>
+<div class="flex justify-between items-center bg-surface-container-lowest p-space-xs rounded">
+<span class="text-surface-cream font-medium">Snow-Melt Potable Water Generation (RO Plant)</span>
+<span class="text-telemetry-warning font-telemetry-code">68.0 kWth (30.9%)</span>
+</div>
+<div class="flex justify-between items-center bg-surface-container-lowest p-space-xs rounded">
+<span class="text-surface-cream font-medium">Waste MBBR Bio-Digester Thermophilic Loop</span>
+<span class="text-telemetry-warning font-telemetry-code">40.0 kWth (18.2%)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT: Sector Demands (Cols 9-12) -->
+<div class="lg:col-span-4 flex flex-col gap-space-sm">
+<span class="font-label-xs text-label-xs uppercase tracking-widest text-on-surface-variant flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[14px]">account_tree</span> SECTOR DEMANDS (282.4 kW)
+          </span>
+<!-- Sector 1: Life Support (38%) -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">medical_services</span>
+<span class="font-title-sm text-title-sm text-surface-cream">Life Support &amp; Habitation</span>
+</div>
+<span class="font-label-xs text-label-xs bg-surface-variant text-secondary px-space-2xs py-0.5 rounded font-bold">PRIORITY 1</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">107.3 kW</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">38.0% Total Load</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-secondary h-full rounded-full" style="width: 38%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 block">Main AHU, Oxygenators, Kitchen, Galley Freezers</span>
+</div>
+<!-- Sector 2: Scientific Payloads (26%) -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">science</span>
+<span class="font-title-sm text-title-sm text-surface-cream">Scientific Payloads &amp; Radars</span>
+</div>
+<span class="font-label-xs text-label-xs bg-surface-variant text-on-surface px-space-2xs py-0.5 rounded font-bold">PRIORITY 2</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">73.4 kW</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">26.0% Total Load</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-primary h-full rounded-full" style="width: 26%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 block">Magnetometers, LIDAR Polar Dome, Seismology, SuperDARN</span>
+</div>
+<!-- Sector 3: Trace Heating (21%) -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-telemetry-warning text-[18px]">mode_heat</span>
+<span class="font-title-sm text-title-sm text-surface-cream">Trace Heating &amp; Anti-Freeze</span>
+</div>
+<span class="font-label-xs text-label-xs bg-surface-variant text-telemetry-warning px-space-2xs py-0.5 rounded font-bold">PRIORITY 1</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">59.3 kW</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">21.0% Total Load</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-telemetry-warning h-full rounded-full" style="width: 21%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 block">External Fuel Trunk, Potable Riser Trace, Fuel Bunker Sump</span>
+</div>
+<!-- Sector 4: Tech Workshop (15%) -->
+<div class="bg-surface-container p-space-sm rounded-lg hover:bg-surface-panel transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">handyman</span>
+<span class="font-title-sm text-title-sm text-surface-cream">Workshop &amp; Hangar Deck</span>
+</div>
+<span class="font-label-xs text-label-xs bg-surface-variant text-outline px-space-2xs py-0.5 rounded font-bold">SHEDDABLE</span>
+</div>
+<div class="flex items-baseline justify-between mt-space-xs">
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-bold">42.4 kW</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">15.0% Total Load</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-surface-variant h-full rounded-full" style="width: 15%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 block">PistenBully Block Heaters, CNC Lathe, Crane Winches</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. GENERATION FLEET DISPATCH TABLE & 4. 24-HOUR LOAD/FUEL PROFILE -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg">
+<!-- LEFT: Fleet Control & Dispatch Table (Cols 1-7) -->
+<div class="xl:col-span-7 bg-primary-container rounded-xl p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">tune</span>
+<div>
+<span class="font-title-sm text-title-sm text-surface-cream">Fleet Dispatch &amp; Machinery Telemetry</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Real-time alternator excitation, oil hydraulics, and governor telemetry</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="bg-surface-container hover:bg-surface-panel text-secondary px-space-sm py-1 rounded text-label-md font-label-md transition-colors">
+            Auto-Governor: ISOCHRONOUS
+          </button>
+</div>
+</div>
+<!-- Dense machinery table -->
+<div class="overflow-x-auto rounded-lg bg-surface-container-lowest">
+<table class="w-full text-left">
+<thead class="bg-surface-container text-outline font-label-xs text-label-xs uppercase">
+<tr>
+<th class="px-space-md py-space-sm">Unit Identifier</th>
+<th class="px-space-md py-space-sm">Operating Mode</th>
+<th class="px-space-md py-space-sm">Output</th>
+<th class="px-space-md py-space-sm">Load Share</th>
+<th class="px-space-md py-space-sm">Running Hours</th>
+<th class="px-space-md py-space-sm">Oil / Coolant</th>
+<th class="px-space-md py-space-sm text-right">Dispatch</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-body-sm font-body-sm text-on-surface">
+<!-- CHP Gen #1 -->
+<tr class="hover:bg-surface-panel/40 transition-colors bg-surface-container-low">
+<td class="px-space-md py-space-sm font-medium text-surface-cream flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe"></span>
+<span>Cummins QSB #01</span>
+</td>
+<td class="px-space-md py-space-sm">
+<span class="font-label-xs text-label-xs bg-primary-container text-secondary px-space-2xs py-0.5 rounded font-bold">ONLINE // LEAD</span>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-surface-cream">96.2 kW</td>
+<td class="px-space-md py-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-16 bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 52%"></div>
+</div>
+<span class="font-telemetry-code text-label-xs">52.0%</span>
+</div>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-on-surface-variant">8,412.3 h</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-secondary">4.2 bar / 86°C</td>
+<td class="px-space-md py-space-sm text-right">
+<button class="bg-surface-variant hover:bg-surface-bright text-surface-cream px-2 py-1 rounded text-label-xs uppercase font-label-xs">Throttle</button>
+</td>
+</tr>
+<!-- CHP Gen #2 -->
+<tr class="hover:bg-surface-panel/40 transition-colors">
+<td class="px-space-md py-space-sm font-medium text-on-surface-variant flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-telemetry-warning"></span>
+<span>Cummins QSB #02</span>
+</td>
+<td class="px-space-md py-space-sm">
+<span class="font-label-xs text-label-xs bg-surface-container text-telemetry-warning px-space-2xs py-0.5 rounded font-bold">WARM STANDBY</span>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-outline">0.0 kW</td>
+<td class="px-space-md py-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-16 bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-surface-variant h-full" style="width: 0%"></div>
+</div>
+<span class="font-telemetry-code text-label-xs text-outline">0.0%</span>
+</div>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-on-surface-variant">6,180.7 h</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-on-surface-variant">Jkt Pre-heat 58°C</td>
+<td class="px-space-md py-space-sm text-right">
+<button class="bg-secondary-container hover:bg-surface-panel text-secondary px-2 py-1 rounded text-label-xs uppercase font-label-xs">Start Now</button>
+</td>
+</tr>
+<!-- CHP Gen #3 -->
+<tr class="hover:bg-surface-panel/40 transition-colors bg-surface-container-low">
+<td class="px-space-md py-space-sm font-medium text-surface-cream flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-telemetry-safe"></span>
+<span>Cummins QSB #03</span>
+</td>
+<td class="px-space-md py-space-sm">
+<span class="font-label-xs text-label-xs bg-primary-container text-on-primary-container px-space-2xs py-0.5 rounded font-bold">ONLINE // LAG</span>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-surface-cream">88.8 kW</td>
+<td class="px-space-md py-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-16 bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 48%"></div>
+</div>
+<span class="font-telemetry-code text-label-xs">48.0%</span>
+</div>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-on-surface-variant">7,904.1 h</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-secondary">4.1 bar / 84°C</td>
+<td class="px-space-md py-space-sm text-right">
+<button class="bg-surface-variant hover:bg-surface-bright text-surface-cream px-2 py-1 rounded text-label-xs uppercase font-label-xs">Throttle</button>
+</td>
+</tr>
+<!-- Wind Turbines (Mast 1-3) -->
+<tr class="hover:bg-surface-panel/40 transition-colors">
+<td class="px-space-md py-space-sm font-medium text-surface-cream flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Wind Turbines W1-W3</span>
+</td>
+<td class="px-space-md py-space-sm">
+<span class="font-label-xs text-label-xs bg-secondary-container text-secondary px-space-2xs py-0.5 rounded font-bold">VARIABLE MPPT</span>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-secondary">54.2 kW</td>
+<td class="px-space-md py-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-16 bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 72%"></div>
+</div>
+<span class="font-telemetry-code text-label-xs text-secondary">72.3% Wind</span>
+</div>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-on-surface-variant">14,210 h</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-on-surface-variant">Yaw Brake: OFF</td>
+<td class="px-space-md py-space-sm text-right">
+<button class="bg-surface-variant hover:bg-surface-bright text-surface-cream px-2 py-1 rounded text-label-xs uppercase font-label-xs">Pitch Ctrl</button>
+</td>
+</tr>
+<!-- Solar Inverter Cluster -->
+<tr class="hover:bg-surface-panel/40 transition-colors">
+<td class="px-space-md py-space-sm font-medium text-surface-cream flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>Solar PV (Ridge &amp; Hab Roof)</span>
+</td>
+<td class="px-space-md py-space-sm">
+<span class="font-label-xs text-label-xs bg-tertiary-container text-tertiary px-space-2xs py-0.5 rounded font-bold">GRID TIE // MAX</span>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-tertiary">14.2 kW</td>
+<td class="px-space-md py-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-16 bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 45%"></div>
+</div>
+<span class="font-telemetry-code text-label-xs text-tertiary">45.0% Sun</span>
+</div>
+</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-on-surface-variant">3,400 h</td>
+<td class="px-space-md py-space-sm font-telemetry-code text-on-surface-variant">Inverter -12°C</td>
+<td class="px-space-md py-space-sm text-right">
+<button class="bg-surface-variant hover:bg-surface-bright text-surface-cream px-2 py-1 rounded text-label-xs uppercase font-label-xs">Isolate</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Generation Fleet Operations Metadata Strip -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm p-space-sm rounded-lg bg-surface-container text-label-xs font-label-xs text-on-surface-variant">
+<div class="flex items-center gap-space-sm">
+<span>DIESEL SPEC: ATF-50 POLAR LOW-POUR (-52°C RATED)</span>
+<span>•</span>
+<span>MAIN TANK ULLAGE: 18.2%</span>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-telemetry-code">
+<span>NEXT GEN ROTATION: 38h 24m (SHIFT TO GEN #02)</span>
+</div>
+</div>
+</div>
+<!-- RIGHT: 24-Hour Load Profile & Fuel Burn Trend (Cols 8-12) -->
+<div class="xl:col-span-5 bg-primary-container rounded-xl p-space-lg shadow-md flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">show_chart</span>
+<div>
+<span class="font-title-sm text-title-sm text-surface-cream">24-Hour Microgrid Load vs Katabatic Spike</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dynamic trace-heating demands during blizzard gusts</p>
+</div>
+</div>
+<span class="font-telemetry-code text-label-xs text-primary px-space-xs py-0.5 rounded bg-surface-container">INTERVAL: 15 MIN</span>
+</div>
+<!-- Inline SVG Area Chart: Real-time 24hr load curve -->
+<div class="w-full h-52 bg-surface-container-lowest rounded-lg p-space-sm relative flex flex-col justify-end">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 400 160">
+<defs>
+<lineargradient id="loadGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#91d3c2" stop-opacity="0.45"></stop>
+<stop offset="100%" stop-color="#91d3c2" stop-opacity="0.0"></stop>
+</lineargradient>
+<lineargradient id="traceGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#D9822B" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#D9822B" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Grid lines -->
+<line stroke="#273834" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="400" y1="30" y2="30"></line>
+<line stroke="#273834" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="400" y1="70" y2="70"></line>
+<line stroke="#273834" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="400" y1="110" y2="110"></line>
+<line stroke="#273834" stroke-width="1" x1="0" x2="400" y1="150" y2="150"></line>
+<!-- Trace heating spike curve (Orange) -->
+<path d="M 0 135 Q 60 130, 110 115 T 180 80 T 260 70 T 320 95 T 400 100 L 400 160 L 0 160 Z" fill="url(#traceGrad)"></path>
+<path d="M 0 135 Q 60 130, 110 115 T 180 80 T 260 70 T 320 95 T 400 100" fill="none" stroke="#D9822B" stroke-width="2"></path>
+<!-- Station Total Load Curve (Cyan / Secondary) -->
+<path d="M 0 100 Q 50 95, 100 85 T 170 50 T 240 60 T 310 40 T 400 52 L 400 160 L 0 160 Z" fill="url(#loadGrad)"></path>
+<path d="M 0 100 Q 50 95, 100 85 T 170 50 T 240 60 T 310 40 T 400 52" fill="none" stroke="#91d3c2" stroke-width="2.5"></path>
+<!-- Current point marker -->
+<circle cx="400" cy="52" fill="#91d3c2" r="4"></circle>
+<circle cx="400" cy="100" fill="#D9822B" r="3.5"></circle>
+</svg>
+<!-- Graph Legend and Scales -->
+<div class="flex justify-between items-center text-label-xs font-label-xs text-outline mt-1 px-1">
+<span>00:00 UTC</span>
+<span>06:00</span>
+<span>12:00</span>
+<span>18:00</span>
+<span class="text-surface-cream font-bold">14:32 (NOW)</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs text-label-xs font-label-xs">
+<div class="flex items-center gap-space-sm">
+<span class="flex items-center gap-1 text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary inline-block"></span> Total Electrical (kW)
+            </span>
+<span class="flex items-center gap-1 text-telemetry-warning">
+<span class="w-2 h-2 rounded-full bg-telemetry-warning inline-block"></span> Katabatic Wind Trace Spike
+            </span>
+</div>
+<span class="font-telemetry-code text-surface-cream">Avg Daily Burn: 680 L/d</span>
+</div>
+</div>
+<!-- Quick Metrics Breakdown -->
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<div class="p-space-sm rounded-lg bg-surface-container">
+<span class="font-label-xs text-label-xs text-outline uppercase">HEAT EXCHANGER COP</span>
+<div class="font-telemetry-code text-title-sm text-surface-cream font-bold mt-0.5">84.2% Eff</div>
+<span class="font-body-sm text-body-sm text-telemetry-safe">Exhaust Stack 142°C</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container">
+<span class="font-label-xs text-label-xs text-outline uppercase">WIND CHILL FACTOR</span>
+<div class="font-telemetry-code text-title-sm text-surface-cream font-bold mt-0.5">-46.8°C Equiv</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Trace Power auto-boosted</span>
+</div>
+</div>
+<!-- Visual Context Placeholder: Polar Generator Room & Exterior Wind Turbine -->
+<div class="relative w-full h-28 rounded-lg overflow-hidden bg-cover bg-center shadow-inner" data-alt="Dark dramatic interior photography of industrial sub-zero Antarctic research station generator room with massive diesel generators, exposed insulated green hydronic pipes, glowing digital control consoles and LED telemetry readouts in deep evergreen and cyan lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnHSPyazlALRMVI15DtoQxPIC2PUJDXho61VKBcyQUM5Ry3jdtx0HtC4Oy6Vk3L9F6x9r-aGDCnlbQZCvY-GmB12YQRtFQnnukztpn419JjKeZo7B2NcorHu2ey02fuTBiGs1uj2W2mEthI52c6sKWdbceCA0RGJGb1Gx17Rch5lqueiTp24DslusIudvBJBDCklYkec9DyP23_nrQx_pibp422hHq7NoUABOv8DzLPn5aat6o7Ynwbg')">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/50 to-transparent p-space-sm flex items-end justify-between">
+<div>
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-secondary font-bold">STATION GENERATION ROOM #01</span>
+<p class="font-body-sm text-body-sm text-surface-cream">East Wing Acoustically Dampened Polar Cellar</p>
+</div>
+<span class="font-telemetry-code text-telemetry-code text-telemetry-safe bg-surface-container-lowest/80 px-2 py-0.5 rounded">CCTV LIVE</span>
+</div>
+</div>
+<!-- EMERGENCY MICROGRID OVERRIDE ACTIONS (4 Controls) -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<span class="font-label-xs text-label-xs uppercase tracking-widest text-error font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">gavel</span> COMMAND &amp; OVERRIDE INTERFACE (HOLD 1.5S)
+        </span>
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Command 1: Shed Non-Essential -->
+<button class="relative group overflow-hidden bg-surface-variant hover:bg-surface-bright text-surface-cream px-space-sm py-space-sm rounded-lg text-left transition-all active:scale-98">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-telemetry-warning text-[18px]">power_off</span>
+<span class="font-label-md text-label-md font-semibold">Shed Lab Loads</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Dump Workshop &amp; LIDAR</span>
+</button>
+<!-- Command 2: Force Glycol Bypass -->
+<button class="relative group overflow-hidden bg-surface-variant hover:bg-surface-bright text-surface-cream px-space-sm py-space-sm rounded-lg text-left transition-all active:scale-98">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">forklift</span>
+<span class="font-label-md text-label-md font-semibold">Force Glycol Bypass</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Divert 100% to Hab Pod</span>
+</button>
+<!-- Command 3: Reserve Fuel Line -->
+<button class="relative group overflow-hidden bg-surface-variant hover:bg-surface-bright text-surface-cream px-space-sm py-space-sm rounded-lg text-left transition-all active:scale-98">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">local_gas_station</span>
+<span class="font-label-md text-label-md font-semibold">Dispatch Fuel Line #2</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Engage Sub-Heated Tank 4</span>
+</button>
+<!-- Command 4: Black-Start Hazard Button -->
+<button class="relative group overflow-hidden bg-telemetry-critical hover:bg-red-700 text-surface-cream-light px-space-sm py-space-sm rounded-lg text-left transition-all active:scale-98 shadow-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-surface-cream text-[18px]">emergency</span>
+<span class="font-label-md text-label-md font-bold">Black-Start Sequence</span>
+</div>
+<span class="font-body-sm text-body-sm text-surface-cream/80 block mt-0.5">Isolated BESS Ignition</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- INLINE JAVASCRIPT FOR REAL-TIME SIMULATION & BUTTON FEEDBACK -->
+<script>
+    (function() {
+      // Interactive refresh button handler
+      const refreshBtn = document.getElementById('refreshFlowBtn');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+          refreshBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">sync</span> Polling SCADA...';
+          setTimeout(() => {
+            refreshBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">done</span> Synced';
+            setTimeout(() => {
+              refreshBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">sync</span> Refresh Telemetry';
+            }, 1200);
+          }, 800);
+        });
+      }
+    })();
+  </script>
+{% endblock %}

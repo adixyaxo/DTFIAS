@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ title | default("Antarctic Digital Twin") }}{% endblock %}</title>
-    <!-- Google Fonts: Inter (UI), Playfair Display (headings), Playfair (body highlights) -->
+    <!-- Google Fonts: Inter (UI), Playfair Display (headings), Playfair (body), JetBrains Mono (data) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Playfair:ital,opsz,wght@0,5..1200,300;0,5..1200,400;0,5..1200,500;0,5..1200,600;0,5..1200,700;1,5..1200,300;1,5..1200,400;1,5..1200,500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Playfair:ital,opsz,wght@0,5..1200,300;0,5..1200,400;0,5..1200,500;0,5..1200,600;0,5..1200,700;1,5..1200,300;1,5..1200,400;1,5..1200,500&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+        rel="stylesheet">
+    <!-- Material Symbols -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- DTFIAS Design Tokens -->
     <style>
         :root {
@@ -29,10 +34,10 @@
             --status-warning-bg: #FFF3E3;
             --status-critical-bg: #FBE9E7;
             /* Typography */
-            --font-ui:      'Inter', system-ui, -apple-system, sans-serif;
+            --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
             --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
-            --font-body:    'Playfair', Georgia, 'Times New Roman', serif;
-            --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+            --font-body: 'Playfair', Georgia, 'Times New Roman', serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
         }
 
         body {
@@ -43,68 +48,17 @@
     <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="{{ url_for('static', path='css/app.css') }}" rel="stylesheet">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "deep-green": "#1A312C", "deep-green-darker": "#10221E", "deep-green-surface": "#152924", "deep-green-border": "#25453E", "teal-brand": "#428475", "teal-brand-hover": "#356d61", "teal-brand-active": "#2c5c52", "mint-light": "#E8F3EF", "mint-border": "#C5E0D5", "warm-white": "#F7F4ED", "warm-card": "#FFFFFF", "warm-border": "#E4DFD3", "warm-border-strong": "#CCC5B7", "warm-text-primary": "#1E2522", "warm-text-muted": "#5D6661", "status-normal": "#2E7D5B", "status-info": "#2878A8", "status-warning": "#D9822B", "status-critical": "#C44536", "tertiary-fixed-dim": "#b1cdbd", "surface-container-highest": "#273834", "primary-fixed-dim": "#b2ccc4", "secondary-fixed-dim": "#91d3c2", "on-surface-variant": "#c2c8c5", "on-surface": "#d3e7e0", "on-secondary-fixed-variant": "#005144", "telemetry-critical-bg": "#FBE9E7", "surface-variant": "#273834", "on-secondary-fixed": "#00201a", "error-container": "#93000a", "surface-tint": "#b2ccc4", "background": "#051613", "telemetry-warning-bg": "#FFF3E3", "tertiary": "#b1cdbd", "on-primary-container": "#819993", "error": "#ffb4ab", "inverse-surface": "#d3e7e0", "on-error": "#690005", "on-tertiary-fixed-variant": "#334c40", "surface-cream": "#F4F3ED", "secondary-container": "#015346", "outline-variant": "#424846", "surface-container-high": "#1c2d29", "surface": "#051613", "telemetry-safe": "#2E7D5B", "on-tertiary-fixed": "#072016", "primary": "#b2ccc4", "secondary-fixed": "#acf0de", "surface-dim": "#051613", "on-background": "#d3e7e0", "surface-bright": "#2b3d38", "on-secondary": "#00382e", "telemetry-warning": "#D9822B", "surface-cream-light": "#F8F7F2", "tertiary-container": "#1a3227", "surface-container": "#12231f", "primary-fixed": "#cee8e0", "inverse-primary": "#4b635d", "telemetry-critical": "#C44536", "on-error-container": "#ffdad6", "on-primary-fixed": "#071f1b", "tertiary-fixed": "#cde9d9", "secondary": "#91d3c2", "surface-container-low": "#0d1f1b", "on-primary": "#1e3530", "surface-container-lowest": "#02110d", "surface-panel": "#223F39", "on-tertiary-container": "#809b8c", "inverse-on-surface": "#23342f", "on-tertiary": "#1d352a", "telemetry-safe-bg": "#E8F4EE", "on-primary-fixed-variant": "#344b46", "on-secondary-container": "#83c5b4", "telemetry-info": "#2878A8", "primary-container": "#1a312c", "outline": "#8c928f", "telemetry-info-bg": "#E8F2F8" }, borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, spacing: { "space-sm": "0.5rem", "space-2xl": "3rem", "space-2xs": "0.125rem", "panel-gutter": "0.75rem", "canvas-margin": "1.5rem", "space-xl": "2rem", "space-lg": "1.5rem", "space-base": "1rem", "space-md": "0.75rem", "space-xs": "0.25rem" }, fontFamily: { "headline-lg": ["Inter"], "body-sm": ["Inter"], "headline-xl": ["Inter"], "headline-md": ["Inter"], "label-xs": ["Inter"], "title-sm": ["Inter"], "label-md": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"], "display-lg": ["Inter"], "headline-xl-mobile": ["Inter"], "telemetry-code": ["JetBrains Mono", "monospace"] }, fontSize: { "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "label-xs": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" }], "title-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "telemetry-code": ["13px", { "lineHeight": "18px", "letterSpacing": "0.04em", "fontWeight": "500" }] } } } };
+    </script>
     {% block head %}{% endblock %}
 </head>
 
 <body class="antialiased" style="background-color: var(--brand-cream); color: #1A312C; font-family: var(--font-ui);"
     hx-boost="true">
-
-    <div class="min-h-screen flex flex-col">
-        <header style="background-color: var(--brand-deep-green); color: #fff;" class="shadow-md">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                <h1 class="text-2xl font-bold" style="letter-spacing: -0.01em;">DTFIAS</h1>
-                <nav class="flex items-center gap-4">
-                    <!-- Conditional rendering based on role would go here -->
-                    <a href="/" class="text-sm font-medium" style="color: var(--brand-mint); text-decoration: none;"
-                        onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--brand-mint)'">Home</a>
-                    <a href="/auth/login" class="text-sm font-medium"
-                        style="color: var(--brand-mint); text-decoration: none;" onmouseover="this.style.color='#fff'"
-                        onmouseout="this.style.color='var(--brand-mint)'">Login</a>
-                </nav>
-            </div>
-        </header>
-
-        <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-            {% block content %}
-            <div class="bg-white p-6 rounded-lg shadow-sm text-center"
-                style="border: 1px solid var(--brand-cream-dark);">
-                <h2 class="text-xl font-semibold mb-4" style="color: var(--brand-deep-green);">Welcome to the Antarctic
-                    Digital Twin</h2>
-                <p style="color: #428475;">The core engine and presentation layer have been scaffolded.</p>
-                <div class="mt-6">
-                    <button hx-get="/maitri" hx-target="#htmx-response"
-                        style="background-color: var(--brand-teal); color: #fff; padding: 0.5rem 1rem; border-radius: 0.375rem; border: none; cursor: pointer; font-family: var(--font-ui); font-weight: 500; transition: background-color 0.15s ease;"
-                        onmouseover="this.style.backgroundColor='#1A312C'"
-                        onmouseout="this.style.backgroundColor='var(--brand-teal)'">
-                        Test HTMX Request to /maitri
-                    </button>
-                    <div id="htmx-response" class="mt-4 p-4 rounded text-sm"
-                        style="border: 1px dashed var(--brand-teal); color: var(--brand-deep-green);">
-                        Response will appear here.
-                    </div>
-                </div>
-                <h1 class="mt-6 text-lg font-semibold" style="color: var(--brand-deep-green);">Alpine JS</h1>
-                <div x-data="{ open: false, toggle(){this.open = !this.open} }" class="mt-2">
-                    <button @click="toggle"
-                        style="background-color: var(--brand-teal); color: #fff; padding: 0.5rem 1rem; border-radius: 0.375rem; border: none; cursor: pointer; font-family: var(--font-ui); font-weight: 500;"
-                        onmouseover="this.style.backgroundColor='#1A312C'"
-                        onmouseout="this.style.backgroundColor='var(--brand-teal)'">
-                        Toggle Dropdown
-                    </button>
-                    <div x-show="open" class="bg-white p-4 rounded mt-2"
-                        style="border: 1px solid var(--brand-cream-dark);">
-                        Dropdown Content
-                    </div>
-                </div>
-            </div>
-            {% endblock %}
-        </main>
-
-        <footer style="background-color: var(--brand-deep-green); color: #fff;" class="text-center py-4 mt-auto">
-            <p class="text-sm" style="color: var(--brand-mint);">&copy; 2026 DTFIAS — Digital Twin for Indian Antarctic
-                Stations</p>
-        </footer>
-    </div>
+    {% block body %}{% endblock %}
 
     {% block scripts %}{% endblock %}
 </body>

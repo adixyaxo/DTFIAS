@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 
@@ -25,8 +25,6 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.include_router(main_router)
 
 
-@app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
-    return templates.TemplateResponse(
-        request=request, name="layouts/base.html", context={"title": "DTFIAS Home"}
-    )
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/hq/")
