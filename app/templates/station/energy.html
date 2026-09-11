@@ -9,9 +9,9 @@
 </div>
 <div class="flex flex-col">
 <div class="flex items-center gap-space-xs">
-<span class="font-label-xs text-label-xs uppercase tracking-widest text-primary">BHARATI POLAR CAMPUS</span>
+<span class="font-label-xs text-label-xs uppercase tracking-widest text-primary">{{ station.name | upper }} POLAR CAMPUS</span>
 <span class="font-label-xs text-label-xs text-outline-variant">•</span>
-<span class="font-telemetry-code text-telemetry-code text-secondary font-semibold">GRID CELL ID // IN-ANT-BHT-02-PWR</span>
+<span class="font-telemetry-code text-telemetry-code text-secondary font-semibold">GRID CELL ID // {{ station.grid_id }}</span>
 </div>
 <span class="font-headline-md text-headline-md text-surface-cream tracking-tight">Microgrid &amp; Combined Heat-Power Command</span>
 </div>

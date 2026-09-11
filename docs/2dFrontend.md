@@ -70,22 +70,22 @@ Per-asset telemetry schema delivered to the twin:
 
 - Ensure a 1:1 mapping between `asset_id` values and SVG hotspot IDs (`hotspot-{asset_id}`).
 
-**Starting asset list** (grounded in real, documented subsystems from `3-` and `4-` — extend as your simulation grows, don't invent unrelated ones for the MVP demo):
+**Starting asset list** (grounded in real, documented subsystems from `docs/station-facts-and-research.md` — extend as your simulation grows, don't invent unrelated ones for the MVP demo):
 
 | asset_id | Real-world basis | Category | Source |
 | --- | --- | --- | --- |
-| `main_building` | Core habitable/lab structure | infrastructure | `4-stations-and-headquarters.md` |
-| `power_plant` | Diesel generation (Bharati/Maitri) | energy | `4-stations-and-headquarters.md` §1 |
-| `fuel_storage` | ~3 lakh litre automated fuel farm at Bharati | energy | `3-data-transmission-antarctic-to-hq.md` §4.3 |
-| `hvac` | Heating/life-support | infrastructure | `3-data-transmission-antarctic-to-hq.md` §4.1 |
-| `comms_satcom` | SATCOM/C-band ops link (not AGEOS) | infrastructure | `3-data-transmission-antarctic-to-hq.md` §1–2 |
-| `medical_bay` | Personnel welfare | personnel | `4-stations-and-headquarters.md` |
-| `personnel_roster` | Headcount/rotation status | personnel | `3-data-transmission-antarctic-to-hq.md` §4.3 |
-| `environment_sensors` | Temp/wind/pressure/visibility | environmental | `3-data-transmission-antarctic-to-hq.md` §4.2 |
-| `heliport` (Bharati only) | Aerial logistics | logistics | `4-stations-and-headquarters.md` §4 |
-| `vehicle_fleet` | Resupply/ground transport | logistics | `3-data-transmission-antarctic-to-hq.md` §4.3 |
+| `main_building` | Core habitable/lab structure | infrastructure | `docs/station-facts-and-research.md` §2, §3 |
+| `power_plant` | Diesel generation (Bharati/Maitri) | energy | `docs/station-facts-and-research.md` §2, §3 |
+| `fuel_storage` | ~3 lakh litre automated fuel farm at Bharati | energy | `docs/station-facts-and-research.md` §2 |
+| `hvac` | Heating/life-support | infrastructure | `docs/station-facts-and-research.md` §2 |
+| `comms_satcom` | SATCOM/C-band ops link (not AGEOS) | infrastructure | `docs/station-facts-and-research.md` §5 |
+| `medical_bay` | Personnel welfare | personnel | `docs/station-facts-and-research.md` §2, §3 |
+| `personnel_roster` | Headcount/rotation status | personnel | `docs/station-facts-and-research.md` §2, §3 |
+| `environment_sensors` | Temp/wind/pressure/visibility | environmental | `docs/station-facts-and-research.md` §6 |
+| `heliport` (Bharati only) | Aerial logistics | logistics | `docs/station-facts-and-research.md` §2 |
+| `vehicle_fleet` | Resupply/ground transport | logistics | `docs/station-facts-and-research.md` §2 |
 
-Deliberately **not** included: AGEOS/the X-S band earth station — it's ISRO infrastructure on a separate pipe and explicitly out of scope for this twin (see `3-data-transmission-antarctic-to-hq.md` §1).
+Deliberately **not** included: AGEOS/the X-S band earth station — it's ISRO infrastructure on a separate pipe and explicitly out of scope for this twin (see `docs/station-facts-and-research.md` §5.3).
 
 ## 6. Interactivity polish (Phase D)
 
@@ -98,7 +98,7 @@ Deliberately **not** included: AGEOS/the X-S band earth station — it's ISRO in
 
 - [ ]  Build a station-selector screen (list/cards of stations with headline stats) that routes into `<StationTwin>` — needed regardless of whether you ship one station or two for the MVP.
 - [ ]  Wire the layer toggle to the same four data categories used elsewhere in the app so this view stays consistent with the rest of the dashboard, not a separate visual language.
-- [ ]  Hook up at least one **remote action** through a hotspot (acknowledge alert / adjust threshold / trigger a logged command) — this satisfies the MVP requirement in `1-project-overview.md` §5 that the dashboard isn't read-only.
+- [ ]  Hook up at least one **remote action** through a hotspot (acknowledge alert / adjust threshold / trigger a logged command) — this satisfies the MVP requirement in `docs/project-overview.md` §2 that the dashboard isn't read-only.
 - [ ]  Hook up a demo control (e.g. a hidden "simulate power dip" trigger) so the disaster scenario can be shown live by injecting a fault into the mock data stream and watching the corresponding hotspot update in real time during judging.
 
 ## 8. Acceptance checklist (Phase F)

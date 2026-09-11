@@ -8,7 +8,7 @@
 <span>//</span>
 <span class="text-secondary">Antarctic Command Core</span>
 <span>//</span>
-<span class="text-primary font-bold">Bharati IN-ANT-BHT-02</span>
+<span class="text-primary font-bold">{{ station.name }} {{ station.code }}</span>
 </div>
 <div class="flex items-baseline gap-space-sm mt-space-2xs">
 <h1 class="font-headline-xl text-headline-xl text-surface-cream tracking-tight">Alert Triage &amp; Incident Matrix</h1>
@@ -224,7 +224,7 @@
 <span class="w-1.5 h-1.5 rounded-full bg-surface-cream animate-pulse"></span>
                 CRITICAL
               </span>
-<span class="font-telemetry-code text-telemetry-code font-bold text-surface-cream tracking-wide">#INC-BHT-4091</span>
+<span class="font-telemetry-code text-telemetry-code font-bold text-surface-cream tracking-wide">#INC-{{ station.callsign }}-4091</span>
 <span class="text-outline-variant font-label-xs text-label-xs">|</span>
 <span class="font-label-xs text-label-xs text-primary uppercase font-medium">Microgrid (CHP-GEN-03)</span>
 </div>
@@ -390,7 +390,7 @@
 <!-- Photographic Context: Research Station Facility -->
 <div class="bg-surface-container-high rounded p-space-md shadow-md mt-space-sm flex flex-col sm:flex-row gap-space-md items-center">
 <div class="w-full sm:w-48 h-28 rounded overflow-hidden relative flex-shrink-0">
-<img class="w-full h-full object-cover" data-alt="Futuristic Bharati Antarctic research station elevated on hydraulic stilts amidst dramatic windswept polar ice sheets and snowdrift under dark sub-zero twilight sky, architectural scientific facility glowing with warm operational amber and mint green safety lights, severe polar environment, high detail photograph." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAWCdG5w2Q5Jx_Obvt5av7lPOiI-h1QyOvmEzmIkoRKQO12YWABq_heYYB-_293_DVeQtaO4d-AHzDojgdiMVZUtI4TQxlCJHIxtPqGAuoT08WanK4P7A5fC5cATfrWF1nyuIJ8C5zl7m1IlOS648OqpC9t0c2N_sDeoj5poekV4LHC1ZMU1hplcaOHvlwAlb2bVe6A2aiZXE2p61KqCBxpyci8yoeLQTs98Gbvqr49ulhhiAujYIBfg"/>
+<img class="w-full h-full object-cover" data-alt="Futuristic {{ station.name }} Antarctic research station elevated on {{ station.foundation }} amidst dramatic windswept polar ice sheets and snowdrift under dark sub-zero twilight sky, architectural scientific facility glowing with warm operational amber and mint green safety lights, severe polar environment, high detail photograph." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAWCdG5w2Q5Jx_Obvt5av7lPOiI-h1QyOvmEzmIkoRKQO12YWABq_heYYB-_293_DVeQtaO4d-AHzDojgdiMVZUtI4TQxlCJHIxtPqGAuoT08WanK4P7A5fC5cATfrWF1nyuIJ8C5zl7m1IlOS648OqpC9t0c2N_sDeoj5poekV4LHC1ZMU1hplcaOHvlwAlb2bVe6A2aiZXE2p61KqCBxpyci8yoeLQTs98Gbvqr49ulhhiAujYIBfg"/>
 <div class="absolute bottom-1 left-1 bg-surface-container-lowest/80 px-space-2xs py-0.5 rounded font-label-xs text-label-xs text-surface-cream">
             CAM-BHT-EXT-04
           </div>

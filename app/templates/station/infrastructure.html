@@ -1,6 +1,6 @@
 {% extends "layouts/dashboard.html" %}
 {% block dashboard_content %}
-<!-- Station Habitat & Life Support Operations (Bharati Station) Telemetry Viewport -->
+<!-- Station Habitat & Life Support Operations ({{ station.name }} Station) Telemetry Viewport -->
 <div class="w-full space-y-panel-gutter text-on-surface">
 <!-- SUB-BAR / STATION TELEMETRY TOP LINE -->
 <div class="w-full bg-surface-container-low rounded-lg p-space-md shadow-md flex flex-wrap items-center justify-between gap-panel-gutter">
@@ -8,8 +8,8 @@
 <div class="flex items-center gap-space-xs">
 <span class="w-2.5 h-2.5 rounded-full bg-telemetry-safe animate-ping"></span>
 <div class="flex flex-col">
-<span class="font-headline-md text-headline-md text-surface-cream tracking-tight">BHARATI STATION</span>
-<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">LSS / MICROGRID NODE • 69°24′28″S 76°11′14″E • SECTOR IV</span>
+<span class="font-headline-md text-headline-md text-surface-cream tracking-tight">{{ station.name | upper }} STATION</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant uppercase">LSS / MICROGRID NODE • {{ station.coordinates }} • SECTOR IV</span>
 </div>
 </div>
 <div class="h-8 w-px bg-outline-variant/30 hidden md:block"></div>
@@ -164,8 +164,8 @@
 <div class="flex items-center gap-space-sm">
 <span class="p-1.5 rounded bg-surface-panel text-secondary material-symbols-outlined text-[20px]">apartment</span>
 <div>
-<span class="font-headline-md text-headline-md text-surface-cream block">Bharati 3-Level Containerized Architecture</span>
-<span class="font-label-xs text-label-xs text-on-surface-variant">THERMAL ENVELOPE • HIGH-AERODYNAMIC ELEVATED PLATFORM ON STILTS</span>
+<span class="font-headline-md text-headline-md text-surface-cream block">{{ station.architecture }}</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">THERMAL ENVELOPE • {{ station.architecture_subtitle | upper }}</span>
 </div>
 </div>
 <div class="flex items-center gap-space-xs">
@@ -183,7 +183,7 @@
 <div class="relative w-full rounded-lg bg-surface-container-low overflow-hidden shadow-inner p-space-sm" style="min-height: 440px;">
 <!-- Station Module Ambient Image with Dark Green Sci-fi Grading -->
 <div class="w-full h-80 rounded-lg overflow-hidden relative shadow-md">
-<img class="w-full h-full object-cover brightness-95 contrast-110" data-alt="Dark photorealistic 3D technical isometric cross section of Antarctic research station Bharati with modular ISO container units stacked in three tiers on aerodynamic steel pilings over snow and ice, with glowing green and teal telemetry indicators and heated water pipelines visible." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoQCfdbDQ-vKkaRY2mvB0OhSum8Yy2q8NheVB0_TO9iyLev0UoUl9ydsNNUG7y2ya5hnvlOQQ-L8boWqNS6Sa8uMugKbtxbgnoiMkfLAtl6nZat1m1bwUGG2fY5UO3mgKfLI89SREEHiRS7t0jCqGlVBryfIB4ykUSHAF6wJoOVLGGmRBmDK70adlEqSoGuGlEBjppOZg6T7lJZmlTBh8qBZdMr2BhkkdxjDPpPLXiIspiiNk549O6WQ"/>
+<img class="w-full h-full object-cover brightness-95 contrast-110" data-alt="Dark photorealistic 3D technical isometric cross section of Antarctic research station {{ station.name }} with modular ISO container units stacked in three tiers on aerodynamic steel pilings over snow and ice, with glowing green and teal telemetry indicators and heated water pipelines visible." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoQCfdbDQ-vKkaRY2mvB0OhSum8Yy2q8NheVB0_TO9iyLev0UoUl9ydsNNUG7y2ya5hnvlOQQ-L8boWqNS6Sa8uMugKbtxbgnoiMkfLAtl6nZat1m1bwUGG2fY5UO3mgKfLI89SREEHiRS7t0jCqGlVBryfIB4ykUSHAF6wJoOVLGGmRBmDK70adlEqSoGuGlEBjppOZg6T7lJZmlTBh8qBZdMr2BhkkdxjDPpPLXiIspiiNk549O6WQ"/>
 <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-surface-container/40 to-transparent"></div>
 <!-- Live Floating Telemetry Overlay Callouts directly on the Isometric Visual -->
 <!-- Hotspot 1: Level 3 Scientific Deck -->

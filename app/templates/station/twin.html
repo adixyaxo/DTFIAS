@@ -6,8 +6,8 @@
 <div class="flex items-center gap-space-xs">
 <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
 <span class="font-label-xs text-label-xs uppercase tracking-wider text-outline">GEOFIX:</span>
-<span class="font-telemetry-code text-telemetry-code text-on-surface">69°24'40"S 76°11'42"E</span>
-<span class="font-label-xs text-label-xs text-outline-variant px-space-xs py-space-2xs bg-surface-container rounded">35m ASL</span>
+<span class="font-telemetry-code text-telemetry-code text-on-surface">{{ station.coordinates }}</span>
+<span class="font-label-xs text-label-xs text-outline-variant px-space-xs py-space-2xs bg-surface-container rounded">{{ station.elevation }}</span>
 </div>
 <div class="h-4 w-px bg-surface-variant"></div>
 <div class="flex items-center gap-space-md text-telemetry-code font-telemetry-code">
@@ -64,13 +64,13 @@
 <div>
 <div class="text-label-xs font-label-xs uppercase text-primary">HABITAT COMPLEX STRUCTURAL TWIN</div>
 <div class="text-title-sm font-title-sm text-on-surface flex items-center gap-space-xs">
-<span>BHARATI MAIN RESEARCH POD</span>
-<span class="font-telemetry-code text-label-xs text-secondary bg-secondary-container/40 px-space-xs py-space-2xs rounded">REV 4.2</span>
+<span>{{ station.name | upper }} RESEARCH COMPLEX</span>
+<span class="font-telemetry-code text-label-xs text-secondary bg-secondary-container/40 px-space-xs py-space-2xs rounded">{{ station.twin_rev }}</span>
 </div>
 </div>
 <div class="h-6 w-px bg-surface-variant"></div>
 <div class="text-telemetry-code font-telemetry-code text-[11px] text-outline">
-<div>STILT HYDRAULIC: <span class="text-telemetry-safe">BALANCED (3.4 bar)</span></div>
+<div>FOUNDATION: <span class="text-telemetry-safe">{{ station.foundation }}</span></div>
 <div>SNOWDRIFT PERIMETER: <span class="text-on-surface">CLEARED 2.8m</span></div>
 </div>
 </div>
@@ -126,7 +126,7 @@
 <path d="M 30 0 L 0 0 15 8.66 Z M 0 17.32 L 15 8.66 30 17.32 Z" fill="none" stroke="#223f39" stroke-opacity="0.4" stroke-width="0.3"></path>
 </pattern>
 </defs>
-<!-- Larsemann Hills Bedrock & Frozen Terrain Ground Plane -->
+<!-- {{ station.region }} Bedrock & Frozen Terrain Ground Plane -->
 <path d="M 80 580 L 600 780 L 1120 530 L 620 380 Z" fill="url(#rockGradient)" opacity="0.9"></path>
 <polygon fill="url(#iceGradient)" points="120,590 320,670 480,630 620,740 920,600 1100,530 620,390"></polygon>
 <path d="M 80 580 L 600 780 L 600 810 L 80 610 Z" fill="#030c0a"></path>
@@ -891,7 +891,7 @@
         t3Pct: "38%",
         sparkColor: "#34d399",
         metric1Title: "PERSONNEL ON-BOARD",
-        metric1Val: "24 Souls (Nominal)",
+        metric1Val: "{{ station.souls_active }} Souls (Nominal)",
         metric2Title: "HAB CORE TEMP",
         metric2Val: "+21.4°C",
         metric3Title: "HEPA PURITY",

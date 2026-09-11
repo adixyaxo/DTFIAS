@@ -17,8 +17,12 @@
 <div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-xs rounded">
 <span class="font-label-xs text-label-xs text-on-surface-variant uppercase">Mission Node:</span>
 <select class="bg-transparent font-title-sm text-title-sm text-surface-cream outline-none cursor-pointer pr-space-xs">
-<option class="bg-surface-container text-surface-cream" value="larsemann">Larsemann Hills (Bharati Station)</option>
+<option class="bg-surface-container text-surface-cream" value="{{ station.id }}" selected>{{ station.location }} ({{ station.name }} Station)</option>
+{% if station.id == 'maitri' %}
+<option class="bg-surface-container text-surface-cream" value="larsemann">{{ station.region }} ({{ station.name }} Station)</option>
+{% else %}
 <option class="bg-surface-container text-surface-cream" value="schirmacher">Schirmacher Oasis (Maitri Base)</option>
+{% endif %}
 <option class="bg-surface-container text-surface-cream" value="amery">Amery Ice Shelf Sector 04-B</option>
 <option class="bg-surface-container text-surface-cream" value="gangotri">Dakshin Gangotri Ice Shelf</option>
 </select>
@@ -28,12 +32,12 @@
 <div class="flex items-center gap-space-md bg-surface-container-high px-space-md py-space-xs rounded font-telemetry-code text-telemetry-code text-secondary">
 <div class="flex items-center gap-space-2xs">
 <span class="material-symbols-outlined text-[16px] text-tertiary">my_location</span>
-<span class="text-surface-cream font-label-md">69°24′28″S 76°11′14″E</span>
+<span class="text-surface-cream font-label-md">{{ station.coordinates }}</span>
 </div>
 <span class="text-outline">|</span>
 <div class="flex items-center gap-space-2xs">
 <span class="text-on-surface-variant text-label-xs">ELEV:</span>
-<span class="text-surface-cream font-label-md">35m AGL</span>
+<span class="text-surface-cream font-label-md">{{ station.elevation }}</span>
 </div>
 <span class="text-outline">|</span>
 <div class="flex items-center gap-space-2xs">
@@ -65,7 +69,7 @@
 <!-- Main Polar GIS Canvas Container -->
 <div class="relative w-full h-[580px] bg-surface-container-lowest rounded-xl overflow-hidden shadow-2xl flex flex-col justify-between">
 <!-- Live Map Background with Satellite Polar Canvas -->
-<div class="absolute inset-0 bg-cover bg-center" data-alt="Dark high-altitude polar satellite radar scan of Amery Ice Shelf and Larsemann Hills Antarctica. Detailed glowing teal and cyan topographic contours, cyan ice crevasse stress lines, deep oceanic blues, dark evergreen tundra rock outcroppings with glowing scientific telemetry overlays. Google Earth Engine aesthetic with subtle vector lines, coordinate graticules, and crisp data marks." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7lOYVOY8NxKb5BC9CtgVtMcLcx2pk4ClObdNE_ab2kWT0kzIWQMrPieSd1rHbE48Rs7ocUv2bAg1kI1GCweyUcVCZo_K4TzHGNJ8z2PLtdFzJxM98-8zThYDzgAnVXVqvQPm_jFWvu_6W6W-x_9HMYs7HyRbNyPTZSunABQwqVRmGYYOp8QttEht09jm6RWeFPM-HX76zuHWKtJETNyuE2XNcFt5sqcdEwu-g9BZntZVVbL1XarT8YQ')"></div>
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Dark high-altitude polar satellite radar scan of Amery Ice Shelf and {{ station.region }} Antarctica. Detailed glowing teal and cyan topographic contours, cyan ice crevasse stress lines, deep oceanic blues, dark evergreen tundra rock outcroppings with glowing scientific telemetry overlays. Google Earth Engine aesthetic with subtle vector lines, coordinate graticules, and crisp data marks." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7lOYVOY8NxKb5BC9CtgVtMcLcx2pk4ClObdNE_ab2kWT0kzIWQMrPieSd1rHbE48Rs7ocUv2bAg1kI1GCweyUcVCZo_K4TzHGNJ8z2PLtdFzJxM98-8zThYDzgAnVXVqvQPm_jFWvu_6W6W-x_9HMYs7HyRbNyPTZSunABQwqVRmGYYOp8QttEht09jm6RWeFPM-HX76zuHWKtJETNyuE2XNcFt5sqcdEwu-g9BZntZVVbL1XarT8YQ')"></div>
 <!-- Ambient Synthetic Map Graphic Overlays (SVG flow vectors, heatmap contours, station nodes) -->
 <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -110,7 +114,7 @@
 <div class="absolute left-5 -top-3 whitespace-nowrap bg-surface-container/90 backdrop-blur px-space-xs py-space-2xs rounded shadow-lg">
 <div class="flex items-center gap-space-2xs">
 <span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe"></span>
-<span class="font-label-xs text-label-xs text-surface-cream">BHARATI MAIN BASE</span>
+<span class="font-label-xs text-label-xs text-surface-cream">{{ station.name | upper }} MAIN BASE</span>
 </div>
 <div class="font-telemetry-code text-telemetry-code text-secondary text-[11px] leading-tight">PWR: 142 kW | AWS-01</div>
 </div>
@@ -280,7 +284,7 @@
 <!-- Real-Time Ground Stations Stream -->
 <div class="p-space-base bg-primary-container rounded-xl flex flex-col gap-space-sm shadow-md">
 <div class="flex items-center justify-between">
-<span class="font-label-xs text-label-xs uppercase tracking-wider text-surface-cream">Larsemann Hills AWS Telemetry</span>
+<span class="font-label-xs text-label-xs uppercase tracking-wider text-surface-cream">{{ station.region }} AWS Telemetry</span>
 <span class="flex items-center gap-1 px-space-xs py-space-2xs rounded bg-surface-container-high text-telemetry-safe font-label-xs text-label-xs">
 <span class="w-1.5 h-1.5 rounded-full bg-telemetry-safe animate-pulse"></span>
             99.8% RX
@@ -291,7 +295,7 @@
 <!-- Station 01 -->
 <div class="p-space-sm bg-surface-panel hover:bg-surface-bright rounded transition-colors cursor-pointer flex flex-col gap-1">
 <div class="flex justify-between items-center">
-<span class="font-title-sm text-title-sm text-surface-cream">AWS-01 (Bharati Primary)</span>
+<span class="font-title-sm text-title-sm text-surface-cream">AWS-01 ({{ station.name }} Primary)</span>
 <span class="font-telemetry-code text-telemetry-code text-secondary font-semibold">-18.4°C</span>
 </div>
 <div class="flex justify-between items-center text-label-xs font-label-xs text-on-surface-variant">

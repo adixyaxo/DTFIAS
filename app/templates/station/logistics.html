@@ -17,7 +17,7 @@
 </div>
 <div class="space-y-space-2xs">
 <div class="flex justify-between font-telemetry-code text-telemetry-code text-on-surface-variant">
-<span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Bharati Station</span>
+<span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>{{ station.name }} Station</span>
 <span class="text-surface-cream font-semibold">24</span>
 </div>
 <div class="flex justify-between font-telemetry-code text-telemetry-code text-on-surface-variant">
@@ -65,7 +65,7 @@
 </div>
 <div class="my-space-md flex items-baseline gap-space-sm">
 <span class="font-display-lg text-display-lg text-telemetry-safe tracking-tight">100%</span>
-<span class="font-title-sm text-title-sm text-surface-cream font-semibold">24 / 24 BHARATI</span>
+<span class="font-title-sm text-title-sm text-surface-cream font-semibold">{{ station.souls_active }} / {{ station.souls_total }} {{ station.name | upper }}</span>
 </div>
 <div class="font-body-sm text-body-sm text-on-surface-variant flex items-center justify-between bg-surface-container-lowest p-space-xs rounded-lg">
 <span class="flex items-center gap-1 text-label-xs text-outline">HABITAT BOUNDARY:</span>
@@ -108,10 +108,10 @@
 <div class="w-2.5 h-6 bg-secondary rounded-full"></div>
 <div>
 <div class="flex items-center gap-space-sm">
-<h2 class="font-headline-md text-headline-md text-surface-cream tracking-tight">Bharati Station Detachment</h2>
+<h2 class="font-headline-md text-headline-md text-surface-cream tracking-tight">{{ station.name }} Station Detachment</h2>
 <span class="font-label-xs text-label-xs px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold">EXPEDITION-43</span>
 </div>
-<p class="font-body-sm text-body-sm text-outline">Live continuous beacon telemetry • Larsemann Hills Locus</p>
+<p class="font-body-sm text-body-sm text-outline">Live continuous beacon telemetry • {{ station.locus_name }}</p>
 </div>
 </div>
 <div class="flex items-center gap-space-xs flex-wrap">
@@ -368,7 +368,7 @@
 </table>
 </div>
 <div class="flex items-center justify-between font-label-xs text-label-xs text-outline pt-space-xs">
-<span>SHOWING 5 OF 24 LOGGED EXPEDITION MEMBERS (BHARATI DETACHMENT)</span>
+<span>SHOWING 5 OF {{ station.souls_total }} LOGGED EXPEDITION MEMBERS ({{ station.name | upper }} DETACHMENT)</span>
 <span class="flex items-center gap-1 text-secondary"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>ALL BIOMETRICS DISCREET &amp; ANONYMIZED VIA MOES DIRECTIVE 14-B</span>
 </div>
 </div>
@@ -464,7 +464,7 @@
 <div class="w-2/3 bg-surface-container-highest h-2 rounded-full overflow-hidden">
 <div class="bg-secondary h-full rounded-full" style="width: 60%;"></div>
 </div>
-<span class="font-telemetry-code text-telemetry-code text-surface-cream font-semibold">18 / 30 Souls</span>
+<span class="font-telemetry-code text-telemetry-code text-surface-cream font-semibold">{{ station.souls_active }} / {{ station.souls_total }} Souls</span>
 </div>
 </div>
 <!-- Muster Point Bravo -->
@@ -488,7 +488,7 @@
 <span class="material-symbols-outlined text-[16px]">lock_reset</span>
 <span>Katabatic Solo-Transit Ban Active</span>
 </div>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Exterior transit between Bharati Main Hab and LIDAR dome prohibited unless tethered in pairs with UHF dual-beacon.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Exterior transit between {{ station.emergency_zone }} and outer facilities prohibited unless tethered in pairs with UHF dual-beacon.</p>
 </div>
 <!-- Automated Muster Drill Trigger -->
 <button class="w-full py-space-sm px-space-base rounded-lg bg-secondary-container hover:bg-secondary text-surface-cream font-title-sm text-title-sm flex items-center justify-center gap-space-xs transition-all shadow-md" id="muster-headcount-btn">
@@ -593,7 +593,7 @@
 <span class="material-symbols-outlined text-secondary text-[20px]">sensors</span>
 <div class="flex flex-col">
 <span class="font-title-sm text-title-sm font-semibold" id="toast-title">Headcount Verified</span>
-<span class="font-body-sm text-body-sm text-outline" id="toast-msg">24/24 Bharati RF-tags responded with 0ms delta.</span>
+<span class="font-body-sm text-body-sm text-outline" id="toast-msg">{{ station.souls_total }}/{{ station.souls_total }} {{ station.name }} RF-tags responded with 0ms delta.</span>
 </div>
 </div>
 </div>

@@ -4,14 +4,14 @@
 <header class="w-full bg-surface-container-lowest px-space-lg py-space-sm flex flex-col xl:flex-row xl:items-center justify-between gap-space-md shadow-md">
 <div class="flex flex-col">
 <div class="flex items-center gap-space-sm">
-<span class="inline-block w-2.5 h-2.5 rounded-full bg-secondary shadow-[0_0_8px_rgba(145,211,194,0.8)]"></span>
-<span class="font-headline-md text-headline-md tracking-tight text-surface-cream-light font-bold">BHARATI POLAR RESEARCH STATION // DIGITAL TWIN CORE</span>
-<span class="px-space-xs py-space-2xs bg-surface-container-high rounded text-secondary font-telemetry-code text-telemetry-code">STATION ID: IND-ANT-03</span>
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-secondary "></span>
+<span class="font-headline-md text-headline-md tracking-tight text-surface-cream-light font-bold">{{ station.full_name | default('POLAR RESEARCH STATION // DIGITAL TWIN CORE') }}</span>
+<span class="px-space-xs py-space-2xs bg-surface-container-high rounded text-secondary font-telemetry-code text-telemetry-code">STATION ID: {{ station.code | default('IND-ANT-01') }}</span>
 </div>
 <div class="flex items-center gap-space-md text-on-surface-variant font-telemetry-code text-telemetry-code mt-space-2xs">
 <span class="flex items-center gap-space-2xs">
 <span class="material-symbols-outlined text-[14px] text-secondary">explore</span>
-          69°24′28″S 76°11′14″E — Larsemann Hills, Prydz Bay
+          {{ station.coordinates }} — {{ station.location }}
         </span>
 <span class="text-outline-variant">•</span>
 <span class="text-secondary font-semibold">STAGE 3/4: ISOLATED OVERWINTER EXPEDITION</span>
@@ -66,7 +66,7 @@
 <span class="material-symbols-outlined text-secondary text-[16px]">groups</span>
             Overwinter Personnel
           </span>
-<span class="px-space-xs py-space-2xs bg-secondary-container text-secondary font-telemetry-code text-[11px] rounded">46 SOULS</span>
+<span class="px-space-xs py-space-2xs bg-secondary-container text-secondary font-telemetry-code text-[11px] rounded">{{ station.souls_winter }} SOULS</span>
 </div>
 <div class="grid grid-cols-3 gap-space-xs text-center py-space-xs bg-surface-container rounded">
 <div class="flex flex-col p-space-xs">
@@ -182,7 +182,7 @@
 </div>
 </div>
 </div>
-<!-- CENTER VISUAL: ISOMETRIC DIGITAL TWIN OF BHARATI STATION (6 COLS) -->
+<!-- CENTER VISUAL: ISOMETRIC DIGITAL TWIN OF {{ station.name|upper }} STATION (6 COLS) -->
 <div class="xl:col-span-6 flex flex-col gap-panel-gutter">
 <!-- Interactive Isometric Schematic Canvas Container -->
 <div class="relative bg-surface-container-lowest rounded overflow-hidden shadow-lg p-space-md flex flex-col justify-between min-h-[520px]">
@@ -202,7 +202,7 @@
 <button class="px-space-xs py-space-2xs hover:bg-surface-container rounded text-on-surface transition" onclick="highlightHotspot(8)">Habitat</button>
 </div>
 </div>
-<!-- 3D/Isometric SVG Schematic of Bharati Station Module -->
+<!-- 3D/Isometric SVG Schematic of {{ station.name }} Station Module -->
 <div class="w-full flex-1 flex items-center justify-center relative py-space-lg select-none">
 <!-- Polar Grid background lines -->
 <svg class="absolute inset-0 w-full h-full opacity-15 pointer-events-none" viewbox="0 0 800 500">
@@ -232,13 +232,13 @@
 <line opacity="0.5" x1="360" x2="360" y1="260" y2="295"></line>
 <line opacity="0.5" x1="450" x2="450" y1="250" y2="285"></line>
 </g>
-<!-- Main Bharati Station Modular Hull (Aerodynamic Container Complex) -->
+<!-- Main {{ station.name }} Station Modular Hull (Aerodynamic Container Complex) -->
 <!-- Base Tray -->
 <polygon fill="#1c2d29" points="210,270 380,340 560,260 390,195"></polygon>
 <!-- Lower Floor Module -->
 <polygon fill="#1a312c" points="210,270 380,340 380,295 210,225"></polygon>
 <polygon fill="#223F39" points="380,340 560,260 560,215 380,295"></polygon>
-<!-- Upper Deck / Core Living & Labs (Bharati's iconic wrap-around aerodynamic casing) -->
+<!-- Upper Deck / Core Living & Labs ({{ station.name }}'s iconic wrap-around aerodynamic casing) -->
 <polygon fill="#273834" points="215,220 380,290 550,215 385,150"></polygon>
 <polygon fill="#223f39" points="215,220 380,290 380,230 215,160"></polygon>
 <polygon fill="#2e4d45" points="380,290 550,215 550,155 380,230"></polygon>
@@ -420,15 +420,15 @@
 <!-- Station Image Anchor & Environmental Context Cards -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-panel-gutter">
 <div class="bg-surface-container-low p-space-md rounded flex items-center gap-space-md shadow-sm">
-<img class="w-24 h-24 object-cover rounded shadow-inner" data-alt="Expeditionary architecture photograph of Bharati Station in Antarctica elevated on steel hydraulic stilts against pristine blue polar ice and twilight Larsemann Hills landscape, high-resolution scientific documentary style with deep evergreen and teal tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrWXPQBZykz3j7wSI-UHft1XP3D7OkDwbJk0FLcvLckUNHgYS_8tSYxUo8fFUlMCfqvvT3__KNnWWl3VCPRodpk-CWIiitCDzcGTlY73rNCjuLvT82aeRPzI4anQt62APYUhENDJn0X4PzOJoks8bfXbDSz6nZ4tEb1KNLLaO9khM45nLtGM_nUKgW0-b9iZPTatp3KVJyr_fjL5SAU9JvYBENRyyr8WoQ7MxirFPAf72MqguGpdjn_w"/>
+<img class="w-24 h-24 object-cover rounded shadow-inner" data-alt="Expeditionary architecture photograph of {{ station.name }} Station in Antarctica elevated on steel {{ station.foundation }} against pristine blue polar ice and twilight {{ station.region }} landscape, high-resolution scientific documentary style with deep evergreen and teal tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrWXPQBZykz3j7wSI-UHft1XP3D7OkDwbJk0FLcvLckUNHgYS_8tSYxUo8fFUlMCfqvvT3__KNnWWl3VCPRodpk-CWIiitCDzcGTlY73rNCjuLvT82aeRPzI4anQt62APYUhENDJn0X4PzOJoks8bfXbDSz6nZ4tEb1KNLLaO9khM45nLtGM_nUKgW0-b9iZPTatp3KVJyr_fjL5SAU9JvYBENRyyr8WoQ7MxirFPAf72MqguGpdjn_w"/>
 <div class="flex flex-col">
 <span class="font-label-xs text-label-xs uppercase text-secondary font-bold">Facility Specs</span>
-<span class="font-title-sm text-title-sm font-bold text-surface-cream-light mt-space-2xs">Bharati Modular Core</span>
+<span class="font-title-sm text-title-sm font-bold text-surface-cream-light mt-space-2xs">{{ station.name }} Modular Core</span>
 <span class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">134 ISO Containers combined inside an aerodynamic zinc-aluminum composite shell.</span>
 </div>
 </div>
 <div class="bg-surface-container-low p-space-md rounded flex items-center gap-space-md shadow-sm">
-<img class="w-24 h-24 object-cover rounded shadow-inner" data-alt="Indian Antarctic overwintering scientist in specialized orange-and-teal sub-zero polar technical parka calibrating atmospheric spectrometer sensor array outdoors at Bharati research station." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzyKPWs-k1pBFETytDcDjub4sV0nb7tor50EuoI99GRQF9wpCKAc8XkAY8MzX-wx2XulnatoDDC9xs08yJq2Ta7HeqOZg9g5x_uT9xk0k9OS_hMXlf-nlUw_1_ff_drx9l74Xi6p3efh6W-Tvln27kiF3u67qfNM3csSBentPLjhma0MBrXyLjwMsSbUv9vGr18aGRqVVKoqBsN-N_h5Hvx1P6syqsRWYFwn0uCTT8HC6c4tFn-mQeCQ"/>
+<img class="w-24 h-24 object-cover rounded shadow-inner" data-alt="Indian Antarctic overwintering scientist in specialized orange-and-teal sub-zero polar technical parka calibrating atmospheric spectrometer sensor array outdoors at {{ station.name }} research station." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzyKPWs-k1pBFETytDcDjub4sV0nb7tor50EuoI99GRQF9wpCKAc8XkAY8MzX-wx2XulnatoDDC9xs08yJq2Ta7HeqOZg9g5x_uT9xk0k9OS_hMXlf-nlUw_1_ff_drx9l74Xi6p3efh6W-Tvln27kiF3u67qfNM3csSBentPLjhma0MBrXyLjwMsSbUv9vGr18aGRqVVKoqBsN-N_h5Hvx1P6syqsRWYFwn0uCTT8HC6c4tFn-mQeCQ"/>
 <div class="flex flex-col">
 <span class="font-label-xs text-label-xs uppercase text-secondary font-bold">Overwintering Phase</span>
 <span class="font-title-sm text-title-sm font-bold text-surface-cream-light mt-space-2xs">44th Indian Expedition</span>
@@ -537,7 +537,7 @@
 <div class="flex items-center justify-between bg-surface-container p-space-xs rounded">
 <div class="flex flex-col">
 <span class="font-body-sm text-body-sm font-semibold text-surface-cream-light">VHF Inter-Station Mesh</span>
-<span class="font-label-xs text-label-xs text-on-surface-variant">Maitri Link (11°44′E)</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant">{{ station.external_link_name | default('Inter-Station Link') }}</span>
 </div>
 <span class="font-telemetry-code text-telemetry-code text-secondary font-bold">CARRIER UP</span>
 </div>
@@ -712,20 +712,20 @@
     }
 
     function exportTelemetryCsv() {
-      const csvData = "Timestamp,Subsystem,LoadKW,TempExt,WindKts,LifeSupport\\n2025-02-14T14:22:08Z,BHARATI-CORE,280,-38.4,42,99.4";
+      const csvData = "Timestamp,Subsystem,LoadKW,TempExt,WindKts,LifeSupport\\n2025-02-14T14:22:08Z,{{ station.name|upper }}-CORE,280,-38.4,42,99.4";
       const blob = new Blob([csvData], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.setAttribute('hidden', '');
       a.setAttribute('href', url);
-      a.setAttribute('download', 'bharati_telemetry_snapshot.csv');
+      a.setAttribute('download', '{{ station.export_prefix | default(station_id) }}_telemetry_snapshot.csv');
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
     }
 
     function emergencyHeatingPrompt() {
-      if (confirm("Confirm initiation of Emergency Heating Fallback circuits for Bharati Habitat? (Will reroute secondary boiler loop)")) {
+      if (confirm("Confirm initiation of Emergency Heating Fallback circuits for {{ station.emergency_zone | default(station.name ~ ' Complex') }}? (Will reroute secondary boiler loop)")) {
         alert("Emergency secondary heating auxiliary circuit loop ENGAGED.");
       }
     }

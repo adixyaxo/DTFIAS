@@ -4,12 +4,38 @@ sys.path.insert(0, os.path.abspath("."))
 
 import asyncio
 import httpx
+from infrastructure.security.authorization.rbac import create_access_token
+from app.dependencies.portals import HQServiceDep
 import main
+
+# Test token with super_admin permissions
+token = create_access_token({
+    "sub": "00000000-0000-0000-0000-000000000001",
+    "username": "operator",
+    "roles": ["super_admin", "hq_admin", "hq_operator", "station_admin", "station_operator", "maitri_operator", "bharati_operator"],
+})
+
+# Mock HQPortalService if DB is offline
+class MockHQPortalService:
+    async def get_overview(self):
+        return {
+            "total_stations": 2,
+            "active_alerts": 3,
+            "critical_alerts": 0,
+            "overall_status": "NOMINAL",
+            "active_souls": 42,
+        }
+
+main.app.dependency_overrides[HQServiceDep] = lambda: MockHQPortalService()
 
 async def test_all_routes():
     schema = main.app.openapi()
     paths = schema.get("paths", {})
-    client = httpx.AsyncClient(transport=httpx.ASGITransport(app=main.app), base_url="http://test")
+    client = httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=main.app),
+        base_url="http://test",
+        cookies={"dtfias_session": token},
+    )
     
     results = []
     for path, methods in paths.items():

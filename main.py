@@ -20,9 +20,20 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title=settings.app_name, lifespan=lifespan)
 
+# Register Security and Tracing Middleware (Constraints C10, C11)
+from app.middleware.request_id import RequestIdMiddleware
+from app.middleware.logging import StructuredLoggingMiddleware
+from app.middleware.security import SecurityHeadersMiddleware, CSRFProtectionMiddleware
+
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(CSRFProtectionMiddleware)
+app.add_middleware(StructuredLoggingMiddleware)
+app.add_middleware(RequestIdMiddleware)
+
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(main_router)
+
 
 
 @app.get("/", response_class=HTMLResponse)

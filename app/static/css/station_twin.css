@@ -1002,3 +1002,20 @@
   background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
   z-index: 2;
 }
+/* Offline Indicator */
+.led-offline {
+  background-color: var(--status-critical-dark) !important;
+  box-shadow: 0 0 10px var(--status-critical-dark), 0 0 20px var(--status-critical-dark) !important;
+  animation: pulse-offline 1.5s infinite;
+}
+
+@keyframes pulse-offline {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.st-conn-indicator.offline {
+  border-color: var(--status-critical-dark) !important;
+  color: var(--status-critical-dark) !important;
+}

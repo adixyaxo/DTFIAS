@@ -47,10 +47,13 @@
         <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/commands' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/commands">
           <span class="material-symbols-outlined text-[18px]">terminal</span><span>Command Dispatch</span>
         </a>
+        <!-- HIDE OUT-OF-SCOPE ROUTE
         <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/simulations' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/simulations">
-          <span class="material-symbols-outlined text-[18px]">science</span><span>Simulations</span>
+          <span class="material-symbols-outlined text-[20px]">explore</span>
+          Simulations
         </a>
-        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/reports' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/reports">
+        -->
+        <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/compliance' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/compliance">
           <span class="material-symbols-outlined text-[18px]">summarize</span><span>Reports &amp; Compliance</span>
         </a>
       </nav>

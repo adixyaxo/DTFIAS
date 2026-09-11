@@ -11,13 +11,15 @@ function stationTwin() {
     activeAsset:   null,
     activeLayer:   'all',
     faultActive:   false,
+    satcomOffline: false,
+    show3D:        false,
     tickerIndex:   0,
     simulationTime: new Date('2026-09-05T12:30:00Z'),
 
     /* ─── Ticker messages ────────────────────────── */
     tickerMessages: [
       '◈ System nominal — all critical systems operating within parameters.',
-      '◈ Power Plant: Generator array output 742 kW — load factor 87%, monitor Gen 3 injector.',
+      '◈ Power Plant: Generator array output 282 kW — load factor 83%, monitor Gen 3 injector.',
       '◈ Environment: −18.4 °C · Wind 32 km/h NE · Visibility 8 km · Barometer 989 hPa.',
       '◈ Vehicle Fleet: Last telemetry 70 min ago — approaching stale threshold.',
       '◈ SATCOM: C-Band uplink stable at 98.7%. Next comms window in 2 h 14 m.',
@@ -54,23 +56,22 @@ function stationTwin() {
         category: 'energy',
         priority: 'P1',
         status: 'warning',
-        value: 742, decimals: 0, unit: 'kW',
-        description: 'Diesel generator array — 3 × CAT C32 units',
+        value: 145, decimals: 0, unit: 'kW',
+        description: 'Diesel generator array — 3 × 100 kVA MAN CHP',
         /* Floor plan: Ground floor west — G G G generators */
         room: 'Generator Room — Ground Floor, West End',
         svgX: 290, svgY: 430,
         last_updated: new Date('2026-09-05T12:29:30Z'),
         stale: false,
         telemetry: [
-          { key: 'Gen 1 Output', value: '248', unit: 'kW',    alert: false },
-          { key: 'Gen 2 Output', value: '252', unit: 'kW',    alert: false },
-          { key: 'Gen 3 Output', value: '242', unit: 'kW',    alert: true  },
-          { key: 'Fuel Burn',    value: '185', unit: 'L/hr',  alert: true  },
-          { key: 'Load Factor',  value: '87',  unit: '%',     alert: true  },
-          { key: 'Coolant Temp', value: '88',  unit: '°C'                 },
+          { key: 'MAN Gen 1',    value: '45',  unit: 'kW',    alert: false },
+          { key: 'MAN Gen 2',    value: '48',  unit: 'kW',    alert: false },
+          { key: 'MAN Gen 3',    value: '52',  unit: 'kW',    alert: true  },
+          { key: 'Thermal Load', value: '110', unit: 'kWth',  alert: false },
+          { key: 'Oil Press 3',  value: '190', unit: 'kPa',   alert: true  },
         ],
         alerts: [
-          { time: '11:45', message: 'Gen 3 output below nominal — fuel injector check advised.', level: 'warning' },
+          { time: '11:45', message: 'Gen 3 oil pressure critically low (190 kPa) — risk of seizure.', level: 'critical' },
         ],
       },
       {
@@ -79,21 +80,42 @@ function stationTwin() {
         category: 'energy',
         priority: 'P1',
         status: 'ok',
-        value: 187400, decimals: 0, unit: 'L',
-        description: '~3 lakh L automated diesel fuel farm (Bharati)',
+        value: 296000, decimals: 0, unit: 'L',
+        description: '296 kL Jet A-1 automated fuel farm (13 tanks)',
         room: 'Fuel Farm — West Exterior, H1 Ground Level',
         svgX: 155, svgY: 568,
         last_updated: new Date('2026-09-05T12:20:00Z'),
         stale: false,
         telemetry: [
-          { key: 'Tank A',   value: '62,400', unit: 'L'       },
-          { key: 'Tank B',   value: '58,800', unit: 'L'       },
-          { key: 'Tank C',   value: '66,200', unit: 'L'       },
-          { key: 'Capacity', value: '300,000',unit: 'L total' },
-          { key: 'Fill',     value: '62.5',   unit: '%'       },
-          { key: 'Temp',     value: '−4',     unit: '°C'      },
+          { key: 'Total Reserves', value: '254,000', unit: 'L'       },
+          { key: 'Active Tanks',   value: '11',      unit: 'of 13'   },
+          { key: 'Day Tank',       value: '9.5',     unit: 'kL'      },
+          { key: 'Days Left',      value: '220',     unit: 'days'    },
+          { key: 'Next Transfer',  value: '5.2',     unit: 'days'    },
         ],
         alerts: [],
+      },
+      {
+        id: 'seawater_intake',
+        label: 'Water Supply',
+        category: 'infrastructure',
+        priority: 'P0',
+        status: 'warning',
+        value: 12, decimals: 1, unit: 'm',
+        description: '~300m Trace-Heated Intake from Quilty Bay',
+        room: 'Quilty Bay Intake / Ground Desalination Plant',
+        svgX: 1250, svgY: 480,
+        last_updated: new Date('2026-09-05T12:29:00Z'),
+        stale: false,
+        telemetry: [
+          { key: 'Intake Depth',   value: '12',    unit: 'm'     },
+          { key: 'Pipeline Temp',  value: '1.2',   unit: '°C',   alert: true  },
+          { key: 'Trace Current',  value: '6.2',   unit: 'A'     },
+          { key: 'Trace Resist.',  value: '4.8',   unit: 'Ohms', alert: true  },
+        ],
+        alerts: [
+          { time: '12:28', message: 'Trace heater resistance critically low (4.8 Ohms). Potential short circuit. Pipeline Temp 1.2°C.', level: 'critical' },
+        ],
       },
       {
         id: 'hvac',
@@ -168,7 +190,7 @@ function stationTwin() {
         category: 'personnel',
         priority: 'P1',
         status: 'ok',
-        value: 24, decimals: 0, unit: 'on-station',
+        value: window.STATION_ID === 'maitri' ? 25 : 72, decimals: 0, unit: 'on-station',
         description: 'Station headcount and rotation status',
         /* Floor plan: Living quarters — perimeter rooms north & south */
         room: 'Living Quarters — Upper Floor, North & South Corridors',
@@ -176,11 +198,11 @@ function stationTwin() {
         last_updated: new Date('2026-09-05T12:00:00Z'),
         stale: false,
         telemetry: [
-          { key: 'On Station',    value: '24', unit: 'persons' },
-          { key: 'Scientists',    value: '16', unit: ''        },
-          { key: 'Support Staff', value: '8',  unit: ''        },
+          { key: 'On Station',    value: window.STATION_ID === 'maitri' ? '25' : '72', unit: 'persons' },
+          { key: 'Scientists',    value: '45', unit: ''        },
+          { key: 'Support Staff', value: window.STATION_ID === 'maitri' ? '9' : '27',  unit: ''        },
           { key: 'Next Rotation', value: '42', unit: 'days'   },
-          { key: 'Acc. Bunks',    value: '24', unit: 'of 25'  },
+          { key: 'Acc. Bunks',    value: window.STATION_ID === 'maitri' ? '25' : '72', unit: window.STATION_ID === 'maitri' ? 'of 65' : 'of 72'  },
         ],
         alerts: [],
       },
@@ -273,7 +295,14 @@ function stationTwin() {
       this.assets.forEach(a => {
         /* --- random value drift --- */
         if (a.id === 'power_plant' && !this.faultActive) {
-          a.value = Math.max(680, Math.min(860, a.value + (Math.random() - 0.5) * 8));
+          const isMaitri = (window.STATION_ID === 'maitri');
+          const maxKw = isMaitri ? 250 : 340;
+          const targetKw = isMaitri ? 145 : 210;
+          a.value = Math.max(0, Math.min(maxKw, a.value + (Math.random() - 0.5) * 4));
+          // Gradually pull towards target
+          if (Math.abs(a.value - targetKw) > 10) {
+              a.value += (targetKw - a.value) * 0.1;
+          }
           if (a.telemetry) {
             a.telemetry[0].value = String(Math.round(a.value * 0.334));
             a.telemetry[1].value = String(Math.round(a.value * 0.340));
@@ -303,6 +332,11 @@ function stationTwin() {
           /* refresh timestamp for active assets */
           if (!a.stale && Math.random() < 0.25) a.last_updated = now;
         }
+
+        // Bridge to 3D if active
+        if (this.show3D && typeof window.update3DHotspot === 'function') {
+            window.update3DHotspot(a.id, a.status);
+        }
       });
 
       /* sync active panel */
@@ -324,36 +358,82 @@ function stationTwin() {
       const pp = this.assets.find(a => a.id === 'power_plant');
       pp.status   = 'critical';
       pp.priority = 'P0';
-      pp.value    = 312;
+      pp.value    = 112;
       if (pp.telemetry) {
-        pp.telemetry[0].value = '108'; pp.telemetry[0].alert = true;
-        pp.telemetry[1].value = '112'; pp.telemetry[1].alert = true;
-        pp.telemetry[2].value = '92';  pp.telemetry[2].alert = true;
+        pp.telemetry[0].value = '58'; pp.telemetry[0].alert = true;
+        pp.telemetry[1].value = '54'; pp.telemetry[1].alert = true;
+        pp.telemetry[2].value = '0';  pp.telemetry[2].alert = true;
       }
       pp.alerts.unshift({
         time: this._fmtTime(),
-        message: '⛔ CRITICAL: Power output dropped to 312 kW (−58%). Generator array fault.',
+        message: '⛔ CRITICAL: Power output dropped to 112 kW (−60%). Generator array fault.',
         level: 'critical',
       });
       this.faultActive = true;
-      this.tickerMessages.unshift('⛔ CRITICAL ALERT — Power Plant: output 312 kW (↓58%). Immediate attention required!');
+      this.tickerMessages.unshift('⛔ CRITICAL ALERT — Power Plant: output 112 kW (↓60%). Immediate attention required!');
       this.tickerIndex = 0;
       this.selectAsset('power_plant');
+      if (this.show3D && window.update3DHotspot) window.update3DHotspot('power_plant', 'critical');
 
       setTimeout(() => {
         pp.status   = 'warning';
         pp.priority = 'P1';
-        pp.value    = 742;
+        pp.value    = 282;
         this.faultActive = false;
         pp.alerts.unshift({
           time: this._fmtTime(),
-          message: '✓ Power restored to 742 kW. Fault cleared — monitor Gen 3.',
+          message: '✓ Power restored to 282 kW. Fault cleared — monitor Gen 3.',
           level: 'ok',
         });
+        if (this.show3D && window.update3DHotspot) window.update3DHotspot('power_plant', 'warning');
       }, 30000);
     },
 
     /* ─── Remote actions ─────────────────────────── */
+    toggleSatcom() {
+      this.satcomOffline = !this.satcomOffline;
+      const satcomAsset = this.assets.find(x => x.id === 'comms_satcom');
+      if (satcomAsset) {
+        satcomAsset.status = this.satcomOffline ? 'critical' : 'ok';
+        satcomAsset.priority = this.satcomOffline ? 'P0' : 'P2';
+        satcomAsset.value = this.satcomOffline ? 0 : 98.7;
+        if (satcomAsset.telemetry) {
+          satcomAsset.telemetry[0].value = this.satcomOffline ? '0' : '98.7';
+          satcomAsset.telemetry[1].value = this.satcomOffline ? '0' : '512';
+        }
+        if (this.satcomOffline) {
+          satcomAsset.alerts.unshift({ time: this._fmtTime(), message: '⛔ CRITICAL: SATCOM link lost. Falling back to edge computing mode.', level: 'critical' });
+          this.tickerMessages.unshift('📡 SATCOM LOSS DETECTED — System operating autonomously in edge mode.');
+          this.tickerIndex = 0;
+          if (this.show3D && window.update3DHotspot) window.update3DHotspot('comms_satcom', 'critical');
+        } else {
+          satcomAsset.alerts.unshift({ time: this._fmtTime(), message: '✓ SATCOM link restored.', level: 'ok' });
+          this.tickerMessages.unshift('📡 SATCOM RESTORED — Syncing telemetry buffer with HQ.');
+          this.tickerIndex = 0;
+          if (this.show3D && window.update3DHotspot) window.update3DHotspot('comms_satcom', 'ok');
+        }
+      }
+    },
+    
+    toggle3D() {
+      this.show3D = !this.show3D;
+      if (this.show3D && !window.THREE) {
+        // Lazy load Three.js first
+        const threeScript = document.createElement('script');
+        threeScript.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+        threeScript.onload = () => {
+            // Then load our 3D view script
+            const appScript = document.createElement('script');
+            appScript.src = "/static/js/three/station_3d_view.js";
+            appScript.onload = () => {
+                window.initStation3D('station-3d-container');
+            };
+            document.body.appendChild(appScript);
+        };
+        document.body.appendChild(threeScript);
+      }
+    },
+
     acknowledgeAlert(assetId) {
       const a = this.assets.find(x => x.id === assetId);
       if (!a) return;
@@ -409,5 +489,18 @@ function stationTwin() {
     _fmtTime() {
       return this.simulationTime.toISOString().substr(11, 5);
     },
+
+    /* ─── Staleness Visual Enforcer (DOM Level) ────────── */
+    enforceStalenessVisuals(hotspot, badge, data) {
+      if (data.stale || (Date.now() - new Date(data.last_updated).getTime() > 60000)) {
+          hotspot.classList.add('is-stale', 'st-hotspot-stale');
+          if (badge) {
+              badge.textContent = `LAST UPDATED ${this.formatTimeAgo(data.last_updated).toUpperCase()}`;
+              badge.className = 'bg-status-stale text-on-surface-variant px-space-xs py-space-2xs rounded font-label-xs';
+          }
+      } else {
+          hotspot.classList.remove('is-stale', 'st-hotspot-stale');
+      }
+    }
   };
 }

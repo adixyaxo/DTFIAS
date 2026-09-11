@@ -23,6 +23,7 @@ class Profile(Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     full_name: Mapped[str] = mapped_column(Text, nullable=False)
     employee_code: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    hashed_password: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     designation: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     organization: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     phone: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
@@ -36,8 +37,18 @@ class Profile(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     # Relationships
-    roles: Mapped[List["Role"]] = relationship("Role", secondary="user_roles", back_populates="users")
-    station_grants: Mapped[List["StationAccess"]] = relationship("StationAccess", back_populates="user")
+    roles: Mapped[List["Role"]] = relationship(
+        "Role",
+        secondary="user_roles",
+        primaryjoin="Profile.id == UserRole.user_id",
+        secondaryjoin="Role.id == UserRole.role_id",
+        back_populates="users",
+    )
+    station_grants: Mapped[List["StationAccess"]] = relationship(
+        "StationAccess",
+        foreign_keys="[StationAccess.user_id]",
+        back_populates="user",
+    )
 
 
 class Role(Base):
@@ -49,7 +60,13 @@ class Role(Base):
     description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
-    users: Mapped[List["Profile"]] = relationship("Profile", secondary="user_roles", back_populates="roles")
+    users: Mapped[List["Profile"]] = relationship(
+        "Profile",
+        secondary="user_roles",
+        primaryjoin="Role.id == UserRole.role_id",
+        secondaryjoin="Profile.id == UserRole.user_id",
+        back_populates="roles",
+    )
     permissions: Mapped[List["Permission"]] = relationship("Permission", secondary="role_permissions", back_populates="roles")
 
 

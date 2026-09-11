@@ -12,22 +12,37 @@
       <div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs"><span
           class="material-symbols-outlined text-secondary text-[16px]">location_on</span><select
           class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-sm">
-          <option class="bg-surface-container text-on-surface" value="bharati">Bharati [69°24'S, 76°11'E]</option>
-          <option class="bg-surface-container text-on-surface" value="maitri">Maitri [70°46'S, 11°44'E]</option>
+          <option class="bg-surface-container text-on-surface" value="bharati" {% if station_id == 'bharati' %}selected{% endif %}>Bharati [69°24'S, 76°11'E]</option>
+          <option class="bg-surface-container text-on-surface" value="maitri" {% if station_id == 'maitri' %}selected{% endif %}>Maitri [70°46'S, 11°44'E]</option>
           <option class="bg-surface-container text-on-surface" value="maitri-ii">Maitri-II [Projected]</option>
-          <option class="bg-surface-container text-on-surface" value="polar-all">Polar Overview (Combined)</option>
+          <option class="bg-surface-container text-on-surface" value="polar-all" {% if station_id == 'hq' %}selected{% endif %}>Polar Overview (Combined)</option>
         </select></div>
       <div
         class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg font-telemetry-code text-telemetry-code">
         <span class="w-2 h-2 rounded-full bg-telemetry-safe"></span><span class="text-on-surface font-medium">LIVE
-          GSAT-7A</span><span class="text-outline text-label-xs">| 240ms</span></div>
-      <div
+          {% if station is defined and station %}{{ station.comms_sat }}{% else %}GSAT-7A{% endif %}</span><span class="text-outline text-label-xs">| 240ms</span></div>
+      <div x-data="{
+          utcTime: '14:28:22 UTC',
+          localTime: '{% if station_id == 'maitri' %}14:28:22 +00:00{% else %}19:28:22 +05:00{% endif %}',
+          init() {
+            setInterval(() => {
+              const d = new Date();
+              this.utcTime = d.toISOString().substring(11, 19) + ' UTC';
+              {% if station_id == 'maitri' %}
+              this.localTime = d.toISOString().substring(11, 19) + ' +00:00';
+              {% else %}
+              const loc = new Date(d.getTime() + 5*3600*1000);
+              this.localTime = loc.toISOString().substring(11, 19) + ' +05:00';
+              {% endif %}
+            }, 1000);
+          }
+        }" x-init="init()"
         class="hidden xl:flex items-center gap-space-md font-telemetry-code text-telemetry-code text-on-surface-variant">
-        <div class="flex flex-col text-right"><span class="text-on-surface font-semibold">14:28:22 UTC</span><span
+        <div class="flex flex-col text-right"><span class="text-on-surface font-semibold" x-text="utcTime">14:28:22 UTC</span><span
             class="text-label-xs text-outline">UNIVERSAL TIME</span></div>
         <div class="w-px h-6 bg-surface-container-highest"></div>
-        <div class="flex flex-col"><span class="text-secondary font-semibold">19:28:22 +05:00</span><span
-            class="text-label-xs text-outline">LARSEMANN HILLS</span></div>
+        <div class="flex flex-col"><span class="text-secondary font-semibold" x-text="localTime">{% if station_id == 'maitri' %}14:28:22 +00:00{% else %}19:28:22 +05:00{% endif %}</span><span
+            class="text-label-xs text-outline">{% if station is defined and station %}{{ station.region | upper }}{% else %}POLAR MESH (HQ){% endif %}</span></div>
       </div>
     </div>
     <div class="flex items-center gap-space-base">

@@ -3,24 +3,26 @@
 > **Project:** Digital Twin for Indian Antarctic Stations (SIH26060)  
 > **Target Audience:** Google Antigravity, Gemini Code, Claude Code, Autonomous Agents, and Human Engineers  
 > **Status:** Authoritative Master Index & Single Source of Truth (SSOT) Map  
+> **Maintained By:** Documentation Agent (`.agents/agents/DocumentationAgent/agent.md`)  
 > **Last Verified:** September 2026  
 
 ---
 
 ## 1. Single Source of Truth (SSOT) Domain Matrix
 
-When working on any task, agents MUST resolve conflicting information by following this strict hierarchy of authority. Higher-tier documents override lower-tier references.
+When navigating or implementing features in DTFIAS, all agents MUST resolve conflicting information by following this strict hierarchy of authority. Higher-tier documents override lower-tier references.
 
 | Domain | Single Source of Truth (Tier 1) | Secondary / Implementation References | Prohibited / Deprecated Patterns |
 | :--- | :--- | :--- | :--- |
+| **Project Charter & Scope** | [`docs/project-overview.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/project-overview.md) | [`README.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/README.md) | Ingesting raw AGEOS Earth Observation satellite data, public unauthenticated access |
 | **System Architecture & Layering** | [`docs/architecture.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/architecture.md) | [`GEMINI.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/GEMINI.md), [`CLAUDE.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/CLAUDE.md) | 2-layer MVC, importing DB/HTTP in `engine/` (C1), importing `app.config` in `infrastructure/` |
 | **Database Schema & Migrations** | [`docs/database.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/database.md) (v1 Lock 25 tables), [`scripts/migrations/001_initial_schema.sql`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/scripts/migrations/001_initial_schema.sql) | [`docs/databaseTables.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/databaseTables.md), [`scripts/migrations/README.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/scripts/migrations/README.md) | Obsolete 5-table BIGSERIAL draft, MySQL dialects, f-string SQL queries (C8), `postgresql+asyncpg://` in `psql` CLI |
+| **Backend API Contracts** | [`docs/api-contracts.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/api-contracts.md) | [`docs/frontend-endpoints.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/frontend-endpoints.md), [`.agents/fastapi/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/fastapi/SKILL.md) | Client-supplied `station_id` (C3), command issuance in station portals (C4), per-endpoint role guards (C5) |
 | **Brand Identity & Tokens** | [`.agents/brand_design/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/brand_design/SKILL.md) | [`GEMINI.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/GEMINI.md) §7, [`.agents/frontend/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/frontend/SKILL.md) (DTFIAS Override) | Space Grotesk, Arial, Roboto, rejecting Inter or `--brand-cream` as "AI slop", single-variant status colors |
-| **Frontend Endpoints & Templates** | [`docs/frontend-endpoints.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/frontend-endpoints.md) | `app/templates/`, `app/routers/` | Bundler/npm pipelines (C17), React/Vue rewrites, hardcoded dummy URLs |
-| **2.5D Digital Twin (Station Twin)** | [`docs/2dFrontend.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/2dFrontend.md) | `app/static/js/`, `app/templates/maitri/twin.html`, `app/templates/bharati/twin.html` | React `.tsx` components, phantom documentation files, unrealistic generator wattages (>340 kW) |
-| **FastAPI Backend & Async Python** | [`.agents/fastapi/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/fastapi/SKILL.md) | `app/routers/`, `app/schemas/`, `engine/services/` | Pydantic V1 syntax (`@validator`, `class Config`), sync DB calls, per-endpoint role guards (C5) |
-| **PostgreSQL & Supabase Best Practices** | [`.agents/database/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/database/SKILL.md) | `infrastructure/database/postgres/` | Direct browser connections to Supabase, missing foreign key indexes, using anon key as DB password |
-| **Testing & Inconsistency Tracking** | [`docs/testing/backend-findings.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/testing/backend-findings.md), [`docs/testing/backend-inconsistencies.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/testing/backend-inconsistencies.md) | [`docs/documentation-tasks.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/documentation-tasks.md), `tests/` | Untracked schema or layer drift, phantom unit tests |
+| **2.5D Digital Twin (Station Twin)** | [`docs/2dFrontend.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/2dFrontend.md) | `app/static/js/`, `app/templates/maitri/twin.html`, `app/templates/bharati/twin.html` | React `.tsx` components, external missing files (`4-stations-and-headquarters.md`), unrealistic generator wattages (>340 kW) |
+| **Operations & Deployment** | [`docs/operations.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/operations.md) | `Dockerfile`, `docker-compose.yml`, `scripts/test_db_connection.py` | Bundler/npm build steps (C17), committing credentials into `.env`, missing health checks |
+| **Testing & Quality Strategy** | [`docs/testing/test-strategy.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/testing/test-strategy.md) | [`docs/testing/backend-findings.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/testing/backend-findings.md), [`docs/testing/backend-inconsistencies.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/testing/backend-inconsistencies.md), `tests/` | Untracked schema or layer drift, phantom unit tests, bypass of mechanical constraint assertions |
+| **Antarctic Research & Station Facts**| [`docs/station-facts-and-research.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/station-facts-and-research.md) | [`shared/constants/stations.py`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/shared/constants/stations.py) | Confusing simulated sensor values with real polar facts, inventing unverified station equipment |
 
 ---
 
@@ -48,81 +50,51 @@ All agents MUST enforce these rules without exception. Violating any constraint 
 
 ---
 
-## 3. Agent Task Decision Trees
-
-### "I need to create or modify an API endpoint"
-1. Read [`docs/architecture.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/architecture.md) §3 and §5 to locate the correct layer.
-2. Read [`.agents/fastapi/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/fastapi/SKILL.md) for Pydantic V2 schema and async dependency injection patterns.
-3. Check [`docs/frontend-endpoints.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/frontend-endpoints.md) to confirm URL route, method, response schema, and template binding.
-4. Ensure router-level RBAC is applied via `APIRouter(dependencies=[Depends(...)])` (C5).
-5. If the endpoint mutates state, ensure an audit record is dispatched to `audit_logs` (C7).
-
-### "I need to create or alter a database table or column"
-1. Read [`docs/database.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/database.md) (v1 Lock) in full.
-2. Inspect [`scripts/migrations/001_initial_schema.sql`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/scripts/migrations/001_initial_schema.sql).
-3. Verify table naming (singular vs plural convention in v1 Lock) and key types (`UUID` with `gen_random_uuid()`).
-4. Add indexed foreign keys for all `REFERENCES` columns.
-5. Create corresponding SQLAlchemy ORM model in `app/models/`. Never import SQLAlchemy in `engine/` (C1).
-
-### "I need to design or modify a UI view or component"
-1. Read [`.agents/brand_design/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/brand_design/SKILL.md) for the official color palette and typography.
-2. Review [`.agents/frontend/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/frontend/SKILL.md) (DTFIAS Brand Override section).
-3. Use the mandatory 4-tier typography:
-   - Headings: `Playfair Display` (`--font-heading`)
-   - Editorial / Callouts: `Playfair` (`--font-body`)
-   - UI Chrome / Buttons / Tables: `Inter` (`--font-ui`)
-   - Sensor Values / Readouts: `JetBrains Mono` (`--font-mono`)
-4. Main page background MUST use `--brand-cream: #F5F2EB`.
-5. Status colors MUST choose between light-bg variants (`--status-ok`, `--status-warning`, etc.) and dark-bg variants (`--status-ok-dark`, `--status-warning-dark`, etc.).
-6. Use Tailwind utility classes via CDN; do not add npm dependencies (C17).
-
-### "I need to implement or update the 2.5D Digital Twin view"
-1. Read [`docs/2dFrontend.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/2dFrontend.md) in full.
-2. Build interactive SVG components embedded directly into Jinja2 templates (`twin.html`, `asset_drawer.html`).
-3. SVG hotspot elements must follow the kebab-case naming convention: `hotspot-{asset-slug}`.
-4. Telemetry values must reflect real polar SCADA specs (e.g. Bharati ~282 kW load, 340 kW capacity, -15°C to -35°C ambient).
-
----
-
-## 4. Documentation Directory Sitemap
+## 3. Eight Documentation Domains Directory Map
 
 ```
 DTFIAS/
-├── README.md                      # Project introduction, quick start, architecture overview
-├── GEMINI.md                      # Canonical behavioral contract for Google Antigravity & Gemini agents
-├── CLAUDE.md                      # Canonical behavioral contract for Claude Code agents
 ├── docs/
-│   ├── DOCUMENTATION-INDEX.md     # THIS FILE — Master SSOT & navigation index
-│   ├── documentation-tasks.md     # Audit tracking ledger for documentation consistency
-│   ├── architecture.md            # Structural contract (4-layer DDD, constraints C1–C17)
-│   ├── database.md                # Canonical schema authority (v1 Lock 25 tables)
-│   ├── databaseTables.md          # Generated column-level schema reference
-│   ├── frontend-endpoints.md      # UI route catalog, templates, API contracts
-│   ├── 2dFrontend.md              # 2.5D SVG digital twin implementation specification
-│   └── testing/
-│       ├── backend-findings.md    # Master verified backend findings ledger
-│       ├── backend-inconsistencies.md # Master backend inconsistencies matrix
-│       ├── aim-vs-desired-vs-actual-backend-deep-analysis.md # Triangulated backend audit
-│       ├── aim-vs-desired-vs-actual-frontend-deep-analysis.md # Triangulated frontend audit
-│       ├── design_inconsistencies.md # Frontend design & brand audit
-│       ├── frontend-findings.md   # Master verified frontend findings ledger
-│       └── frontend-fix-log.md    # Frontend repair and patch log
+│   ├── DOCUMENTATION-INDEX.md         # THIS FILE — Master SSOT & navigation index
+│   ├── documentation-tasks.md         # Structured task tracking ledger (DOC-001 to DOC-015)
+│   ├── project-overview.md            # Domain 1 (Project): SIH26060 charter, scope, boundaries, terminology
+│   ├── architecture.md                # Domain 2 (Architecture): Structural contract, 4-layer DDD, constraints C1–C17
+│   ├── api-contracts.md               # Domain 3 (Backend): REST endpoints, SSE streams, error envelopes, RBAC
+│   ├── frontend-endpoints.md          # Domain 3 & 5 (Backend/Frontend): UI route catalog, Jinja2 templates
+│   ├── database.md                    # Domain 4 (Database): Canonical schema authority (v1 Lock 25 tables)
+│   ├── databaseTables.md              # Domain 4 (Database): Generated column-level schema reference
+│   ├── 2dFrontend.md                  # Domain 5 (Frontend): 2.5D SVG digital twin implementation specification
+│   ├── testing/
+│   │   ├── test-strategy.md           # Domain 6 (Testing): Testing pyramid, coverage thresholds, DoD checklist
+│   │   ├── backend-findings.md        # Master verified backend findings ledger
+│   │   ├── backend-inconsistencies.md # Master backend inconsistencies matrix
+│   │   ├── aim-vs-desired-vs-actual-backend-deep-analysis.md # Triangulated backend audit
+│   │   ├── aim-vs-desired-vs-actual-frontend-deep-analysis.md # Triangulated frontend audit
+│   │   ├── design_inconsistencies.md  # Frontend design & brand audit
+│   │   ├── frontend-findings.md       # Master verified frontend findings ledger
+│   │   └── frontend-fix-log.md        # Frontend repair and patch log
+│   ├── operations.md                  # Domain 7 (Operations): Deployment, env vars, observability, failure modes
+│   └── station-facts-and-research.md  # Domain 8 (Research): Authoritative polar station facts, NCPOR, SATCOM
 ├── .agents/
-│   ├── brand_design/SKILL.md      # Official DTFIAS color tokens and typography rules
-│   ├── frontend/SKILL.md          # Complete frontend design guidelines with DTFIAS override
-│   ├── database/SKILL.md          # Supabase & PostgreSQL indexing and connection rules
-│   ├── fastapi/SKILL.md           # FastAPI async endpoints, Pydantic V2, and RBAC rules
-│   └── agents/                    # Specialized agent personas (Backend, Frontend, Docs)
-└── scripts/
-    ├── migrations/
-    │   ├── 001_initial_schema.sql # Canonical SQL migration script (25 tables)
-    │   └── README.md              # Database setup and psql execution instructions
-    └── test_db_connection.py      # Connectivity verification script
+│   ├── brand_design/SKILL.md          # Official DTFIAS color tokens and typography rules
+│   ├── frontend/SKILL.md              # Complete frontend design guidelines with DTFIAS override
+│   ├── database/SKILL.md              # Supabase & PostgreSQL indexing and connection rules
+│   ├── fastapi/SKILL.md               # FastAPI async endpoints, Pydantic V2, and RBAC rules
+│   └── agents/
+│       └── DocumentationAgent/agent.md# Documentation intelligence & evidence-collection agent persona
+├── scripts/
+│   ├── migrations/
+│   │   ├── 001_initial_schema.sql     # Canonical SQL migration script (25 tables)
+│   │   └── README.md                  # Database setup and psql execution instructions
+│   └── test_db_connection.py          # Connectivity verification script
+├── CLAUDE.md                          # Claude-flavored agent reference
+├── GEMINI.md                          # Gemini-flavored agent reference
+└── README.md                          # Repository quick-start
 ```
 
 ---
 
-## 5. Verification Checklist Before Marking Tasks Complete
+## 4. Verification Commands Before Marking Documentation Complete
 
 ```bash
 # 1. Verify Engine Layer Purity (Constraint C1)

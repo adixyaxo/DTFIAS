@@ -8,7 +8,7 @@
             <span class="material-symbols-outlined text-status-info text-[24px]">monitor_heart</span>
             <span class="font-telemetry-code text-label-md text-status-info tracking-widest uppercase">{{ station_id }} MED-BAY</span>
         </div>
-        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Medical Readiness</h1>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight">Medical Readiness</h1>
     </div>
     <div class="flex gap-space-sm">
         <button class="px-space-md py-space-xs rounded bg-status-info/10 border border-status-info/30 text-status-info font-label-md tracking-wider uppercase hover:bg-status-info/20 transition-colors flex items-center gap-space-sm">
@@ -20,9 +20,9 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
     
     <!-- Active Roster Vitals -->
-    <div class="glass-card rounded-xl border border-outline/10 p-space-md">
+    <div class="bg-surface-container-low border-outline-variant/30 shadow-sm transition-colors rounded-xl border border-outline/10 p-space-md">
         <div class="flex justify-between items-center mb-space-md">
-            <h3 class="font-body-lg text-on-surface font-medium" style="font-family: 'Playfair Display', serif;">Active Roster Vitals</h3>
+            <h3 class="font-body-lg text-on-surface font-medium">Active Roster Vitals</h3>
             <span class="px-2 py-1 rounded bg-status-ok/10 text-status-ok border border-status-ok/20 font-telemetry-code text-[10px] tracking-wider uppercase">ALL NOMINAL</span>
         </div>
         <div class="space-y-4">
@@ -30,7 +30,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-sm">RK</div>
                     <div>
-                        <div class="font-ui text-sm text-on-surface">Dr. R. Kapoor</div>
+                        <div class="font-ui text-sm text-on-surface">{% if station.id == 'bharati' %}Dr. R. Kapoor{% else %}Dr. {% if station.id == 'bharati' %}A. Sharma{% else %}V. Patel{% endif %}{% endif %}</div>
                         <div class="font-label-xs text-on-surface-variant">Medical Lead</div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-sm">MN</div>
                     <div>
-                        <div class="font-ui text-sm text-on-surface">M. Nair</div>
+                        <div class="font-ui text-sm text-on-surface">{% if station.id == 'bharati' %}M. Nair{% else %}K. Singh{% endif %}</div>
                         <div class="font-label-xs text-on-surface-variant">Glaciologist</div>
                     </div>
                 </div>
@@ -58,8 +58,8 @@
 
     <!-- Inventory & Telemed -->
     <div class="flex flex-col gap-space-md">
-        <div class="glass-card rounded-xl border border-outline/10 p-space-md flex-1">
-            <h3 class="font-body-lg text-on-surface font-medium mb-space-sm" style="font-family: 'Playfair Display', serif;">Med-Bay Inventory</h3>
+        <div class="bg-surface-container-low border-outline-variant/30 shadow-sm transition-colors rounded-xl border border-outline/10 p-space-md flex-1">
+            <h3 class="font-body-lg text-on-surface font-medium mb-space-sm">Med-Bay Inventory</h3>
             <div class="space-y-3 mt-4">
                 <div>
                     <div class="flex justify-between text-sm mb-1">

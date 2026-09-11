@@ -1,176 +1,104 @@
 {% extends "layouts/base.html" %}
+{% block title %}DTFIAS // Digital Twin for Indian Antarctic Stations{% endblock %}
 
-{% block head %}
-<style>
-    body {
-        background-color: #051613; /* Deep surface */
-        color: #d3e7e0; /* on-surface */
-        margin: 0;
-        overflow-x: hidden;
-    }
-
-    /* Aurora Animation */
-    .aurora-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: -1;
-        overflow: hidden;
-        background: #051613;
-    }
-
-    .aurora-1, .aurora-2, .aurora-3 {
-        position: absolute;
-        filter: blur(80px);
-        opacity: 0.5;
-        animation: float 20s infinite alternate ease-in-out;
-    }
-
-    .aurora-1 {
-        top: -10%;
-        left: -10%;
-        width: 60vw;
-        height: 60vh;
-        background: radial-gradient(circle, rgba(66, 132, 117, 0.3) 0%, transparent 70%);
-        animation-delay: 0s;
-    }
-
-    .aurora-2 {
-        top: 40%;
-        right: -20%;
-        width: 70vw;
-        height: 70vh;
-        background: radial-gradient(circle, rgba(46, 125, 91, 0.25) 0%, transparent 70%);
-        animation-delay: -5s;
-    }
-
-    .aurora-3 {
-        bottom: -20%;
-        left: 20%;
-        width: 80vw;
-        height: 50vh;
-        background: radial-gradient(circle, rgba(145, 211, 194, 0.15) 0%, transparent 70%);
-        animation-delay: -10s;
-    }
-
-    @keyframes float {
-        0% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(5%, 10%) scale(1.1); }
-        100% { transform: translate(-5%, -5%) scale(0.9); }
-    }
-</style>
-{% endblock %}
-
-{% block body %}
-<!-- Animated Aurora Background -->
-<div class="aurora-bg">
-    <div class="aurora-1"></div>
-    <div class="aurora-2"></div>
-    <div class="aurora-3"></div>
-</div>
-
-<!-- Main Content Container -->
-<div class="min-h-screen w-full flex flex-col items-center px-4 sm:px-8 relative z-10">
+{% block content %}
+<div class="min-h-screen w-full bg-surface-container-lowest flex flex-col items-center relative overflow-hidden font-ui text-on-surface-variant selection:bg-primary selection:text-surface-container-lowest">
     
-    <!-- Top Nav with Auth Links -->
-    <div class="w-full max-w-7xl flex items-center justify-between py-8 opacity-0 animate-[fadeInUp_1s_ease-out_forwards]">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-secondary text-[24px]">radar</span>
-            <span class="font-telemetry-code text-on-surface tracking-[0.2em] uppercase text-sm font-semibold">NCPOR</span>
-        </div>
+    <!-- Premium Dark Top Navigation -->
+    <nav class="w-full max-w-7xl mx-auto px-6 py-8 flex items-center justify-between z-10">
         <div class="flex items-center gap-4">
-            <a href="/auth/login" class="font-label-md text-on-surface-variant hover:text-on-surface transition-colors">Access Terminals</a>
-            <a href="/auth/recover" class="font-label-md text-on-surface-variant hover:text-on-surface transition-colors hidden sm:block">Support</a>
-            <a href="/auth/login" class="px-5 py-2.5 rounded bg-secondary/10 border border-secondary/30 text-secondary font-label-md tracking-wider uppercase hover:bg-secondary/20 hover:border-secondary/50 transition-all active:scale-95 ml-2 backdrop-blur-md">
+            <img src="https://lh3.googleusercontent.com/aida/AEtjO1WmulcB1HzfkxmeY76IcVjMHNoCYqPLLYlSF5JWTIX9cggoUqKexxIsDOIAW0WCgZSSLDUU2rJg60tpge45aC9vb2k8-BQwWf2ysMREe9JPys2eI-HqArlSZBYaVBuoDgCTBXoKmZmAkaLX6PnU5-UCeZfS4fVv_5hs_YbxDZ0cNiT5NlsQPBoeOt07KN8MwRzJLW4q0eEJQrbnYThVIde8_z8gZSpFzXvdn8Yo6onabBqXMenNynkoQ98" alt="NCPOR Logo" class="h-10 w-auto object-contain brightness-0 invert opacity-90" />
+            <div class="h-8 w-px bg-outline-variant/50 mx-2 hidden sm:block"></div>
+            <div class="hidden sm:flex flex-col justify-center">
+                <span class="font-title-sm text-surface-cream leading-none tracking-wide uppercase">NCPOR</span>
+                <span class="font-label-xs text-on-surface-variant uppercase tracking-widest mt-1">Govt. of India · MoES</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="/auth/login" class="font-label-md text-on-surface-variant hover:text-surface-cream transition-colors">Access Terminals</a>
+            <a href="/auth/login" class="px-6 py-2.5 rounded bg-primary text-on-primary font-label-md tracking-wide uppercase hover:bg-primary-fixed transition-colors shadow-sm">
                 Secure Login
             </a>
         </div>
-    </div>
+    </nav>
 
-    <!-- Hero Header -->
-    <div class="max-w-5xl text-center space-y-6 mb-16 mt-12 opacity-0 animate-[fadeInUp_1s_ease-out_0.2s_forwards] flex-grow flex flex-col justify-center items-center">
-        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-secondary/20 bg-surface-container-low/50 mb-6 backdrop-blur-md shadow-lg">
-            <span class="w-2 h-2 rounded-full bg-secondary animate-pulse shadow-[0_0_8px_rgba(145,211,194,0.8)]"></span>
-            <span class="font-telemetry-code text-secondary text-xs tracking-[0.15em] uppercase">System Online // Grid Active</span>
+    <!-- Elegant Hero Section -->
+    <main class="w-full max-w-7xl mx-auto px-6 flex-grow flex flex-col justify-center items-center text-center mt-12 mb-20 z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container border border-outline-variant/30 mb-8">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            <span class="font-label-xs text-primary tracking-widest uppercase font-medium">System Online &middot; Grid Active</span>
         </div>
-        <h1 class="font-headline-display text-5xl md:text-[5rem] leading-[1.1] text-on-surface tracking-tight font-medium" style="font-family: 'Playfair Display', serif; text-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            Digital Twin for <br/>Indian Antarctic Stations
-        </h1>
-        <p class="font-body-lg text-lg md:text-xl text-on-surface-variant max-w-3xl mx-auto font-light leading-relaxed mt-6">
-            Real-time telemetry, advanced command & control, and predictive meteorological modeling for the National Centre for Polar and Ocean Research.
-        </p>
-    </div>
-
-    <!-- Gateway Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mb-12">
         
-        <!-- Continental HQ Card -->
-        <a href="/hq/" class="glass-card rounded-[1.25rem] p-8 flex flex-col items-start justify-between group cursor-pointer h-[22rem] opacity-0 animate-[fadeInUp_1s_ease-out_0.4s_forwards] outline-none">
-            <div class="w-full">
-                <div class="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/20 mb-8 group-hover:bg-primary/10 group-hover:border-primary/40 transition-all duration-500 shadow-inner">
-                    <span class="material-symbols-outlined text-[32px] text-primary group-hover:scale-110 transition-transform duration-500">public</span>
-                </div>
-                <h2 class="font-headline-xl text-[1.75rem] leading-snug mb-3 text-on-surface group-hover:text-primary transition-colors duration-300" style="font-family: 'Playfair Display', serif;">Continental HQ</h2>
-                <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
-                    Master operational overview, continental logistics tracking, multi-station energy SCADA, and predictive environmental routing.
-                </p>
-            </div>
-            <div class="w-full flex items-center justify-between mt-6 pt-6 border-t border-on-surface-variant/10">
-                <span class="font-telemetry-code text-[11px] text-primary tracking-[0.15em] uppercase">NCPOR Global</span>
-                <div class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary shadow-[0_0_15px_rgba(178,204,196,0)] group-hover:shadow-[0_0_15px_rgba(178,204,196,0.3)]">
-                    <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </div>
-            </div>
-        </a>
+        <h1 class="font-headline-display text-5xl md:text-[5.5rem] leading-[1.05] text-surface-cream tracking-tight font-medium max-w-5xl">
+            Digital Twin for<br/>Indian Antarctic Stations
+        </h1>
+        
+        <p class="font-body-lg text-xl text-on-surface-variant max-w-3xl mx-auto font-light leading-relaxed mt-8">
+            Real-time telemetry, advanced command dispatch, and predictive modeling for the National Centre for Polar and Ocean Research.
+        </p>
+    </main>
 
-        <!-- Bharati Station Card -->
-        <a href="/bharati/" class="glass-card rounded-[1.25rem] p-8 flex flex-col items-start justify-between group cursor-pointer h-[22rem] opacity-0 animate-[fadeInUp_1s_ease-out_0.5s_forwards] outline-none">
-            <div class="w-full">
-                <div class="w-14 h-14 rounded-2xl bg-secondary/5 flex items-center justify-center border border-secondary/20 mb-8 group-hover:bg-secondary/10 group-hover:border-secondary/40 transition-all duration-500 shadow-inner">
-                    <span class="material-symbols-outlined text-[32px] text-secondary group-hover:scale-110 transition-transform duration-500">domain</span>
+    <!-- Clean Gateway Grid -->
+    <section class="w-full bg-surface-container border-t border-outline-variant/20 py-24 z-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Continental HQ -->
+            <a href="/hq/" class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-8 flex flex-col justify-between hover:border-primary/50 transition-all duration-300 group cursor-pointer h-[24rem]">
+                <div>
+                    <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-8 group-hover:bg-primary transition-colors duration-300 border border-outline-variant/20 group-hover:border-primary">
+                        <span class="material-symbols-outlined text-[28px] text-primary group-hover:text-on-primary transition-colors duration-300">public</span>
+                    </div>
+                    <h2 class="font-headline-xl text-3xl mb-4 text-surface-cream group-hover:text-primary transition-colors duration-300">Continental HQ</h2>
+                    <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-90 group-hover:opacity-100 transition-opacity">
+                        Master operational overview, continental logistics tracking, multi-station energy SCADA, and predictive environmental routing.
+                    </p>
                 </div>
-                <h2 class="font-headline-xl text-[1.75rem] leading-snug mb-3 text-on-surface group-hover:text-secondary transition-colors duration-300" style="font-family: 'Playfair Display', serif;">Bharati Terminal</h2>
-                <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
-                    Larsemann Hills coastal facility. Manage dynamic life support, grid stabilization, maritime supply chains, and helipad operations.
-                </p>
-            </div>
-            <div class="w-full flex items-center justify-between mt-6 pt-6 border-t border-on-surface-variant/10">
-                <span class="font-telemetry-code text-[11px] text-secondary tracking-[0.15em] uppercase">69°24'S, 76°11'E</span>
-                <div class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-on-secondary shadow-[0_0_15px_rgba(145,211,194,0)] group-hover:shadow-[0_0_15px_rgba(145,211,194,0.3)]">
-                    <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                <div class="flex items-center justify-between border-t border-outline-variant/20 pt-6 mt-6">
+                    <span class="font-label-xs text-on-surface-variant tracking-widest uppercase group-hover:text-primary transition-colors duration-300">NCPOR Global</span>
+                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary group-hover:translate-x-1 transition-all">arrow_forward</span>
                 </div>
-            </div>
-        </a>
+            </a>
 
-        <!-- Maitri Station Card -->
-        <a href="/maitri/" class="glass-card rounded-[1.25rem] p-8 flex flex-col items-start justify-between group cursor-pointer h-[22rem] opacity-0 animate-[fadeInUp_1s_ease-out_0.6s_forwards] outline-none">
-            <div class="w-full">
-                <div class="w-14 h-14 rounded-2xl bg-tertiary/5 flex items-center justify-center border border-tertiary/20 mb-8 group-hover:bg-tertiary/10 group-hover:border-tertiary/40 transition-all duration-500 shadow-inner">
-                    <span class="material-symbols-outlined text-[32px] text-tertiary group-hover:scale-110 transition-transform duration-500">ac_unit</span>
+            <!-- Bharati Station -->
+            <a href="/bharati/" class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-8 flex flex-col justify-between hover:border-secondary/50 transition-all duration-300 group cursor-pointer h-[24rem]">
+                <div>
+                    <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-8 group-hover:bg-secondary transition-colors duration-300 border border-outline-variant/20 group-hover:border-secondary">
+                        <span class="material-symbols-outlined text-[28px] text-secondary group-hover:text-on-secondary transition-colors duration-300">domain</span>
+                    </div>
+                    <h2 class="font-headline-xl text-3xl mb-4 text-surface-cream group-hover:text-secondary transition-colors duration-300">Bharati Terminal</h2>
+                    <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-90 group-hover:opacity-100 transition-opacity">
+                        Larsemann Hills coastal facility. Manage dynamic life support, grid stabilization, maritime supply chains, and helipad operations.
+                    </p>
                 </div>
-                <h2 class="font-headline-xl text-[1.75rem] leading-snug mb-3 text-on-surface group-hover:text-tertiary transition-colors duration-300" style="font-family: 'Playfair Display', serif;">Maitri Terminal</h2>
-                <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
-                    Schirmacher Oasis inland facility. Manage legacy asset telemetry, critical winter-over logistics, fuel depletion, and traverse convoys.
-                </p>
-            </div>
-            <div class="w-full flex items-center justify-between mt-6 pt-6 border-t border-on-surface-variant/10">
-                <span class="font-telemetry-code text-[11px] text-tertiary tracking-[0.15em] uppercase">70°45'S, 11°43'E</span>
-                <div class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-tertiary group-hover:bg-tertiary group-hover:text-on-tertiary shadow-[0_0_15px_rgba(177,205,189,0)] group-hover:shadow-[0_0_15px_rgba(177,205,189,0.3)]">
-                    <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                <div class="flex items-center justify-between border-t border-outline-variant/20 pt-6 mt-6">
+                    <span class="font-label-xs text-on-surface-variant tracking-widest uppercase group-hover:text-secondary transition-colors duration-300">69°24'S, 76°11'E</span>
+                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary group-hover:translate-x-1 transition-all">arrow_forward</span>
                 </div>
-            </div>
-        </a>
+            </a>
 
-    </div>
-
-    <!-- Footer Meta -->
-    <div class="mb-8 mt-auto text-center opacity-0 animate-[fadeInUp_1s_ease-out_0.8s_forwards]">
-        <div class="font-telemetry-code text-[10px] text-on-surface-variant/40 tracking-[0.2em] uppercase">
-            RESTRICTED ACCESS // AUTHORIZED PERSONNEL ONLY // FIPS 140-3
+            <!-- Maitri Station -->
+            <a href="/maitri/" class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-8 flex flex-col justify-between hover:border-tertiary/50 transition-all duration-300 group cursor-pointer h-[24rem]">
+                <div>
+                    <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-8 group-hover:bg-tertiary transition-colors duration-300 border border-outline-variant/20 group-hover:border-tertiary">
+                        <span class="material-symbols-outlined text-[28px] text-tertiary group-hover:text-on-tertiary transition-colors duration-300">ac_unit</span>
+                    </div>
+                    <h2 class="font-headline-xl text-3xl mb-4 text-surface-cream group-hover:text-tertiary transition-colors duration-300">Maitri Terminal</h2>
+                    <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-90 group-hover:opacity-100 transition-opacity">
+                        Schirmacher Oasis inland facility. Manage legacy asset telemetry, critical winter-over logistics, fuel depletion, and traverse convoys.
+                    </p>
+                </div>
+                <div class="flex items-center justify-between border-t border-outline-variant/20 pt-6 mt-6">
+                    <span class="font-label-xs text-on-surface-variant tracking-widest uppercase group-hover:text-tertiary transition-colors duration-300">70°46'S, 11°44'E</span>
+                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary group-hover:translate-x-1 transition-all">arrow_forward</span>
+                </div>
+            </a>
+            
         </div>
-    </div>
+        
+        <!-- Clean Footer -->
+        <div class="max-w-7xl mx-auto px-6 mt-16 text-center">
+            <p class="font-label-xs text-on-surface-variant/50 tracking-widest uppercase">Ministry of Earth Sciences &middot; Government of India</p>
+        </div>
+    </section>
 </div>
-
 {% endblock %}

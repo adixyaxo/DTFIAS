@@ -180,26 +180,30 @@
           </div>
 
           <!-- AUTHENTICATION STATUS BANNER (Dynamic Component) -->
-          <div id="auth-status-box" class="mb-6 p-3.5 rounded-lg border border-warm-border bg-white text-xs flex items-start gap-3 shadow-sm">
+          <div id="auth-status-box" class="mb-6 p-3.5 rounded-lg border {% if error %}border-red-300 bg-red-50{% else %}border-warm-border bg-white{% endif %} text-xs flex items-start gap-3 shadow-sm">
             <div class="mt-0.5">
               <span class="flex h-2.5 w-2.5 relative">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-info opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-status-info"></span>
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full {% if error %}bg-status-critical{% else %}bg-status-info{% endif %} opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 {% if error %}bg-status-critical{% else %}bg-status-info{% endif %}"></span>
               </span>
             </div>
             <div class="flex-1 font-sans">
-              <div class="font-medium text-warm-text-primary flex items-center justify-between">
-                <span>Directory Service Status: <strong class="font-semibold text-status-info">Operational</strong></span>
-                <span class="font-mono text-[10px] text-warm-text-muted">LDAP / NCPOR-IAM</span>
+              <div class="font-medium {% if error %}text-status-critical{% else %}text-warm-text-primary{% endif %} flex items-center justify-between">
+                <span>Directory Service Status: <strong class="font-semibold {% if error %}text-status-critical{% else %}text-status-info{% endif %}">{% if error %}Authentication Failed{% else %}Operational{% endif %}</strong></span>
+                <span class="font-mono text-[10px] {% if error %}text-status-critical{% else %}text-warm-text-muted{% endif %}">LDAP / NCPOR-IAM</span>
               </div>
-              <p class="text-warm-text-muted mt-0.5 text-[11px] leading-relaxed">
-                Connect your hardware token or enter your government institutional credentials to verify station command permissions.
+              <p class="{% if error %}text-status-critical font-medium{% else %}text-warm-text-muted{% endif %} mt-0.5 text-[11px] leading-relaxed">
+                {% if error %}
+                  {{ error }}
+                {% else %}
+                  Connect your hardware token or enter your government institutional credentials to verify station command permissions.
+                {% endif %}
               </p>
             </div>
           </div>
 
           <!-- SIGN-IN FORM -->
-          <form id="login-form" class="space-y-4" onsubmit="event.preventDefault(); handleAuthSubmit();">
+          <form id="login-form" class="space-y-4" action="/auth/login" method="POST" onsubmit="handleAuthSubmit()">
             
             <!-- Email / Institutional Identity Field -->
             <div>
@@ -217,9 +221,10 @@
                 <input 
                   type="email" 
                   id="identity-input" 
+                  name="username"
                   required
-                  placeholder="commander.bharati@ncpor.res.in" 
-                  value="commander.bharati@ncpor.res.in"
+                  placeholder="aditya0dagar@gmail.com" 
+                  value="superadmin@gmail.com"
                   class="w-full pl-9 pr-3 py-2.5 bg-white border border-warm-border-strong rounded-md text-sm text-warm-text-primary placeholder-stone-400 transition-colors focus:bg-white focus:border-teal-brand"
                 />
               </div>
@@ -245,9 +250,10 @@
                 <input 
                   type="password" 
                   id="password-input" 
+                  name="password"
                   required
                   placeholder="••••••••••••••••" 
-                  value="Antarctic#Station2025"
+                  value="superadmin123"
                   class="w-full pl-9 pr-10 py-2.5 bg-white border border-warm-border-strong rounded-md text-sm text-warm-text-primary placeholder-stone-400 transition-colors focus:bg-white focus:border-teal-brand font-mono"
                 />
                 <button 
@@ -394,8 +400,6 @@
 
     function handleAuthSubmit() {
       const btn = document.getElementById('submit-btn');
-      const statusBox = document.getElementById('auth-status-box');
-      const email = document.getElementById('identity-input').value;
       
       btn.innerHTML = `
         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
@@ -404,33 +408,12 @@
         </svg>
         <span>Verifying Security Clearance...</span>
       `;
-      btn.disabled = true;
-
+      
+      // We do not prevent default, so the form submits natively to /auth/login.
+      // Disable button shortly after to prevent double submission without breaking native submit.
       setTimeout(() => {
-        statusBox.className = "mb-6 p-3.5 rounded-lg border border-[#C5E0D5] bg-[#E8F4EE] text-xs flex items-start gap-3 shadow-sm";
-        statusBox.innerHTML = `
-          <div class="mt-0.5">
-            <span class="inline-flex rounded-full h-2.5 w-2.5 bg-status-normal"></span>
-          </div>
-          <div class="flex-1 font-sans">
-            <div class="font-medium text-[#1E2522] flex items-center justify-between">
-              <span>Authentication Successful</span>
-              <span class="font-mono text-[10px] text-[#2E7D5B]">TOKEN ISSUED</span>
-            </div>
-            <p class="text-[#2E7D5B] mt-0.5 text-[11px]">
-              Digital signature validated for <strong>${email}</strong>. Initializing Polar Command Telemetry stream...
-            </p>
-          </div>
-        `;
-        btn.innerHTML = `
-          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-          <span>Session Granted · Redirecting</span>
-        `;
-        btn.classList.remove('bg-teal-brand', 'hover:bg-teal-brand-hover');
-        btn.classList.add('bg-status-normal');
-      }, 1200);
+        btn.disabled = true;
+      }, 50);
     }
   </script>
 </div>

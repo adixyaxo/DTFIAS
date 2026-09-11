@@ -26,20 +26,20 @@ A comprehensive dual-track audit was conducted on the DTFIAS frontend codebase, 
 
 | ID | Issue Category | Severity | Status | Primary Locations | Core Problem |
 |:---|:---|:---:|:---:|:---|:---|
-| **INC-01** | **Bharati Data Hardcoded in Maitri Context** | **P0 (Critical)** | Pending (Phase 3) | `app/templates/station/*`, `app/routers/maitri/router.py` | Maitri operators see Bharati facility data, coordinates, and cutaway schematics |
+| **INC-01** | **Bharati Data Hardcoded in Maitri Context** | **P0 (Critical)** | ✅ RESOLVED (Phase 3) | `app/templates/station/*`, `app/routers/maitri/router.py` | Maitri operators see Bharati facility data, coordinates, and cutaway schematics |
 | **INC-02** | **Undefined `.glass-card` & `.glass-button`** | **P1 (High)** | ✅ RESOLVED (Phase 1) | `hq/health`, `hq/reports`, `hq/roles`, `station/personnel`, etc. | Styles only exist in `index.html`; other pages render unstyled, flat cards |
 | **INC-03** | **Missing `@keyframes fadeInUp` (`opacity-0` Bug)** | **P1 (High)** | ✅ RESOLVED (Phase 1) | 11+ views in `hq/*` and `station/*` | Elements stay stuck at `opacity: 0` because the animation keyframe is absent |
 | **INC-04** | **Broken `borderRadius` Scale in `base.html`** | **P1 (High)** | ✅ RESOLVED (Phase 1) | `app/templates/layouts/base.html` (L65) | `"full": "0.75rem"` (12px), `rounded-md` (6px) > `rounded-lg` (4px) |
 | **INC-05** | **"Bharti" Misspelling** | **P1 (High)** | ✅ RESOLVED (Phase 2) | `app/templates/hq/compliance.html` (L103) | Misspelled as `Southern Ocean Expedition (RV Bharti)` |
 | **INC-06** | **"ANARCTIC" Brand Typo (Missing 'T')** | **P1 (High)** | ✅ RESOLVED (Phase 2) | `auth/login.html`, `auth/recover.html`, `modals/*` | Heading reads "ANARCTIC" instead of "ANTARCTIC" |
-| **INC-07** | **Topnav Hardcoded Location & Timezone** | **P1 (High)** | Pending (Phase 4) | `app/templates/components/topnav.html` (L29-30) | Hardcodes `LARSEMANN HILLS` and `+05:00` across all station portals |
+| **INC-07** | **Topnav Hardcoded Location & Timezone** | **P1 (High)** | ✅ RESOLVED (Phase 3) | `app/templates/components/topnav.html` (L29-30) | Hardcodes `LARSEMANN HILLS` and `+05:00` across all station portals |
 | **INC-08** | **Canvas Padding Doubling & Gutter Discrepancies** | **P2 (Medium)** | ✅ RESOLVED (Phase 1) | `station/dashboard`, `station/infrastructure`, etc. | Viewports add redundant inner padding on top of `layouts/dashboard.html` |
-| **INC-09** | **Coexistence of 3 Conflicting Design Subsystems** | **P2 (Medium)** | In Progress | Entire frontend | Dark Sci-Fi HUD vs Glassmorphism Serif vs Raw Hex Auth Card |
-| **INC-10** | **Geographic Coordinates Drift** | **P2 (Medium)** | Pending (Phase 3) | `index.html`, `topnav.html`, `hq/*`, `station/*` | Maitri & Bharati coordinates fluctuate across 5+ conflicting formats |
-| **INC-11** | **Station Code / Identifier Chaos** | **P2 (Medium)** | Pending (Phase 3) | `station/*`, `hq/*` | Bharati is interchangeably `IND-ANT-03`, `IN-ANT-BHT-02`, `IN-BHT-02`, `BHT-02` |
+| **INC-09** | **Coexistence of 3 Conflicting Design Subsystems** | **P2 (Medium)** | ✅ RESOLVED (Phase 5) | Entire frontend | Dark Sci-Fi HUD vs Glassmorphism Serif vs Raw Hex Auth Card |
+| **INC-10** | **Geographic Coordinates Drift** | **P2 (Medium)** | ✅ RESOLVED (Phase 3) | `index.html`, `topnav.html`, `hq/*`, `station/*` | Maitri & Bharati coordinates fluctuate across 5+ conflicting formats |
+| **INC-11** | **Station Code / Identifier Chaos** | **P2 (Medium)** | ✅ RESOLVED (Phase 3) | `station/*`, `hq/*` | Bharati is interchangeably `IND-ANT-03`, `IN-ANT-BHT-02`, `IN-BHT-02`, `BHT-02` |
 | **INC-12** | **Personnel Headcount Contradictions** | **P2 (Medium)** | Pending (Phase 3/4) | `hq/health`, `hq/stations`, `hq/dashboard`, `station/logistics` | Total personnel counts conflict: 142 vs 112/49 vs 46 vs 42 vs 43 |
-| **INC-13** | **Microgrid Generation Mismatch** | **P2 (Medium)** | Pending (Phase 4) | `station_twin.js`, `station/energy.html`, `hq/energy.html` | Twin outputs 742 kW generator power vs 340 kW station ceiling |
-| **INC-14** | **Dead / 0-Byte Templates & Orphaned Routes** | **P3 (Low)** | Pending (Phase 4) | `app/templates/maitri/*`, `components/*`, `sidebar_hq.html` | 11 empty files, unlinked `/hq/compliance`, and full mockups in `modals/` |
+| **INC-13** | **Microgrid Generation Mismatch** | **P2 (Medium)** | ✅ RESOLVED (Phase 4) | `station_twin.js`, `station/energy.html`, `hq/energy.html` | Twin outputs 742 kW generator power vs 340 kW station ceiling |
+| **INC-14** | **Dead / 0-Byte Templates & Orphaned Routes** | **P3 (Low)** | ✅ RESOLVED (Phase 4) | `app/templates/maitri/*`, `components/*`, `sidebar_hq.html` | 11 empty files, unlinked `/hq/compliance`, and full mockups in `modals/` |
 
 ---
 
@@ -432,14 +432,28 @@ The recorded coordinates for both stations shift across views:
 
 ---
 
-### Phase 3: Parameterize Shared Station Templates — [PENDING]
-1. In `app/routers/maitri/router.py` and `app/routers/bharati/router.py`, pass a structured `station` context object containing canonical metadata (name, full name, code, coordinates, elevation, established date, architecture, winter/summer souls, and generator capacity).
-2. Replace hardcoded Bharati strings in `station/dashboard.html`, `station/energy.html`, `station/infrastructure.html`, `station/environment.html`, `station/logistics.html`, and `station/alerts.html` with dynamic Jinja variables (`{{ station.name }}`, `{{ station.coordinates }}`, `{{ station.code }}`).
+### Phase 3: Parameterize Shared Station Templates — [COMPLETED]
+*Status: COMPLETED (Verified across Maitri, Bharati, and HQ routes)*
+
+1. **Integrated Canonical Station Context across Routers:**
+   - Both `app/routers/maitri/router.py` and `app/routers/bharati/router.py` consume `get_station_metadata(station_id)` from `shared/constants/stations.py`, injecting canonical station metadata (`full_name`, `code`, `grid_id`, `callsign`, `location`, `region`, `coordinates`, `elevation`, `architecture`, `architecture_subtitle`, `foundation`, `souls_total`, `souls_active`, `emergency_zone`, `locus_name`, `twin_rev`).
+2. **Dynamic Parameterization across Shared Station Templates:**
+   - `station/dashboard.html`: Parameterized station header title, station code badge, coordinates & location geofix, VHF inter-station link, CSV snapshot download name, and emergency heating prompt.
+   - `station/twin.html`: Parameterized geofix coordinates, elevation, research complex title, digital twin revision, and structural foundation description.
+   - `station/energy.html`: Parameterized polar campus name and microgrid cell ID.
+   - `station/infrastructure.html`: Parameterized station name, geofix coordinates, architecture title, and thermal envelope subtitle.
+   - `station/environment.html`: Parameterized Mission Node select dropdown, HUD coordinates pill, elevation, and main base map marker.
+   - `station/logistics.html`: Parameterized overwinter headcount ratio, detachment name, locus name, table footer member counter, emergency zone transit warning, and RFID muster drill toast.
+   - `station/alerts.html`: Parameterized breadcrumb station code and active incident code with station callsign.
+3. **Defensive Top Navigation Parameterization:**
+   - `components/topnav.html`: Added dynamic region and timezone formatting with safe `station is defined` guards to maintain global compatibility with both station portals and HQ views.
 
 ---
 
-### Phase 4: Reconcile Metrics & Clean Up Dead Files — [PENDING]
-1. Adjust `station_twin.js` generator load from `742 kW` to `282 kW` to match the SCADA specification.
-2. Update `components/topnav.html` to dynamically reflect the current station’s timezone and location rather than hardcoding `LARSEMANN HILLS`.
-3. Add a navigation link to `/hq/compliance` in `components/sidebar_hq.html`.
-4. Delete or implement the 0-byte placeholder files in `app/templates/maitri/` and `app/templates/components/`.
+### Phase 4: Reconcile Metrics & Clean Up Dead Files — [COMPLETED]
+*Status: COMPLETED (Verified across components and assets)*
+
+1. **Adjusted `station_twin.js`**: Adjusted generator load from `742 kW` to `282 kW` to match the SCADA specification.
+2. **Dynamic Topnav Timezone**: Updated `components/topnav.html` to dynamically reflect the current station’s timezone and location using an Alpine.js ticking clock rather than hardcoded text.
+3. **Sidebar Updates**: Added a navigation link to `/hq/compliance` in `components/sidebar_hq.html` replacing `/hq/reports`.
+4. **Deleted Dead Files**: Deleted the 0-byte placeholder files in `app/templates/maitri/` and `app/templates/components/`.

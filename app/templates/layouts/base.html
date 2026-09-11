@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ title | default("Antarctic Digital Twin") }}{% endblock %}</title>
+    <!-- CSRF Protection (C11) -->
+    <meta name="csrf-token" content="{{ request.state.csrf_token | default('') }}">
     <!-- Google Fonts: Inter (UI), Playfair Display (headings), Playfair (body), JetBrains Mono (data) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,21 +66,8 @@
         }
 
         /* Glassmorphism utilities */
-        .glass-card {
-            background: rgba(13, 31, 27, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(145, 211, 194, 0.15);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
 
-        .glass-card:hover {
-            background: rgba(13, 31, 27, 0.8);
-            border-color: rgba(145, 211, 194, 0.3);
-            box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(145, 211, 194, 0.1);
-        }
-
-        .glass-button {
+        .bg-surface-container-high border border-outline-variant/30 hover:bg-surface-container-highest {
             background: rgba(145, 211, 194, 0.08);
             border: 1px solid rgba(145, 211, 194, 0.2);
             backdrop-filter: blur(8px);
@@ -86,12 +75,12 @@
             transition: all 0.2s ease;
         }
 
-        .glass-button:hover {
+        .bg-surface-container-high border border-outline-variant/30 hover:bg-surface-container-highest:hover {
             background: rgba(145, 211, 194, 0.2);
             border-color: rgba(145, 211, 194, 0.4);
         }
 
-        .glass-button:active {
+        .bg-surface-container-high border border-outline-variant/30 hover:bg-surface-container-highest:active {
             transform: scale(0.97);
         }
 
@@ -115,10 +104,37 @@
                 opacity: 1;
             }
         }
+
+        /* P0 Critical CSS Pulse Animation */
+        @keyframes pulse-p0 {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.72;
+            }
+        }
+
+        .status-p0-pulse,
+        .animate-p0 {
+            animation: pulse-p0 1.6s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        /* Technical Differentiator: Sensor Staleness Dimming */
+        .is-stale {
+            opacity: 0.45 !important;
+            filter: grayscale(70%);
+            transition: opacity 0.3s ease;
+        }
     </style>
-    <!-- In a real app, serve these from /static/vendor/ -->
+    <!-- Mandatory Vendor Stack (C17) -->
     <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
+    <script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link href="{{ url_for('static', path='css/app.css') }}" rel="stylesheet">
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -302,6 +318,18 @@
     {% endblock %}
 
     {% block scripts %}{% endblock %}
+
+    <!-- HTMX CSRF Auto-Injection for mutating methods (C11) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.addEventListener('htmx:configRequest', (evt) => {
+                const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                if (token && evt.detail.verb !== 'get') {
+                    evt.detail.headers['X-CSRF-Token'] = token;
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

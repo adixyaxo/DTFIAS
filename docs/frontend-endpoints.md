@@ -473,7 +473,7 @@ Use pulsing only for meaningful warnings/critical events.
 ## `/` --- Landing
 
 > Design the DTFIAS landing page, an institutional Antarctic
-> remote-operations and digital-twin platform. Use Inter exclusively.
+> remote-operations and digital-twin platform. Use the 4-tier typography system.
 > Use Deep Green #1A312C, Teal Green #428475, Light Mint #E8F3EF and
 > Warm Off-White #F7F4ED. Create a calm scientific hero titled "DTFIAS
 > --- Antarctic Remote Operations & Digital Twin Platform". Show a
@@ -488,7 +488,7 @@ Use pulsing only for meaningful warnings/critical events.
 
 > Design a secure institutional DTFIAS login screen. Use Deep Green
 > #1A312C for the identity area, Warm Off-White #F7F4ED for the form
-> area and Teal Green #428475 for interaction. Use Inter. Include email,
+> area and Teal Green #428475 for interaction. Use the 4-tier typography system. Include email,
 > password, sign-in, forgot password and authentication status. Use a
 > subtle Antarctic station illustration. The screen should resemble
 > secure mission-control software, not consumer SaaS. Use accessible
@@ -543,7 +543,7 @@ Use pulsing only for meaningful warnings/critical events.
 > for power infrastructure, laboratories, medical, water, waste, fuel,
 > communications, environmental sensors, personnel and logistics. Hover
 > highlights an object; click opens a side panel. Use restrained
-> technical labels, Inter typography, Teal Green interaction accents and
+> technical labels, the 4-tier typography system, Teal Green interaction accents and
 > the complete semantic status system. Avoid fake cyberpunk 3D effects
 > and excessive animation.
 
@@ -792,7 +792,7 @@ Use this before generating the complete application:
 > make it look like generic SaaS, crypto, cyberpunk, gaming or consumer
 > software.
 >
-> Use Inter exclusively.
+> Use the 4-tier typography system.
 >
 > Brand colors: Deep Green #1A312C, Teal Green #428475, Light Mint
 > #E8F3EF, Warm Off-White #F7F4ED.
@@ -884,7 +884,7 @@ established system for all other screens.
 # 12. Consistency Prompt
 
 > Continue DTFIAS using the exact established design system from the
-> previous screens. Do not invent a new visual language. Preserve Inter,
+> previous screens. Do not invent a new visual language. Preserve the 4-tier typography system,
 > Deep Green #1A312C, Teal Green #428475, Light Mint #E8F3EF, Warm
 > Off-White #F7F4ED, the light/dark semantic status system, spacing,
 > typography, borders, radii, sidebar, header, tables, charts, status
@@ -971,7 +971,7 @@ Update or create:
 
 Include:
 
--   Inter
+- 4-tier typography system
 -   brand tokens
 -   light/dark semantic tokens
 -   surfaces
@@ -999,7 +999,7 @@ Include:
 
 The frontend skill must enforce:
 
-1.  Inter typography.
+1.  the 4-tier typography system.
 2.  Exact DTFIAS palette.
 3.  Separate semantic light/dark tokens.
 4.  No arbitrary colors.
@@ -1029,7 +1029,7 @@ A screen is complete only when:
 
 ### Visual
 
--   [ ] Inter
+- [ ] 4-tier typography system
 -   [ ] exact DTFIAS colors
 -   [ ] no arbitrary colors
 -   [ ] correct light/dark semantic tokens

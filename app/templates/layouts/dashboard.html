@@ -12,4 +12,12 @@
         </main>
     </div>
 </div>
+
+<dialog id="dtfias_alert_modal" class="modal bg-transparent p-0 m-auto backdrop:bg-black/80 backdrop:backdrop-blur-sm max-w-4xl w-full">
+    {% include "components/modals/alert_dialog.html" ignore missing %}
+</dialog>
+
+<dialog id="dtfias_asset_modal" class="modal bg-transparent p-0 m-auto backdrop:bg-black/80 backdrop:backdrop-blur-sm max-w-4xl w-full">
+    {% include "components/modals/asset_detail.html" ignore missing %}
+</dialog>
 {% endblock %}

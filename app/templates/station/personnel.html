@@ -8,11 +8,11 @@
             <span class="material-symbols-outlined text-on-surface-variant text-[24px]">group</span>
             <span class="font-telemetry-code text-label-md text-on-surface-variant tracking-widest uppercase">{{ station_id }} Roster</span>
         </div>
-        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight" style="font-family: 'Playfair Display', serif;">Station Personnel</h1>
+        <h1 class="font-headline-display text-headline-display text-on-surface tracking-tight">Station Personnel</h1>
     </div>
 </div>
 
-<div class="glass-card rounded-xl border border-outline/10 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards] p-space-md">
+<div class="bg-surface-container-low border-outline-variant/30 shadow-sm transition-colors rounded-xl border border-outline/10 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards] p-space-md">
     
     <div class="flex gap-4 mb-6 border-b border-outline/10 pb-4">
         <button class="px-4 py-2 rounded bg-surface-container-highest text-on-surface font-label-sm font-medium tracking-wider uppercase border border-outline/20">All Personnel</button>
@@ -28,7 +28,7 @@
         <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline/10 flex items-center gap-4 hover:border-primary/30 transition-colors cursor-pointer group">
             <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-lg group-hover:bg-primary/10 group-hover:text-primary transition-colors">RK</div>
             <div class="flex-1">
-                <div class="font-ui text-on-surface font-medium">Dr. R. Kapoor</div>
+                <div class="font-ui text-on-surface font-medium">{% if station.id == 'bharati' %}Dr. R. Kapoor{% else %}Dr. {% if station.id == 'bharati' %}A. Sharma{% else %}V. Patel{% endif %}{% endif %}</div>
                 <div class="font-label-xs text-on-surface-variant">Medical Lead</div>
             </div>
             <span class="material-symbols-outlined text-status-ok text-[18px]">verified_user</span>
@@ -38,7 +38,7 @@
         <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline/10 flex items-center gap-4 hover:border-primary/30 transition-colors cursor-pointer group">
             <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-lg group-hover:bg-primary/10 group-hover:text-primary transition-colors">MN</div>
             <div class="flex-1">
-                <div class="font-ui text-on-surface font-medium">M. Nair</div>
+                <div class="font-ui text-on-surface font-medium">{% if station.id == 'bharati' %}M. Nair{% else %}K. Singh{% endif %}</div>
                 <div class="font-label-xs text-on-surface-variant">Glaciologist</div>
             </div>
             <span class="material-symbols-outlined text-status-ok text-[18px]">verified_user</span>
@@ -48,7 +48,7 @@
         <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline/10 flex items-center gap-4 hover:border-primary/30 transition-colors cursor-pointer group">
             <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface font-body-lg group-hover:bg-primary/10 group-hover:text-primary transition-colors">AS</div>
             <div class="flex-1">
-                <div class="font-ui text-on-surface font-medium">A. Sharma</div>
+                <div class="font-ui text-on-surface font-medium">{% if station.id == 'bharati' %}A. Sharma{% else %}V. Patel{% endif %}</div>
                 <div class="font-label-xs text-on-surface-variant">Convoy Operator</div>
             </div>
             <span class="material-symbols-outlined text-status-warning text-[18px]">warning</span>
