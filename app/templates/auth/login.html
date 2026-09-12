@@ -1,8 +1,8 @@
 {% extends "layouts/base.html" %}
 {% block body %}
-<div class="flex-grow bg-deep-green-darker text-warm-text-primary font-sans flex flex-col justify-between select-none h-screen min-h-[100vh]">
+<div class="flex-grow bg-surface-container text-warm-text-primary font-sans flex flex-col justify-between select-none h-screen min-h-[100vh]">
 <!-- TOP INSTITUTIONAL SECURITY BANNER -->
-  <header class="w-full bg-deep-green-darker border-b border-deep-green-border text-xs px-6 py-2 flex items-center justify-between text-[#8DA19A]">
+  <header class="w-full bg-surface-container border-b border-deep-green-border text-xs px-6 py-2 flex items-center justify-between text-[#8DA19A]">
     <div class="flex items-center gap-3">
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-[#2E7D5B] ring-2 ring-[#2E7D5B]/20"></span>
@@ -13,7 +13,7 @@
     </div>
     <div class="flex items-center gap-4 text-[11px] font-mono">
       <span class="text-gray-400">POLAR TIME: <span id="utc-clock" class="text-emerald-400 font-semibold">14:32:08 UTC</span></span>
-      <span class="hidden md:inline bg-deep-green px-2 py-0.5 rounded border border-deep-green-border text-teal-200">RESTRICTED ACCESS</span>
+      <span class="hidden md:inline bg-surface-container-high px-2 py-0.5 rounded border border-deep-green-border text-teal-200">RESTRICTED ACCESS</span>
     </div>
   </header>
 
@@ -23,7 +23,7 @@
     <div class="w-full max-w-5xl bg-warm-white rounded-xl shadow-2xl border border-warm-border overflow-hidden flex flex-col md:flex-row min-h-[640px]">
       
       <!-- LEFT PANE: IDENTITY, MISSION STATEMENT & SCIENTIFIC STATION SCHEMATIC (Deep Green #1A312C) -->
-      <section class="md:w-5/12 bg-deep-green relative flex flex-col justify-between p-8 text-white polar-grid-pattern border-b md:border-b-0 md:border-r border-deep-green-border overflow-hidden">
+      <section class="md:w-5/12 bg-surface-container-high relative flex flex-col justify-between p-8 text-white polar-grid-pattern border-b md:border-b-0 md:border-r border-deep-green-border overflow-hidden">
         
         <!-- Ambient subtle glow behind schematic -->
         <div class="absolute -top-24 -left-24 w-72 h-72 bg-teal-brand/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -33,7 +33,7 @@
         <div class="relative z-10 space-y-4">
           <div class="flex items-center gap-3">
             <!-- Institutional Emblem / Compass Icon -->
-            <div class="w-10 h-10 rounded-lg bg-deep-green-surface border border-deep-green-border flex items-center justify-center shadow-inner">
+            <div class="w-10 h-10 rounded-lg bg-surface-container-high-surface border border-deep-green-border flex items-center justify-center shadow-inner">
               <svg class="w-6 h-6 text-teal-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
                 <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-opacity="0.4"/>
                 <polygon points="12,3 14.5,10.5 21,12 14.5,13.5 12,21 9.5,13.5 3,12 9.5,10.5" fill="currentColor" fill-opacity="0.18" stroke="currentColor"/>
@@ -49,7 +49,7 @@
           <div class="pt-2">
             <h1 class="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
               ANTARCTIC
-              <span class="text-[10px] font-mono tracking-widest bg-deep-green-border/80 text-teal-300 px-2 py-0.5 rounded border border-teal-brand/40 uppercase">v3.4-Ops</span>
+              <span class="text-[10px] font-mono tracking-widest bg-surface-container-high-border/80 text-teal-300 px-2 py-0.5 rounded border border-teal-brand/40 uppercase">v3.4-Ops</span>
             </h1>
             <p class="text-xs text-[#A1B8B1] mt-1 leading-relaxed font-normal">
               Institutional Polar Remote-Operations & Integrated Digital-Twin Telemetry Platform
@@ -58,7 +58,7 @@
         </div>
 
         <!-- CENTER: REFINED 2D/ISOMETRIC POLAR STATION SCHEMATIC ILLUSTRATION -->
-        <div class="my-6 relative z-10 bg-deep-green-darker/60 rounded-lg p-4 border border-deep-green-border/80">
+        <div class="my-6 relative z-10 bg-surface-container/60 rounded-lg p-4 border border-deep-green-border/80">
           <div class="flex items-center justify-between pb-2 border-b border-deep-green-border/50 text-[10px] font-mono text-[#85A299]">
             <span class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -135,11 +135,11 @@
 
           <!-- Telemetry Status Badges for Active Stations -->
           <div class="grid grid-cols-2 gap-2 pt-2 border-t border-deep-green-border/50 text-[10px] font-mono">
-            <div class="bg-deep-green-surface px-2 py-1 rounded flex items-center justify-between border border-deep-green-border/40">
+            <div class="bg-surface-container-high-surface px-2 py-1 rounded flex items-center justify-between border border-deep-green-border/40">
               <span class="text-gray-300">BHARATI (69°S)</span>
               <span class="text-emerald-400 font-semibold">ONLINE</span>
             </div>
-            <div class="bg-deep-green-surface px-2 py-1 rounded flex items-center justify-between border border-deep-green-border/40">
+            <div class="bg-surface-container-high-surface px-2 py-1 rounded flex items-center justify-between border border-deep-green-border/40">
               <span class="text-gray-300">MAITRI (70°S)</span>
               <span class="text-emerald-400 font-semibold">ONLINE</span>
             </div>
@@ -355,7 +355,7 @@
   </main>
 
   <!-- BOTTOM METADATA BAR -->
-  <footer class="w-full bg-deep-green-darker border-t border-deep-green-border px-6 py-2.5 text-[11px] font-mono text-[#7B928B] flex flex-wrap items-center justify-between gap-3">
+  <footer class="w-full bg-surface-container border-t border-deep-green-border px-6 py-2.5 text-[11px] font-mono text-[#7B928B] flex flex-wrap items-center justify-between gap-3">
     <div class="flex items-center gap-4">
       <span>NATIONAL CENTRE FOR POLAR AND OCEAN RESEARCH</span>
       <span class="text-deep-green-border">/</span>

@@ -14,6 +14,7 @@ STATION_INFO = get_station_metadata("bharati")
 
 
 @router.get("/", response_class=HTMLResponse)
+@router.get("/dashboard", response_class=HTMLResponse)
 async def bharati_dashboard(request: Request, service: BharatiServiceDep):
     dashboard_data = await service.get_dashboard_data()
     return templates.TemplateResponse(

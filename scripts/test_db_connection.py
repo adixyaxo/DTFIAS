@@ -14,10 +14,8 @@ if sys.platform == "win32":
 # Make sure the project root is on the path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from dotenv import load_dotenv
-load_dotenv()
+from app.config.settings import DATABASE_URL
 
-DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 async def test_connection():
     print(f"\n[DB TEST] Testing connection to:\n    {DATABASE_URL[:80]}...\n")
@@ -26,7 +24,7 @@ async def test_connection():
         import asyncpg
         # asyncpg expects postgresql:// not postgresql+asyncpg://
         raw_url = DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
-        conn = await asyncpg.connect(raw_url, timeout=10)
+        conn = await asyncpg.connect(raw_url, timeout=30, statement_cache_size=0)
         version = await conn.fetchval("SELECT version();")
         print(f"[OK] Connected!\n     Server: {version[:100]}")
 

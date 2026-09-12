@@ -7,15 +7,16 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from infrastructure.security.authentication.passwords import hash_password
+from app.config.settings import DATABASE_URL
 
-load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL", "").replace("postgresql+asyncpg://", "postgresql://")
+RAW_DATABASE_URL = DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
+
 
 async def create_user(full_name: str, employee_code: str, raw_password: str, role_name: str):
     hashed_password = hash_password(raw_password)
     new_user_id = str(uuid.uuid4())
     
-    conn = await asyncpg.connect(DATABASE_URL)
+    conn = await asyncpg.connect(RAW_DATABASE_URL)
     try:
         # Create user
         await conn.execute(

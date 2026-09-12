@@ -18,12 +18,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.config.database import get_db
+from app.config.settings import JWT_SECRET, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.models.auth import Profile, Role
 from infrastructure.security.audit.audit_log import record_audit_event
 
-JWT_SECRET = os.getenv("JWT_SECRET", "dtfias-polar-twin-sih26060-secret-key-production")
-JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 
 
 def create_access_token(data: dict[str, Any], expires_delta: timedelta | None = None) -> str:
@@ -146,15 +144,22 @@ def require_role(required_role: str) -> Callable:
     return role_checker
 
 
-def require_role_in(*required_roles: str) -> Callable:
+def require_role_in(*required_roles: Any) -> Callable:
     """Checks that the user has at least one of the listed roles."""
+    flat_roles: list[str] = []
+    for r in required_roles:
+        if isinstance(r, (list, tuple, set)):
+            flat_roles.extend([str(item) for item in r])
+        else:
+            flat_roles.append(str(r))
+
     async def role_checker(
         request: Request,
         user: Profile = Depends(get_current_user),
         db: AsyncSession = Depends(get_db),
     ) -> Profile:
         user_roles = [r.name.lower() for r in user.roles]
-        allowed = [r.lower() for r in required_roles]
+        allowed = [r.lower() for r in flat_roles]
 
         if "super_admin" in user_roles or any(r in user_roles for r in allowed):
             return user
@@ -168,7 +173,7 @@ def require_role_in(*required_roles: str) -> Callable:
                 entity_type="portal_access",
                 user_id=user.id,
                 entity_id=None,
-                old_value={"required_roles": list(required_roles), "user_roles": user_roles},
+                old_value={"required_roles": flat_roles, "user_roles": user_roles},
                 new_value={"denied_path": request.url.path},
                 ip_address=ip_addr,
             )
@@ -177,9 +182,8 @@ def require_role_in(*required_roles: str) -> Callable:
 
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail=f"Operation not permitted. Required one of: {', '.join(required_roles)}.",
+            detail=f"Operation not permitted. Required one of: {', '.join(flat_roles)}.",
         )
-
 
     return role_checker
 

@@ -248,7 +248,7 @@
 <span class="w-2 h-2 rounded-full bg-telemetry-safe"></span>
 </div>
 <div class="text-surface-cream font-body-sm text-body-sm">
-                  3x Volvo Penta Gen, Snow Melter tank, MBR Bioreactor, Workshop, Cold storage.
+                  {% if station_id == 'maitri' %}3x Kirloskar / Cummins Gen, Snow Melter, Graywater Treatment, Workshop, Food Stores.{% else %}3x Volvo Penta Gen, Snow Melter tank, MBR Bioreactor, Workshop, Cold storage.{% endif %}
                 </div>
 <div class="flex justify-between items-center mt-2 font-telemetry-code text-telemetry-code text-on-surface-variant">
 <span>Plant Hall: <strong class="text-surface-cream">+17.8°C</strong></span>
@@ -333,7 +333,7 @@
 <div class="flex items-center justify-between p-space-xs rounded bg-surface-container-low">
 <div class="flex items-center gap-space-xs">
 <span class="w-2 h-2 rounded-full bg-on-surface-variant"></span>
-<span class="font-body-md text-body-md text-on-surface font-semibold">Diesel Gen #1 (Volvo Penta)</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Diesel Gen #1 ({% if station_id == 'maitri' %}Kirloskar Polar 160{% else %}Volvo Penta{% endif %})</span>
 </div>
 <span class="font-label-xs text-label-xs text-on-surface-variant bg-surface-container-high px-space-xs py-space-2xs rounded">STANDBY</span>
 </div>
@@ -341,7 +341,7 @@
 <div class="flex items-center justify-between p-space-xs rounded bg-secondary-container/40">
 <div class="flex items-center gap-space-xs">
 <span class="w-2 h-2 rounded-full bg-telemetry-safe animate-pulse"></span>
-<span class="font-body-md text-body-md text-surface-cream font-semibold">Diesel Gen #2 (Volvo Penta)</span>
+<span class="font-body-md text-body-md text-surface-cream font-semibold">Diesel Gen #2 ({% if station_id == 'maitri' %}Kirloskar Polar 125{% else %}Volvo Penta{% endif %})</span>
 </div>
 <div class="flex items-center gap-space-xs">
 <span class="font-telemetry-code text-telemetry-code text-secondary font-bold">45.0 kW</span>

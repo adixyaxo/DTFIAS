@@ -1,11 +1,17 @@
 <aside
-  class="hidden lg:flex fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex-col shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
-  <div class="h-14 px-space-base flex items-center gap-space-sm bg-surface-container"><span
-      class="material-symbols-outlined text-secondary text-[20px]">radar</span>
-    <div class="flex flex-col"><span
-        class="font-label-md text-label-md text-on-surface tracking-wider uppercase font-semibold">NCPOR POLAR
-        CMD</span><span class="font-label-xs text-label-xs text-on-surface-variant font-medium">EARTH SCIENCES •
-        GOI</span></div>
+  :class="mobileNavOpen ? 'flex' : 'hidden lg:flex'"
+  class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex-col shadow-[0_1px_8px_rgba(0,0,0,0.45)] border-r border-outline-variant/20">
+  <div class="h-14 px-space-base flex items-center justify-between bg-surface-container-low">
+    <div class="flex items-center gap-space-sm">
+      <span class="material-symbols-outlined text-secondary text-[20px]">radar</span>
+      <div class="flex flex-col">
+        <span class="font-label-md text-label-md text-on-surface tracking-wider uppercase font-semibold">NCPOR POLAR CMD</span>
+        <span class="font-label-xs text-label-xs text-on-surface-variant font-medium">EARTH SCIENCES • GOI</span>
+      </div>
+    </div>
+    <button @click="mobileNavOpen = false" type="button" class="lg:hidden p-1 text-on-surface-variant hover:text-on-surface rounded-md focus:outline-none" aria-label="Close navigation menu">
+      <span class="material-symbols-outlined text-[20px]">close</span>
+    </button>
   </div>
   <div class="flex-1 overflow-y-auto px-space-sm py-space-md space-y-space-lg">
     <div class="space-y-space-xs">
@@ -47,12 +53,9 @@
         <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/commands' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/commands">
           <span class="material-symbols-outlined text-[18px]">terminal</span><span>Command Dispatch</span>
         </a>
-        <!-- HIDE OUT-OF-SCOPE ROUTE
         <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/simulations' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/simulations">
-          <span class="material-symbols-outlined text-[20px]">explore</span>
-          Simulations
+          <span class="material-symbols-outlined text-[18px]">explore</span><span>Simulations</span>
         </a>
-        -->
         <a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg transition-all duration-200 ease-out hover:translate-x-1 hover:shadow-md font-body-sm text-body-sm {% if request.url.path == '/hq/compliance' %}bg-secondary-container text-on-secondary-container font-semibold shadow-inner{% else %}text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface{% endif %}" href="/hq/compliance">
           <span class="material-symbols-outlined text-[18px]">summarize</span><span>Reports &amp; Compliance</span>
         </a>

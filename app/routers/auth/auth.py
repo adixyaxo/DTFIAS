@@ -138,7 +138,7 @@ async def process_login(
         value=token,
         httponly=True,
         secure=False,  # False for localhost development, True in HTTPS production
-        samesite="lax",  # lax for standard browser redirects
+        samesite="strict",
         max_age=86400,
     )
     return response

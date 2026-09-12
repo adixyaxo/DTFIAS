@@ -70,3 +70,95 @@ async def test_maitri_operator_cross_station_isolation():
         # Cross-station attempt on HQ must fail with 403 Forbidden
         res_hq = await client.get("/hq/")
         assert res_hq.status_code == 403
+
+
+@pytest.mark.asyncio
+async def test_api_users_rbac_guarded():
+    """Verify /api/users is protected by RBAC (SUPER_ADMIN / HQ_ADMIN)."""
+    transport = ASGITransport(app=app)
+    user_id = str(uuid4())
+
+    # 1. Unauthenticated request -> 401
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        res = await client.get(f"/api/users/{user_id}")
+        assert res.status_code == 401
+
+    # 2. Unauthorized role (maitri_operator) -> 403
+    unauth_token = create_access_token(
+        data={"sub": user_id, "username": "operator", "roles": ["maitri_operator"]}
+    )
+    async with AsyncClient(transport=transport, base_url="http://test", cookies={"dtfias_session": unauth_token}) as client:
+        res = await client.get(f"/api/users/{user_id}")
+        assert res.status_code == 403
+
+    # 3. Authorized role (hq_admin) -> Allowed through RBAC guard (not 401 or 403)
+    auth_token = create_access_token(
+        data={"sub": user_id, "username": "hq_commander", "roles": ["hq_admin"]}
+    )
+    async with AsyncClient(transport=transport, base_url="http://test", cookies={"dtfias_session": auth_token}) as client:
+        res = await client.get(f"/api/users/{user_id}")
+        assert res.status_code not in (401, 403)
+
+
+@pytest.mark.asyncio
+async def test_bharati_routes_and_aliases():
+    """Verify /bharati/dashboard and operational domain routes."""
+    user_id = str(uuid4())
+    token = create_access_token(
+        data={"sub": user_id, "username": "bharati_op", "roles": ["bharati_operator"]}
+    )
+    transport = ASGITransport(app=app)
+    cookies = {"dtfias_session": token}
+
+    async with AsyncClient(transport=transport, base_url="http://test", cookies=cookies) as client:
+        for path in [
+            "/bharati/dashboard",
+            "/bharati/infrastructure",
+            "/bharati/environment",
+            "/bharati/logistics",
+        ]:
+            res = await client.get(path)
+            assert res.status_code == 200, f"Route {path} returned {res.status_code}"
+
+
+@pytest.mark.asyncio
+async def test_maitri_routes_and_aliases():
+    """Verify /maitri/dashboard and operational domain routes."""
+    user_id = str(uuid4())
+    token = create_access_token(
+        data={"sub": user_id, "username": "maitri_op", "roles": ["maitri_operator"]}
+    )
+    transport = ASGITransport(app=app)
+    cookies = {"dtfias_session": token}
+
+    async with AsyncClient(transport=transport, base_url="http://test", cookies=cookies) as client:
+        for path in [
+            "/maitri/dashboard",
+            "/maitri/infrastructure",
+            "/maitri/environment",
+            "/maitri/logistics",
+        ]:
+            res = await client.get(path)
+            assert res.status_code == 200, f"Route {path} returned {res.status_code}"
+
+
+@pytest.mark.asyncio
+async def test_hq_routes_and_aliases():
+    """Verify /hq/dashboard, /hq/roles, /hq/reports, and /hq/simulations."""
+    user_id = str(uuid4())
+    token = create_access_token(
+        data={"sub": user_id, "username": "hq_op", "roles": ["hq_operator"]}
+    )
+    transport = ASGITransport(app=app)
+    cookies = {"dtfias_session": token}
+
+    async with AsyncClient(transport=transport, base_url="http://test", cookies=cookies) as client:
+        for path in [
+            "/hq/dashboard",
+            "/hq/roles",
+            "/hq/reports",
+            "/hq/simulations",
+        ]:
+            res = await client.get(path)
+            assert res.status_code == 200, f"Route {path} returned {res.status_code}"
+

@@ -20,6 +20,7 @@ When navigating or implementing features in DTFIAS, all agents MUST resolve conf
 | **Backend API Contracts** | [`docs/api-contracts.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/api-contracts.md) | [`docs/frontend-endpoints.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/frontend-endpoints.md), [`.agents/fastapi/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/fastapi/SKILL.md) | Client-supplied `station_id` (C3), command issuance in station portals (C4), per-endpoint role guards (C5) |
 | **Brand Identity & Tokens** | [`.agents/brand_design/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/brand_design/SKILL.md) | [`GEMINI.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/GEMINI.md) §7, [`.agents/frontend/SKILL.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/.agents/frontend/SKILL.md) (DTFIAS Override) | Space Grotesk, Arial, Roboto, rejecting Inter or `--brand-cream` as "AI slop", single-variant status colors |
 | **2.5D Digital Twin (Station Twin)** | [`docs/2dFrontend.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/2dFrontend.md) | `app/static/js/`, `app/templates/maitri/twin.html`, `app/templates/bharati/twin.html` | React `.tsx` components, external missing files (`4-stations-and-headquarters.md`), unrealistic generator wattages (>340 kW) |
+| **3D Digital Twin Specification** | [`docs/bharati3d/00_bharati_3d_master_specification.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/bharati3d/00_bharati_3d_master_specification.md) | [`docs/bharati3d/`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/bharati3d/) (22 Deep Image Analyses), [`docs/bharati_3d_twin_implementation_plan.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/bharati_3d_twin_implementation_plan.md) | Unconditional Three.js in `base.html` (C16), unoptimized raw CAD meshes (>2.5MB), invented non-CAD datums |
 | **Operations & Deployment** | [`docs/operations.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/operations.md) | `Dockerfile`, `docker-compose.yml`, `scripts/test_db_connection.py` | Bundler/npm build steps (C17), committing credentials into `.env`, missing health checks |
 | **Testing & Quality Strategy** | [`docs/testing/test-strategy.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/testing/test-strategy.md) | [`docs/testing/backend-findings.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/testing/backend-findings.md), [`docs/testing/backend-inconsistencies.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/testing/backend-inconsistencies.md), `tests/` | Untracked schema or layer drift, phantom unit tests, bypass of mechanical constraint assertions |
 | **Antarctic Research & Station Facts**| [`docs/station-facts-and-research.md`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/docs/station-facts-and-research.md) | [`shared/constants/stations.py`](file:///C:/Users/adity/Documents/Coding/Projects/DTFIAS/shared/constants/stations.py) | Confusing simulated sensor values with real polar facts, inventing unverified station equipment |
@@ -64,6 +65,9 @@ DTFIAS/
 │   ├── database.md                    # Domain 4 (Database): Canonical schema authority (v1 Lock 25 tables)
 │   ├── databaseTables.md              # Domain 4 (Database): Generated column-level schema reference
 │   ├── 2dFrontend.md                  # Domain 5 (Frontend): 2.5D SVG digital twin implementation specification
+│   ├── bharati3d/                     # Domain 5 (3D Modeling): CAD blueprints & multi-batch visual specs (23 files)
+│   │   ├── 00_bharati_3d_master_specification.md # Master 3D coordinate system, datums & Three.js hierarchy
+│   │   └── [01-22]_*.md               # Detailed single-image CAD & architectural breakdowns
 │   ├── testing/
 │   │   ├── test-strategy.md           # Domain 6 (Testing): Testing pyramid, coverage thresholds, DoD checklist
 │   │   ├── backend-findings.md        # Master verified backend findings ledger
@@ -72,7 +76,11 @@ DTFIAS/
 │   │   ├── aim-vs-desired-vs-actual-frontend-deep-analysis.md # Triangulated frontend audit
 │   │   ├── design_inconsistencies.md  # Frontend design & brand audit
 │   │   ├── frontend-findings.md       # Master verified frontend findings ledger
-│   │   └── frontend-fix-log.md        # Frontend repair and patch log
+│   │   ├── frontend-fix-log.md        # Frontend repair and patch log
+│   │   └── frontendInconsistency/     # Authoritative defect ledgers & deep frontend audit suite
+│   │       ├── active-remaining-bugs.md # Master active defect ledger (16 empirically verified issues)
+│   │       ├── navbar-inconsistencies.md # Deep navbar layout, hierarchy & responsive audit
+│   │       └── routes-and-frontend-inconsistencies.md # Complete route & Jinja2 template audit
 │   ├── operations.md                  # Domain 7 (Operations): Deployment, env vars, observability, failure modes
 │   └── station-facts-and-research.md  # Domain 8 (Research): Authoritative polar station facts, NCPOR, SATCOM
 ├── .agents/

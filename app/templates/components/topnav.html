@@ -1,29 +1,40 @@
 <header
-    class="fixed top-0 left-72 right-0 h-14 bg-surface-container-low/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.35)] z-40 flex items-center justify-between px-space-base">
-    <div class="flex items-center gap-space-base"><img alt="Clean modern vector logo emblem for Indian Antarctic Mission Command with stylized polar compass and subtle tricolor dot accent in dark deep green and teal. Design context: - Primary color: #1a312c
-- Font: inter
-- Mode: dark
-- Roundness: rounded-sm
-. The logo should be visually consistent with these brand tokens." class="h-8 w-auto object-contain"
-        src="https://lh3.googleusercontent.com/aida/AEtjO1WmulcB1HzfkxmeY76IcVjMHNoCYqPLLYlSF5JWTIX9cggoUqKexxIsDOIAW0WCgZSSLDUU2rJg60tpge45aC9vb2k8-BQwWf2ysMREe9JPys2eI-HqArlSZBYaVBuoDgCTBXoKmZmAkaLX6PnU5-UCeZfS4fVv_5hs_YbxDZ0cNiT5NlsQPBoeOt07KN8MwRzJLW4q0eEJQrbnYThVIde8_z8gZSpFzXvdn8Yo6onabBqXMenNynkoQ98" />
-      <div class="flex flex-col"><span
-          class="font-label-md text-label-md text-on-surface font-semibold tracking-wide">ANTARCTIC Remote-Ops &amp;
-          Digital Twin</span><span class="font-label-xs text-label-xs text-outline">v4.2 PROD • MoES GOI</span></div>
-      <div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs"><span
-          class="material-symbols-outlined text-secondary text-[16px]">location_on</span><select
-          class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-sm">
+    class="fixed top-0 left-0 lg:left-72 right-0 h-14 bg-surface-container-low/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.35)] z-40 flex items-center justify-between px-space-base">
+    <div class="flex items-center gap-space-sm sm:gap-space-base">
+      <!-- Mobile hamburger toggle -->
+      <button 
+        @click="mobileNavOpen = !mobileNavOpen" 
+        type="button" 
+        class="lg:hidden p-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high focus:outline-none focus:ring-1 focus:ring-secondary shrink-0" 
+        aria-label="Toggle navigation drawer">
+        <span class="material-symbols-outlined text-[20px]">menu</span>
+      </button>
+
+      <img alt="Clean modern vector logo emblem for Indian Antarctic Mission Command" class="h-8 w-auto object-contain shrink-0"
+        src="{{ url_for('static', path='assets/ncpor_emblem.png') }}" />
+      <div class="flex flex-col min-w-0">
+        <span class="font-label-md text-label-md text-on-surface font-semibold tracking-wide truncate">ANTARCTIC Remote-Ops</span>
+        <span class="font-label-xs text-label-xs text-outline hidden sm:inline">v4.2 PROD • MoES GOI</span>
+      </div>
+      <div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs">
+        <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">location_on</span>
+        <select
+          @change="if ($event.target.value === 'polar-all') { window.location.href = '/hq/'; } else if ($event.target.value === 'maitri-ii') { alert('Maitri-II projected station portal under development.'); } else { window.location.href = '/' + $event.target.value + '/'; }"
+          class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-sm max-w-[110px] sm:max-w-none truncate">
           <option class="bg-surface-container text-on-surface" value="bharati" {% if station_id == 'bharati' %}selected{% endif %}>Bharati [69°24'S, 76°11'E]</option>
           <option class="bg-surface-container text-on-surface" value="maitri" {% if station_id == 'maitri' %}selected{% endif %}>Maitri [70°46'S, 11°44'E]</option>
           <option class="bg-surface-container text-on-surface" value="maitri-ii">Maitri-II [Projected]</option>
           <option class="bg-surface-container text-on-surface" value="polar-all" {% if station_id == 'hq' %}selected{% endif %}>Polar Overview (Combined)</option>
-        </select></div>
+        </select>
+      </div>
       <div
-        class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg font-telemetry-code text-telemetry-code">
+        class="hidden md:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg font-telemetry-code text-telemetry-code shrink-0">
         <span class="w-2 h-2 rounded-full bg-telemetry-safe"></span><span class="text-on-surface font-medium">LIVE
-          {% if station is defined and station %}{{ station.comms_sat }}{% else %}GSAT-7A{% endif %}</span><span class="text-outline text-label-xs">| 240ms</span></div>
+          {% if station is defined and station %}{{ station.comms_sat }}{% else %}GSAT-7A{% endif %}</span><span class="text-outline text-label-xs">| 240ms</span>
+      </div>
       <div x-data="{
           utcTime: '14:28:22 UTC',
-          localTime: '{% if station_id == 'maitri' %}14:28:22 +00:00{% else %}19:28:22 +05:00{% endif %}',
+          localTime: '{% if station_id == 'maitri' %}14:28:22 +00:00{% else %}19:58:22 +05:30{% endif %}',
           init() {
             setInterval(() => {
               const d = new Date();
@@ -31,39 +42,34 @@
               {% if station_id == 'maitri' %}
               this.localTime = d.toISOString().substring(11, 19) + ' +00:00';
               {% else %}
-              const loc = new Date(d.getTime() + 5*3600*1000);
-              this.localTime = loc.toISOString().substring(11, 19) + ' +05:00';
+              const loc = new Date(d.getTime() + 5.5 * 3600 * 1000);
+              this.localTime = loc.toISOString().substring(11, 19) + ' +05:30';
               {% endif %}
             }, 1000);
           }
         }" x-init="init()"
-        class="hidden xl:flex items-center gap-space-md font-telemetry-code text-telemetry-code text-on-surface-variant">
+        class="hidden 2xl:flex items-center gap-space-md font-telemetry-code text-telemetry-code text-on-surface-variant shrink-0">
         <div class="flex flex-col text-right"><span class="text-on-surface font-semibold" x-text="utcTime">14:28:22 UTC</span><span
             class="text-label-xs text-outline">UNIVERSAL TIME</span></div>
         <div class="w-px h-6 bg-surface-container-highest"></div>
-        <div class="flex flex-col"><span class="text-secondary font-semibold" x-text="localTime">{% if station_id == 'maitri' %}14:28:22 +00:00{% else %}19:28:22 +05:00{% endif %}</span><span
+        <div class="flex flex-col"><span class="text-secondary font-semibold" x-text="localTime">{% if station_id == 'maitri' %}14:28:22 +00:00{% else %}19:58:22 +05:30{% endif %}</span><span
             class="text-label-xs text-outline">{% if station is defined and station %}{{ station.region | upper }}{% else %}POLAR MESH (HQ){% endif %}</span></div>
       </div>
     </div>
-    <div class="flex items-center gap-space-base">
-      <div class="flex items-center gap-1.5 px-space-sm py-1 bg-surface-container rounded-lg"><span
+    <div class="flex items-center gap-space-xs sm:gap-space-base shrink-0">
+      <div class="hidden sm:flex items-center gap-1.5 px-space-sm py-1 bg-surface-container rounded-lg shrink-0"><span
           class="w-2 h-2 rounded-full bg-telemetry-safe"></span><span
           class="font-label-xs text-label-xs font-bold text-telemetry-safe tracking-wider">DEFCON 5 / NOMINAL</span>
       </div>
-      <div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs"><span
-          class="material-symbols-outlined text-on-surface-variant text-[16px]">badge</span><select
-          class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-xs">
-          <option class="bg-surface-container text-on-surface" value="hq-operator">Role: NCPOR HQ Operator</option>
-          <option class="bg-surface-container text-on-surface" value="station-commander">Role: Station Commander
-          </option>
-          <option class="bg-surface-container text-on-surface" value="systems-engineer">Role: Systems Engineer</option>
-          <option class="bg-surface-container text-on-surface" value="research-lead">Role: Research Lead</option>
-          <option class="bg-surface-container text-on-surface" value="medical-lead">Role: Medical &amp; Logistics Lead
-          </option>
-        </select></div>
+      <div class="hidden md:flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs shrink-0 font-label-md text-label-md">
+        <span class="material-symbols-outlined text-secondary text-[16px]">verified_user</span>
+        <span class="text-on-surface font-semibold uppercase tracking-wider text-[11px]">{% if station_id == 'hq' %}HQ OPERATOR{% else %}STATION CMD{% endif %}</span>
+        <span class="font-label-xs text-[10px] bg-secondary-container/40 text-secondary px-1 py-0.5 rounded font-mono font-bold">L-4</span>
+      </div>
       <div x-data="{ alertsOpen: false }" class="relative">
         <button @click="alertsOpen = !alertsOpen"
-          class="relative p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span
+          class="relative p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"
+          aria-label="Alerts Notification"><span
             class="material-symbols-outlined text-[20px]">notifications</span><span
             class="absolute top-1 right-1 w-2 h-2 rounded-full bg-telemetry-warning"></span></button>
         <div x-show="alertsOpen" @click.away="alertsOpen = false" x-transition
@@ -72,9 +78,10 @@
           <p class="text-body-sm text-on-surface-variant">No new critical alerts.</p>
         </div>
       </div>
-      <div class="flex items-center gap-space-xs pl-space-xs">
-        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
-            class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+      <div class="flex items-center pl-space-xs">
+        <button type="button" aria-label="User Profile" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-secondary transition-transform active:scale-95">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </button>
       </div>
     </div>
   </header>

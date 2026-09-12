@@ -135,6 +135,25 @@
 <path d="M 140 600 Q 300 680 550 710 T 1060 540" fill="none" stroke="#223f39" stroke-dasharray="3 3" stroke-width="1"></path>
 <path d="M 220 560 Q 400 640 650 670 T 1000 500" fill="none" stroke="#223f39" stroke-dasharray="4 4" stroke-width="1"></path>
 <path d="M 320 520 Q 520 600 760 620 T 940 470" fill="none" stroke="#223f39" stroke-dasharray="2 4" stroke-width="1"></path>
+{% if station_id == 'maitri' %}
+<!-- Maitri Solid Concrete Pier Footings & Bedrock Anchor Complex -->
+<g fill="#1f3630" id="ground-footings" stroke="#32544a" stroke-width="1.5">
+<!-- Concrete Pier Footing F1 (Front-Left) -->
+<rect fill="#28433c" height="60" rx="2" width="34" x="352" y="520"></rect>
+<polygon fill="#152823" points="342,575 396,575 404,590 334,590"></polygon>
+<!-- Concrete Pier Footing F2 (Front-Center) -->
+<rect fill="#2d4942" height="60" rx="2" width="34" x="482" y="575"></rect>
+<polygon fill="#152823" points="472,630 526,630 534,645 464,645"></polygon>
+<!-- Concrete Pier Footing F3 (Front-Right) -->
+<rect fill="#28433c" height="60" rx="2" width="34" x="622" y="530"></rect>
+<polygon fill="#152823" points="612,585 666,585 674,600 604,600"></polygon>
+<!-- Bedrock Anchors (Rear Structure) -->
+<rect fill="#182c26" height="50" rx="2" width="28" x="464" y="455"></rect>
+<rect fill="#182c26" height="50" rx="2" width="28" x="734" y="460"></rect>
+<!-- Reinforced Bedrock Slab Base Tie-Ins -->
+<line stroke="#426b60" stroke-width="2" x1="360" x2="640" y1="580" y2="590"></line>
+</g>
+{% else %}
 <!-- Hydraulic Ground Stilts & Pylons (Prevents snow accumulation) -->
 <g fill="#1e3530" id="ground-stilts" stroke="#2e4d45" stroke-width="1.5">
 <!-- Stilt A1 (Front-Left) -->
@@ -156,6 +175,7 @@
 <line stroke="#3d6359" stroke-width="1.2" x1="499" x2="639" y1="545" y2="535"></line>
 <line stroke="#3d6359" stroke-width="1.2" x1="639" x2="499" y1="545" y2="535"></line>
 </g>
+{% endif %}
 <!-- Main Station Habitat Pod Body - Isometric Elevated Volume -->
 <!-- Base Floor Truss Platform (Deck 1 Underbelly) -->
 <polygon fill="#132722" points="310,480 640,610 890,500 560,380" stroke="#32544a" stroke-width="2"></polygon>
@@ -171,7 +191,7 @@
 <circle cx="380" cy="466" fill="#285246" r="7"></circle>
 <circle cx="402" cy="466" fill="#285246" r="7"></circle>
 <path d="M 370 448 L 370 435 L 350 425" fill="none" stroke="#428475" stroke-width="2"></path>
-<text fill="#91d3c2" font-family="Inter" font-size="8" font-weight="600" x="366" y="445">CHP 1-3</text>
+<text fill="#91d3c2" font-family="Inter" font-size="8" font-weight="600" x="366" y="445">{% if station_id == 'maitri' %}GEN 1-3{% else %}CHP 1-3{% endif %}</text>
 </g>
 <!-- Potable Water & Reverse Osmosis Unit (Deck 1 Center) -->
 <g id="geo-subsystem-4">
@@ -213,7 +233,7 @@
 <!-- Habitat Bunks & Dining Partition -->
 <line stroke="#5da192" stroke-width="1.5" x1="390" x2="480" y1="340" y2="305"></line>
 <line stroke="#5da192" stroke-width="1.5" x1="430" x2="520" y1="365" y2="330"></line>
-<text fill="#cee8e0" font-family="Inter" font-size="8" font-weight="700" x="430" y="340">CREW HABITAT // 24 SOULS</text>
+<text fill="#cee8e0" font-family="Inter" font-size="8" font-weight="700" x="430" y="340">CREW HABITAT // {% if station_id == 'maitri' %}18 SOULS{% else %}24 SOULS{% endif %}</text>
 </g>
 <!-- Aerodynamic Triple-Glazed Observation Lounge Window (Pod Front Bevel) -->
 <polygon fill="url(#glassGradient)" points="640,470 875,375 875,445 640,545" stroke="#91d3c2" stroke-width="1.5"></polygon>
@@ -616,7 +636,7 @@
         idBadgeClass: "text-secondary bg-secondary-container/30",
         loc: "L1 MECH WING",
         title: "Power Generation & BESS Microgrid",
-        desc: "Tri-redundant Volvo Penta CHP diesel generators coupled with 400kWh LiFePO4 Battery Energy Storage System (BESS).",
+        desc: "{% if station_id == 'maitri' %}Dual Kirloskar/Cummins diesel generators coupled with Priyadarshini freshwater heating recovery loop.{% else %}Tri-redundant Volvo Penta CHP diesel generators coupled with 400kWh LiFePO4 Battery Energy Storage System (BESS).{% endif %}",
         alertTitle: "Grid Phase Equilibrium Nominal",
         alertClass: "bg-secondary-container/20 text-secondary",
         alertIcon: "check_circle",
@@ -624,10 +644,10 @@
         triggerInfo: "GEN-02 ONLINE // EXHAUST 340°C",
         deltaInfo: "FREQUENCY: 50.02 Hz",
         tanksLabel: "MICROGRID GENERATION & LOAD METRICS",
-        t1Title: "VOLVO PENTA CHP-01 (BASE)",
+        t1Title: "{% if station_id == 'maitri' %}KIRLOSKAR POLAR-160 (BASE){% else %}VOLVO PENTA CHP-01 (BASE){% endif %}",
         t1Val: "58.2 kW (52%)",
         t1Pct: "52%",
-        t2Title: "VOLVO PENTA CHP-02 (LOAD TRIM)",
+        t2Title: "{% if station_id == 'maitri' %}KIRLOSKAR POLAR-125 (LOAD TRIM){% else %}VOLVO PENTA CHP-02 (LOAD TRIM){% endif %}",
         t2Val: "54.2 kW (48%)",
         t2Pct: "48%",
         t3Title: "BESS BATTERY PACK STATE-OF-CHARGE",

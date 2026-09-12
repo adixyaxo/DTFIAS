@@ -1,13 +1,14 @@
 import os
+import sys
 import urllib.request
 import urllib.error
 import json
-from dotenv import load_dotenv
 
-load_dotenv()
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+from app.config.settings import SUPABASE_URL, SUPABASE_KEY
+
 
 def test_supabase_rest():
     print(f"Testing Supabase REST API at: {SUPABASE_URL}")

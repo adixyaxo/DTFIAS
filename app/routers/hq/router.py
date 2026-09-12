@@ -22,64 +22,67 @@ router.include_router(commands_router)
 router.include_router(users_router)
 router.include_router(audit_router)
 
-def render_hq(request: Request, name: str):
-    return templates.TemplateResponse(request=request, name=f"hq/{name}.html", context={"station_id": "hq"})
+def render_hq(request: Request, name: str, title: str | None = None):
+    page_title = title or f"HQ - {name.replace('_', ' ').title()}"
+    return templates.TemplateResponse(
+        request=request,
+        name=f"hq/{name}.html",
+        context={"station_id": "hq", "title": page_title},
+    )
 
 @router.get("/environment", response_class=HTMLResponse)
 async def hq_environment(request: Request):
-    return render_hq(request, "environment")
+    return render_hq(request, "environment", "HQ - Geospatial & Environment")
 
 @router.get("/logistics", response_class=HTMLResponse)
 async def hq_logistics(request: Request):
-    return render_hq(request, "logistics")
+    return render_hq(request, "logistics", "HQ - Logistics & Supply")
 
 @router.get("/energy", response_class=HTMLResponse)
 async def hq_energy(request: Request):
-    return render_hq(request, "energy")
+    return render_hq(request, "energy", "HQ - Microgrid & Energy")
 
 @router.get("/compliance", response_class=HTMLResponse)
 async def hq_compliance(request: Request):
-    return render_hq(request, "compliance")
+    return render_hq(request, "compliance", "HQ - Compliance & Reports")
 
 @router.get("/assets", response_class=HTMLResponse)
 async def hq_assets(request: Request):
-    return render_hq(request, "assets")
+    return render_hq(request, "assets", "HQ - Asset Infrastructure")
 
 @router.get("/telemetry", response_class=HTMLResponse)
 async def hq_telemetry(request: Request):
-    return render_hq(request, "telemetry")
+    return render_hq(request, "telemetry", "HQ - Telemetry Streams")
 
 @router.get("/alerts", response_class=HTMLResponse)
 async def hq_alerts(request: Request):
-    return render_hq(request, "alerts")
+    return render_hq(request, "alerts", "HQ - Alert Triage")
 
 @router.get("/stations", response_class=HTMLResponse)
 async def hq_stations(request: Request):
-    return render_hq(request, "stations")
+    return render_hq(request, "stations", "HQ - Station Registry")
 
 
 @router.get("/health", response_class=HTMLResponse)
 async def hq_health(request: Request):
-    return render_hq(request, "health")
+    return render_hq(request, "health", "HQ - Health & Readiness")
 
 @router.get("/research", response_class=HTMLResponse)
 async def hq_research(request: Request):
-    return render_hq(request, "research")
-
-from fastapi.responses import RedirectResponse
+    return render_hq(request, "research", "HQ - Research Operations")
 
 @router.get("/simulations", response_class=HTMLResponse)
 async def hq_simulations(request: Request):
-    return render_hq(request, "simulations")
+    return render_hq(request, "simulations", "HQ - Protocol Simulations")
 
-@router.get("/reports", response_class=RedirectResponse)
+@router.get("/reports", response_class=HTMLResponse)
 async def hq_reports(request: Request):
-    return RedirectResponse(url="/hq/compliance", status_code=301)
+    return render_hq(request, "reports", "HQ - Operational Reports")
 
-@router.get("/roles", response_class=RedirectResponse)
+@router.get("/roles", response_class=HTMLResponse)
 async def hq_roles(request: Request):
-    return RedirectResponse(url="/hq/users", status_code=301)
+    return render_hq(request, "roles", "HQ - Roles & Permissions Matrix")
 
 @router.get("/settings", response_class=HTMLResponse)
 async def hq_settings(request: Request):
-    return render_hq(request, "settings")
+    return render_hq(request, "settings", "HQ - System Settings")

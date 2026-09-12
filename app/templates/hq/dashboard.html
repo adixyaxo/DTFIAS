@@ -2,32 +2,7 @@
 {% block dashboard_content %}
 <!-- TOP TELEMETRY RIBBON: Freshness & Station Status Nodes -->
       <div class="w-full flex flex-col space-y-space-xs">
-        <!-- Live Uplink & Stream Heartbeat -->
-        <div
-          class="flex flex-wrap items-center justify-between gap-space-sm px-space-md py-1.5 bg-surface-container-lowest rounded-lg shadow-sm">
-          <div class="flex items-center gap-space-sm">
-            <span
-              class="inline-flex items-center gap-1.5 px-space-xs py-0.5 rounded bg-surface-container font-telemetry-code text-label-xs text-secondary tracking-widest uppercase">
-              <span class="w-2 h-2 rounded-full bg-telemetry-safe animate-ping"></span>
-              LIVE GSAT-7A UPLINK
-            </span>
-            <span class="font-telemetry-code text-body-sm text-on-surface-variant">Data Freshness: <strong
-                class="text-secondary font-medium">1.4s ago</strong></span>
-            <span class="hidden md:inline font-telemetry-code text-label-xs text-outline">|</span>
-            <span class="hidden md:inline font-telemetry-code text-body-sm text-on-surface-variant">Telemetry Frame
-              <span class="text-on-surface">#89421-EPS</span></span>
-            <span class="hidden lg:inline font-telemetry-code text-label-xs text-outline">|</span>
-            <span class="hidden lg:inline font-telemetry-code text-label-xs text-outline tracking-wider">GEO-STATIONARY
-              ORBIT 74.0°E • ELEV 38.6° • POL H</span>
-          </div>
-          <div class="flex items-center gap-space-md font-telemetry-code text-label-xs">
-            <span class="flex items-center gap-1 text-on-surface-variant"><span
-                class="material-symbols-outlined text-secondary text-[14px]">tune</span>BER: 1.2e-9</span>
-            <span class="flex items-center gap-1 text-telemetry-safe"><span
-                class="material-symbols-outlined text-[14px]">security</span>CRYPTO SYNC (AES-GCM)</span>
-            <span class="bg-surface-container-high text-on-surface px-space-xs py-0.5 rounded">UTC 14:28:34.02</span>
-          </div>
-        </div>
+
         <!-- 4-Node Multi-Station Telemetry Ribbon -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-panel-gutter">
           <!-- Node 1: Bharati -->

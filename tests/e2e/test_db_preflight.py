@@ -2,11 +2,8 @@ import asyncio
 import os
 import pytest
 import asyncpg
-from dotenv import load_dotenv
+from app.config.settings import DATABASE_URL
 
-load_dotenv()
-
-DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 @pytest.fixture(scope="function")
 async def db_connection():

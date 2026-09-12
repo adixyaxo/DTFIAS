@@ -7,8 +7,13 @@ from app.config.database import get_db
 from app.schemas.user import UserCreate, UserResponse, UserBase
 from engine.services.core.user_service import UserService
 from infrastructure.database.postgres.repositories.user_repository import PostgresUserRepository
+from infrastructure.security.authorization.rbac import require_role_in
 
-router = APIRouter(prefix="/api/users", tags=["api_users"])
+router = APIRouter(
+    prefix="/api/users",
+    tags=["api_users"],
+    dependencies=[Depends(require_role_in(["SUPER_ADMIN", "HQ_ADMIN"]))],
+)
 
 DbDep = Annotated[AsyncSession, Depends(get_db)]
 

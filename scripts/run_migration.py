@@ -2,10 +2,14 @@ import asyncio
 import os
 import sys
 import asyncpg
-from dotenv import load_dotenv
 
-load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL", "").replace("postgresql+asyncpg://", "postgresql://")
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app.config.settings import DATABASE_URL
+
+RAW_DATABASE_URL = DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
+
 
 async def run_migration(file_path: str):
     if not os.path.exists(file_path):
@@ -16,7 +20,7 @@ async def run_migration(file_path: str):
         sql = f.read()
 
     print(f"Applying migration: {file_path}")
-    conn = await asyncpg.connect(DATABASE_URL)
+    conn = await asyncpg.connect(RAW_DATABASE_URL)
     try:
         await conn.execute(sql)
         print("Migration applied successfully!")

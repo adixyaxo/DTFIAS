@@ -8,7 +8,7 @@ async def test():
     print("Testing Database Connection (Supabase/PostgreSQL)...")
     connected: bool = await databaseTest()
     if connected:
-        print("✓ Database Connection Test passed")
+        print("[OK] Database Connection Test passed")
     else:
-        print("✗ Database Connection Test FAILED — check DATABASE_URL in .env")
+        print("[FAILED] Database Connection Test FAILED — check DATABASE_URL in .env")
     print("=" * 50)

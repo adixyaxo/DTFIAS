@@ -1,22 +1,7 @@
 {% extends "layouts/dashboard.html" %}
 {% block dashboard_content %}
 <!-- TOP CONTEXT RIBBON -->
-<header class="w-full bg-surface-container-lowest px-space-lg py-space-sm flex flex-col xl:flex-row xl:items-center justify-between gap-space-md shadow-md">
-<div class="flex flex-col">
-<div class="flex items-center gap-space-sm">
-<span class="inline-block w-2.5 h-2.5 rounded-full bg-secondary "></span>
-<span class="font-headline-md text-headline-md tracking-tight text-surface-cream-light font-bold">{{ station.full_name | default('POLAR RESEARCH STATION // DIGITAL TWIN CORE') }}</span>
-<span class="px-space-xs py-space-2xs bg-surface-container-high rounded text-secondary font-telemetry-code text-telemetry-code">STATION ID: {{ station.code | default('IND-ANT-01') }}</span>
-</div>
-<div class="flex items-center gap-space-md text-on-surface-variant font-telemetry-code text-telemetry-code mt-space-2xs">
-<span class="flex items-center gap-space-2xs">
-<span class="material-symbols-outlined text-[14px] text-secondary">explore</span>
-          {{ station.coordinates }} — {{ station.location }}
-        </span>
-<span class="text-outline-variant">•</span>
-<span class="text-secondary font-semibold">STAGE 3/4: ISOLATED OVERWINTER EXPEDITION</span>
-</div>
-</div>
+<header class="w-full bg-surface-container-lowest px-space-lg py-space-sm flex flex-col xl:flex-row xl:items-center justify-end gap-space-md shadow-md">
 <!-- Weather & Life Support Barometer -->
 <div class="flex flex-wrap items-center gap-space-md">
 <div class="flex items-center gap-space-sm bg-surface-container-high/70 px-space-md py-space-xs rounded">

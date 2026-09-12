@@ -41,6 +41,18 @@ async def maitri_twin(request: Request):
     """Maitri currently uses the 2D SVG version of the twin (not 2.5D like Bharati)."""
     return render_station(request, "twin")
 
+@router.get("/infrastructure", response_class=HTMLResponse)
+async def maitri_infrastructure(request: Request):
+    return render_station(request, "infrastructure")
+
+@router.get("/environment", response_class=HTMLResponse)
+async def maitri_environment(request: Request):
+    return render_station(request, "environment")
+
+@router.get("/logistics", response_class=HTMLResponse)
+async def maitri_logistics(request: Request):
+    return render_station(request, "logistics")
+
 @router.get("/personnel", response_class=HTMLResponse)
 async def maitri_personnel(request: Request):
     return render_station(request, "personnel")

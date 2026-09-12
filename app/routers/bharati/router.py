@@ -49,6 +49,18 @@ async def station_twin(request: Request):
         },
     )
 
+@router.get("/infrastructure", response_class=HTMLResponse)
+async def bharati_infrastructure(request: Request):
+    return render_station(request, "infrastructure")
+
+@router.get("/environment", response_class=HTMLResponse)
+async def bharati_environment(request: Request):
+    return render_station(request, "environment")
+
+@router.get("/logistics", response_class=HTMLResponse)
+async def bharati_logistics(request: Request):
+    return render_station(request, "logistics")
+
 @router.get("/personnel", response_class=HTMLResponse)
 async def bharati_personnel(request: Request):
     return render_station(request, "personnel")
