@@ -12,7 +12,7 @@ function stationTwin() {
     activeLayer:   'all',
     faultActive:   false,
     satcomOffline: false,
-    show3D:        false,
+    show3D:        true,
     tickerIndex:   0,
     simulationTime: new Date('2026-09-05T12:30:00Z'),
 
@@ -280,6 +280,30 @@ function stationTwin() {
       this._tickLoop  = setInterval(() => {
         this.tickerIndex = (this.tickerIndex + 1) % this.tickerMessages.length;
       }, 5500);
+
+      // Lazy load Three.js environment on init since it's the only view
+      if (!window.THREE) {
+        const threeScript = document.createElement('script');
+        threeScript.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+        threeScript.onload = () => {
+          const orbitScript = document.createElement('script');
+          orbitScript.src = "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js";
+          orbitScript.onload = () => {
+            const appScript = document.createElement('script');
+            appScript.src = "/static/js/three/station_3d_view.js";
+            appScript.onload = () => {
+              if (window.initStation3D) {
+                window.initStation3D('station-3d-container');
+              }
+            };
+            document.body.appendChild(appScript);
+          };
+          document.body.appendChild(orbitScript);
+        };
+        document.body.appendChild(threeScript);
+      } else if (window.THREE && !window.station3DScene && window.initStation3D) {
+        window.initStation3D('station-3d-container');
+      }
     },
 
     destroy() {
@@ -422,15 +446,23 @@ function stationTwin() {
         const threeScript = document.createElement('script');
         threeScript.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
         threeScript.onload = () => {
+          // Then load OrbitControls sequentially
+          const orbitScript = document.createElement('script');
+          orbitScript.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.min.js";
+          orbitScript.onload = () => {
             // Then load our 3D view script
             const appScript = document.createElement('script');
             appScript.src = "/static/js/three/station_3d_view.js";
             appScript.onload = () => {
-                window.initStation3D('station-3d-container');
+              window.initStation3D('station-3d-container');
             };
             document.body.appendChild(appScript);
+          };
+          document.body.appendChild(orbitScript);
         };
         document.body.appendChild(threeScript);
+      } else if (this.show3D && window.THREE && !window.station3DScene && window.initStation3D) {
+        window.initStation3D('station-3d-container');
       }
     },
 

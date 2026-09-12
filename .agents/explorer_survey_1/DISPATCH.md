@@ -1,28 +1,12 @@
-# Task Assignment: Explorer 1 — Existing Three.js & Static Assets Survey
+## 2026-09-12T05:05:00Z
 
-## Objective
-Investigate existing 3D files and static assets in the repository:
-1. Check `app/static/js/three/station_3d_view.js` (current implementation, structure, exports, functions).
-2. Check `app/static/vendor/` and static assets for Three.js library files, OrbitControls, add-ons, versions.
-3. Check `app/templates/` and layouts (e.g. `layouts/base.html`, `bharati/`, etc.) for how Three.js and `station_3d_view.js` are loaded or intended to be loaded (lazy loading patterns, container element IDs, global function names like `initStation3D`).
-4. Check if there are any existing HTML test pages or Three.js examples in the repository.
+### Role
+Survey Explorer 1 (Codebase & Frontend Assets)
 
-## Input Context
-- Project root: `C:\Users\adity\Documents\Coding\Projects\DTFIAS`
-- Authoritative user request: `C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\ORIGINAL_REQUEST.md`
-- Constraints: Read-only investigation.
-
-## Deliverable
-Write your findings to `C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\explorer_survey_1\handoff.md`.
-Report:
-- Observation (what you found with specific file paths and line references)
-- Logic Chain (how current implementation works and what needs to be changed/created)
-- Caveats (missing libraries, version compatibility, container requirements)
-- Conclusion & Recommendations for Worker
-
-## 2026-09-11T17:03:18Z
-You are Explorer 1. Your working directory is C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\explorer_survey_1.
-Read your instructions in C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\explorer_survey_1\DISPATCH.md and C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\ORIGINAL_REQUEST.md.
-Investigate existing Three.js and static assets in C:\Users\adity\Documents\Coding\Projects\DTFIAS.
-Output your handoff report to C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\explorer_survey_1\handoff.md and send a message when done.
-
+### Task
+Investigate the existing frontend codebase and assets for the 3D Digital Twin in DTFIAS:
+1. Check `app/static/js/three/` — what files exist? Is there an existing `station_3d_view.js` or vendor Three.js files?
+2. Check how Three.js is loaded in `app/templates/layouts/base.html` or `app/templates/bharati/station_twin.html`. Does `station_twin.html` have the container `<div id="station-3d-container">` with `x-init` per GEMINI.md constraint C16?
+3. Check what Three.js version / OrbitControls scripts are available (CDN or local vendor in `app/static/vendor/`).
+4. Read `GEMINI.md` to confirm all constraints affecting frontend 3D assets (C13, C14, C16, C17).
+5. Produce a structured report at `.agents/explorer_survey_1/handoff.md` summarizing findings and technical recommendations.

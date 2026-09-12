@@ -1,22 +1,18 @@
-# Task Assignment: Explorer 2 — Architectural Research & Bharati Physical Specs
+## 2026-09-12T05:05:00Z
 
-## Objective
-Investigate documentation and architectural research in the repository regarding Bharati station:
-1. Check `docs/` (`docs/architecture.md`, `docs/2dFrontend.md`, `docs/database.md`, and any other doc files) and `GEMINI.md` / `CLAUDE.md`.
-2. Find all architectural research, dimensions, shapes, materials, and features of Bharati Research Station:
-   - R1: Main aerodynamic aluminum shell (extruded geometries, dimensions, 135 container structure, aluminum cladding, elevated stilt grid with cross-bracing, emissive North panoramic window).
-   - R2: External assets & infrastructure: 300,000L cylindrical fuel farm, roof HVAC arrays, SATCOM radomes, 15m radius heliport 50m away from main building.
-   - R3: Environment & effects: rocky Larsemann Hills terrain plane (displacement), horizontal blizzard particle system blowing underneath the station.
-   - Any coordinates, scale factors, color palettes, materials (Three.js MeshStandardMaterial properties like roughness, metalness, colors).
+### Role
+Survey Explorer 2 (Architectural & Geometric Specifications)
 
-## Input Context
-- Project root: `C:\Users\adity\Documents\Coding\Projects\DTFIAS`
-- Authoritative user request: `C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\ORIGINAL_REQUEST.md`
-- Constraints: Read-only investigation.
-
-## Deliverable
-Write your findings to `C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\explorer_survey_2\handoff.md`.
-Report:
-- Specific architectural dimensions, geometric shapes, material properties, and positions.
-- Recommendations for Three.js geometry construction (e.g. Shape + ExtrudeGeometry, CylinderGeometry, InstancedMesh, ShaderMaterial/Points for blizzard particles).
-- Ground height, stilt layout, fuel farm layout, heliport placement.
+### Task
+Analyze the authoritative architectural specifications in `docs/bharati3d/` and synthesize the exact specifications for `app/static/js/three/station_3d_view.js`:
+1. Read `docs/bharati3d/06-subagent_implementation_plan.md` and `docs/bharati3d/05-subagent_synthesis.md`.
+2. Extract exact CAD coordinates and profiles:
+   - P1 to P11 transverse hull shape (see doc 17 §3 vertex table) and extrusion length (50m, x=-25 to +25).
+   - Quad V-stilts (outer & inner port/starboard coordinates, topWidth, height, leg thickness).
+   - 28 vertical stilts grid and concrete footings.
+   - Prow profile and 6-bay panoramic glazing mullions.
+   - Penthouse module, access stairs, corner chamfer bevels, container core blocks (L0, L1, L2).
+3. Extract site assets coordinates and geometries: SATCOM radome, fuel farm (13 tanks), helipad with 'H' marking, container depot (25 containers), trace-heated pipe rack, flagpole ridge (5x), meteo mast, meltwater tarn, terrain plane with noise displacement, blizzard particle system (3000 particles).
+4. Extract MEP layers (11 exoskeleton portal bents, HVAC supply/return, hydronic heating loops, domestic water, electrical busway) and the exact color hex codes and opacity/visibility mapping for all 7 modes: `exterior`, `xray`, `core_only`, `hvac`, `thermal`, `structural`, `night`.
+5. Extract the 21 hotspots in `HOTSPOT_REGISTRY` with exact labels and 3D anchor coordinates.
+6. Produce a structured report at `.agents/explorer_survey_2/handoff.md`.

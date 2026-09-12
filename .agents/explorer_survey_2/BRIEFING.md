@@ -16,16 +16,18 @@ Investigate architectural research, documentation, and physical specifications o
 - Handoff report in handoff.md with 5 components (Observation, Logic Chain, Caveats, Conclusion, Verification Method)
 
 ## Current Parent
-- Conversation ID: 6e4d86c2-7f3f-47d1-ab11-5ee62abf1204
-- Updated: 2026-09-11T17:03:30Z
+- Conversation ID: ebbafcbd-6751-45fc-8b7d-d1f107f7d47b
+- Updated: 2026-09-12T05:05:00Z
 
 ## Investigation State
-- **Explored paths**: Starting exploration of docs/bharati3d/, docs/bharti3d/, docs/bharati_3d_twin_implementation_plan.md, docs/pure_3d_twin_plan.md, docs/2dFrontend.md, GEMINI.md
-- **Key findings**: docs/ contains extensive CAD, architectural, and 3D implementation specs for Bharati
-- **Unexplored areas**: Detailed numerical dimensions, material properties, stilt positions, terrain displacements, particle system parameters
+- **Explored paths**: `docs/bharati3d/` (all 29 files, especially 00, 05, 06, 11, 15, 16, 17, 18, 19, 20, 21, 22), `app/static/js/three/station_3d_view.js`
+- **Key findings**: Complete extraction of P1–P11 transverse CAD profile, 50m X-extrusion, Quad V-stilts formula and positions, 28 vertical stilts and concrete footings, 6-bay 15° raked prow glazing, penthouse & stairs, 10 site assets, 6 MEP layers, 7-mode visibility matrix, and 21 hotspots with exact 3D anchors.
+- **Unexplored areas**: None. All requested specifications extracted and synthesized.
 
 ## Key Decisions Made
-- Survey existing documentation systematically: Master specs, 3D twin plans, spatial layout, exterior assets, and 3D modeling guides.
+- Extracted and cross-verified exact CAD coordinates and dimensions from official blueprints.
+- Synthesized full 7-mode rendering state table and 21-item `HOTSPOT_REGISTRY`.
+- Structured complete handoff report in `handoff.md` with 5-component protocol.
 
 ## Artifact Index
 - C:\Users\adity\Documents\Coding\Projects\DTFIAS\.agents\explorer_survey_2\DISPATCH.md — Task assignment

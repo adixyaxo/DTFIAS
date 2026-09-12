@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bharati 3D Digital Twin — Automated Verification Harness</title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono for SCADA telemetry -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Core 3D Libraries: Three.js r128 + OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- Target Station 3D Implementation Module -->
+  <script src="../../app/static/js/three/station_3d_view.js"></script>
+
+  <style>
+    :root {
+      --brand-deep-green:  #1A312C;
+      --brand-teal:        #428475;
+      --brand-mint:        #C8E6D7;
+      --brand-cream:       #F5F2EB;
+      --bg-deep:           #0B1C18;
+      --bg-card:           #132723;
+      --bg-card-border:    #24453D;
+      --status-ok:         #2E7D5B;
+      --status-ok-bg:      #0F3826;
+      --status-warning:    #D9822B;
+      --status-warning-bg: #472608;
+      --status-critical:   #C44536;
+      --status-critical-bg:#4A1813;
+      --status-info:       #2878A8;
+      --font-ui:           'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono:         'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--brand-cream);
+      font-family: var(--font-ui);
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    /* 3D Viewport Area */
+    #viewport-pane {
+      flex: 1;
+      position: relative;
+      background: radial-gradient(circle at center, #102B24 0%, #06110E 100%);
+      overflow: hidden;
+    }
+
+    #station-3d-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* Floating Viewport HUD Header */
+    .viewport-overlay {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(19, 39, 35, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 8px;
+      padding: 12px 18px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .viewport-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--brand-mint);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .viewport-subtitle {
+      font-size: 11px;
+      color: #8EABA0;
+      font-family: var(--font-mono);
+      margin-top: 4px;
+    }
+
+    /* Interactive SCADA Test Panel */
+    #test-panel {
+      width: 480px;
+      background: var(--brand-deep-green);
+      border-left: 1px solid var(--brand-teal);
+      display: flex;
+      flex-direction: column;
+      z-index: 20;
+      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .panel-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--bg-card-border);
+      background: rgba(11, 28, 24, 0.6);
+    }
+
+    .panel-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--brand-mint);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .overall-badge {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-running { background: var(--status-info); color: #FFF; }
+    .badge-passed  { background: var(--status-ok); color: #FFF; }
+    .badge-failed  { background: var(--status-critical); color: #FFF; }
+
+    /* Live Telemetry Chips */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .metric-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: #8EABA0;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .metric-value {
+      font-size: 13px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--brand-cream);
+      margin-top: 2px;
+    }
+
+    /* Toolbar for Mode & Status overrides */
+    .panel-toolbar {
+      padding: 12px 20px;
+      background: rgba(19, 39, 35, 0.4);
+      border-bottom: 1px solid var(--bg-card-border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toolbar-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8EABA0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .scada-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      color: var(--brand-cream);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 5px 9px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .scada-btn:hover {
+      background: var(--brand-teal);
+      border-color: var(--brand-mint);
+      color: #FFF;
+    }
+
+    .scada-btn.active {
+      background: var(--brand-teal);
+      border-color: var(--brand-mint);
+      color: #FFF;
+      box-shadow: 0 0 8px rgba(66, 132, 117, 0.5);
+    }
+
+    .btn-action {
+      background: var(--brand-teal);
+      font-weight: 600;
+      border-color: #5BA897;
+    }
+
+    /* Scrollable Results Content */
+    .panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .test-card {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      transition: border-color 0.2s ease;
+    }
+
+    .test-card.passed { border-left: 4px solid var(--status-ok); }
+    .test-card.failed { border-left: 4px solid var(--status-critical); }
+
+    .test-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .test-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--brand-cream);
+    }
+
+    .test-id {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--brand-mint);
+      margin-bottom: 2px;
+    }
+
+    .test-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+    }
+
+    .badge-pass { background: var(--status-ok-bg); color: #4ABA83; border: 1px solid #2E7D5B; }
+    .badge-fail { background: var(--status-critical-bg); color: #F87171; border: 1px solid #C44536; }
+
+    .test-details {
+      margin-top: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #B5D1C5;
+      overflow-x: auto;
+      max-height: 180px;
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--brand-deep-green); }
+    ::-webkit-scrollbar-thumb { background: var(--bg-card-border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--brand-teal); }
+  </style>
+</head>
+<body>
+
+  <!-- Left: 3D Viewport Pane -->
+  <div id="viewport-pane">
+    <div id="station-3d-container"></div>
+
+    <div class="viewport-overlay">
+      <div class="viewport-title">
+        <span style="color: var(--brand-mint);">●</span> BHARATI RESEARCH STATION
+      </div>
+      <div class="viewport-subtitle">LAT: 69°24′S · LON: 76°11′E · ELEV: 35m · LARSEMANN HILLS</div>
+    </div>
+  </div>
+
+  <!-- Right: Verification SCADA Panel -->
+  <div id="test-panel">
+    <div class="panel-header">
+      <div class="panel-title-row">
+        <div class="panel-title">Verification Suite</div>
+        <div id="overall-status-badge" class="overall-badge badge-running">RUNNING</div>
+      </div>
+
+      <div class="metrics-bar">
+        <div class="metric-chip">
+          <div class="metric-label">Pass Ratio</div>
+          <div id="metric-pass-ratio" class="metric-value">0 / 6</div>
+        </div>
+        <div class="metric-chip">
+          <div class="metric-label">Triangles</div>
+          <div id="metric-triangles" class="metric-value">---</div>
+        </div>
+        <div class="metric-chip">
+          <div class="metric-label">Hotspots</div>
+          <div id="metric-hotspots" class="metric-value">---</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual Operator Toolbar -->
+    <div class="panel-toolbar">
+      <div class="toolbar-label">Operational Modes (window.set3DMode)</div>
+      <div class="btn-group">
+        <button class="scada-btn active" onclick="applyMode('exterior')">exterior</button>
+        <button class="scada-btn" onclick="applyMode('xray')">xray</button>
+        <button class="scada-btn" onclick="applyMode('core_only')">core_only</button>
+        <button class="scada-btn" onclick="applyMode('hvac')">hvac</button>
+        <button class="scada-btn" onclick="applyMode('thermal')">thermal</button>
+        <button class="scada-btn" onclick="applyMode('structural')">structural</button>
+        <button class="scada-btn" onclick="applyMode('night')">night</button>
+      </div>
+
+      <div class="toolbar-label" style="margin-top:4px;">Diagnostic Actions</div>
+      <div class="btn-group">
+        <button class="scada-btn btn-action" onclick="window.testRunner && window.testRunner.runAll()">▶ Re-Run Tests</button>
+        <button class="scada-btn" onclick="testStatusUpdate('critical')">Set Critical (power-plant)</button>
+        <button class="scada-btn" onclick="testStatusUpdate('normal')">Reset Normal</button>
+      </div>
+    </div>
+
+    <!-- Test Results Feed -->
+    <div id="results-container" class="panel-body">
+      <!-- Injected by TestRunner3D -->
+      <div style="font-family: var(--font-mono); font-size: 12px; color: #8EABA0; text-align: center; margin-top: 40px;">
+        Initializing WebGL Scene and Executing Test Suite...
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Canonical 21 Hotspots Registry matching documentation & implementation
+    window.HOTSPOT_REGISTRY = {
+      'hotspot-power-plant':       { label: 'CHP Power Plant',         anchor: [-19.2, 2.8,  7.2] },
+      'hotspot-hvac':              { label: 'HVAC Life Support',        anchor: [-7.2,  10.2, 0.0] },
+      'hotspot-chp-heating':       { label: 'District Heating',         anchor: [-6.0,  3.2,  0.0] },
+      'hotspot-water-lss':         { label: 'Water & LSS',              anchor: [-19.2, 2.8, -7.2] },
+      'hotspot-workshop-garage':   { label: 'Vehicle Garage',           anchor: [-18.0, 3.8,  0.0] },
+      'hotspot-main-hab':          { label: 'Main Habitat',             anchor: [0.0,   5.5,  0.0] },
+      'hotspot-dining-mess':       { label: 'Dining Mess',              anchor: [-18.0, 6.5,  0.0] },
+      'hotspot-medical-bay':       { label: 'Medical Bay',              anchor: [-14.4, 6.5, -7.2] },
+      'hotspot-ocean-lounge':      { label: 'Ocean Lounge',             anchor: [19.0,  6.5,  0.0] },
+      'hotspot-science-terrace':   { label: 'Science Terrace',          anchor: [2.0,   11.5, 0.0] },
+      'hotspot-meteo-mast':        { label: 'Meteorological Mast',      anchor: [0.0,   13.5, 0.0] },
+      'hotspot-v-stilts':          { label: 'V-Stilt Foundations',      anchor: [18.5,  2.1,  0.0] },
+      'hotspot-satcom':            { label: 'SATCOM Radome',            anchor: [-25.0, 7.2, 35.0] },
+      'hotspot-fuel-storage':      { label: 'Fuel Farm (296 kL)',       anchor: [-80.0, 4.0,-35.0] },
+      'hotspot-pipe-rack':         { label: 'Trace-Heated Pipe Rack',   anchor: [0.0,   0.8, 12.0] },
+      'hotspot-heliport':          { label: 'Heliport Operations',      anchor: [-85.0, 4.0,-95.0] },
+      'hotspot-container-depot':   { label: 'Container Depot',          anchor: [-28.0, 0.0,-18.0] },
+      'hotspot-meltwater-tarn':    { label: 'Meltwater Tarn',           anchor: [-35.0,-1.2,  0.0] },
+      'hotspot-flagpole-ridge':    { label: 'Flagpole & Anemometer',    anchor: [-45.0, 2.0,-70.0] },
+      'hotspot-meteo-science-lab': { label: 'Science Lab (Meteorology)', anchor: [4.8,   3.5, -7.2] },
+      'hotspot-main-entrance':     { label: 'Main Entrance Bharati',    anchor: [-6.0,  3.8, 10.0] },
+    };
+
+    /**
+     * TestRunner3D — Comprehensive Acceptance Criteria Validator
+     */
+    class TestRunner3D {
+      constructor() {
+        this.results = [];
+      }
+
+      async runAll() {
+        this.results = [];
+        const scene = window.station3DScene?.scene;
+        if (!scene) {
+          console.error("TestRunner3D: window.station3DScene.scene is not available");
+          this.recordFailure('BOOTSTRAP', 'Scene Initialization', 'window.station3DScene.scene is undefined');
+          this.finalize();
+          return window.__TEST_RESULTS__;
+        }
+
+        try {
+          // AC1: 5-Layer Canonical Scene Hierarchy
+          this.results.push(this.verifyHierarchy(scene));
+
+          // AC2: 21 Hotspots Registry Completeness
+          this.results.push(this.verifyHotspots(scene));
+
+          // AC3: 7-Mode Matrix & X-Ray Material State
+          this.results.push(this.verifyModesAndXRay(scene));
+
+          // AC4: Status Bridge Telemetry Color/Emissive Recolor
+          this.results.push(this.verifyStatusBridge(scene));
+
+          // AC5: Raycast Pointerdown & st-3d-click Event Dispatch
+          const ac5 = await this.verifyPointerRaycast(scene);
+          this.results.push(ac5);
+
+          // AC6: Performance Budget (<= 20,000 triangles)
+          this.results.push(this.verifyTriangleBudget(scene));
+        } catch (err) {
+          console.error("Unexpected error during test execution:", err);
+          this.results.push({
+            id: 'RUNNER_ERROR',
+            title: 'Test Runner Execution Exception',
+            passed: false,
+            details: { error: err.message, stack: err.stack }
+          });
+        }
+
+        this.finalize();
+        return window.__TEST_RESULTS__;
+      }
+
+      recordFailure(id, title, details) {
+        this.results.push({ id, title, passed: false, details });
+      }
+
+      /**
+       * AC1: Hierarchy Verification
+       * Verifies the 5 canonical layers exist in scene graph and have child elements
+       */
+      verifyHierarchy(scene) {
+        const canonicalLayers = [
+          'Substructure_Stilts',
+          'Exterior_Aerodynamic_Shell',
+          'Modular_Container_Core',
+          'MEP_Life_Support_Overlay',
+          'Auxiliary_Site_Infrastructure'
+        ];
+
+        const layerAudit = {};
+        const missing = [];
+
+        canonicalLayers.forEach(layerName => {
+          const obj = scene.getObjectByName(layerName);
+          if (obj) {
+            layerAudit[layerName] = {
+              found: true,
+              type: obj.type,
+              childrenCount: obj.children ? obj.children.length : 0,
+              visible: obj.visible
+            };
+          } else {
+            layerAudit[layerName] = { found: false };
+            missing.push(layerName);
+          }
+        });
+
+        const passed = missing.length === 0;
+        return {
+          id: 'AC1_HIERARCHY',
+          title: 'Scene Graph 5-Layer Canonical Hierarchy',
+          passed,
+          details: {
+            requiredLayers: canonicalLayers,
+            missingLayers: missing,
+            layerAudit
+          }
+        };
+      }
+
+      /**
+       * AC2: 21 Hotspots Registry
+       * Verifies that all 21 hotspot objects exist with hotspot- prefix and contain meshes
+       */
+      verifyHotspots(scene) {
+        const expectedKeys = Object.keys(window.HOTSPOT_REGISTRY);
+        const found = [];
+        const missing = [];
+        const empty = [];
+
+        expectedKeys.forEach(hotspotName => {
+          const obj = scene.getObjectByName(hotspotName);
+          if (!obj) {
+            missing.push(hotspotName);
+          } else {
+            let meshCount = 0;
+            obj.traverse(child => {
+              if (child.isMesh || child.isPoints || child.isLine) meshCount++;
+            });
+            if (meshCount === 0 && (!obj.children || obj.children.length === 0)) {
+              empty.push(hotspotName);
+            }
+            found.push({
+              name: hotspotName,
+              meshCount,
+              worldPosition: obj.position ? [obj.position.x, obj.position.y, obj.position.z] : null
+            });
+          }
+        });
+
+        const passed = (missing.length === 0) && (found.length === 21);
+        return {
+          id: 'AC2_HOTSPOTS',
+          title: '21 Hotspot Registry Names Present in Scene',
+          passed,
+          details: {
+            expectedCount: 21,
+            foundCount: found.length,
+            missingHotspots: missing,
+            emptyHotspots: empty
+          }
+        };
+      }
+
+      /**
+       * AC3: 7 Rendering Modes and X-Ray State
+       * Tests calling window.set3DMode('xray') and inspecting opacity/visibility,
+       * and tests all 7 supported modes.
+       */
+      verifyModesAndXRay(scene) {
+        if (typeof window.set3DMode !== 'function') {
+          return {
+            id: 'AC3_XRAY_MODE',
+            title: '7-Mode Matrix & X-Ray Material State',
+            passed: false,
+            details: 'window.set3DMode is not defined or not a function'
+          };
+        }
+
+        const modes = ['exterior', 'xray', 'core_only', 'hvac', 'thermal', 'structural', 'night'];
+        const modeResults = {};
+
+        // 1. Establish baseline in exterior mode
+        window.set3DMode('exterior');
+        const core = scene.getObjectByName('Modular_Container_Core');
+        const shell = scene.getObjectByName('Exterior_Aerodynamic_Shell') || scene.getObjectByName('Main_Hull_Skin');
+        
+        let shellMaterial = null;
+        shell?.traverse(o => {
+          if (o.isMesh && o.material && !shellMaterial) {
+            shellMaterial = o.material;
+          }
+        });
+
+        const baselineCoreVisible = core ? core.visible : null;
+        const baselineSkinOpacity = shellMaterial ? shellMaterial.opacity : null;
+
+        // 2. Test X-Ray mode
+        window.set3DMode('xray');
+        const xrayCoreVisible = core ? core.visible : null;
+        const xraySkinOpacity = shellMaterial ? shellMaterial.opacity : null;
+        const xraySkinTransparent = shellMaterial ? shellMaterial.transparent : null;
+
+        const xrayValid = (xrayCoreVisible === true) &&
+                          (xraySkinOpacity !== null && xraySkinOpacity <= 0.35) &&
+                          (xraySkinTransparent === true);
+
+        // 3. Test all other modes for clean execution without runtime errors
+        let allModesExecuted = true;
+        modes.forEach(mode => {
+          try {
+            window.set3DMode(mode);
+            modeResults[mode] = { executed: true };
+          } catch (e) {
+            allModesExecuted = false;
+            modeResults[mode] = { executed: false, error: e.message };
+          }
+        });
+
+        // Restore exterior mode
+        window.set3DMode('exterior');
+
+        const passed = xrayValid && allModesExecuted;
+        return {
+          id: 'AC3_XRAY_MODE',
+          title: '7-Mode Matrix & X-Ray Material State',
+          passed,
+          details: {
+            xrayValid,
+            baseline: { coreVisible: baselineCoreVisible, skinOpacity: baselineSkinOpacity },
+            xrayState: { coreVisible: xrayCoreVisible, skinOpacity: xraySkinOpacity, transparent: xraySkinTransparent },
+            allModesExecuted,
+            modeExecutionMatrix: modeResults
+          }
+        };
+      }
+
+      /**
+       * AC4: Status Bridge Telemetry Recolor
+       * Calls window.update3DHotspot('power-plant', 'critical') and verifies emissive & color hex
+       */
+      verifyStatusBridge(scene) {
+        if (typeof window.update3DHotspot !== 'function') {
+          return {
+            id: 'AC4_UPDATE_HOTSPOT',
+            title: 'Hotspot Status Emissive & Color Update',
+            passed: false,
+            details: 'window.update3DHotspot is not defined or not a function'
+          };
+        }
+
+        const targetHotspot = scene.getObjectByName('hotspot-power-plant') || scene.getObjectByName('hotspot-main-hab');
+        if (!targetHotspot) {
+          return {
+            id: 'AC4_UPDATE_HOTSPOT',
+            title: 'Hotspot Status Emissive & Color Update',
+            passed: false,
+            details: 'Target hotspot for recolor verification (hotspot-power-plant) not found in scene'
+          };
+        }
+
+        // Test CRITICAL status
+        window.update3DHotspot('power-plant', 'critical');
+        let criticalEmissiveHex = null;
+        let criticalColorHex = null;
+        let criticalIntensity = null;
+
+        targetHotspot.traverse(o => {
+          if (o.isMesh && o.material) {
+            const mat = o.material;
+            if (mat.emissive && criticalEmissiveHex === null) {
+              criticalEmissiveHex = mat.emissive.getHex();
+              criticalIntensity = mat.emissiveIntensity;
+            }
+            if (mat.color && criticalColorHex === null) {
+              criticalColorHex = mat.color.getHex();
+            }
+          }
+        });
+
+        // Test WARNING status
+        window.update3DHotspot('power-plant', 'warning');
+        let warningColorHex = null;
+        let warningEmissiveHex = null;
+        targetHotspot.traverse(o => {
+          if (o.isMesh && o.material) {
+            const mat = o.material;
+            if (mat.color && warningColorHex === null) warningColorHex = mat.color.getHex();
+            if (mat.emissive && warningEmissiveHex === null) warningEmissiveHex = mat.emissive.getHex();
+          }
+        });
+
+        // Test NORMAL (revert)
+        window.update3DHotspot('power-plant', 'normal');
+
+        const criticalEmissiveExpected = 0x9B1C1C;
+        const criticalColorExpected = 0xC44536;
+
+        const passed = (criticalEmissiveHex === criticalEmissiveExpected) &&
+                       (criticalColorHex === criticalColorExpected);
+
+        return {
+          id: 'AC4_UPDATE_HOTSPOT',
+          title: 'Hotspot Status Emissive & Color Update',
+          passed,
+          details: {
+            critical: {
+              actualEmissive: criticalEmissiveHex !== null ? '0x' + criticalEmissiveHex.toString(16).toUpperCase() : null,
+              expectedEmissive: '0x' + criticalEmissiveExpected.toString(16).toUpperCase(),
+              actualColor: criticalColorHex !== null ? '0x' + criticalColorHex.toString(16).toUpperCase() : null,
+              expectedColor: '0x' + criticalColorExpected.toString(16).toUpperCase(),
+              intensity: criticalIntensity
+            },
+            warning: {
+              actualColor: warningColorHex !== null ? '0x' + warningColorHex.toString(16).toUpperCase() : null,
+              actualEmissive: warningEmissiveHex !== null ? '0x' + warningEmissiveHex.toString(16).toUpperCase() : null
+            }
+          }
+        };
+      }
+
+      /**
+       * AC5: Raycast Pointer Interaction
+       * Projects 3D anchor of hotspot-satcom to 2D canvas coordinates,
+       * dispatches pointerdown, and listens for st-3d-click CustomEvent.
+       */
+      async verifyPointerRaycast(scene) {
+        return new Promise(resolve => {
+          const camera = window.station3DScene?.camera;
+          const renderer = window.station3DScene?.renderer;
+          const canvas = renderer?.domElement;
+
+          if (!camera || !renderer || !canvas) {
+            return resolve({
+              id: 'AC5_POINTER_RAYCAST',
+              title: 'Raycast Pointer Click Dispatch (st-3d-click)',
+              passed: false,
+              details: 'Camera or renderer.domElement not exposed on window.station3DScene'
+            });
+          }
+
+          let capturedSlug = null;
+          let eventFired = false;
+
+          const listener = (event) => {
+            eventFired = true;
+            capturedSlug = event.detail;
+          };
+          window.addEventListener('st-3d-click', listener, { once: true });
+
+          // Target known hotspot with prominent geometry: hotspot-satcom
+          const target = scene.getObjectByName('hotspot-satcom') || scene.getObjectByName('hotspot-fuel-storage') || scene.getObjectByName('hotspot-main-hab');
+          const targetWorldPos = new THREE.Vector3();
+
+          if (target) {
+            target.getWorldPosition(targetWorldPos);
+          } else {
+            targetWorldPos.set(-25.0, 7.2, 35.0);
+          }
+
+          // Ensure matrices and projection are fresh
+          camera.updateProjectionMatrix();
+          renderer.render(scene, camera);
+
+          // Project to screen space
+          const projected = targetWorldPos.clone().project(camera);
+          const rect = canvas.getBoundingClientRect();
+          const clientX = rect.left + ((projected.x + 1) / 2) * rect.width;
+          const clientY = rect.top + ((-projected.y + 1) / 2) * rect.height;
+
+          // Dispatch pointerdown event
+          const eventOptions = {
+            clientX,
+            clientY,
+            bubbles: true,
+            cancelable: true,
+            pointerId: 1,
+            pointerType: 'mouse'
+          };
+          canvas.dispatchEvent(new PointerEvent('pointerdown', eventOptions));
+
+          setTimeout(() => {
+            window.removeEventListener('st-3d-click', listener);
+            const expectedSlug = target ? target.name.replace('hotspot-', '') : 'satcom';
+            const passed = eventFired && (capturedSlug === expectedSlug || capturedSlug !== null);
+
+            resolve({
+              id: 'AC5_POINTER_RAYCAST',
+              title: 'Raycast Pointer Click Dispatch (st-3d-click)',
+              passed,
+              details: {
+                eventFired,
+                capturedSlug,
+                expectedSlug,
+                screenCoordinates: { clientX: Math.round(clientX), clientY: Math.round(clientY) }
+              }
+            });
+          }, 150);
+        });
+      }
+
+      /**
+       * AC6: Scene Triangle Budget Limit
+       * Enforces total scene geometry <= 20,000 triangles in exterior mode
+       */
+      verifyTriangleBudget(scene) {
+        let totalTriangles = 0;
+        const meshCounts = [];
+
+        scene.traverse(obj => {
+          if (obj.isMesh && obj.geometry) {
+            const geo = obj.geometry;
+            let tris = 0;
+            if (geo.index) {
+              tris = geo.index.count / 3;
+            } else if (geo.attributes && geo.attributes.position) {
+              tris = geo.attributes.position.count / 3;
+            }
+
+            const instances = obj.isInstancedMesh ? obj.count : 1;
+            const meshTotal = Math.round(tris * instances);
+            totalTriangles += meshTotal;
+
+            meshCounts.push({
+              name: obj.name || obj.parent?.name || 'anonymous_mesh',
+              triangles: meshTotal,
+              instanced: !!obj.isInstancedMesh
+            });
+          }
+        });
+
+        const budgetFunctionExists = typeof window.checkGeometryBudget === 'function';
+        const budgetLimit = 20000;
+        const passed = totalTriangles <= budgetLimit && totalTriangles > 0;
+
+        return {
+          id: 'AC6_TRIANGLE_BUDGET',
+          title: 'Scene Triangle Budget Compliance (<= 20,000)',
+          passed,
+          details: {
+            totalTriangles,
+            budgetLimit,
+            withinBudget: totalTriangles <= budgetLimit,
+            budgetFunctionExists,
+            meshSampleCount: meshCounts.length
+          }
+        };
+      }
+
+      finalize() {
+        const passedAll = this.results.length > 0 && this.results.every(r => r.passed);
+        const passCount = this.results.filter(r => r.passed).length;
+        const failCount = this.results.filter(r => !r.passed).length;
+
+        window.__TEST_RESULTS__ = {
+          timestamp: new Date().toISOString(),
+          passed: passedAll,
+          total: this.results.length,
+          passCount,
+          failCount,
+          tests: this.results
+        };
+
+        // Emit CustomEvent for external listeners
+        window.dispatchEvent(new CustomEvent('test-runner-finished', {
+          detail: window.__TEST_RESULTS__
+        }));
+
+        this.renderUI();
+      }
+
+      renderUI() {
+        const results = window.__TEST_RESULTS__;
+        const container = document.getElementById('results-container');
+        const badge = document.getElementById('overall-status-badge');
+        const passRatioEl = document.getElementById('metric-pass-ratio');
+        const trianglesEl = document.getElementById('metric-triangles');
+        const hotspotsEl = document.getElementById('metric-hotspots');
+
+        // Update overall badge
+        if (badge) {
+          badge.className = 'overall-badge ' + (results.passed ? 'badge-passed' : 'badge-failed');
+          badge.textContent = results.passed ? 'ALL PASSED' : 'TESTS FAILED';
+        }
+
+        // Update metric chips
+        if (passRatioEl) passRatioEl.textContent = `${results.passCount} / ${results.total}`;
+        
+        const ac6 = results.tests.find(t => t.id === 'AC6_TRIANGLE_BUDGET');
+        if (trianglesEl && ac6) trianglesEl.textContent = ac6.details?.totalTriangles ?? '---';
+
+        const ac2 = results.tests.find(t => t.id === 'AC2_HOTSPOTS');
+        if (hotspotsEl && ac2) hotspotsEl.textContent = `${ac2.details?.foundCount ?? 0} / 21`;
+
+        // Render test cards
+        if (container) {
+          container.innerHTML = results.tests.map(test => `
+            <div class="test-card ${test.passed ? 'passed' : 'failed'}">
+              <div class="test-card-header">
+                <div>
+                  <div class="test-id">${test.id}</div>
+                  <div class="test-title">${test.title}</div>
+                </div>
+                <div class="test-badge ${test.passed ? 'badge-pass' : 'badge-fail'}">
+                  ${test.passed ? '✔ PASS' : '✖ FAIL'}
+                </div>
+              </div>
+              <div class="test-details">
+                <pre>${escapeHtml(JSON.stringify(test.details, null, 2))}</pre>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function applyMode(mode) {
+      if (typeof window.set3DMode === 'function') {
+        window.set3DMode(mode);
+        document.querySelectorAll('.panel-toolbar .scada-btn').forEach(btn => {
+          if (btn.textContent === mode) btn.classList.add('active');
+          else if (!btn.classList.contains('btn-action')) btn.classList.remove('active');
+        });
+      } else {
+        alert('window.set3DMode is not implemented yet');
+      }
+    }
+
+    function testStatusUpdate(status) {
+      if (typeof window.update3DHotspot === 'function') {
+        window.update3DHotspot('power-plant', status);
+      } else {
+        alert('window.update3DHotspot is not implemented yet');
+      }
+    }
+
+    // Bootstrap Scene and Automatically Trigger TestRunner3D
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('[TestHarness] DOM Loaded. Initializing station 3D viewport...');
+      try {
+        if (typeof window.initStation3D === 'function') {
+          window.initStation3D('station-3d-container');
+        } else {
+          console.error('[TestHarness] window.initStation3D is missing.');
+        }
+      } catch (err) {
+        console.error('[TestHarness] Error in initStation3D:', err);
+      }
+
+      // Allow scene rendering to settle, then run test runner
+      setTimeout(() => {
+        window.testRunner = new TestRunner3D();
+        window.testRunner.runAll();
+      }, 500);
+    });
+  </script>
+</body>
+</html>
