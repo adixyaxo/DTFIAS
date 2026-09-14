@@ -21,6 +21,28 @@ function stationTwin() {
     view3DMode: 'exterior',
     triCount3D: null,
 
+    init3DLoader() {
+      const load3D = () => {
+        const s = document.createElement('script');
+        s.src = '/static/js/three/station_3d_view.js';
+        s.onload = () => {
+          if (typeof window.initStation3D === 'function') {
+            window.initStation3D('station-3d-container');
+          }
+        };
+        document.body.appendChild(s);
+      };
+
+      if (!window.THREE) {
+        const t = document.createElement('script');
+        t.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        t.onload = load3D;
+        document.head.appendChild(t);
+      } else {
+        load3D();
+      }
+    },
+
     /* ─── Ticker messages ────────────────────────── */
     tickerMessages: [
       '◈ System nominal — all critical systems operating within parameters.',

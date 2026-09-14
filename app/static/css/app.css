@@ -1221,6 +1221,12 @@
   .w-\[99\%\] {
     width: 99%;
   }
+  .w-\[200px\] {
+    width: 200px;
+  }
+  .w-\[310px\] {
+    width: 310px;
+  }
   .w-\[400px\] {
     width: 400px;
   }
@@ -1757,6 +1763,10 @@
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 0px;
   }
+  .border-l {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 1px;
+  }
   .border-l-2 {
     border-left-style: var(--tw-border-style);
     border-left-width: 2px;
@@ -1850,6 +1860,12 @@
   }
   .bg-\[rgba\(18\,38\,32\,0\.4\)\] {
     background-color: rgba(18,38,32,0.4);
+  }
+  .bg-\[rgba\(18\,38\,32\,0\.85\)\] {
+    background-color: rgba(18,38,32,0.85);
+  }
+  .bg-\[rgba\(18\,38\,32\,0\.88\)\] {
+    background-color: rgba(18,38,32,0.88);
   }
   .bg-\[rgba\(66\,132\,117\,0\.2\)\] {
     background-color: rgba(66,132,117,0.2);
