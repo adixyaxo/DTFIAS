@@ -31,14 +31,9 @@ app.add_middleware(CSRFProtectionMiddleware)
 app.add_middleware(StructuredLoggingMiddleware)
 app.add_middleware(RequestIdMiddleware)
 
-# Static files: on Vercel, static assets are served by CDN directly via vercel.json rewrites.
-# The Python lambda does not handle /static/* on Vercel.
-if settings.is_vercel:
-    @app.get("/static/{path:path}", name="static", include_in_schema=False)
-    async def static_dummy(path: str):
-        pass
-else:
-    app.mount("/static", StaticFiles(directory="app/static"), name="static")
+# Always serve static files via FastAPI (works on both local and Vercel serverless)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "app", "static")), name="static")
 
 app.include_router(main_router)
 

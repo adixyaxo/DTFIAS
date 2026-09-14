@@ -11,10 +11,6 @@
   ],
   "rewrites": [
     {
-      "source": "/static/(.*)",
-      "destination": "/app/static/$1"
-    },
-    {
       "source": "/(.*)",
       "destination": "/main.py"
     }
