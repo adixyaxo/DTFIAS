@@ -9,14 +9,31 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/static/(.*)",
-      "dest": "/main.py"
+      "source": "/static/(.*)",
+      "destination": "/static/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/main.py"
+      "source": "/(.*)",
+      "destination": "/main.py"
+    }
+  ],
+  "outputDirectory": ".",
+  "functions": {
+    "main.py": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }

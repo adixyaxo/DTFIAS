@@ -24,10 +24,11 @@ router.include_router(audit_router)
 
 def render_hq(request: Request, name: str, title: str | None = None):
     page_title = title or f"HQ - {name.replace('_', ' ').title()}"
+    is_htmx = request.headers.get("HX-Request") == "true"
     return templates.TemplateResponse(
         request=request,
         name=f"hq/{name}.html",
-        context={"station_id": "hq", "title": page_title},
+        context={"station_id": "hq", "title": page_title, "is_htmx": is_htmx},
     )
 
 @router.get("/environment", response_class=HTMLResponse)

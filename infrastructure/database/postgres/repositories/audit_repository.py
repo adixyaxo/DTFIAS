@@ -28,7 +28,6 @@ class PostgresAuditRepository(AuditRepository):
 
         self.session.add(model)
         await self.session.commit()
-        await self.session.refresh(model)
         return model
 
     async def list_logs(

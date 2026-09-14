@@ -22,8 +22,10 @@ async def hq_dashboard(request: Request, service: HQServiceDep):
             "station_id": "hq",
             "overview": overview,
             "title": "NCPOR HQ - Mission Control",
+            "is_htmx": request.headers.get("HX-Request") == "true",
         },
     )
+
 
 
 __all__ = ["router"]

@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
+import os
 
 from app.config import settings, templates
 from app.main_router import router as main_router
@@ -30,10 +31,17 @@ app.add_middleware(CSRFProtectionMiddleware)
 app.add_middleware(StructuredLoggingMiddleware)
 app.add_middleware(RequestIdMiddleware)
 
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+# Static files: on Vercel, static assets are served by CDN directly via vercel.json rewrites.
+# The Python lambda does not handle /static/* on Vercel.
+# On local uvicorn, mount normally so the dev server works without a separate CDN.
+if not settings.is_vercel:
+    app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(main_router)
 
+# Constraint C12: disable template auto-reload in production
+if settings.is_production:
+    templates.env.auto_reload = False
 
 
 @app.get("/", response_class=HTMLResponse)

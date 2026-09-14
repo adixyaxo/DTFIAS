@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/partial.html" if (is_htmx or (request and request.headers.get("HX-Request") == "true")) else "layouts/base.html" %}
 
 {% block body %}
 <div x-data="{ mobileNavOpen: false }" class="min-h-screen bg-background text-on-surface relative">
@@ -16,11 +16,13 @@
         class="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-40">
     </div>
 
-    {% include "components/sidebar_" ~ station_id ~ ".html" %}
+    <div id="portal-sidebar-wrapper">
+        {% include "components/sidebar_" ~ station_id ~ ".html" %}
+    </div>
     <div class="lg:pl-72 flex flex-col min-h-screen">
         {% include "components/topnav.html" %}
-        <main class="relative flex-grow pt-14 w-full px-4 sm:px-6 lg:px-canvas-margin overflow-x-hidden">
-            <div class="flex flex-col w-full space-y-space-md select-none pb-space-xl mt-space-md">
+        <main id="main-content" class="relative flex-grow pt-14 w-full px-4 sm:px-6 lg:px-canvas-margin overflow-x-hidden">
+            <div id="dashboard_content" class="flex flex-col w-full space-y-space-md select-none pb-space-xl mt-space-md">
                 {% block dashboard_content %}{% endblock %}
             </div>
         </main>

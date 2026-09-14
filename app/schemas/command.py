@@ -38,6 +38,21 @@ class CommandExecutionResponse(BaseModel):
     executed_at: datetime
 
 
+class CommandCreateResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True, str_strip_whitespace=True)
+
+    id: UUID
+    station_id: UUID
+    created_by: UUID
+    command_type: CommandType
+    parameters: dict[str, Any] | None = None
+    status: CommandStatus
+    rejection_reason: str | None = None
+    created_at: datetime
+    expires_at: datetime | None = None
+    updated_at: datetime
+
+
 class CommandResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True, str_strip_whitespace=True)
 
@@ -56,6 +71,7 @@ class CommandResponse(BaseModel):
 
 __all__ = [
     "CommandCreate",
+    "CommandCreateResponse",
     "CommandResponse",
     "CommandExecutionCreate",
     "CommandExecutionResponse",

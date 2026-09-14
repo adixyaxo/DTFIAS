@@ -25,6 +25,7 @@ async def bharati_dashboard(request: Request, service: BharatiServiceDep):
             "station": STATION_INFO,
             "title": "Bharati - Dashboard",
             "dashboard_data": dashboard_data,
+            "is_htmx": request.headers.get("HX-Request") == "true",
         },
     )
 

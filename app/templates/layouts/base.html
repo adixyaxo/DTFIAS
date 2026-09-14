@@ -312,22 +312,91 @@
 </head>
 
 <body class="antialiased" style="background-color: var(--brand-cream); color: #1A312C; font-family: var(--font-ui);"
-    hx-boost="true">
+    hx-boost="true"
+    hx-target="#main-content"
+    hx-select="#main-content"
+    hx-swap="innerHTML"
+    hx-push-url="true">
     {% block body %}
-        {% block content %}{% endblock %}
+        <main id="main-content">
+            {% block content %}{% endblock %}
+        </main>
     {% endblock %}
 
     {% block scripts %}{% endblock %}
 
-    <!-- HTMX CSRF Auto-Injection for mutating methods (C11) -->
+    <!-- HTMX & Alpine.js SPA Navigation Integration (Phase 3.5) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            document.body.addEventListener('htmx:configRequest', (evt) => {
+            // HTMX CSRF Auto-Injection for mutating methods (C11)
+            const handleConfigRequest = (evt) => {
                 const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-                if (token && evt.detail.verb !== 'get') {
-                    evt.detail.headers['X-CSRF-Token'] = token;
+                if (token) {
+                    if (evt.detail && evt.detail.headers && evt.detail.verb && evt.detail.verb !== 'get') {
+                        evt.detail.headers['X-CSRF-Token'] = token;
+                    }
+                    if (evt.detail && evt.detail.ctx && evt.detail.ctx.request) {
+                        const req = evt.detail.ctx.request;
+                        if (req.method && req.method.toUpperCase() !== 'GET') {
+                            req.headers['X-CSRF-Token'] = token;
+                        }
+                    }
                 }
-            });
+            };
+            document.body.addEventListener('htmx:configRequest', handleConfigRequest);
+            document.body.addEventListener('htmx:config:request', handleConfigRequest);
+
+            // Alpine.js Tree Re-initialization on HTMX swap
+            const initAlpineOnSwap = (e) => {
+                const target = e.detail?.target || e.detail?.ctx?.target || e.target;
+                if (window.Alpine && target && target instanceof Element) {
+                    window.Alpine.initTree(target);
+                }
+                syncNavigationState();
+            };
+            document.body.addEventListener('htmx:afterSwap', initAlpineOnSwap);
+            document.body.addEventListener('htmx:after:swap', initAlpineOnSwap);
+            document.body.addEventListener('htmx:oobAfterSwap', initAlpineOnSwap);
+            document.body.addEventListener('htmx:pushedIntoHistory', () => syncNavigationState());
+            window.addEventListener('popstate', () => syncNavigationState());
+
+            // Synchronize active navigation link styling and topnav station dropdown
+            function syncNavigationState() {
+                const path = window.location.pathname;
+
+                // Sync sidebar links
+                document.querySelectorAll('aside nav a').forEach((link) => {
+                    const href = link.getAttribute('href');
+                    if (!href) return;
+                    const isActive = (href === path) || 
+                                     (href !== '/' && (href.endsWith('/') ? path.startsWith(href) : path === href || path.startsWith(href + '/')));
+                    if (isActive) {
+                        link.classList.add('bg-secondary-container', 'text-on-secondary-container', 'font-semibold', 'shadow-inner');
+                        link.classList.remove('text-on-surface-variant');
+                    } else {
+                        link.classList.remove('bg-secondary-container', 'text-on-secondary-container', 'font-semibold', 'shadow-inner');
+                        link.classList.add('text-on-surface-variant');
+                    }
+                });
+
+                // Sync topnav station selector dropdown if present
+                const stnSelect = document.querySelector('header select');
+                if (stnSelect) {
+                    if (path.startsWith('/maitri')) {
+                        stnSelect.value = 'maitri';
+                    } else if (path.startsWith('/bharati')) {
+                        stnSelect.value = 'bharati';
+                    } else if (path.startsWith('/hq')) {
+                        stnSelect.value = 'polar-all';
+                    }
+                }
+
+                // Close mobile navigation drawer if open
+                const alpineRoot = document.querySelector('[x-data]');
+                if (alpineRoot && alpineRoot._x_dataStack && alpineRoot._x_dataStack[0]) {
+                    alpineRoot._x_dataStack[0].mobileNavOpen = false;
+                }
+            }
         });
     </script>
 </body>

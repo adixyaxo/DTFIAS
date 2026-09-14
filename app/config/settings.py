@@ -67,6 +67,17 @@ class Settings(BaseSettings):
     def supabase_service_role_key(self) -> str:
         return self.supabase_secret_key
 
+    @property
+    def is_vercel(self) -> bool:
+        """True when running inside a Vercel serverless function (VERCEL=1 injected automatically)."""
+        import os
+        return bool(os.environ.get("VERCEL"))
+
+    @property
+    def is_production(self) -> bool:
+        """True when ENVIRONMENT=production."""
+        return self.environment.lower() == "production"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

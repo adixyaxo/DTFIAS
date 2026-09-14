@@ -1,200 +1,375 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/partial_twin.html" if (is_htmx or (request and request.headers.get("HX-Request") == "true")) else "layouts/base.html" %}
 
 {% block title %}Bharati Station — Digital Twin | DTFIAS{% endblock %}
 
 {% block head %}
-<link href="{{ url_for('static', path='css/station_twin.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', path='css/station_twin.css') }}?v=2" rel="stylesheet">
 <meta name="description" content="Bharati Indian Antarctic Research Station — Interactive 2.5D digital twin with real-time subsystem monitoring.">
+<style>
+  /* Override base.html cream body bg — twin is always dark */
+  body { background-color: #0B1C18 !important; }
+</style>
 {% endblock %}
 
 {# ─── Override the base layout to go full-height without the usual page padding ─── #}
 {% block body %}
   <!-- Override the base layout to go full-height without the usual page padding -->
+  <main id="main-content" class="w-full">
   <div x-data="stationTwin()"
        x-cloak
        id="station-twin"
-       class="flex flex-col h-[calc(100vh-4.5rem)] bg-[var(--bg-deep)] font-['Inter'] text-[var(--text-primary)] overflow-hidden relative"
+       class="flex flex-col h-screen bg-[var(--bg-deep)] font-['Inter'] text-[var(--text-primary)] overflow-hidden relative"
        @keydown.escape="clearSelection()"
        @st-3d-click.window="selectAsset($event.detail)">
 
     <!-- Topbar already refactored... -->
     <!-- ═══════════════════════════════════════════
-         TOP CONTROL BAR
+         TOP CONTROL BAR (SLIMMED NAVBAR)
          ═══════════════════════════════════════════ -->
-    <header class="flex items-center justify-between px-6 py-4 bg-[var(--brand-deep-green)] text-[var(--brand-cream)] border-b border-[var(--brand-teal)] shadow-md z-50 relative font-['Inter']" role="banner">
+    <header class="flex items-center justify-between px-5 py-2.5 bg-[var(--brand-deep-green)] text-[var(--brand-cream)] border-b border-[var(--brand-teal)] shadow-md z-50 relative font-['Inter']" role="banner">
 
-      <!-- Left: station identity + connection status -->
-      <div class="flex items-center space-x-6">
+      <!-- Left: Back button + station identity + connection status -->
+      <div class="flex items-center space-x-4">
+        <a href="/hq/dashboard"
+           hx-boost="false"
+           class="twin-back-btn no-underline text-xs"
+           title="Return to HQ Global Operations Dashboard">
+          <span class="text-sm leading-none">←</span>
+          <span class="font-medium">HQ Dashboard</span>
+        </a>
+        <div class="h-5 w-px bg-[var(--border-subtle)]"></div>
         <div class="flex items-center space-x-3">
-          <span class="text-2xl" aria-label="Indian flag">🇮🇳</span>
+          <span class="text-xl" aria-label="Indian flag">🇮🇳</span>
           <div>
-            <div class="font-['Playfair_Display'] text-xl font-bold tracking-wider text-[var(--brand-mint)]">BHARATI</div>
-            <div class="text-xs text-[var(--text-secondary)] tracking-wide">Indian Antarctic Research Station · 69.4°S 76.2°E</div>
+            <div class="font-['Playfair_Display'] text-lg font-bold tracking-wider text-[var(--brand-mint)] leading-tight">BHARATI</div>
+            <div class="text-[10px] text-[var(--text-secondary)] tracking-wide">Indian Antarctic Research Station · 69.4°S 76.2°E</div>
           </div>
         </div>
-        <div class="flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wide transition-colors duration-300" 
+        <div class="flex items-center space-x-2 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium tracking-wide transition-colors duration-300" 
              :class="satcomOffline ? 'bg-[var(--status-offline)] text-white' : 'bg-[rgba(66,132,117,0.2)] text-[var(--brand-mint)]'"
              role="status" aria-live="polite">
-          <span class="w-2 h-2 rounded-full shadow-[0_0_8px_currentColor]" :class="satcomOffline ? 'bg-red-300' : 'bg-[var(--brand-mint)] animate-pulse'" aria-hidden="true"></span>
+          <span class="w-1.5 h-1.5 rounded-full shadow-[0_0_8px_currentColor]" :class="satcomOffline ? 'bg-red-300' : 'bg-[var(--brand-mint)] animate-pulse'" aria-hidden="true"></span>
           <span x-text="satcomOffline ? 'EDGE COMPUTING (OFFLINE)' : 'HQ LINK ACTIVE'"></span>
         </div>
       </div>
 
-      <!-- Centre: layer filter tabs -->
-      <nav aria-label="Subsystem layer filter">
-        <div class="flex items-center bg-[var(--bg-surface)] p-1 rounded-lg border border-[var(--border-subtle)]" role="tablist">
-          <button class="px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200 hover:text-white"            role="tab" :aria-selected="activeLayer==='all'"           :class="activeLayer==='all' ? 'bg-[var(--brand-teal)] text-white shadow-sm' : 'text-[var(--text-secondary)]'"            @click="activeLayer='all'">All</button>
-          <button class="px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200 hover:text-white"    role="tab" :aria-selected="activeLayer==='infrastructure'" :class="activeLayer==='infrastructure' ? 'bg-[var(--cat-infrastructure)] text-white shadow-sm' : 'text-[var(--text-secondary)]'"  @click="activeLayer='infrastructure'">Infrastructure</button>
-          <button class="px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200 hover:text-white"   role="tab" :aria-selected="activeLayer==='energy'"        :class="activeLayer==='energy' ? 'bg-[var(--cat-energy)] text-white shadow-sm' : 'text-[var(--text-secondary)]'"           @click="activeLayer='energy'">Energy</button>
-          <button class="px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200 hover:text-white"      role="tab" :aria-selected="activeLayer==='environmental'" :class="activeLayer==='environmental' ? 'bg-[var(--cat-environmental)] text-white shadow-sm' : 'text-[var(--text-secondary)]'"     @click="activeLayer='environmental'">Environment</button>
-          <button class="px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200 hover:text-white" role="tab" :aria-selected="activeLayer==='logistics'"    :class="activeLayer==='logistics' ? 'bg-[var(--cat-logistics)] text-white shadow-sm' : 'text-[var(--text-secondary)]'"         @click="activeLayer='logistics'">Logistics</button>
-          <button class="px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200 hover:text-white" role="tab" :aria-selected="activeLayer==='personnel'"    :class="activeLayer==='personnel' ? 'bg-[var(--cat-personnel)] text-white shadow-sm' : 'text-[var(--text-secondary)]'"         @click="activeLayer='personnel'">Personnel</button>
-        </div>
-      </nav>
-
-      <!-- Right: clock + fault trigger -->
+      <!-- Right: simulation time -->
       <div class="flex items-center space-x-3">
-        <time class="font-mono text-sm tracking-wider text-[var(--brand-mint)] bg-[var(--bg-surface)] px-3 py-1.5 rounded-md border border-[var(--border-subtle)]" aria-label="Simulation time" x-text="formatSimTime()"></time>
-        <button class="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium rounded-md border transition-all duration-200 focus:outline-none"
-                :class="faultActive ? 'bg-[var(--status-critical-dark)] text-white border-[var(--status-critical-dark)] animate-pulse' : 'bg-transparent text-[var(--status-warning-dark)] border-[var(--status-warning-dark)] hover:bg-[rgba(240,160,80,0.1)]'"
-                @click="simulateFault()"
-                :disabled="faultActive"
-                :aria-pressed="faultActive"
-                aria-label="Simulate power plant fault">
-          <span class="material-symbols-outlined text-[18px]" x-text="faultActive ? 'error' : 'warning'"></span>
-          <span x-text="faultActive ? 'FAULT ACTIVE' : 'Simulate Fault'"></span>
-        </button>
-        <button class="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium rounded-md border transition-all duration-200 focus:outline-none"
-                :class="satcomOffline ? 'bg-[var(--status-offline)] text-white border-[var(--status-offline)] shadow-[0_0_15px_rgba(155,28,28,0.5)]' : 'bg-transparent text-[var(--status-ok-dark)] border-[var(--status-ok-dark)] hover:bg-[rgba(74,186,131,0.1)]'"
-                @click="toggleSatcom()"
-                :aria-pressed="satcomOffline"
-                aria-label="Toggle SATCOM Link">
-          <span class="material-symbols-outlined text-[18px]" x-text="satcomOffline ? 'satellite_alt' : 'satellite_alt'"></span>
-          <span x-text="satcomOffline ? 'Reconnect SATCOM' : 'Drop SATCOM'"></span>
-        </button>
+        <time class="font-mono text-xs tracking-wider text-[var(--brand-mint)] bg-[var(--bg-surface)] px-2.5 py-1 rounded-md border border-[var(--border-subtle)]" aria-label="Simulation time" x-text="formatSimTime()"></time>
       </div>
     </header>
 
     <!-- ═══════════════════════════════════════════
-         MAIN CANVAS
+         3-COLUMN WORKSPACE: LEFT HUD | 3D CANVAS | RIGHT ASSET & DETAIL PANEL
          ═══════════════════════════════════════════ -->
-    <main class="flex-1 relative w-full overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing" id="main-content">
+    <div class="twin-3col-container">
 
-      <!-- ─── 3D Station Hologram ─── -->
-      <div id="station-3d-container" class="absolute inset-0 w-full h-full">
-         <!-- Three.js renderer will be injected here by station_3d_view.js -->
-      </div>
+      <!-- ─── COLUMN 1: LEFT SIDEBAR (200px) ─── -->
+      <aside class="twin-left-sidebar" aria-label="3D View and Camera Controls">
+        <!-- View mode section -->
+        <div class="text-[9px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-2">3D VIEW MODE</div>
+        <div class="flex flex-col gap-1.5">
+          <button class="hud-btn w-full justify-start text-left" :class="view3DMode==='exterior' ? 'hud-btn-active' : ''"
+                  @click="set3DViewMode('exterior')" title="Exterior — default station view">
+            <span>🏔</span>
+            <span>Exterior</span>
+          </button>
+          <button class="hud-btn w-full justify-start text-left" :class="view3DMode==='xray' ? 'hud-btn-active' : ''"
+                  @click="set3DViewMode('xray')" title="X-Ray — see interior modular core">
+            <span>🔬</span>
+            <span>X-Ray Core</span>
+          </button>
+          <button class="hud-btn w-full justify-start text-left" :class="view3DMode==='hvac' ? 'hud-btn-active' : ''"
+                  @click="set3DViewMode('hvac')" title="HVAC — life support overlay">
+            <span>💨</span>
+            <span>MEP / HVAC</span>
+          </button>
+          <button class="hud-btn w-full justify-start text-left" :class="view3DMode==='thermal' ? 'hud-btn-active' : ''"
+                  @click="set3DViewMode('thermal')" title="Thermal — hydronic heating loops">
+            <span>🌡</span>
+            <span>Thermal</span>
+          </button>
+          <button class="hud-btn w-full justify-start text-left" :class="view3DMode==='structural' ? 'hud-btn-active' : ''"
+                  @click="set3DViewMode('structural')" title="Structural — steel space frame & bracing">
+            <span>🏗</span>
+            <span>Structural</span>
+          </button>
+          <button class="hud-btn w-full justify-start text-left" :class="view3DMode==='night' ? 'hud-btn-active' : ''"
+                  @click="set3DViewMode('night')" title="Night — aurora + nocturnal lighting">
+            <span>🌌</span>
+            <span>Night</span>
+          </button>
+        </div>
 
-      <!-- 2.5D SVG View has been removed -->
+        <!-- Divider -->
+        <div class="border-t border-[var(--border-subtle)] my-3"></div>
 
-    <!-- ─── ASSET DETAIL SIDE PANEL ─── -->
-    <aside class="absolute top-0 right-0 w-80 h-full bg-[rgba(12,26,22,0.95)] border-l border-[var(--border-subtle)] backdrop-blur-xl shadow-[-10px_0_30px_rgba(0,0,0,0.5)] z-40 transform transition-transform duration-300 flex flex-col font-['Inter']"
-           x-show="activeAsset !== null"
-           x-transition:enter="transition ease-out duration-300"
-           x-transition:enter-start="translate-x-full"
-           x-transition:enter-end="translate-x-0"
-           x-transition:leave="transition ease-in duration-200"
-           x-transition:leave-start="translate-x-0"
-           x-transition:leave-end="translate-x-full"
-           aria-label="Asset detail panel"
-           role="complementary">
+        <!-- Camera & Tools -->
+        <div class="text-[9px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-2">CAMERA & UTILS</div>
+        <div class="flex flex-col gap-1.5">
+          <button class="hud-btn w-full justify-start text-left" @click="resetCamera3D()" title="Reset camera to default perspective">
+            <span>⟳</span>
+            <span>Reset Camera</span>
+          </button>
+          <button class="hud-btn w-full justify-start text-left" @click="screenshot3D()" title="Capture PNG screenshot">
+            <span>📷</span>
+            <span>Screenshot</span>
+          </button>
+        </div>
 
-      <template x-if="activeAsset">
-        <div class="p-6 flex flex-col gap-6 overflow-y-auto h-full scrollbar-thin scrollbar-thumb-[rgba(66,132,117,0.5)] scrollbar-track-transparent">
+        <!-- Triangle budget badge -->
+        <div class="mt-auto pt-3 border-t border-[var(--border-subtle)] flex flex-col gap-1">
+          <div class="text-[9px] font-mono text-[var(--text-muted)] uppercase tracking-wider">GEOMETRY BUDGET</div>
+          <div class="hud-budget text-center" x-text="'▲ ' + (triCount3D || '…') + ' tris'" title="Total geometry triangles in scene"></div>
+        </div>
+      </aside>
 
-          <!-- Header -->
-          <div class="flex justify-between items-start pb-4 border-b border-[var(--border-subtle)]">
-            <div>
-              <div class="text-[0.62rem] font-bold tracking-widest text-[var(--brand-mint)] uppercase mb-1"
-                   x-text="activeAsset.category.toUpperCase()"></div>
-              <h2 class="text-xl font-['Playfair_Display'] font-semibold text-white tracking-wide leading-tight m-0" x-text="activeAsset.label"></h2>
-              <div class="text-xs text-[var(--text-secondary)] mt-1"  x-text="activeAsset.room"></div>
+      <!-- ─── COLUMN 2: CENTER 3D CANVAS ─── -->
+      <main class="twin-canvas-center" id="main-content">
+        <!-- Three.js scene container -->
+        <div id="station-3d-container" class="absolute inset-0 w-full h-full"></div>
+
+        <!-- 3D Raycast Tooltip -->
+        <div id="twin-tooltip" class="twin-tooltip" aria-hidden="true"></div>
+
+        <!-- In-canvas Status Legend (compact top-right of canvas) -->
+        <div class="absolute top-3 right-3 z-10 twin-legend pointer-events-auto" aria-label="Status legend">
+          <div class="text-[9px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-1.5">HOTSPOT STATUS</div>
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[var(--status-critical-dark)] shadow-[0_0_6px_currentColor] animate-pulse flex-shrink-0"></span>
+              <span class="text-[10px] text-[var(--status-critical-dark)] font-mono" x-text="'P0 Critical: ' + countByStatus('critical')"></span>
             </div>
-            <button @click="clearSelection()"
-                    class="bg-transparent border-none text-[var(--text-muted)] text-xl cursor-pointer hover:text-white transition-colors p-1 leading-none"
-                    aria-label="Close panel">✕</button>
-          </div>
-
-          <!-- Status block -->
-          <div class="st-status-block" :class="'status-block-' + activeAsset.status">
-            <div class="st-status-icon" x-text="getStatusIcon(activeAsset.status)"></div>
-            <div>
-              <div class="st-status-label"
-                   :class="'text-status-' + activeAsset.status"
-                   x-text="activeAsset.status.toUpperCase()"></div>
-              <div class="st-priority-badge"
-                   :class="'priority-' + activeAsset.priority"
-                   x-text="activeAsset.priority"></div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[var(--status-warning-dark)] flex-shrink-0"></span>
+              <span class="text-[10px] text-[var(--status-warning-dark)] font-mono" x-text="'P1 Warning:  ' + countByStatus('warning')"></span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[var(--status-ok-dark)] flex-shrink-0"></span>
+              <span class="text-[10px] text-[var(--status-ok-dark)] font-mono" x-text="'OK:          ' + countByStatus('ok')"></span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[var(--status-stale)] flex-shrink-0"></span>
+              <span class="text-[10px] text-[var(--status-stale)] font-mono" x-text="'Stale:       ' + countByStatus('stale')"></span>
             </div>
           </div>
+        </div>
+      </main>
 
-          <!-- Main reading -->
-          <div class="bg-[rgba(3,11,24,0.7)] border border-[var(--border-subtle)] rounded-lg p-5 text-center shadow-inner">
-            <div class="text-4xl font-bold text-[var(--accent-mint)] font-mono leading-none tracking-tight">
-              <span x-text="typeof activeAsset.value === 'number'
-                              ? activeAsset.value.toFixed(activeAsset.decimals ?? 0)
-                              : activeAsset.value"></span>
-              <span class="text-sm font-normal text-[var(--text-secondary)] font-sans ml-1" x-text="activeAsset.unit"></span>
-            </div>
-            <div class="text-[0.65rem] text-[var(--text-muted)] mt-2 uppercase tracking-wide" x-text="activeAsset.description"></div>
+      <!-- ─── COLUMN 3: RIGHT SIDEBAR (288px) ─── -->
+      <aside class="twin-right-sidebar" aria-label="Asset Subsystems & Detail Panel">
+
+        <!-- Top Operations: Relocated Fault & SATCOM Simulation Buttons -->
+        <div class="p-2.5 border-b border-[var(--border-subtle)] shrink-0 bg-[rgba(18,38,32,0.4)]">
+          <div class="text-[9px] font-mono text-[var(--text-muted)] tracking-widest uppercase mb-1.5">OPERATIONS & FAULT</div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <button class="flex items-center justify-center gap-1 px-2 py-1.5 text-xs font-medium rounded-md border transition-all duration-200 focus:outline-none"
+                    :class="faultActive ? 'bg-[var(--status-critical-dark)] text-white border-[var(--status-critical-dark)] animate-pulse' : 'bg-transparent text-[var(--status-warning-dark)] border-[var(--status-warning-dark)] hover:bg-[rgba(240,160,80,0.1)]'"
+                    @click="simulateFault()"
+                    :disabled="faultActive"
+                    :aria-pressed="faultActive"
+                    title="Simulate generator power plant trip">
+              <span class="material-symbols-outlined text-[15px]" x-text="faultActive ? 'error' : 'warning'"></span>
+              <span class="text-[11px] font-semibold" x-text="faultActive ? 'FAULT' : 'Sim Fault'"></span>
+            </button>
+            <button class="flex items-center justify-center gap-1 px-2 py-1.5 text-xs font-medium rounded-md border transition-all duration-200 focus:outline-none"
+                    :class="satcomOffline ? 'bg-[var(--status-offline)] text-white border-[var(--status-offline)] shadow-[0_0_10px_rgba(155,28,28,0.5)]' : 'bg-transparent text-[var(--status-ok-dark)] border-[var(--status-ok-dark)] hover:bg-[rgba(74,186,131,0.1)]'"
+                    @click="toggleSatcom()"
+                    :aria-pressed="satcomOffline"
+                    title="Toggle SATCOM connectivity">
+              <span class="material-symbols-outlined text-[15px]" x-text="satcomOffline ? 'satellite_alt' : 'satellite_alt'"></span>
+              <span class="text-[11px] font-semibold" x-text="satcomOffline ? 'Reconnect' : 'Drop Comms'"></span>
+            </button>
           </div>
+        </div>
 
-          <!-- Telemetry table -->
-          <div class="st-telemetry" x-show="activeAsset.telemetry && activeAsset.telemetry.length">
-            <template x-for="kv in activeAsset.telemetry" :key="kv.key">
-              <div class="st-telemetry-row">
-                <span class="st-telemetry-key"  x-text="kv.key"></span>
-                <span class="st-telemetry-val"
-                      :class="kv.alert ? 'st-telemetry-alert' : ''"
-                      x-text="kv.value + (kv.unit ? ' ' + kv.unit : '')"></span>
+        <!-- Category Filter Tabs -->
+        <div class="p-2.5 border-b border-[var(--border-subtle)] shrink-0 bg-[rgba(18,38,32,0.2)]">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[9px] font-mono text-[var(--text-muted)] tracking-widest uppercase">SUBSYSTEM CATEGORY</span>
+            <span class="text-[9px] font-mono text-[var(--accent-mint)]" x-text="filteredAssets.length + ' assets'"></span>
+          </div>
+          <div class="grid grid-cols-3 gap-1" role="tablist">
+            <button class="twin-tab-btn" :class="activeLayer==='all' ? 'twin-tab-btn-active' : ''"
+                    @click="activeLayer='all'; showAssetList=true" role="tab" :aria-selected="activeLayer==='all'">All</button>
+            <button class="twin-tab-btn" :class="activeLayer==='infrastructure' ? 'twin-tab-btn-active' : ''"
+                    @click="activeLayer='infrastructure'; showAssetList=true" role="tab" :aria-selected="activeLayer==='infrastructure'">Infra</button>
+            <button class="twin-tab-btn" :class="activeLayer==='energy' ? 'twin-tab-btn-active' : ''"
+                    @click="activeLayer='energy'; showAssetList=true" role="tab" :aria-selected="activeLayer==='energy'">Energy</button>
+            <button class="twin-tab-btn" :class="(activeLayer==='environmental' || activeLayer==='environment') ? 'twin-tab-btn-active' : ''"
+                    @click="activeLayer='environmental'; showAssetList=true" role="tab" :aria-selected="activeLayer==='environmental' || activeLayer==='environment'">Env</button>
+            <button class="twin-tab-btn" :class="activeLayer==='logistics' ? 'twin-tab-btn-active' : ''"
+                    @click="activeLayer='logistics'; showAssetList=true" role="tab" :aria-selected="activeLayer==='logistics'">Logistics</button>
+            <button class="twin-tab-btn" :class="activeLayer==='personnel' ? 'twin-tab-btn-active' : ''"
+                    @click="activeLayer='personnel'; showAssetList=true" role="tab" :aria-selected="activeLayer==='personnel'">Personnel</button>
+          </div>
+        </div>
+
+        <!-- ─── IN-PLACE SWITCH: ASSET LIST vs INLINE DETAIL PANEL ─── -->
+
+        <!-- 1. ASSET LIST (when showAssetList is true) -->
+        <div x-show="showAssetList" class="flex-1 flex flex-col overflow-hidden">
+          <div class="px-3 py-1.5 border-b border-[var(--border-subtle)] flex items-center justify-between text-[10px] text-[var(--text-muted)] font-mono">
+            <span>SELECT TO INSPECT</span>
+            <span x-text="activeLayer.toUpperCase()"></span>
+          </div>
+          <div class="twin-asset-list scrollbar-thin scrollbar-thumb-[rgba(66,132,117,0.5)]">
+            <template x-for="asset in filteredAssets" :key="asset.id">
+              <div class="twin-asset-card"
+                   :class="activeAsset && activeAsset.id === asset.id ? 'active' : ''"
+                   @click="selectAssetFromPanel(asset.id)"
+                   role="button"
+                   :aria-label="'View ' + asset.label">
+                <div class="twin-asset-card-header">
+                  <span class="twin-asset-card-title truncate" x-text="asset.label"></span>
+                  <div class="flex items-center gap-1.5 shrink-0">
+                    <span class="w-2 h-2 rounded-full"
+                          :class="{
+                            'bg-[var(--status-critical-dark)] animate-pulse': asset.status === 'critical',
+                            'bg-[var(--status-warning-dark)]': asset.status === 'warning',
+                            'bg-[var(--status-ok-dark)]': asset.status === 'ok',
+                            'bg-[var(--status-stale)]': asset.status === 'stale'
+                          }"></span>
+                    <span class="text-[9px] font-mono px-1 py-[1px] rounded"
+                          :class="{
+                            'bg-[rgba(224,96,80,0.2)] text-[var(--status-critical-dark)]': asset.priority === 'P0',
+                            'bg-[rgba(240,160,80,0.2)] text-[var(--status-warning-dark)]': asset.priority === 'P1',
+                            'bg-[rgba(66,132,117,0.2)] text-[var(--brand-mint)]': asset.priority === 'P2'
+                          }"
+                          x-text="asset.priority"></span>
+                  </div>
+                </div>
+                <div class="twin-asset-card-meta">
+                  <span class="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider font-mono truncate" x-text="asset.category"></span>
+                  <div class="twin-asset-card-val text-right">
+                    <span x-text="typeof asset.value === 'number' ? asset.value.toFixed(asset.decimals ?? 0) : asset.value"></span>
+                    <span class="text-[10px] text-[var(--text-secondary)] font-sans ml-0.5" x-text="asset.unit"></span>
+                  </div>
+                </div>
+                <div x-show="asset.stale" class="text-[9px] text-[var(--status-stale)] font-mono flex items-center gap-1">
+                  <span>⚠ STALE</span>
+                  <span x-text="formatTimeAgo(asset.last_updated)"></span>
+                </div>
               </div>
             </template>
           </div>
+        </div>
 
-          <!-- Staleness -->
-          <div class="st-timestamp" :class="activeAsset.stale ? 'st-timestamp-stale' : ''"
-               role="status" aria-live="polite">
-            <span x-text="activeAsset.stale ? '⚠' : '⟳'"></span>
-            <span>Updated: <strong x-text="formatTimeAgo(activeAsset.last_updated)"></strong></span>
-            <span x-show="activeAsset.stale" class="st-stale-badge">STALE</span>
+        <!-- 2. INLINE DETAIL PANEL (when showAssetList is false and activeAsset is non-null) -->
+        <div x-show="!showAssetList && activeAsset"
+             class="flex-1 flex flex-col overflow-hidden">
+
+          <!-- Header with Back Button and Close -->
+          <div class="p-3 border-b border-[var(--border-subtle)] flex items-center justify-between shrink-0 bg-[rgba(18,38,32,0.4)]">
+            <button @click="backToList()"
+                    class="twin-back-btn"
+                    title="Return to asset list">
+              <span>←</span>
+              <span>Assets</span>
+            </button>
+            <button @click="backToList()"
+                    class="text-[var(--text-muted)] hover:text-white p-1 leading-none text-base cursor-pointer"
+                    aria-label="Close detail panel">✕</button>
           </div>
 
-          <!-- Alert log -->
-          <div x-show="activeAsset.alerts && activeAsset.alerts.length > 0">
-            <div class="st-alerts-title">Alert Log</div>
-            <template x-for="alert in activeAsset.alerts.slice(0,5)" :key="alert.time + alert.message">
-              <div class="st-alert-item" :class="'alert-' + alert.level" role="listitem">
-                <span class="st-alert-time" x-text="alert.time"></span>
-                <span class="st-alert-msg"  x-text="alert.message"></span>
+          <!-- Scrollable Detail Body -->
+          <div class="p-4 flex flex-col gap-4 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-[rgba(66,132,117,0.5)]">
+            <template x-if="activeAsset">
+              <div class="flex flex-col gap-4">
+
+                <!-- Asset Title & Room -->
+                <div>
+                  <div class="text-[9px] font-bold tracking-widest text-[var(--brand-mint)] uppercase mb-0.5"
+                       x-text="activeAsset.category.toUpperCase()"></div>
+                  <h2 class="text-lg font-['Playfair_Display'] font-semibold text-white tracking-wide leading-snug m-0"
+                      x-text="activeAsset.label"></h2>
+                  <div class="text-[11px] text-[var(--text-secondary)] mt-0.5" x-text="activeAsset.room"></div>
+                </div>
+
+                <!-- Status block -->
+                <div class="st-status-block" :class="'status-block-' + activeAsset.status">
+                  <div class="st-status-icon" x-text="getStatusIcon(activeAsset.status)"></div>
+                  <div>
+                    <div class="st-status-label"
+                         :class="'text-status-' + activeAsset.status"
+                         x-text="activeAsset.status.toUpperCase()"></div>
+                    <div class="st-priority-badge"
+                         :class="'priority-' + activeAsset.priority"
+                         x-text="activeAsset.priority"></div>
+                  </div>
+                </div>
+
+                <!-- Main reading -->
+                <div class="bg-[rgba(3,11,24,0.7)] border border-[var(--border-subtle)] rounded-lg p-4 text-center shadow-inner">
+                  <div class="text-3xl font-bold text-[var(--accent-mint)] font-mono leading-none tracking-tight">
+                    <span x-text="typeof activeAsset.value === 'number'
+                                    ? activeAsset.value.toFixed(activeAsset.decimals ?? 0)
+                                    : activeAsset.value"></span>
+                    <span class="text-xs font-normal text-[var(--text-secondary)] font-sans ml-1" x-text="activeAsset.unit"></span>
+                  </div>
+                  <div class="text-[10px] text-[var(--text-muted)] mt-1.5 uppercase tracking-wide" x-text="activeAsset.description"></div>
+                </div>
+
+                <!-- Telemetry table -->
+                <div class="st-telemetry" x-show="activeAsset.telemetry && activeAsset.telemetry.length">
+                  <template x-for="kv in activeAsset.telemetry" :key="kv.key">
+                    <div class="st-telemetry-row">
+                      <span class="st-telemetry-key" x-text="kv.key"></span>
+                      <span class="st-telemetry-val"
+                            :class="kv.alert ? 'st-telemetry-alert' : ''"
+                            x-text="kv.value + (kv.unit ? ' ' + kv.unit : '')"></span>
+                    </div>
+                  </template>
+                </div>
+
+                <!-- Staleness -->
+                <div class="st-timestamp" :class="activeAsset.stale ? 'st-timestamp-stale' : ''"
+                     role="status" aria-live="polite">
+                  <span x-text="activeAsset.stale ? '⚠' : '⟳'"></span>
+                  <span>Updated: <strong x-text="formatTimeAgo(activeAsset.last_updated)"></strong></span>
+                  <span x-show="activeAsset.stale" class="st-stale-badge">STALE</span>
+                </div>
+
+                <!-- Alert log -->
+                <div x-show="activeAsset.alerts && activeAsset.alerts.length > 0">
+                  <div class="st-alerts-title">Alert Log</div>
+                  <template x-for="alert in activeAsset.alerts.slice(0,5)" :key="alert.time + alert.message">
+                    <div class="st-alert-item" :class="'alert-' + alert.level" role="listitem">
+                      <span class="st-alert-time" x-text="alert.time"></span>
+                      <span class="st-alert-msg" x-text="alert.message"></span>
+                    </div>
+                  </template>
+                </div>
+
+                <!-- Actions -->
+                <div class="st-actions">
+                  <button class="st-btn st-btn-ack"
+                          x-show="activeAsset.status !== 'ok' && activeAsset.status !== 'stale'"
+                          @click="acknowledgeAlert(activeAsset.id)"
+                          aria-label="Acknowledge alert">
+                    ✓ Acknowledge Alert
+                  </button>
+                  <button class="st-btn st-btn-config"
+                          @click="adjustThreshold(activeAsset.id)"
+                          aria-label="Configure thresholds">
+                    ⚙ Configure Thresholds
+                  </button>
+                  <button class="st-btn st-btn-log"
+                          @click="logCommand(activeAsset.id)"
+                          aria-label="Log manual action">
+                    📋 Log Manual Action
+                  </button>
+                </div>
+
               </div>
             </template>
-          </div>
-
-          <!-- Actions -->
-          <div class="st-actions">
-            <button class="st-btn st-btn-ack"
-                    x-show="activeAsset.status !== 'ok' && activeAsset.status !== 'stale'"
-                    @click="acknowledgeAlert(activeAsset.id)"
-                    aria-label="Acknowledge alert">
-              ✓ Acknowledge Alert
-            </button>
-            <button class="st-btn st-btn-config"
-                    @click="adjustThreshold(activeAsset.id)"
-                    aria-label="Configure thresholds">
-              ⚙ Configure Thresholds
-            </button>
-            <button class="st-btn st-btn-log"
-                    @click="logCommand(activeAsset.id)"
-                    aria-label="Log manual action">
-              📋 Log Manual Action
-            </button>
           </div>
 
         </div>
-      </template>
-    </aside>
 
-  </main><!-- end st-main -->
+      </aside>
+
+    </div><!-- end twin-3col-container -->
 
   <!-- ═══════════════════════════════════════════
        BOTTOM STATUS BAR
@@ -230,6 +405,7 @@
   </footer>
 
 </div><!-- end st-root -->
+  </main>
 {% endblock %}
 
 {% block scripts %}

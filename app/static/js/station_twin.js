@@ -10,11 +10,16 @@ function stationTwin() {
     /* ─── State ─────────────────────────────────── */
     activeAsset:   null,
     activeLayer:   'all',
+    showAssetList: true,
     faultActive:   false,
     satcomOffline: false,
     show3D:        true,
     tickerIndex:   0,
     simulationTime: new Date('2026-09-05T12:30:00Z'),
+
+    // HUD state
+    view3DMode: 'exterior',
+    triCount3D: null,
 
     /* ─── Ticker messages ────────────────────────── */
     tickerMessages: [
@@ -37,8 +42,6 @@ function stationTwin() {
         value: 98.2, decimals: 1, unit: '%',
         description: 'Structural integrity and habitation systems',
         room: 'Full Building — H1 through H4',
-        /* SVG coord: centre of building face, upper section */
-        svgX: 625, svgY: 315,
         last_updated: new Date('2026-09-05T12:28:00Z'),
         stale: false,
         telemetry: [
@@ -60,7 +63,6 @@ function stationTwin() {
         description: 'Diesel generator array — 3 × 100 kVA MAN CHP',
         /* Floor plan: Ground floor west — G G G generators */
         room: 'Generator Room — Ground Floor, West End',
-        svgX: 290, svgY: 430,
         last_updated: new Date('2026-09-05T12:29:30Z'),
         stale: false,
         telemetry: [
@@ -83,7 +85,6 @@ function stationTwin() {
         value: 296000, decimals: 0, unit: 'L',
         description: '296 kL Jet A-1 automated fuel farm (13 tanks)',
         room: 'Fuel Farm — West Exterior, H1 Ground Level',
-        svgX: 155, svgY: 568,
         last_updated: new Date('2026-09-05T12:20:00Z'),
         stale: false,
         telemetry: [
@@ -104,7 +105,6 @@ function stationTwin() {
         value: 12, decimals: 1, unit: 'm',
         description: '~300m Trace-Heated Intake from Quilty Bay',
         room: 'Quilty Bay Intake / Ground Desalination Plant',
-        svgX: 1250, svgY: 480,
         last_updated: new Date('2026-09-05T12:29:00Z'),
         stale: false,
         telemetry: [
@@ -127,7 +127,6 @@ function stationTwin() {
         description: 'Heating, ventilation and life-support array',
         /* Floor plan: Centre of building, lower floor */
         room: 'HVAC Plant Room — Lower Floor, Center (Col 10–12)',
-        svgX: 625, svgY: 440,
         last_updated: new Date('2026-09-05T12:30:00Z'),
         stale: false,
         telemetry: [
@@ -149,7 +148,6 @@ function stationTwin() {
         value: 98.7, decimals: 1, unit: '%',
         description: 'C-Band SATCOM uplink (ops channel, not AGEOS)',
         room: 'Satellite Facility — West Exterior',
-        svgX: 68, svgY: 535,
         last_updated: new Date('2026-09-05T12:29:00Z'),
         stale: false,
         telemetry: [
@@ -172,7 +170,6 @@ function stationTwin() {
         description: 'Medical facility — personnel health monitoring',
         /* Floor plan: Upper floor, medical room centre-right */
         room: 'Medical Room — Upper Floor, Col 14–16',
-        svgX: 760, svgY: 315,
         last_updated: new Date('2026-09-05T12:15:00Z'),
         stale: false,
         telemetry: [
@@ -194,7 +191,6 @@ function stationTwin() {
         description: 'Station headcount and rotation status',
         /* Floor plan: Living quarters — perimeter rooms north & south */
         room: 'Living Quarters — Upper Floor, North & South Corridors',
-        svgX: 875, svgY: 310,
         last_updated: new Date('2026-09-05T12:00:00Z'),
         stale: false,
         telemetry: [
@@ -216,7 +212,6 @@ function stationTwin() {
         description: 'Ambient environmental monitoring array',
         /* Floor plan: Roof instrumentation at H4 */
         room: 'Roof Instrumentation — H4 Platform (Col 9–11)',
-        svgX: 625, svgY: 232,
         last_updated: new Date('2026-09-05T12:29:00Z'),
         stale: false,
         telemetry: [
@@ -239,7 +234,6 @@ function stationTwin() {
         description: 'Aerial logistics — helicopter landing pad',
         /* Floor plan: East exterior (right end of building) */
         room: 'East Exterior — Helipad Platform, H1 Ground',
-        svgX: 1198, svgY: 595,
         last_updated: new Date('2026-09-05T10:00:00Z'),
         stale: false,
         telemetry: [
@@ -259,7 +253,6 @@ function stationTwin() {
         value: 3, decimals: 0, unit: 'active',
         description: 'Ground transport — snowcats and support vehicles',
         room: 'Vehicle Bay & External Ground Area',
-        svgX: 498, svgY: 640,
         last_updated: new Date('2026-09-05T11:20:00Z'),
         stale: true,
         telemetry: [
@@ -281,6 +274,20 @@ function stationTwin() {
         this.tickerIndex = (this.tickerIndex + 1) % this.tickerMessages.length;
       }, 5500);
 
+      // Throttle simulation loop when document is hidden to conserve CPU and prevent background drift
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (this._simLoop) {
+            clearInterval(this._simLoop);
+            this._simLoop = null;
+          }
+        } else {
+          if (!this._simLoop) {
+            this._simLoop = setInterval(() => this._tick(), 2000);
+          }
+        }
+      });
+
       // Lazy load Three.js environment on init since it's the only view
       if (!window.THREE) {
         const threeScript = document.createElement('script');
@@ -292,8 +299,15 @@ function stationTwin() {
             const appScript = document.createElement('script');
             appScript.src = "/static/js/three/station_3d_view.js";
             appScript.onload = () => {
+              // Listen for triangle count event BEFORE initializing station 3D
+              window.addEventListener('3d-tri-count', (e) => {
+                this.triCount3D = e.detail.toLocaleString();
+              });
               if (window.initStation3D) {
                 window.initStation3D('station-3d-container');
+              }
+              if (window.station3DScene && window.station3DScene.totalTriangles) {
+                this.triCount3D = window.station3DScene.totalTriangles.toLocaleString();
               }
             };
             document.body.appendChild(appScript);
@@ -302,7 +316,16 @@ function stationTwin() {
         };
         document.body.appendChild(threeScript);
       } else if (window.THREE && !window.station3DScene && window.initStation3D) {
+        window.addEventListener('3d-tri-count', (e) => {
+          this.triCount3D = e.detail.toLocaleString();
+        });
         window.initStation3D('station-3d-container');
+        if (window.station3DScene && window.station3DScene.totalTriangles) {
+          this.triCount3D = window.station3DScene.totalTriangles.toLocaleString();
+        }
+      }
+      if (window.station3DScene && window.station3DScene.totalTriangles && !this.triCount3D) {
+        this.triCount3D = window.station3DScene.totalTriangles.toLocaleString();
       }
     },
 
@@ -370,11 +393,77 @@ function stationTwin() {
       }
     },
 
-    /* ─── Selection ──────────────────────────────── */
-    selectAsset(id) {
-      this.activeAsset = this.assets.find(a => a.id === id) || null;
+    /* ─── Slug / alias mapping between 3D scene objects and 2D telemetry asset IDs ─── */
+    _resolveAssetId(idOrSlug) {
+      if (!idOrSlug) return null;
+      const clean = String(idOrSlug).replace(/^hotspot-/, '');
+      const SLUG_TO_ID = {
+        'power-plant': 'power_plant',
+        'power_plant': 'power_plant',
+        'chp-heating': 'power_plant',
+        'fuel-storage': 'fuel_storage',
+        'fuel_storage': 'fuel_storage',
+        'main-hab': 'main_building',
+        'main-building': 'main_building',
+        'main_building': 'main_building',
+        'main-entrance': 'main_building',
+        'v-stilts': 'main_building',
+        'pipe-rack': 'seawater_intake',
+        'seawater-intake': 'seawater_intake',
+        'seawater_intake': 'seawater_intake',
+        'water-lss': 'seawater_intake',
+        'meltwater-tarn': 'seawater_intake',
+        'hvac': 'hvac',
+        'satcom': 'comms_satcom',
+        'comms-satcom': 'comms_satcom',
+        'comms_satcom': 'comms_satcom',
+        'medical-bay': 'medical_bay',
+        'medical_bay': 'medical_bay',
+        'personnel-roster': 'personnel_roster',
+        'personnel_roster': 'personnel_roster',
+        'dining-mess': 'personnel_roster',
+        'ocean-lounge': 'personnel_roster',
+        'meteo-mast': 'environment_sensors',
+        'meteo-science-lab': 'environment_sensors',
+        'flagpole-ridge': 'environment_sensors',
+        'science-terrace': 'environment_sensors',
+        'environment-sensors': 'environment_sensors',
+        'environment_sensors': 'environment_sensors',
+        'heliport': 'heliport',
+        'vehicle-fleet': 'vehicle_fleet',
+        'vehicle_fleet': 'vehicle_fleet',
+        'workshop-garage': 'vehicle_fleet',
+        'container-depot': 'vehicle_fleet',
+      };
+      return SLUG_TO_ID[clean] || SLUG_TO_ID[clean.replace(/-/g, '_')] || clean.replace(/-/g, '_');
     },
-    clearSelection() { this.activeAsset = null; },
+
+    /* ─── Selection & Panel Navigation ───────────── */
+    selectAsset(id) {
+      const resolved = this._resolveAssetId(id);
+      this.activeAsset = this.assets.find(a => a.id === resolved || a.id === id) || null;
+      if (this.activeAsset) {
+        this.showAssetList = false;
+        if (this.activeLayer !== 'all' && this.activeLayer !== this.activeAsset.category) {
+          this.activeLayer = (this.activeAsset.category === 'environmental') ? 'environmental' : this.activeAsset.category;
+        }
+        if (typeof window !== 'undefined' && typeof window.focus3DHotspot === 'function') {
+          window.focus3DHotspot(resolved || id);
+        }
+      }
+    },
+    selectAssetFromPanel(id) {
+      this.selectAsset(id);
+      this.showAssetList = false;
+    },
+    backToList() {
+      this.showAssetList = true;
+      this.clearSelection();
+    },
+    clearSelection() {
+      this.activeAsset = null;
+      this.showAssetList = true;
+    },
 
     /* ─── Fault simulation ───────────────────────── */
     simulateFault() {
@@ -455,6 +544,10 @@ function stationTwin() {
             appScript.src = "/static/js/three/station_3d_view.js";
             appScript.onload = () => {
               window.initStation3D('station-3d-container');
+              // Pick up triangle count for HUD badge
+              window.addEventListener('3d-tri-count', (e) => {
+                this.triCount3D = e.detail.toLocaleString();
+              }, { once: true });
             };
             document.body.appendChild(appScript);
           };
@@ -466,13 +559,39 @@ function stationTwin() {
       }
     },
 
+    /* ─── HUD: 3D View Mode Switcher ─────────────── */
+    set3DViewMode(mode) {
+      this.view3DMode = mode;
+      if (typeof window.set3DMode === 'function') {
+        window.set3DMode(mode);
+      }
+    },
+
+    /* ─── HUD: Camera Reset ──────────────────────── */
+    resetCamera3D() {
+      if (typeof window.resetCamera3D === 'function') {
+        window.resetCamera3D();
+      }
+    },
+
+    /* ─── HUD: Screenshot ────────────────────────── */
+    screenshot3D() {
+      if (typeof window.screenshot3D === 'function') {
+        window.screenshot3D();
+      }
+    },
+
     acknowledgeAlert(assetId) {
+
       const a = this.assets.find(x => x.id === assetId);
       if (!a) return;
       if (a.status !== 'ok') {
         a.status = a.status === 'critical' ? 'warning' : 'ok';
       }
       a.alerts.unshift({ time: this._fmtTime(), message: 'Alert acknowledged by operator.', level: 'info' });
+      if (this.show3D && typeof window.update3DHotspot === 'function') {
+        window.update3DHotspot(a.id, a.status);
+      }
     },
     adjustThreshold(assetId) {
       /* In production: opens a modal for threshold config */
@@ -485,6 +604,19 @@ function stationTwin() {
     },
 
     /* ─── Computed helpers ───────────────────────── */
+    get filteredAssets() {
+      if (!this.activeLayer || this.activeLayer === 'all') {
+        return this.assets;
+      }
+      const layer = this.activeLayer.toLowerCase();
+      return this.assets.filter(a => {
+        if (layer === 'environment' || layer === 'environmental') {
+          return a.category === 'environmental' || a.category === 'environment';
+        }
+        return a.category === layer;
+      });
+    },
+
     isVisible(asset) {
       return this.activeLayer === 'all' || asset.category === this.activeLayer;
     },

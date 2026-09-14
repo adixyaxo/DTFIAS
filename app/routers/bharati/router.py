@@ -24,6 +24,7 @@ router.include_router(alerts_router)
 STATION_INFO = get_station_metadata("bharati")
 
 def render_station(request: Request, name: str):
+    is_htmx = request.headers.get("HX-Request") == "true"
     return templates.TemplateResponse(
         request=request,
         name=f"station/{name}.html",
@@ -31,6 +32,7 @@ def render_station(request: Request, name: str):
             "station_id": "bharati",
             "station": STATION_INFO,
             "title": f"Bharati - {name.title()}",
+            "is_htmx": is_htmx,
         },
     )
 
@@ -39,6 +41,7 @@ def render_station(request: Request, name: str):
 @router.get("/twin", response_class=HTMLResponse)
 async def station_twin(request: Request):
     """Interactive 2.5D station view for Bharati Antarctic Research Station."""
+    is_htmx = request.headers.get("HX-Request") == "true"
     return templates.TemplateResponse(
         request=request,
         name="bharati/station_twin.html",
@@ -46,6 +49,7 @@ async def station_twin(request: Request):
             "title": "Bharati Station — Digital Twin | DTFIAS",
             "station_id": "bharati",
             "station": STATION_INFO,
+            "is_htmx": is_htmx,
         },
     )
 

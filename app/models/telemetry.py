@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import uuid
 from typing import Optional
 from sqlalchemy import (
-    Text, Float, DateTime, ForeignKey, Enum as SAEnum
+    Text, Float, DateTime, ForeignKey, Enum as SAEnum, Index
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
@@ -19,6 +19,9 @@ from shared.models.enums import ReadingQuality
 class EnergyReading(Base):
     """High-frequency energy generation, consumption, and storage telemetry."""
     __tablename__ = "energy_readings"
+    __table_args__ = (
+        Index("ix_energy_readings_station_time", "station_id", "time"),
+    )
 
     time: Mapped[datetime] = mapped_column(DateTime(timezone=True), primary_key=True, default=lambda: datetime.now(timezone.utc))
     station_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("stations.id"), primary_key=True)
@@ -39,6 +42,9 @@ class EnergyReading(Base):
 class EnvironmentReading(Base):
     """High-frequency weather, meteorological, and environmental readings."""
     __tablename__ = "environment_readings"
+    __table_args__ = (
+        Index("ix_environment_readings_station_time", "station_id", "time"),
+    )
 
     time: Mapped[datetime] = mapped_column(DateTime(timezone=True), primary_key=True, default=lambda: datetime.now(timezone.utc))
     station_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("stations.id"), primary_key=True)
@@ -58,6 +64,9 @@ class EnvironmentReading(Base):
 class AssetReading(Base):
     """Generic telemetry time-series for specialized asset metrics."""
     __tablename__ = "asset_readings"
+    __table_args__ = (
+        Index("ix_asset_readings_asset_metric_time", "asset_id", "metric", "time"),
+    )
 
     time: Mapped[datetime] = mapped_column(DateTime(timezone=True), primary_key=True, default=lambda: datetime.now(timezone.utc))
     asset_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("assets.id"), primary_key=True)

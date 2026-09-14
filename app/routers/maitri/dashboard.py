@@ -25,8 +25,10 @@ async def maitri_dashboard(request: Request, service: MaitriServiceDep):
             "station": STATION_INFO,
             "title": "Maitri - Dashboard",
             "dashboard_data": dashboard_data,
+            "is_htmx": request.headers.get("HX-Request") == "true",
         },
     )
+
 
 
 __all__ = ["router"]

@@ -24,6 +24,7 @@ router.include_router(alerts_router)
 STATION_INFO = get_station_metadata("maitri")
 
 def render_station(request: Request, name: str):
+    is_htmx = request.headers.get("HX-Request") == "true"
     return templates.TemplateResponse(
         request=request,
         name=f"station/{name}.html",
@@ -31,6 +32,7 @@ def render_station(request: Request, name: str):
             "station_id": "maitri",
             "station": STATION_INFO,
             "title": f"Maitri - {name.title()}",
+            "is_htmx": is_htmx,
         },
     )
 

@@ -6,6 +6,7 @@ Conforms strictly to:
 - C3: station_id is set server-side only via STATION_CODE constant
 - C4: MUST NOT define issue_command, manage_users, or view_audit
 """
+import asyncio
 from datetime import datetime, timezone, timedelta
 from uuid import UUID
 from typing import Any
@@ -29,6 +30,9 @@ class BharatiPortalService:
     # Constraint C3: Station identifier is set server-side only
     STATION_CODE: str = "bharati"
 
+    # Class-level cache: station UUID never changes; persists across request instances
+    _STATION_ID_CACHE: "UUID | None" = None
+
     def __init__(
         self,
         station_repo: StationRepository,
@@ -48,8 +52,12 @@ class BharatiPortalService:
         self.command_service = CommandService(self.command_repo, self.clock)
 
     async def _resolve_station_id(self) -> UUID | None:
+        # Class-level cache: survives across request lifecycles (station UUID is immutable)
+        if BharatiPortalService._STATION_ID_CACHE is not None:
+            return BharatiPortalService._STATION_ID_CACHE
         station = await self.station_repo.get_by_code(self.STATION_CODE)
-        return station.id if station else None
+        BharatiPortalService._STATION_ID_CACHE = station.id if station else None
+        return BharatiPortalService._STATION_ID_CACHE
 
     async def get_dashboard_data(self) -> dict[str, Any]:
         """Gathers dashboard telemetry, active alerts, and metadata for Bharati."""
@@ -58,13 +66,16 @@ class BharatiPortalService:
 
         latest_energy = None
         microgrid_status = None
-        active_alerts = []
-        recent_commands = []
+        active_alerts: list[Any] = []
+        recent_commands: list[Any] = []
 
         if station_id:
-            latest_energy = await self.energy_service.get_latest_reading(station_id)
-            active_alerts = await self.alert_service.list_active(station_id=station_id)
-            recent_commands = await self.command_service.get_station_commands(station_id=station_id, limit=5)
+            # Run all three data fetches CONCURRENTLY — eliminates 3×RTT serial chain
+            latest_energy, active_alerts, recent_commands = await asyncio.gather(
+                self.energy_service.get_latest_reading(station_id),
+                self.alert_service.list_active(station_id=station_id),
+                self.command_service.get_station_commands(station_id=station_id, limit=5),
+            )
 
             gen = getattr(latest_energy, "generation_kw", None) if latest_energy else None
             con = getattr(latest_energy, "consumption_kw", None) if latest_energy else None
@@ -88,18 +99,22 @@ class BharatiPortalService:
             "recent_commands": recent_commands,
         }
 
+
     async def get_energy_overview(self) -> dict[str, Any]:
         """Provides detailed energy and power analytics for Bharati."""
         station_id = await self._resolve_station_id()
         latest = None
-        history = []
+        history: list[Any] = []
         status = None
 
         if station_id:
-            latest = await self.energy_service.get_latest_reading(station_id)
             now = self.clock.now()
             start_time = now - timedelta(hours=24)
-            history = await self.energy_service.get_history(station_id=station_id, start_time=start_time, limit=50)
+            # Fetch latest reading and 24h history CONCURRENTLY
+            latest, history = await asyncio.gather(
+                self.energy_service.get_latest_reading(station_id),
+                self.energy_service.get_history(station_id=station_id, start_time=start_time, limit=50),
+            )
 
             gen = getattr(latest, "generation_kw", None) if latest else None
             con = getattr(latest, "consumption_kw", None) if latest else None
@@ -120,6 +135,7 @@ class BharatiPortalService:
             "history": history,
             "status": status,
         }
+
 
     async def get_latest_reading(self) -> Any | None:
         """Retrieves the latest energy reading for Bharati."""

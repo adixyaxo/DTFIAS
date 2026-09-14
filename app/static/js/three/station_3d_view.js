@@ -124,14 +124,15 @@
     return tex;
   }
 
-  // High-fidelity procedural V-Stilt bent generator (4-segment tapered box)
+  // High-fidelity procedural V-Stilt bent generator (8-segment box section + X-bracing)
   function createVStiltBent(topWidth, height, legThickness, stiltMat) {
     const bentGroup = new THREE.Group();
+    // 8 radial segments = crisp fabricated rectangular box section
     const legGeo = new THREE.CylinderGeometry(
-      legThickness * 1.5, // Top radius (broad)
-      legThickness * 0.8, // Bottom radius (tapered)
+      legThickness * 1.5,  // Top radius
+      legThickness * 0.85, // Bottom (tapered)
       height,
-      4                   // 4 radial segments = fabricated rectangular box section
+      8                    // 8 segments — sharper box appearance
     );
     checkGeometryBudget(legGeo, 'VStiltLeg');
 
@@ -151,6 +152,22 @@
     rightLeg.receiveShadow = true;
 
     bentGroup.add(leftLeg, rightLeg);
+
+    // X-brace diagonal between legs at mid-height
+    const braceDiag = Math.sqrt(Math.pow(halfSpread * 2, 2) + Math.pow(height * 0.5, 2));
+    const xBraceGeo = new THREE.CylinderGeometry(legThickness * 0.25, legThickness * 0.25, braceDiag, 6);
+    const xBrace1 = new THREE.Mesh(xBraceGeo, window._bm.stiltBrace || stiltMat);
+    xBrace1.position.set(0, height * 0.5, 0);
+    xBrace1.rotation.z = Math.atan2(halfSpread * 2, height * 0.5);
+    xBrace1.castShadow = true;
+    bentGroup.add(xBrace1);
+
+    // Top gusset plate
+    const gussetGeo = new THREE.BoxGeometry(topWidth * 0.5 + legThickness, legThickness * 0.6, legThickness * 2.5);
+    const gusset = new THREE.Mesh(gussetGeo, stiltMat);
+    gusset.position.set(0, height, 0);
+    bentGroup.add(gusset);
+
     return bentGroup;
   }
 
@@ -174,7 +191,7 @@
     const camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000);
     camera.position.set(120, 90, 160); // NE oblique perspective
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.shadowMap.enabled = true;
@@ -182,6 +199,22 @@
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
+
+    // ── Floating HTML Tooltip (positioned by raycaster each frame) ──
+    let tooltipEl = document.getElementById('twin-tooltip');
+    if (!tooltipEl) {
+      tooltipEl = document.createElement('div');
+      tooltipEl.id = 'twin-tooltip';
+      tooltipEl.className = 'twin-tooltip';
+      tooltipEl.setAttribute('aria-hidden', 'true');
+      container.parentElement.appendChild(tooltipEl);
+    }
+
+    // ── HUD Bridge: expose camera reset, screenshot, mode switcher to Alpine ──
+    window._3d_renderer = renderer;
+    window._3d_camera   = null; // filled after camera declared below
+    window._3d_controls = null; // filled after orbitControls declared below
+
 
     // OrbitControls (safe check)
     let orbitControls = null;
@@ -194,6 +227,16 @@
     } else {
       camera.lookAt(0, 6, 0);
     }
+
+    // ── Fill HUD bridge refs now that camera and controls are declared ──
+    window._3d_camera   = camera;
+    window._3d_controls = orbitControls;
+
+    // Camera focus lerp state
+    let _cameraFocusTarget = null;  // {pos: Vector3, lookAt: Vector3}
+    let _cameraFocusAlpha  = 1.0;   // 0=start lerp, 1=done
+    const _camLerpSpeed = 0.08;
+
 
     // 2. BRAND LIGHTING SYSTEM (Day & Night)
     const ambientLight = new THREE.AmbientLight(0x1A312C, 2.0); // Brand deep green
@@ -228,30 +271,140 @@
     auroraDirect.position.set(0, 50, -20);
     scene.add(auroraDirect);
 
-    // 3. SHARED MATERIAL LIBRARY
+    // 3. SHARED MATERIAL LIBRARY (upgraded)
     window._bm = {
-      hull: new THREE.MeshStandardMaterial({ color: 0xBAC4C7, roughness: 0.28, metalness: 0.80 }),
-      roof: new THREE.MeshStandardMaterial({ color: 0x4F6D7A, roughness: 0.35, metalness: 0.85 }),
-      keel: new THREE.MeshStandardMaterial({ color: 0x8E9EA4, roughness: 0.45, metalness: 0.70 }),
-      glazingDay: new THREE.MeshStandardMaterial({ color: 0x1A312C, roughness: 0.10, metalness: 0.90, transparent: true, opacity: 0.85 }),
-      winWarm: new THREE.MeshStandardMaterial({ color: 0xFFAE33, emissive: 0xFF9900, emissiveIntensity: 2.0 }),
-      winLab: new THREE.MeshStandardMaterial({ color: 0xE6F2FF, emissive: 0xC8E2FF, emissiveIntensity: 1.8 }),
-      vstilt: new THREE.MeshStandardMaterial({ color: 0xB0BFC5, roughness: 0.25, metalness: 0.85 }),
-      stairs: new THREE.MeshStandardMaterial({ color: 0xCFD8DC, roughness: 0.40, metalness: 0.90 }),
-      concrete: new THREE.MeshStandardMaterial({ color: 0x6D6B66, roughness: 0.80, metalness: 0.05 }),
-      ctnGreen: new THREE.MeshStandardMaterial({ color: 0x5C9E68, roughness: 0.70, metalness: 0.20 }),
-      ctnWhite: new THREE.MeshStandardMaterial({ color: 0xDCE4E4, roughness: 0.70, metalness: 0.20 }),
-      ctnOrange: new THREE.MeshStandardMaterial({ color: 0xC85A32, roughness: 0.70, metalness: 0.20 }),
-      fuelTank: new THREE.MeshStandardMaterial({ color: 0x34495E, roughness: 0.55, metalness: 0.40 }),
-      radome: new THREE.MeshStandardMaterial({ color: 0xE6EDED, roughness: 0.35, metalness: 0.05, flatShading: true }),
-      tarnWater: new THREE.MeshStandardMaterial({ color: 0x1B4D72, roughness: 0.02, metalness: 0.1, transparent: true, opacity: 0.85 }),
-      graniteBedrock: new THREE.MeshStandardMaterial({ color: 0x826B50, roughness: 0.85, metalness: 0.10 }),
-      steelMep: new THREE.MeshStandardMaterial({ color: 0x2B3A8C, roughness: 0.30, metalness: 0.85 }),
-      hvacSupply: new THREE.MeshStandardMaterial({ color: 0x27AE60, roughness: 0.40, metalness: 0.30 }),
-      hvacReturn: new THREE.MeshStandardMaterial({ color: 0xF1C40F, roughness: 0.40, metalness: 0.30 }),
-      hydronicHeat: new THREE.MeshStandardMaterial({ color: 0xE74C3C, roughness: 0.35, metalness: 0.40 }),
-      domesticWater: new THREE.MeshStandardMaterial({ color: 0x2980B9, roughness: 0.35, metalness: 0.40 }),
-      electricalBusway: new THREE.MeshStandardMaterial({ color: 0x8E44AD, roughness: 0.40, metalness: 0.50 }),
+      // ── Exterior shell ──────────────────────────────────────────────────
+      hull: new THREE.MeshStandardMaterial({
+        color: 0xBAC4C7, roughness: 0.20, metalness: 0.88,
+        envMapIntensity: 1.2,
+      }),
+      hullRib: new THREE.MeshStandardMaterial({
+        color: 0x8E9EA4, roughness: 0.30, metalness: 0.82,
+        envMapIntensity: 1.0,
+      }),
+      accentStripe: new THREE.MeshStandardMaterial({
+        color: 0x1A5C50, roughness: 0.45, metalness: 0.60,
+      }),
+      roof: new THREE.MeshStandardMaterial({
+        color: 0x4F6D7A, roughness: 0.28, metalness: 0.90,
+        envMapIntensity: 1.1,
+      }),
+      keel: new THREE.MeshStandardMaterial({
+        color: 0x8E9EA4, roughness: 0.40, metalness: 0.75,
+      }),
+      // ── Glazing ─────────────────────────────────────────────────────────
+      glazingDay: new THREE.MeshStandardMaterial({
+        color: 0x1A312C, roughness: 0.05, metalness: 0.95,
+        transparent: true, opacity: 0.80,
+        envMapIntensity: 2.0,
+      }),
+      winWarm: new THREE.MeshStandardMaterial({
+        color: 0xFFAE33, emissive: new THREE.Color(0xFF9900),
+        emissiveIntensity: 2.5, roughness: 0.05, metalness: 0.1,
+        transparent: true, opacity: 0.92,
+      }),
+      winLab: new THREE.MeshStandardMaterial({
+        color: 0xE6F2FF, emissive: new THREE.Color(0xC8E2FF),
+        emissiveIntensity: 2.2, roughness: 0.05, metalness: 0.1,
+        transparent: true, opacity: 0.90,
+      }),
+      windowFrame: new THREE.MeshStandardMaterial({
+        color: 0x2A3A40, roughness: 0.55, metalness: 0.70,
+      }),
+      // ── Substructure ────────────────────────────────────────────────────
+      vstilt: new THREE.MeshStandardMaterial({
+        color: 0xB0BFC5, roughness: 0.18, metalness: 0.90,
+        envMapIntensity: 1.3,
+      }),
+      stiltBrace: new THREE.MeshStandardMaterial({
+        color: 0x8A9BA2, roughness: 0.25, metalness: 0.85,
+      }),
+      stairs: new THREE.MeshStandardMaterial({
+        color: 0xCFD8DC, roughness: 0.35, metalness: 0.92,
+      }),
+      concrete: new THREE.MeshStandardMaterial({
+        color: 0x6D6B66, roughness: 0.85, metalness: 0.04,
+      }),
+      concreteEdge: new THREE.MeshStandardMaterial({
+        color: 0x5A5855, roughness: 0.90, metalness: 0.02,
+      }),
+      // ── Container / Cargo ───────────────────────────────────────────────
+      ctnGreen: new THREE.MeshStandardMaterial({
+        color: 0x4A8A58, roughness: 0.65, metalness: 0.25,
+      }),
+      ctnWhite: new THREE.MeshStandardMaterial({
+        color: 0xD8E0E0, roughness: 0.60, metalness: 0.22,
+      }),
+      ctnOrange: new THREE.MeshStandardMaterial({
+        color: 0xB84E28, roughness: 0.65, metalness: 0.22,
+      }),
+      ctnBlue: new THREE.MeshStandardMaterial({
+        color: 0x2B4E7A, roughness: 0.65, metalness: 0.25,
+      }),
+      ctnRed: new THREE.MeshStandardMaterial({
+        color: 0x8C1F1F, roughness: 0.65, metalness: 0.22,
+      }),
+      // ── Fuel & Infrastructure ───────────────────────────────────────────
+      fuelTank: new THREE.MeshStandardMaterial({
+        color: 0x2E3F50, roughness: 0.50, metalness: 0.50,
+        envMapIntensity: 0.8,
+      }),
+      fuelTankCap: new THREE.MeshStandardMaterial({
+        color: 0xE8A020, roughness: 0.55, metalness: 0.35,
+      }),
+      fuelPipe: new THREE.MeshStandardMaterial({
+        color: 0x888888, roughness: 0.40, metalness: 0.70,
+      }),
+      // ── Site ────────────────────────────────────────────────────────────
+      radome: new THREE.MeshStandardMaterial({
+        color: 0xECF4F4, roughness: 0.28, metalness: 0.08,
+        flatShading: true,
+      }),
+      radomeStrut: new THREE.MeshStandardMaterial({
+        color: 0xAFBFC0, roughness: 0.30, metalness: 0.75,
+      }),
+      tarnWater: new THREE.MeshStandardMaterial({
+        color: 0x1B4D72, roughness: 0.01, metalness: 0.12,
+        transparent: true, opacity: 0.88,
+      }),
+      helipadSurface: new THREE.MeshStandardMaterial({
+        color: 0x585654, roughness: 0.92, metalness: 0.03,
+      }),
+      helipadMarking: new THREE.MeshBasicMaterial({
+        color: 0xFFFFFF,
+      }),
+      helipadChase: new THREE.MeshStandardMaterial({
+        color: 0xFF6600, emissive: new THREE.Color(0xFF4400),
+        emissiveIntensity: 1.5, roughness: 0.2, metalness: 0.1,
+      }),
+      windsockOrange: new THREE.MeshStandardMaterial({
+        color: 0xFF5500, roughness: 0.80, metalness: 0.05,
+      }),
+      windsockWhite: new THREE.MeshStandardMaterial({
+        color: 0xEEEEEE, roughness: 0.80, metalness: 0.05,
+      }),
+      graniteBedrock: new THREE.MeshStandardMaterial({
+        color: 0x826B50, roughness: 0.88, metalness: 0.08,
+      }),
+      // ── MEP overlays ────────────────────────────────────────────────────
+      steelMep: new THREE.MeshStandardMaterial({
+        color: 0x2B3A8C, roughness: 0.28, metalness: 0.88,
+      }),
+      hvacSupply: new THREE.MeshStandardMaterial({
+        color: 0x27AE60, roughness: 0.38, metalness: 0.32,
+      }),
+      hvacReturn: new THREE.MeshStandardMaterial({
+        color: 0xF1C40F, roughness: 0.38, metalness: 0.32,
+      }),
+      hydronicHeat: new THREE.MeshStandardMaterial({
+        color: 0xE74C3C, roughness: 0.32, metalness: 0.42,
+      }),
+      domesticWater: new THREE.MeshStandardMaterial({
+        color: 0x2980B9, roughness: 0.32, metalness: 0.42,
+      }),
+      electricalBusway: new THREE.MeshStandardMaterial({
+        color: 0x8E44AD, roughness: 0.38, metalness: 0.52,
+      }),
     };
 
     // 4. CANONICAL SCENE GROUPS
@@ -310,10 +463,11 @@
     stiltsIM.castShadow = true;
     stiltsIM.receiveShadow = true;
 
-    // 28 Concrete Footing Pads at Y=0
-    const padGeo = new THREE.CylinderGeometry(0.60, 0.60, 0.20, 8);
-    checkGeometryBudget(padGeo, 'FootingPads');
-    const padsIM = new THREE.InstancedMesh(padGeo, window._bm.concrete, 28);
+    // 28 Concrete Footings at each stilt bottom: CylinderGeometry(1.2, 1.5, 0.5, 10)
+    const stiltFootingGeo = new THREE.CylinderGeometry(1.2, 1.5, 0.5, 10);
+    checkGeometryBudget(stiltFootingGeo, 'StiltFootings');
+    const padGeo = stiltFootingGeo; // alias for backwards compatibility
+    const padsIM = new THREE.InstancedMesh(stiltFootingGeo, window._bm.concrete, 28);
     padsIM.receiveShadow = true;
 
     // Knee bracing struts (45° tubular braces)
@@ -335,8 +489,8 @@
         dummy.updateMatrix();
         stiltsIM.setMatrixAt(stiltIdx, dummy.matrix);
 
-        // Footing pad matrix
-        dummy.position.set(x, 0.10, z);
+        // Footing pad matrix (concrete footing base sitting on bedrock at Y=0)
+        dummy.position.set(x, 0.25, z);
         dummy.updateMatrix();
         padsIM.setMatrixAt(stiltIdx, dummy.matrix);
 
@@ -391,9 +545,34 @@
     hullMesh.receiveShadow = true;
     mainHabGroup.add(hullMesh);
 
+    // ── Hull Cladding Ribs (horizontal panel seam lines, 10 ribs along length) ──
+    const ribGeo = new THREE.BoxGeometry(51.0, 0.08, 0.10);
+    const ribYPositions = [3.8, 4.6, 5.4, 6.2, 7.0, 7.8, 8.4, 9.2, 9.8, 10.4];
+    ribYPositions.forEach(ry => {
+      // North side ribs
+      const ribN = new THREE.Mesh(ribGeo, window._bm.hullRib);
+      ribN.position.set(0, ry, -9.58);
+      ribN.castShadow = false;
+      mainHabGroup.add(ribN);
+      // South side ribs
+      const ribS = new THREE.Mesh(ribGeo, window._bm.hullRib);
+      ribS.position.set(0, ry, 9.58);
+      mainHabGroup.add(ribS);
+    });
+
+    // ── Longitudinal Accent Stripe (teal band at chine level, both sides) ──
+    const stripeGeo = new THREE.BoxGeometry(50.5, 0.32, 0.12);
+    const stripeN = new THREE.Mesh(stripeGeo, window._bm.accentStripe);
+    stripeN.position.set(0, 5.12, -10.05);
+    mainHabGroup.add(stripeN);
+    const stripeS = new THREE.Mesh(stripeGeo, window._bm.accentStripe);
+    stripeS.position.set(0, 5.12, 10.05);
+    mainHabGroup.add(stripeS);
+
     // Recessed Ribbon Window Bands (North & South walls, Y = 7.8 to 9.0)
     const ribbonGeo = new THREE.BoxGeometry(46.0, 1.2, 0.15);
     checkGeometryBudget(ribbonGeo, 'RibbonWindows');
+
 
     const northRibbon = new THREE.Mesh(ribbonGeo, window._bm.glazingDay);
     northRibbon.position.set(0, 8.4, -9.55);
@@ -705,43 +884,95 @@
     scene.add(stationGroup);
 
     // ─── 9. AUXILIARY SITE INFRASTRUCTURE & ENVIRONMENT ───
-    // 9.1 SATCOM Geodesic Radome: IcosahedronGeometry(5.2, 2) => 80 faces
+    // 9.1 SATCOM Geodesic Radome: IcosahedronGeometry(5.2, 3) => 160 faces (upgraded)
     const satcomGroup = new THREE.Group();
     satcomGroup.name = 'hotspot-satcom';
-    satcomGroup.position.set(-25.0, 7.2, 35.0);
+    // Lowered from Y=7.2 → Y=5.5 so stilt bottoms (−6.1 local) touch terrain at Y≈−0.6
+    satcomGroup.position.set(-25.0, 5.5, 35.0);
 
-    const radomeGeo = new THREE.IcosahedronGeometry(5.2, 2);
+    const satcomPedestal = new THREE.Group(); // Rotating sub-group for pedestal
+
+    // Radome shell — 3 subdivisions = 160 faces for high-detail geodesic
+    const radomeGeo = new THREE.IcosahedronGeometry(5.2, 3);
     checkGeometryBudget(radomeGeo, 'SatcomRadome');
     const satcomDomeMesh = new THREE.Mesh(radomeGeo, window._bm.radome);
     satcomDomeMesh.castShadow = true;
     satcomGroup.add(satcomDomeMesh);
 
-    // Ring truss base at Y = 2.0 (relative to group Y=7.2 -> offset -5.2)
-    const satcomBaseGeo = new THREE.CylinderGeometry(5.0, 5.0, 0.3, 32);
+    // Geodesic wireframe overlay (structural ribs visible through dome)
+    const radomeWireGeo = new THREE.IcosahedronGeometry(5.25, 2);
+    const radomeWireMat = new THREE.MeshBasicMaterial({
+      color: 0x7DBFAD, wireframe: true, transparent: true, opacity: 0.12,
+    });
+    const radomeWire = new THREE.Mesh(radomeWireGeo, radomeWireMat);
+    satcomGroup.add(radomeWire);
+
+    // Inner antenna dish (visible from side)
+    const dishGeo = new THREE.TorusGeometry(3.2, 0.12, 8, 32);
+    const dish = new THREE.Mesh(dishGeo, window._bm.radomeStrut);
+    dish.position.set(0, -2.0, 0);
+    dish.rotation.x = Math.PI / 2;
+    satcomGroup.add(dish);
+
+    // Rotating pedestal — gear-like torus base
+    const pedestalTorusGeo = new THREE.TorusGeometry(1.8, 0.25, 6, 18);
+    const pedestalTorus = new THREE.Mesh(pedestalTorusGeo, window._bm.vstilt);
+    pedestalTorus.rotation.x = Math.PI / 2;
+    satcomPedestal.add(pedestalTorus);
+
+    // Pedestal column
+    const pedestalColGeo = new THREE.CylinderGeometry(0.5, 0.7, 3.0, 10);
+    const pedestalCol = new THREE.Mesh(pedestalColGeo, window._bm.vstilt);
+    pedestalCol.position.set(0, -3.5, 0);
+    satcomPedestal.add(pedestalCol);
+    satcomGroup.add(satcomPedestal);
+
+    // Ring truss base
+    const satcomBaseGeo = new THREE.CylinderGeometry(5.0, 5.5, 0.4, 32);
     checkGeometryBudget(satcomBaseGeo, 'SatcomBase');
     const satcomBase = new THREE.Mesh(satcomBaseGeo, window._bm.stairs);
     satcomBase.position.set(0, -5.0, 0);
     satcomGroup.add(satcomBase);
 
     // 10 Tubular Stilts supporting SATCOM base
-    const satcomStiltGeo = new THREE.CylinderGeometry(0.12, 0.12, 2.2, 8);
+    const satcomStiltGeo = new THREE.CylinderGeometry(0.12, 0.12, 2.2, 10);
     for (let i = 0; i < 10; i++) {
       const angle = (i * Math.PI * 2) / 10;
-      const st = new THREE.Mesh(satcomStiltGeo, window._bm.vstilt);
+      const st = new THREE.Mesh(satcomStiltGeo, window._bm.radomeStrut);
       st.position.set(Math.cos(angle) * 4.8, -6.1, Math.sin(angle) * 4.8);
       satcomGroup.add(st);
     }
+
+    // ── Concrete ring foundation (grounding pad, world-space Y=0) ──
+    const satcomFoundGeo = new THREE.CylinderGeometry(6.2, 7.0, 0.5, 32);
+    const satcomFound = new THREE.Mesh(satcomFoundGeo, window._bm.concrete);
+    satcomFound.position.set(0, -5.25, 0); // world Y = 5.5 + (−5.25) ≈ 0.25
+    satcomFound.receiveShadow = true;
+    satcomGroup.add(satcomFound);
+
     auxGroup.add(satcomGroup);
 
-    // 9.2 Fuel Farm: 13 Cylindrical Tanks (296 kL bulk reserves)
+
+
+    // 9.2 Fuel Farm: 13 Cylindrical Tanks with hemispherical caps (296 kL reserves)
+
     const fuelFarmGroup = new THREE.Group();
     fuelFarmGroup.name = 'hotspot-fuel-storage';
 
-    const tankGeo = new THREE.CylinderGeometry(2.5, 2.5, 8.0, 16);
-    checkGeometryBudget(tankGeo, 'FuelTank');
-    const fuelIM = new THREE.InstancedMesh(tankGeo, window._bm.fuelTank, 13);
+    // Tank body (16 segments for smoother cylinder)
+    const tankBodyGeo = new THREE.CylinderGeometry(2.5, 2.5, 7.0, 20);
+    checkGeometryBudget(tankBodyGeo, 'FuelTankBody');
+    // Tank hemispherical cap (top)
+    const tankCapGeo = new THREE.SphereGeometry(2.5, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2);
+    checkGeometryBudget(tankCapGeo, 'FuelTankCap');
+    // Sight-glass stripe
+    const tankStripeGeo = new THREE.CylinderGeometry(2.52, 2.52, 0.2, 20);
+    const fuelIM = new THREE.InstancedMesh(tankBodyGeo, window._bm.fuelTank, 13);
+    const fuelCapIM = new THREE.InstancedMesh(tankCapGeo, window._bm.fuelTankCap, 13);
+    const fuelStripeIM = new THREE.InstancedMesh(tankStripeGeo, window._bm.fuelPipe, 13);
     fuelIM.castShadow = true;
     fuelIM.receiveShadow = true;
+    fuelCapIM.castShadow = true;
 
     // 3 rows: Row 1 (5 tanks), Row 2 (5 tanks), Row 3 (3 tanks)
     const fuelPositions = [];
@@ -755,57 +986,117 @@
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
       fuelIM.setMatrixAt(idx, dummy.matrix);
+      // Cap sits on top of body
+      dummy.position.set(pos[0], pos[1] + 3.5, pos[2]);
+      dummy.updateMatrix();
+      fuelCapIM.setMatrixAt(idx, dummy.matrix);
+      // Yellow sight-glass stripe at mid-body
+      dummy.position.set(pos[0], pos[1] + 1.0, pos[2]);
+      dummy.updateMatrix();
+      fuelStripeIM.setMatrixAt(idx, dummy.matrix);
     });
     fuelIM.instanceMatrix.needsUpdate = true;
-    fuelFarmGroup.add(fuelIM);
+    fuelCapIM.instanceMatrix.needsUpdate = true;
+    fuelStripeIM.instanceMatrix.needsUpdate = true;
+    fuelFarmGroup.add(fuelIM, fuelCapIM, fuelStripeIM);
+
+    // Pipe manifold connecting tank row 1
+    const manifoldGeo = new THREE.BoxGeometry(26.0, 0.25, 0.25);
+    const manifold = new THREE.Mesh(manifoldGeo, window._bm.fuelPipe);
+    manifold.position.set(-67.0, 0.5, -35.0);
+    fuelFarmGroup.add(manifold);
+
+    // ── Concrete base slab (bund floor) for entire fuel farm ──
+    const fuelSlabGeo = new THREE.BoxGeometry(38.0, 0.30, 22.0);
+    const fuelSlab = new THREE.Mesh(fuelSlabGeo, window._bm.concrete);
+    fuelSlab.position.set(-77.0, 0.15, -42.0);
+    fuelSlab.receiveShadow = true;
+    fuelFarmGroup.add(fuelSlab);
+
+    // ── Bund walls: raised concrete retaining walls on all 4 sides ──
+    const bWallMat = window._bm.concreteEdge || window._bm.concrete;
+    [
+      { sz: [38.0, 0.8, 0.45], pos: [-77.0, 0.55, -30.8] }, // North wall
+      { sz: [38.0, 0.8, 0.45], pos: [-77.0, 0.55, -53.2] }, // South wall
+      { sz: [0.45, 0.8, 22.0], pos: [-57.8, 0.55, -42.0] }, // East wall
+      { sz: [0.45, 0.8, 22.0], pos: [-96.2, 0.55, -42.0] }, // West wall
+    ].forEach(bw => {
+      const bGeo = new THREE.BoxGeometry(...bw.sz);
+      const bMesh = new THREE.Mesh(bGeo, bWallMat);
+      bMesh.position.set(...bw.pos);
+      bMesh.castShadow = true;
+      fuelFarmGroup.add(bMesh);
+    });
+
     auxGroup.add(fuelFarmGroup);
 
-    // 9.3 Helipad with 'H' Marking & Windsock
+
+    // 9.3 Helipad with 'H' Marking, Chase Lights & Windsock
     const helipadGroup = new THREE.Group();
     helipadGroup.name = 'hotspot-heliport';
-    helipadGroup.position.set(-85.0, 4.0, -95.0);
+    helipadGroup.position.set(-85.0, 0.0, -95.0);
 
-    const padGeo3D = new THREE.CylinderGeometry(15.0, 15.0, 0.5, 32);
+    // Pad surface — use helipadSurface material (not generic concrete)
+    const padGeo3D = new THREE.CylinderGeometry(15.0, 15.5, 0.6, 40);
     checkGeometryBudget(padGeo3D, 'HelipadBase');
-    const padMesh = new THREE.Mesh(padGeo3D, window._bm.concrete);
+    const padMesh = new THREE.Mesh(padGeo3D, window._bm.helipadSurface);
     padMesh.receiveShadow = true;
     helipadGroup.add(padMesh);
 
     // Border ring (r = 13.0 to 13.5m)
     const ringGeo = new THREE.RingGeometry(13.0, 13.5, 64);
     checkGeometryBudget(ringGeo, 'HelipadRing');
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xFFFFFF, side: THREE.DoubleSide });
-    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    const ringMesh = new THREE.Mesh(ringGeo, window._bm.helipadMarking);
     ringMesh.rotation.x = -Math.PI / 2;
-    ringMesh.position.y = 0.26;
+    ringMesh.position.y = 0.31;
     helipadGroup.add(ringMesh);
 
-    // 'H' Marking geometry
-    const hBarGeo = new THREE.BoxGeometry(0.8, 0.05, 6.0);
-    const hCrossGeo = new THREE.BoxGeometry(3.0, 0.05, 0.8);
-    const hLeg1 = new THREE.Mesh(hBarGeo, ringMat);
-    hLeg1.position.set(-1.5, 0.27, 0);
-    const hLeg2 = new THREE.Mesh(hBarGeo, ringMat);
-    hLeg2.position.set(1.5, 0.27, 0);
-    const hCross = new THREE.Mesh(hCrossGeo, ringMat);
-    hCross.position.set(0, 0.27, 0);
+    // 'H' Marking geometry — thicker bars
+    const hBarGeo  = new THREE.BoxGeometry(1.0, 0.06, 7.0);
+    const hCrossGeo = new THREE.BoxGeometry(4.0, 0.06, 1.0);
+    const hLeg1  = new THREE.Mesh(hBarGeo,   window._bm.helipadMarking);  hLeg1.position.set(-1.8, 0.32, 0);
+    const hLeg2  = new THREE.Mesh(hBarGeo,   window._bm.helipadMarking);  hLeg2.position.set( 1.8, 0.32, 0);
+    const hCross = new THREE.Mesh(hCrossGeo, window._bm.helipadMarking); hCross.position.set(0,    0.32, 0);
     helipadGroup.add(hLeg1, hLeg2, hCross);
 
-    // Windsock at pad perimeter
-    const poleGeo = new THREE.CylinderGeometry(0.05, 0.05, 4.0, 8);
-    const poleMesh = new THREE.Mesh(poleGeo, window._bm.stairs);
-    poleMesh.position.set(14.0, 2.0, 0);
-    const sockGeo = new THREE.CylinderGeometry(0.18, 0.08, 1.6, 8);
-    const sockMat = new THREE.MeshStandardMaterial({ color: 0xE85D04, roughness: 0.5 });
-    const sockMesh = new THREE.Mesh(sockGeo, sockMat);
-    sockMesh.position.set(14.8, 3.8, 0);
-    sockMesh.rotation.z = Math.PI / 2;
-    helipadGroup.add(poleMesh, sockMesh);
+    // Perimeter chase lights (8 orange LED domes)
+    const chaseLightGeo = new THREE.SphereGeometry(0.22, 8, 6);
+    for (let i = 0; i < 8; i++) {
+      const angle = (i * Math.PI * 2) / 8;
+      const cl = new THREE.Mesh(chaseLightGeo, window._bm.helipadChase);
+      cl.position.set(Math.cos(angle) * 13.8, 0.4, Math.sin(angle) * 13.8);
+      helipadGroup.add(cl);
+    }
+
+    // Windsock — orange/white striped cone on pole
+    const windPoleGeo = new THREE.CylinderGeometry(0.06, 0.06, 5.0, 8);
+    const windPole = new THREE.Mesh(windPoleGeo, window._bm.stairs);
+    windPole.position.set(14.5, 2.5, 0);
+    helipadGroup.add(windPole);
+    // Alternating orange/white cones (4 segments)
+    const sockColors = [window._bm.windsockOrange, window._bm.windsockWhite, window._bm.windsockOrange, window._bm.windsockWhite];
+    sockColors.forEach((mat, si) => {
+      const sockGeo = new THREE.CylinderGeometry(0.22 - si * 0.03, 0.22 - (si + 1) * 0.03, 0.45, 10);
+      const sock = new THREE.Mesh(sockGeo, mat);
+      sock.position.set(15.2 + si * 0.42, 4.8, 0);
+      sock.rotation.z = -Math.PI / 2;
+      helipadGroup.add(sock);
+    });
     auxGroup.add(helipadGroup);
+
 
     // 9.4 Container Depot (NW Apron, 25 ISO Boxes, 5x5 Grid)
     const containerDepotGroup = new THREE.Group();
     containerDepotGroup.name = 'hotspot-container-depot';
+
+    // Gravel pad under container depot at Y=0.07 (BoxGeometry(36, 0.15, 22))
+    const gravelPadGeo = new THREE.BoxGeometry(36, 0.15, 22);
+    checkGeometryBudget(gravelPadGeo, 'ContainerGravelPad');
+    const gravelPadMat = window._bm.concreteEdge || window._bm.concrete;
+    const gravelPad = new THREE.Mesh(gravelPadGeo, gravelPadMat);
+    gravelPad.position.set(-41.6, 0.07, -24.4);
+    gravelPad.receiveShadow = true;
+    containerDepotGroup.add(gravelPad);
 
     const isoBoxGeo = new THREE.BoxGeometry(6.06, 2.59, 2.44);
     checkGeometryBudget(isoBoxGeo, 'ISOContainer');
@@ -842,14 +1133,16 @@
     const pipeMesh = new THREE.Mesh(pipeGeo, window._bm.stairs);
     pipeRackGroup.add(pipeMesh);
 
-    // A-Frames every 6 meters
-    const aFrameGeo = new THREE.CylinderGeometry(0.06, 0.06, 1.8, 6);
+    // A-Frames every 6 meters: adjusted to 2.0m length and local y offset to push feet to Y=0
+    const aFrameGeo = new THREE.CylinderGeometry(0.06, 0.06, 2.0, 6);
+    checkGeometryBudget(aFrameGeo, 'PipeRackAFrame');
+    const aFrameLocalY = 0.18;
     for (let x = -15; x <= 15; x += 6) {
       const legL = new THREE.Mesh(aFrameGeo, window._bm.vstilt);
-      legL.position.set(x, -0.4, -0.4);
+      legL.position.set(x, aFrameLocalY, -0.4);
       legL.rotation.x = 0.2;
       const legR = new THREE.Mesh(aFrameGeo, window._bm.vstilt);
-      legR.position.set(x, -0.4, 0.4);
+      legR.position.set(x, aFrameLocalY, 0.4);
       legR.rotation.x = -0.2;
       pipeRackGroup.add(legL, legR);
     }
@@ -858,14 +1151,23 @@
     // 9.6 Flagpole Ridge (5 Masts)
     const flagpoleGroup = new THREE.Group();
     flagpoleGroup.name = 'hotspot-flagpole-ridge';
-    flagpoleGroup.position.set(-45.0, 2.0, -70.0);
+    flagpoleGroup.position.set(-45.0, 0.0, -70.0);
 
     const mastGeo = new THREE.CylinderGeometry(0.04, 0.04, 8.0, 6);
     checkGeometryBudget(mastGeo, 'FlagpoleMast');
+    const plinthGeo = new THREE.CylinderGeometry(0.4, 0.5, 0.6, 8);
+    checkGeometryBudget(plinthGeo, 'FlagpolePlinth');
+
     for (let i = 0; i < 5; i++) {
       const pole = new THREE.Mesh(mastGeo, window._bm.stairs);
       pole.position.set(i * 3.0, 4.0, 0);
       pole.castShadow = true;
+
+      // Concrete plinth at the base of each pole
+      const plinth = new THREE.Mesh(plinthGeo, window._bm.concrete);
+      plinth.position.set(i * 3.0, 0.3, 0);
+      plinth.castShadow = true;
+      plinth.receiveShadow = true;
 
       // Pennant cloth
       const pennantGeo = new THREE.PlaneGeometry(0.9, 0.6);
@@ -875,7 +1177,7 @@
       });
       const pennant = new THREE.Mesh(pennantGeo, pennantMat);
       pennant.position.set(i * 3.0 + 0.45, 7.5, 0);
-      flagpoleGroup.add(pole, pennant);
+      flagpoleGroup.add(pole, pennant, plinth);
     }
     auxGroup.add(flagpoleGroup);
 
@@ -910,7 +1212,7 @@
     auxGroup.add(tarnGroup);
 
     // 9.9 Displaced Granite Terrain Plane (Pad flattened at Y=0)
-    const terrainGeo = new THREE.PlaneGeometry(300, 300, 48, 48);
+    const terrainGeo = new THREE.PlaneGeometry(800, 800, 36, 36); // optimized for 20k triangle budget
     terrainGeo.rotateX(-Math.PI / 2);
     const posAttr = terrainGeo.attributes.position;
 
@@ -940,9 +1242,47 @@
     terrainGeo.computeVertexNormals();
     checkGeometryBudget(terrainGeo, 'TerrainPlane');
 
-    const terrainMesh = new THREE.Mesh(terrainGeo, window._bm.graniteBedrock);
+    // ── Procedural Antarctic Tundra Canvas Texture (replaces missing jpg) ──
+    function createTundraTexture() {
+      const tc = document.createElement('canvas');
+      tc.width = 512; tc.height = 512;
+      const ctx = tc.getContext('2d');
+      // Base granite grey
+      ctx.fillStyle = '#6A6660';
+      ctx.fillRect(0, 0, 512, 512);
+      // Rocky noise patches
+      for (let i = 0; i < 2800; i++) {
+        const x = Math.random() * 512, y = Math.random() * 512;
+        const r = Math.random() * 7 + 1;
+        const lum = 80 + Math.random() * 50;
+        ctx.fillStyle = `rgb(${lum},${lum - 5},${lum - 12})`;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      }
+      // Snow patches in crevices
+      for (let i = 0; i < 400; i++) {
+        const x = Math.random() * 512, y = Math.random() * 512;
+        const w = Math.random() * 18 + 4, h = Math.random() * 6 + 2;
+        ctx.fillStyle = `rgba(220,225,230,${0.3 + Math.random() * 0.4})`;
+        ctx.beginPath(); ctx.ellipse(x, y, w, h, Math.random() * Math.PI, 0, Math.PI * 2); ctx.fill();
+      }
+      const tex = new THREE.CanvasTexture(tc);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(6, 6);
+      if (renderer && renderer.capabilities) {
+        tex.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+      }
+      return tex;
+    }
+    const terrainMaterial = new THREE.MeshStandardMaterial({
+      map: createTundraTexture(),
+      roughness: 0.90,
+      metalness: 0.05,
+    });
+    const terrainMesh = new THREE.Mesh(terrainGeo, terrainMaterial);
     terrainMesh.receiveShadow = true;
     auxGroup.add(terrainMesh);
+
 
     // 9.10 Blizzard Particle System (3,000 particles)
     const particleCount = 3000;
@@ -1142,6 +1482,37 @@
           container.style.cursor = 'default';
         }
       }
+
+      // ── Tooltip positioning on hover ──
+      if (hoveredHotspot && tooltipEl) {
+        // Get world-space center of the hotspot group
+        const worldPos = new THREE.Vector3();
+        hoveredHotspot.getWorldPosition(worldPos);
+        // Offset up so tooltip appears above the object
+        worldPos.y += 6;
+        worldPos.project(camera);
+
+        const rect = container.getBoundingClientRect();
+        const sx = (worldPos.x + 1) / 2 * rect.width;
+        const sy = (-worldPos.y + 1) / 2 * rect.height;
+
+        // Look up label from HOTSPOT_REGISTRY (dictionary object)
+        const slug = hoveredHotspot.name.replace('hotspot-', '');
+        const reg  = typeof HOTSPOT_REGISTRY !== 'undefined'
+          ? (HOTSPOT_REGISTRY[hoveredHotspot.name] || HOTSPOT_REGISTRY[slug] || null)
+          : null;
+        const label = reg ? reg.label : slug.replace(/-/g, ' ');
+        const statusColors = { critical: '#E06050', warning: '#F0A050', ok: '#4ABA83', stale: '#6B7280' };
+        const activeStatus = hotspotStatusMap[hoveredHotspot.name] || 'ok';
+        const sc = statusColors[activeStatus] || '#7DBFAD';
+
+        tooltipEl.innerHTML = `<span style="color:${sc};margin-right:5px;">●</span>${label}`;
+        tooltipEl.style.display  = 'block';
+        tooltipEl.style.left     = `${sx}px`;
+        tooltipEl.style.top      = `${sy}px`;
+      } else if (tooltipEl) {
+        tooltipEl.style.display = 'none';
+      }
     });
 
     container.addEventListener('pointerdown', event => {
@@ -1161,8 +1532,20 @@
         if (hit && hit.name && hit.name.startsWith('hotspot-')) {
           const assetSlug = hit.name.replace('hotspot-', '');
           console.log(`[Bharati3D] Hotspot clicked: ${assetSlug}`);
+
+          // ── Camera fly-to: lerp toward hotspot over next ~20 frames ──
+          const worldPos = new THREE.Vector3();
+          hit.getWorldPosition(worldPos);
+          const offsetDir = camera.position.clone().sub(worldPos).normalize();
+          _cameraFocusTarget = {
+            pos:    worldPos.clone().add(offsetDir.multiplyScalar(40)).setY(Math.max(worldPos.y + 18, 20)),
+            lookAt: worldPos.clone().add(new THREE.Vector3(0, 3, 0)),
+          };
+          _cameraFocusAlpha = 0.0;
+
           window.dispatchEvent(new CustomEvent('st-3d-click', { detail: assetSlug }));
         }
+
       }
     });
 
@@ -1173,67 +1556,98 @@
         ? String(assetId.id)
         : String(assetId ?? '');
       if (!idStr) return;
-      const lookupName = idStr.startsWith('hotspot-') ? idStr : 'hotspot-' + idStr;
-      hotspotStatusMap[lookupName] = status;
-      const target = scene.getObjectByName(lookupName);
-      if (!target) return;
 
-      target.traverse(obj => {
-        if (obj.isMesh && !(obj instanceof THREE.LineSegments || obj instanceof THREE.Line)) {
-          if (obj.material) {
-            // Save original attributes on first encounter
-            if (!obj.userData._origMaterial) {
-              obj.userData._origMaterial = obj.material;
-              obj.userData._origColor = obj.material.color ? obj.material.color.getHex() : null;
-              obj.userData._origEmissive = obj.material.emissive ? obj.material.emissive.getHex() : 0;
-              obj.userData._origEmissiveIntensity = obj.material.emissiveIntensity !== undefined ? obj.material.emissiveIntensity : 0;
+      const raw = idStr.replace(/^hotspot-/, '');
+      const ASSET_TO_3D_TARGETS = {
+        'power_plant': ['hotspot-power-plant'],
+        'power-plant': ['hotspot-power-plant'],
+        'fuel_storage': ['hotspot-fuel-storage'],
+        'fuel-storage': ['hotspot-fuel-storage'],
+        'main_building': ['hotspot-main-hab'],
+        'main-hab': ['hotspot-main-hab'],
+        'seawater_intake': ['hotspot-pipe-rack'],
+        'pipe-rack': ['hotspot-pipe-rack'],
+        'hvac': ['hotspot-hvac'],
+        'comms_satcom': ['hotspot-satcom'],
+        'satcom': ['hotspot-satcom'],
+        'medical_bay': ['hotspot-medical-bay'],
+        'medical-bay': ['hotspot-medical-bay'],
+        'personnel_roster': ['hotspot-dining-mess', 'hotspot-ocean-lounge'],
+        'personnel-roster': ['hotspot-dining-mess', 'hotspot-ocean-lounge'],
+        'environment_sensors': ['hotspot-meteo-mast'],
+        'environment-sensors': ['hotspot-meteo-mast'],
+        'heliport': ['hotspot-heliport'],
+        'vehicle_fleet': ['hotspot-workshop-garage'],
+        'vehicle-fleet': ['hotspot-workshop-garage'],
+      };
+
+      const targetNames = ASSET_TO_3D_TARGETS[raw] || [
+        raw.startsWith('hotspot-') ? raw : 'hotspot-' + raw,
+        'hotspot-' + raw.replace(/_/g, '-')
+      ];
+
+      targetNames.forEach(lookupName => {
+        hotspotStatusMap[lookupName] = status;
+        const target = scene.getObjectByName(lookupName);
+        if (!target) return;
+
+        target.traverse(obj => {
+          if (obj.isMesh && !(obj instanceof THREE.LineSegments || obj instanceof THREE.Line)) {
+            if (obj.material) {
+              // Save original attributes on first encounter
+              if (!obj.userData._origMaterial) {
+                obj.userData._origMaterial = obj.material;
+                obj.userData._origColor = obj.material.color ? obj.material.color.getHex() : null;
+                obj.userData._origEmissive = obj.material.emissive ? obj.material.emissive.getHex() : 0;
+                obj.userData._origEmissiveIntensity = obj.material.emissiveIntensity !== undefined ? obj.material.emissiveIntensity : 0;
+              }
+
+              const targetColorHex = (status === 'critical') ? 0xC44536 : ((status === 'warning') ? 0xD9822B : (obj.userData._origColor));
+              const targetEmissiveHex = (status === 'critical') ? 0x9B1C1C : ((status === 'warning') ? 0x995511 : (obj.userData._origEmissive || 0x000000));
+              const targetEmissiveIntensity = (status === 'critical') ? 0.8 : ((status === 'warning') ? 0.6 : (obj.userData._origEmissiveIntensity || 0.0));
+
+              // If mesh is currently hovered, ensure unhover cache preserves the active alert styling
+              if (obj.userData.isHovered) {
+                obj.userData.origEmissiveHex = targetEmissiveHex;
+                obj.userData.origEmissiveIntensity = targetEmissiveIntensity;
+              }
+
+              // Only update/clone if status actually changed
+              if (obj.userData._currentStatus === status) {
+                return;
+              }
+              obj.userData._currentStatus = status;
+
+              if (status === 'critical' || status === 'warning') {
+                if (!obj.userData._isClonedMaterial) {
+                  obj.material = obj.material.clone();
+                  obj.userData._isClonedMaterial = true;
+                }
+                if (obj.material.color && targetColorHex !== null) {
+                  obj.material.color.setHex(targetColorHex);
+                }
+                if (obj.material.emissive) {
+                  obj.material.emissive.setHex(targetEmissiveHex);
+                  obj.material.emissiveIntensity = targetEmissiveIntensity;
+                }
+              } else {
+                // Normal status -> restore original material properties
+                if (obj.userData._origMaterial) {
+                  obj.material = obj.userData._origMaterial;
+                  obj.userData._isClonedMaterial = false;
+                }
+                if (obj.material.color && obj.userData._origColor !== null) {
+                  obj.material.color.setHex(obj.userData._origColor);
+                }
+                if (obj.material.emissive) {
+                  obj.material.emissive.setHex(obj.userData._origEmissive || 0x000000);
+                  obj.material.emissiveIntensity = obj.userData._origEmissiveIntensity || 0.0;
+                }
+              }
+              obj.material.needsUpdate = true;
             }
-
-            const targetColorHex = (status === 'critical') ? 0xC44536 : ((status === 'warning') ? 0xD9822B : (obj.userData._origColor));
-            const targetEmissiveHex = (status === 'critical') ? 0x9B1C1C : ((status === 'warning') ? 0x995511 : (obj.userData._origEmissive || 0x000000));
-            const targetEmissiveIntensity = (status === 'critical') ? 0.8 : ((status === 'warning') ? 0.6 : (obj.userData._origEmissiveIntensity || 0.0));
-
-            // If mesh is currently hovered, ensure unhover cache preserves the active alert styling
-            if (obj.userData.isHovered) {
-              obj.userData.origEmissiveHex = targetEmissiveHex;
-              obj.userData.origEmissiveIntensity = targetEmissiveIntensity;
-            }
-
-            // Only update/clone if status actually changed
-            if (obj.userData._currentStatus === status) {
-              return;
-            }
-            obj.userData._currentStatus = status;
-
-            if (status === 'critical' || status === 'warning') {
-              if (!obj.userData._isClonedMaterial) {
-                obj.material = obj.material.clone();
-                obj.userData._isClonedMaterial = true;
-              }
-              if (obj.material.color && targetColorHex !== null) {
-                obj.material.color.setHex(targetColorHex);
-              }
-              if (obj.material.emissive) {
-                obj.material.emissive.setHex(targetEmissiveHex);
-                obj.material.emissiveIntensity = targetEmissiveIntensity;
-              }
-            } else {
-              // Normal status -> restore original material properties
-              if (obj.userData._origMaterial) {
-                obj.material = obj.userData._origMaterial;
-                obj.userData._isClonedMaterial = false;
-              }
-              if (obj.material.color && obj.userData._origColor !== null) {
-                obj.material.color.setHex(obj.userData._origColor);
-              }
-              if (obj.material.emissive) {
-                obj.material.emissive.setHex(obj.userData._origEmissive || 0x000000);
-                obj.material.emissiveIntensity = obj.userData._origEmissiveIntensity || 0.0;
-              }
-            }
-            obj.material.needsUpdate = true;
           }
-        }
+        });
       });
     };
 
@@ -1249,7 +1663,7 @@
       if (orbitControls) orbitControls.update();
 
       // Subtle ambient station vertical float (period ~12s, magnitude 1.5m)
-      stationGroup.position.y = Math.sin(time * 0.524) * 1.5;
+      stationGroup.position.y = 0; // disabled vertical bobbing
 
       // Slow SATCOM radome rotation (0.5 rpm)
       if (satcomDomeMesh) {
@@ -1272,6 +1686,17 @@
       }
       particleSystem.geometry.attributes.position.needsUpdate = true;
 
+      // ── Camera Focus Lerp (fly-to on hotspot click) ──
+      if (_cameraFocusTarget && _cameraFocusAlpha < 1.0) {
+        _cameraFocusAlpha = Math.min(_cameraFocusAlpha + _camLerpSpeed, 1.0);
+        const t = 1 - Math.pow(1 - _cameraFocusAlpha, 3); // Ease-out cubic
+        camera.position.lerp(_cameraFocusTarget.pos, t * _camLerpSpeed * 2);
+        if (orbitControls) {
+          orbitControls.target.lerp(_cameraFocusTarget.lookAt, t * _camLerpSpeed * 2);
+        }
+        if (_cameraFocusAlpha >= 1.0) _cameraFocusTarget = null;
+      }
+
       renderer.render(scene, camera);
     }
     animate();
@@ -1288,7 +1713,78 @@
       }
     });
 
-    // ─── 15. SCENE EXPORT ───
+    // ─── 15. HUD BRIDGE FUNCTIONS (called by Alpine stationTwin()) ───
+    window.resetCamera3D = function () {
+      camera.position.set(120, 90, 160);
+      if (orbitControls) {
+        orbitControls.target.set(0, 6, 0);
+        orbitControls.update();
+      }
+      _cameraFocusTarget = null;
+      _cameraFocusAlpha  = 1.0;
+    };
+
+    window.screenshot3D = function () {
+      renderer.render(scene, camera); // Ensure frame is current
+      const link = document.createElement('a');
+      link.download = `bharati-twin-${Date.now()}.png`;
+      link.href = renderer.domElement.toDataURL('image/png');
+      link.click();
+    };
+
+    window.focus3DHotspot = function (assetIdOrSlug) {
+      if (!assetIdOrSlug || !camera || !scene) return;
+      const clean = String(assetIdOrSlug).replace(/^hotspot-/, '');
+      const ASSET_TO_3D_TARGETS = {
+        'power_plant': 'hotspot-power-plant',
+        'power-plant': 'hotspot-power-plant',
+        'chp-heating': 'hotspot-chp-heating',
+        'fuel_storage': 'hotspot-fuel-storage',
+        'fuel-storage': 'hotspot-fuel-storage',
+        'main_building': 'hotspot-main-hab',
+        'main-hab': 'hotspot-main-hab',
+        'main-entrance': 'hotspot-main-entrance',
+        'v-stilts': 'hotspot-v-stilts',
+        'seawater_intake': 'hotspot-pipe-rack',
+        'pipe-rack': 'hotspot-pipe-rack',
+        'water-lss': 'hotspot-water-lss',
+        'meltwater-tarn': 'hotspot-meltwater-tarn',
+        'hvac': 'hotspot-hvac',
+        'comms_satcom': 'hotspot-satcom',
+        'satcom': 'hotspot-satcom',
+        'medical_bay': 'hotspot-medical-bay',
+        'medical-bay': 'hotspot-medical-bay',
+        'personnel_roster': 'hotspot-dining-mess',
+        'personnel-roster': 'hotspot-dining-mess',
+        'dining-mess': 'hotspot-dining-mess',
+        'ocean-lounge': 'hotspot-ocean-lounge',
+        'environment_sensors': 'hotspot-meteo-mast',
+        'environment-sensors': 'hotspot-meteo-mast',
+        'meteo-mast': 'hotspot-meteo-mast',
+        'meteo-science-lab': 'hotspot-meteo-science-lab',
+        'flagpole-ridge': 'hotspot-flagpole-ridge',
+        'science-terrace': 'hotspot-science-terrace',
+        'heliport': 'hotspot-heliport',
+        'vehicle_fleet': 'hotspot-workshop-garage',
+        'vehicle-fleet': 'hotspot-workshop-garage',
+        'workshop-garage': 'hotspot-workshop-garage',
+        'container-depot': 'hotspot-container-depot',
+      };
+      const targetName = ASSET_TO_3D_TARGETS[clean] || (clean.startsWith('hotspot-') ? clean : 'hotspot-' + clean);
+      const hit = scene.getObjectByName(targetName);
+      if (hit) {
+        const worldPos = new THREE.Vector3();
+        hit.getWorldPosition(worldPos);
+        const offsetDir = camera.position.clone().sub(worldPos).normalize();
+        _cameraFocusTarget = {
+          pos:    worldPos.clone().add(offsetDir.multiplyScalar(40)).setY(Math.max(worldPos.y + 18, 20)),
+          lookAt: worldPos.clone().add(new THREE.Vector3(0, 3, 0)),
+        };
+        _cameraFocusAlpha = 0.0;
+      }
+    };
+
+    // ─── 16. SCENE EXPORT ───
     window.station3DScene = {
       scene,
       camera,
@@ -1301,11 +1797,16 @@
       auxGroup,
       setMode: window.set3DMode,
       updateHotspot: window.update3DHotspot,
+      focusHotspot: window.focus3DHotspot,
       hotspotRegistry: HOTSPOT_REGISTRY,
       checkGeometryBudget,
+      totalTriangles: totalExteriorTriangles,
     };
 
-    console.log(`[Bharati3D] Digital Twin initialized. Active hotspots: ${Object.keys(HOTSPOT_REGISTRY).length}`);
+    // ── Expose total triangle count to Alpine HUD badge ──
+    window.dispatchEvent(new CustomEvent('3d-tri-count', { detail: totalExteriorTriangles }));
+
+    console.log(`[Bharati3D] Digital Twin initialized. Active hotspots: ${Object.keys(HOTSPOT_REGISTRY).length}. Triangles: ${totalExteriorTriangles}`);
   };
 
 })();

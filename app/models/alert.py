@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import uuid
 from typing import Optional
 from sqlalchemy import (
-    Text, Boolean, DateTime, ForeignKey, Enum as SAEnum
+    Text, Boolean, DateTime, ForeignKey, Enum as SAEnum, Index
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
@@ -19,6 +19,9 @@ from shared.models.enums import AlertSeverity, AlertStatus
 class AlertRule(Base):
     """Configurable conditions that trigger operational alerts."""
     __tablename__ = "alert_rules"
+    __table_args__ = (
+        Index("ix_alert_rules_station_active", "station_id", "is_active"),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     station_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("stations.id"), nullable=False)
@@ -37,6 +40,10 @@ class AlertRule(Base):
 class ActiveAlert(Base):
     """Currently active alerts. Removed or transitioned to resolved/expired."""
     __tablename__ = "active_alerts"
+    __table_args__ = (
+        Index("ix_active_alerts_station_status_created", "station_id", "status", "created_at"),
+        Index("ix_active_alerts_status_created", "status", "created_at"),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     station_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("stations.id"), nullable=False)

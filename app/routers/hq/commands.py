@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.config.database import get_db
 from app.config.templates import templates
 from app.dependencies.portals import HQServiceDep
-from app.schemas.command import CommandCreate, CommandResponse
+from app.schemas.command import CommandCreate, CommandCreateResponse, CommandResponse
 from app.models.auth import Profile
 from infrastructure.security.authorization.rbac import get_current_user_optional
 from infrastructure.security.audit.audit_log import record_audit_event
@@ -36,7 +36,7 @@ async def hq_commands_page(request: Request, service: HQServiceDep):
     )
 
 
-@router.post("/commands", response_model=CommandResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/commands", response_model=CommandCreateResponse, status_code=status.HTTP_201_CREATED)
 async def hq_issue_command(
     request: Request,
     payload: CommandCreate,

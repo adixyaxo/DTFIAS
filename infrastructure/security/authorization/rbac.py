@@ -40,6 +40,11 @@ def decode_access_token(token: str) -> dict[str, Any] | None:
         return None
 
 
+# In-memory profile cache for DB fallbacks (TTL = 60s)
+_PROFILE_CACHE: dict[UUID, tuple[Profile, float]] = {}
+_CACHE_TTL_SECONDS = 60.0
+
+
 async def get_current_user_optional(
     request: Request,
     db: AsyncSession = Depends(get_db),
@@ -63,6 +68,25 @@ async def get_current_user_optional(
     except (ValueError, TypeError):
         return None
 
+    # Fast path: Construct Profile directly from cryptographically verified JWT claims.
+    # Eliminates 3 sequential remote Supabase round-trips on every HTTP request.
+    if "roles" in payload:
+        profile = Profile(
+            id=user_id,
+            employee_code=payload.get("username", "operator"),
+            full_name=payload.get("full_name", payload.get("username", "operator")),
+        )
+        profile.roles = [Role(name=r) for r in payload.get("roles", [])]
+        profile.station_grants = []
+        return profile
+
+    # Check in-memory cache for DB lookups
+    now = datetime.now(timezone.utc).timestamp()
+    if user_id in _PROFILE_CACHE:
+        cached_profile, cached_time = _PROFILE_CACHE[user_id]
+        if now - cached_time < _CACHE_TTL_SECONDS:
+            return cached_profile
+
     try:
         query = (
             select(Profile)
@@ -72,6 +96,7 @@ async def get_current_user_optional(
         result = await db.execute(query)
         profile = result.scalar_one_or_none()
         if profile:
+            _PROFILE_CACHE[user_id] = (profile, now)
             return profile
     except Exception:
         # Fallback to JWT claims if DB is unreachable / in unit testing

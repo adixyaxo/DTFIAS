@@ -14,16 +14,35 @@ if DATABASE_URL.startswith("postgresql://"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
 
 
-# Async engine
-engine = create_async_engine(
-    DATABASE_URL,
-    echo=False,
-    pool_pre_ping=True,
-    connect_args={
+import sys
+from sqlalchemy.pool import NullPool
+
+engine_kwargs = {
+    "echo": False,
+    "connect_args": {
         "statement_cache_size": 0,
         "prepared_statement_cache_size": 0,
-    }
-)
+    },
+}
+
+if "pytest" in sys.modules or os.environ.get("PYTEST_CURRENT_TEST"):
+    # Test mode: no pooling (avoids connection leaks between test cases)
+    engine_kwargs["poolclass"] = NullPool
+elif os.environ.get("VERCEL"):
+    # Vercel serverless: no persistent worker process, so pooling is meaningless
+    # and will cause "connection already closed" errors across cold starts.
+    engine_kwargs["poolclass"] = NullPool
+else:
+    engine_kwargs.update({
+        "pool_pre_ping": True,
+        "pool_size": 10,           # keep 10 warm connections for Supabase TLS reuse
+        "max_overflow": 20,        # allow 20 extra connections under burst load
+        "pool_recycle": 300,       # recycle connections every 5 min to prevent staleness
+        "pool_timeout": 10,        # fail fast rather than queuing for 30s (default)
+    })
+
+# Async engine
+engine = create_async_engine(DATABASE_URL, **engine_kwargs)
 
 # Async session factory
 AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)

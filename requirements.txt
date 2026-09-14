@@ -11,6 +11,8 @@ argon2-cffi>=23.1.0
 pyjwt>=2.8.0
 httpx>=0.27.0
 jinja2>=3.1.4
+# Dev/test dependencies (included here for simplicity; move to pyproject.toml [dev] for production)
 pytest>=8.0.0
 pytest-asyncio>=0.23.0
-alembic>=1.13.0
+# Note: alembic is NOT listed here — it is a migration tool, not a runtime dependency.
+# Run migrations locally or in CI before deploying. See pyproject.toml [dev] deps.

@@ -19,7 +19,7 @@
       <div class="relative flex items-center bg-surface-container-high rounded-lg px-space-sm py-1 gap-space-xs">
         <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">location_on</span>
         <select
-          @change="if ($event.target.value === 'polar-all') { window.location.href = '/hq/'; } else if ($event.target.value === 'maitri-ii') { alert('Maitri-II projected station portal under development.'); } else { window.location.href = '/' + $event.target.value + '/'; }"
+          @change="if ($event.target.value === 'polar-all') { if (window.htmx) { htmx.ajax('GET', '/hq/', { target: '#main-content', select: '#main-content', swap: 'innerHTML', pushUrl: true }); } else { window.location.href = '/hq/'; } } else if ($event.target.value === 'maitri-ii') { alert('Maitri-II projected station portal under development.'); } else { const dest = '/' + $event.target.value + '/'; if (window.htmx) { htmx.ajax('GET', dest, { target: '#main-content', select: '#main-content', swap: 'innerHTML', pushUrl: true }); } else { window.location.href = dest; } }"
           class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-sm max-w-[110px] sm:max-w-none truncate">
           <option class="bg-surface-container text-on-surface" value="bharati" {% if station_id == 'bharati' %}selected{% endif %}>Bharati [69°24'S, 76°11'E]</option>
           <option class="bg-surface-container text-on-surface" value="maitri" {% if station_id == 'maitri' %}selected{% endif %}>Maitri [70°46'S, 11°44'E]</option>
@@ -36,7 +36,7 @@
           utcTime: '14:28:22 UTC',
           localTime: '{% if station_id == 'maitri' %}14:28:22 +00:00{% else %}19:58:22 +05:30{% endif %}',
           init() {
-            setInterval(() => {
+            const updateClock = () => {
               const d = new Date();
               this.utcTime = d.toISOString().substring(11, 19) + ' UTC';
               {% if station_id == 'maitri' %}
@@ -45,7 +45,15 @@
               const loc = new Date(d.getTime() + 5.5 * 3600 * 1000);
               this.localTime = loc.toISOString().substring(11, 19) + ' +05:30';
               {% endif %}
-            }, 1000);
+            };
+            if (window.innerWidth >= 1536) {
+              updateClock();
+              setInterval(() => {
+                if (window.innerWidth >= 1536 && !document.hidden) {
+                  updateClock();
+                }
+              }, 1000);
+            }
           }
         }" x-init="init()"
         class="hidden 2xl:flex items-center gap-space-md font-telemetry-code text-telemetry-code text-on-surface-variant shrink-0">

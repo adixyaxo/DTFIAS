@@ -6,6 +6,7 @@ Implements:
 - C7: Every login attempt (success/failure) produces an audit_log row
 - C10: Secure session cookies (httponly=True, secure=True, samesite="strict")
 """
+import asyncio
 from typing import Annotated
 from uuid import UUID
 from fastapi import APIRouter, Request, Form, Depends, HTTPException, status, Response
@@ -21,6 +22,8 @@ from app.schemas.auth import LoginRequest, TokenResponse
 from infrastructure.security.authentication.passwords import verify_password
 from infrastructure.security.authorization.rbac import create_access_token, get_current_user_optional
 from infrastructure.security.audit.audit_log import record_audit_event
+
+from app.config import settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 DbDep = Annotated[AsyncSession, Depends(get_db)]
@@ -80,7 +83,7 @@ async def process_login(
     # Actual Argon2 Authentication Logic
     authenticated = False
     if user and user.hashed_password:
-        if verify_password(password, user.hashed_password):
+        if await asyncio.to_thread(verify_password, password, user.hashed_password):
             authenticated = True
 
     if not authenticated or not user:
@@ -133,11 +136,12 @@ async def process_login(
     response = RedirectResponse(url=redirect_url, status_code=302)
 
     # Constraint C10: Secure session cookie
+    # secure=True in production (Vercel/HTTPS); False on localhost for dev convenience
     response.set_cookie(
         key="dtfias_session",
         value=token,
         httponly=True,
-        secure=False,  # False for localhost development, True in HTTPS production
+        secure=settings.is_production,
         samesite="strict",
         max_age=86400,
     )

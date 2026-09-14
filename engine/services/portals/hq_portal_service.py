@@ -5,6 +5,7 @@ Conforms strictly to:
 - C1: Pure Python (zero HTTP/DB framework imports)
 - C4: EXCLUSIVELY implements issue_command, manage_users, and view_audit
 """
+import asyncio
 from datetime import datetime, timezone
 from uuid import UUID
 from typing import Any
@@ -51,12 +52,30 @@ class HQPortalService:
 
     async def get_overview(self) -> dict[str, Any]:
         """Provides high-level multi-station monitoring for NCPOR commanders."""
-        stations = await self.station_repo.list_all()
-        station_summaries = []
+        # Fetch station list and all active alerts CONCURRENTLY — saves one RTT upfront
+        stations, all_active_alerts = await asyncio.gather(
+            self.station_repo.list_all(),
+            self.alert_service.list_active(),
+        )
 
-        for stn in stations:
-            latest_energy = await self.energy_service.get_latest_reading(stn.id)
-            active_alerts = await self.alert_service.list_active(station_id=stn.id)
+        # Partition alerts by station in-memory to eliminate redundant per-station DB queries
+        alerts_by_station: dict[UUID, list[Any]] = {}
+        for alert in all_active_alerts:
+            stn_id = getattr(alert, "station_id", None)
+            if stn_id:
+                alerts_by_station.setdefault(stn_id, []).append(alert)
+
+        # Fetch all station energy readings CONCURRENTLY — eliminates N×RTT serial chain
+        energy_readings = await asyncio.gather(
+            *[self.energy_service.get_latest_reading(stn.id) for stn in stations],
+            return_exceptions=True,
+        )
+
+        station_summaries = []
+        for stn, latest_energy in zip(stations, energy_readings):
+            if isinstance(latest_energy, Exception):
+                latest_energy = None
+            station_alerts = alerts_by_station.get(stn.id, [])
             status = self.energy_service.evaluate_microgrid_status(
                 station_code=stn.code,
                 generation_kw=getattr(latest_energy, "generation_kw", None) if latest_energy else None,
@@ -68,16 +87,15 @@ class HQPortalService:
                 "station": stn,
                 "latest_energy": latest_energy,
                 "microgrid_status": status,
-                "active_alert_count": len(active_alerts),
+                "active_alert_count": len(station_alerts),
             })
-
-        all_active_alerts = await self.alert_service.list_active()
 
         return {
             "stations": station_summaries,
             "total_active_alerts": len(all_active_alerts),
             "alerts": all_active_alerts[:10],
         }
+
 
     # Constraint C4: EXCLUSIVELY defined on HQPortalService
     async def issue_command(
