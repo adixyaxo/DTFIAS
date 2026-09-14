@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 {% block body %}
-<div class="flex-grow bg-surface-container text-warm-text-primary font-sans flex flex-col justify-between select-none h-screen min-h-[100vh]" hx-boost="false">
+<div class="bg-surface-container text-warm-text-primary font-sans flex flex-col justify-between select-none h-screen w-screen overflow-hidden" hx-boost="false">
 <!-- TOP INSTITUTIONAL SECURITY BANNER -->
   <header class="w-full bg-surface-container border-b border-deep-green-border text-xs px-6 py-2 flex items-center justify-between text-[#8DA19A]">
     <div class="flex items-center gap-3">
@@ -18,12 +18,12 @@
   </header>
 
   <!-- MAIN VIEWPORT CONTAINER -->
-  <main class="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+  <main class="flex-1 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-hidden min-h-0">
     <!-- MASTER DUAL-PANE CONTAINER (Restrained geometry 12px radius, hairline border) -->
-    <div class="w-full max-w-5xl bg-warm-white rounded-xl shadow-2xl border border-warm-border overflow-hidden flex flex-col md:flex-row min-h-[640px]">
+    <div class="w-full max-w-5xl h-full max-h-[640px] bg-warm-white rounded-xl shadow-2xl border border-warm-border overflow-hidden flex flex-col md:flex-row">
       
       <!-- LEFT PANE: IDENTITY, MISSION STATEMENT & SCIENTIFIC STATION SCHEMATIC (Deep Green #1A312C) -->
-      <section class="md:w-5/12 bg-surface-container-high relative flex flex-col justify-between p-8 text-white polar-grid-pattern border-b md:border-b-0 md:border-r border-deep-green-border overflow-hidden">
+      <section class="md:w-5/12 bg-surface-container-high relative flex flex-col justify-between p-6 text-white polar-grid-pattern border-b md:border-b-0 md:border-r border-deep-green-border overflow-y-auto overflow-x-hidden">
         
         <!-- Ambient subtle glow behind schematic -->
         <div class="absolute -top-24 -left-24 w-72 h-72 bg-teal-brand/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -160,7 +160,7 @@
       </section>
 
       <!-- RIGHT PANE: FORM & CREDENTIALS CONSOLE (Warm Off-White #F7F4ED) -->
-      <section class="md:w-7/12 bg-warm-white p-8 sm:p-10 lg:p-12 flex flex-col justify-between">
+      <section class="md:w-7/12 bg-warm-white p-6 sm:p-8 flex flex-col justify-between overflow-y-auto overflow-x-hidden">
         
         <!-- Header / Role Access Information -->
         <div>
