@@ -52,11 +52,9 @@ class HQPortalService:
 
     async def get_overview(self) -> dict[str, Any]:
         """Provides high-level multi-station monitoring for NCPOR commanders."""
-        # Fetch station list and all active alerts CONCURRENTLY — saves one RTT upfront
-        stations, all_active_alerts = await asyncio.gather(
-            self.station_repo.list_all(),
-            self.alert_service.list_active(),
-        )
+        # Fetch station list and all active alerts sequentially to avoid SQLAlchemy session concurrency issues
+        stations = await self.station_repo.list_all()
+        all_active_alerts = await self.alert_service.list_active()
 
         # Partition alerts by station in-memory to eliminate redundant per-station DB queries
         alerts_by_station: dict[UUID, list[Any]] = {}
@@ -65,11 +63,14 @@ class HQPortalService:
             if stn_id:
                 alerts_by_station.setdefault(stn_id, []).append(alert)
 
-        # Fetch all station energy readings CONCURRENTLY — eliminates N×RTT serial chain
-        energy_readings = await asyncio.gather(
-            *[self.energy_service.get_latest_reading(stn.id) for stn in stations],
-            return_exceptions=True,
-        )
+        # Fetch all station energy readings sequentially to avoid SQLAlchemy session concurrency issues
+        energy_readings = []
+        for stn in stations:
+            try:
+                reading = await self.energy_service.get_latest_reading(stn.id)
+                energy_readings.append(reading)
+            except Exception as e:
+                energy_readings.append(e)
 
         station_summaries = []
         for stn, latest_energy in zip(stations, energy_readings):

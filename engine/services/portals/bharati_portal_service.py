@@ -70,12 +70,10 @@ class BharatiPortalService:
         recent_commands: list[Any] = []
 
         if station_id:
-            # Run all three data fetches CONCURRENTLY — eliminates 3×RTT serial chain
-            latest_energy, active_alerts, recent_commands = await asyncio.gather(
-                self.energy_service.get_latest_reading(station_id),
-                self.alert_service.list_active(station_id=station_id),
-                self.command_service.get_station_commands(station_id=station_id, limit=5),
-            )
+            # Run data fetches sequentially to avoid SQLAlchemy AsyncSession concurrent execution errors
+            latest_energy = await self.energy_service.get_latest_reading(station_id)
+            active_alerts = await self.alert_service.list_active(station_id=station_id)
+            recent_commands = await self.command_service.get_station_commands(station_id=station_id, limit=5)
 
             gen = getattr(latest_energy, "generation_kw", None) if latest_energy else None
             con = getattr(latest_energy, "consumption_kw", None) if latest_energy else None
@@ -110,11 +108,9 @@ class BharatiPortalService:
         if station_id:
             now = self.clock.now()
             start_time = now - timedelta(hours=24)
-            # Fetch latest reading and 24h history CONCURRENTLY
-            latest, history = await asyncio.gather(
-                self.energy_service.get_latest_reading(station_id),
-                self.energy_service.get_history(station_id=station_id, start_time=start_time, limit=50),
-            )
+            # Fetch latest reading and 24h history sequentially to avoid SQLAlchemy session concurrency issues
+            latest = await self.energy_service.get_latest_reading(station_id)
+            history = await self.energy_service.get_history(station_id=station_id, start_time=start_time, limit=50)
 
             gen = getattr(latest, "generation_kw", None) if latest else None
             con = getattr(latest, "consumption_kw", None) if latest else None
