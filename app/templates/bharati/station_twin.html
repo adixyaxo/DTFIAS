@@ -129,10 +129,20 @@
         <!-- Three.js scene container -->
         <div id="station-3d-container" class="absolute inset-0 w-full h-full" x-data
              x-init="
-               const s = document.createElement('script');
-               s.src = '/static/js/three/station_3d_view.js';
-               s.onload = () => initStation3D('station-3d-container');
-               document.body.appendChild(s);
+               const load3D = () => {
+                 const s = document.createElement('script');
+                 s.src = '/static/js/three/station_3d_view.js';
+                 s.onload = () => initStation3D('station-3d-container');
+                 document.body.appendChild(s);
+               };
+               if (!window.THREE) {
+                 const t = document.createElement('script');
+                 t.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+                 t.onload = load3D;
+                 document.head.appendChild(t);
+               } else {
+                 load3D();
+               }
              "></div>
 
         <!-- 3D Raycast Tooltip -->
