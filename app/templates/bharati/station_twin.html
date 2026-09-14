@@ -3,7 +3,7 @@
 {% block title %}Bharati Station — Digital Twin | DTFIAS{% endblock %}
 
 {% block head %}
-<link href="{{ url_for('static', path='css/station_twin.css') }}?v=2" rel="stylesheet">
+<link href="/static/css/station_twin.css?v=2" rel="stylesheet">
 <meta name="description" content="Bharati Indian Antarctic Research Station — Interactive 2.5D digital twin with real-time subsystem monitoring.">
 <style>
   /* Override base.html cream body bg — twin is always dark */
@@ -409,5 +409,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', path='js/station_twin.js') }}"></script>
+<script src="/static/js/station_twin.js"></script>
 {% endblock %}
