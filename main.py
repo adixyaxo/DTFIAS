@@ -34,8 +34,7 @@ app.add_middleware(RequestIdMiddleware)
 # Static files: on Vercel, static assets are served by CDN directly via vercel.json rewrites.
 # The Python lambda does not handle /static/* on Vercel.
 # On local uvicorn, mount normally so the dev server works without a separate CDN.
-if not settings.is_vercel:
-    app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(main_router)
 
