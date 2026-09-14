@@ -127,7 +127,13 @@
       <!-- ─── COLUMN 2: CENTER 3D CANVAS ─── -->
       <main class="twin-canvas-center" id="main-content">
         <!-- Three.js scene container -->
-        <div id="station-3d-container" class="absolute inset-0 w-full h-full"></div>
+        <div id="station-3d-container" class="absolute inset-0 w-full h-full" x-data
+             x-init="
+               const s = document.createElement('script');
+               s.src = '/static/js/three/station_3d_view.js';
+               s.onload = () => initStation3D('station-3d-container');
+               document.body.appendChild(s);
+             "></div>
 
         <!-- 3D Raycast Tooltip -->
         <div id="twin-tooltip" class="twin-tooltip" aria-hidden="true"></div>
