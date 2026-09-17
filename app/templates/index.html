@@ -2,103 +2,641 @@
 {% block title %}DTFIAS // Digital Twin for Indian Antarctic Stations{% endblock %}
 
 {% block content %}
-<div class="min-h-screen w-full bg-surface-container flex flex-col items-center relative overflow-hidden font-ui text-on-surface-variant selection:bg-primary selection:text-surface-container-lowest" hx-boost="false">
+<style>
+    :root {
+        --ease-micro: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --ease-ui: cubic-bezier(0.3, 0.8, 0.1, 1);
+        --ease-content: cubic-bezier(0.1, 0.8, 0.1, 1);
+        --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        --ease-cinematic: cubic-bezier(0.25, 0.1, 0.25, 1);
+        --ease-hover: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .font-editorial {
+        font-family: var(--font-heading, "Playfair Display", serif);
+    }
+
+    .font-ui {
+        font-family: var(--font-ui, "Inter", sans-serif);
+    }
+
+    .font-mono {
+        font-family: var(--font-mono, "JetBrains Mono", monospace);
+    }
+
+    /* Cinematic Background */
+    #hero-bg-layer {
+        position: absolute;
+        inset: -2%;
+        /* Oversize slightly for parallax */
+        background-image:
+            linear-gradient(to bottom, rgba(15, 20, 22, 0.1) 0%, rgba(15, 20, 22, 0.4) 50%, rgba(15, 20, 22, 0.95) 100%),
+            url('/static/assets/hero_bg_forest.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 0;
+        animation: initialSettle 8s var(--ease-cinematic) forwards;
+        transition: transform 0.6s var(--ease-ui), opacity 0.3s ease;
+        will-change: transform, opacity;
+    }
+
+    @keyframes initialSettle {
+        0% {
+            transform: scale(1.04);
+            filter: brightness(0.7);
+        }
+
+        100% {
+            transform: scale(1.0);
+            filter: brightness(1);
+        }
+    }
+
+    /* Boot Sequence Fades */
+    .boot-fade {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: bootFadeIn 1.2s var(--ease-content) forwards;
+    }
+
+    .boot-fade.nav-left {
+        animation-delay: 200ms;
+    }
+
+    .boot-fade.nav-right {
+        animation-delay: 400ms;
+    }
+
+    .boot-fade.sys-indicator {
+        animation-delay: 600ms;
+    }
+
+    .boot-fade.desc {
+        animation-delay: 1400ms;
+    }
+
+    .boot-fade.scroll-ind {
+        animation-delay: 1800ms;
+    }
+
+    @keyframes bootFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Cinematic Headline Reveal */
+    .headline-line {
+        overflow: hidden;
+        display: block;
+        padding-bottom: 0.1em;
+    }
+
+    .headline-text {
+        display: block;
+        transform: translateY(110%);
+        opacity: 0;
+        animation: revealUp 1.2s var(--ease-content) forwards;
+    }
+
+    .headline-line:nth-child(1) .headline-text {
+        animation-delay: 900ms;
+    }
+
+    .headline-line:nth-child(2) .headline-text {
+        animation-delay: 1050ms;
+    }
+
+    @keyframes revealUp {
+        0% {
+            transform: translateY(110%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* System Status Activation */
+    .status-dot {
+        opacity: 0.3;
+        animation: statusActivate 0.5s var(--ease-ui) 800ms forwards, statusPulse 4s var(--ease-ui) 2000ms infinite;
+    }
+
+    @keyframes statusActivate {
+        to {
+            opacity: 1;
+            box-shadow: 0 0 8px rgba(74, 186, 131, 0.4);
+        }
+    }
+
+    @keyframes statusPulse {
+
+        0%,
+        100% {
+            opacity: 1;
+            box-shadow: 0 0 8px rgba(74, 186, 131, 0.4);
+        }
+
+        50% {
+            opacity: 0.6;
+            box-shadow: 0 0 2px rgba(74, 186, 131, 0.1);
+        }
+    }
+
+    .status-text-1 {
+        opacity: 0;
+        animation: textFade 0.4s var(--ease-ui) 900ms forwards;
+    }
+
+    .status-sep {
+        opacity: 0;
+        animation: textFade 0.4s var(--ease-ui) 1000ms forwards;
+    }
+
+    .status-text-2 {
+        opacity: 0;
+        animation: textFade 0.4s var(--ease-ui) 1100ms forwards;
+    }
+
+    @keyframes textFade {
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Scroll Indicator */
+    @keyframes scrollBounce {
+
+        0%,
+        100% {
+            transform: translateY(0);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translateY(4px);
+            opacity: 0.8;
+        }
+    }
+
+    .animate-scroll {
+        animation: scrollBounce 2s ease-in-out infinite;
+    }
+
+    /* Terminal Reveal & Hover */
+    .terminal-card {
+        opacity: 0;
+        transform: translate3d(0, 30px, 0);
+        transition: opacity 0.8s var(--ease-content), transform 0.8s var(--ease-hover), border-color 0.4s var(--ease-hover), background-color 0.4s var(--ease-hover), box-shadow 0.8s var(--ease-hover);
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        will-change: transform, box-shadow;
+    }
+
+    .terminal-card.is-revealed {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    .terminal-card.is-revealed:hover {
+        transform: translate3d(0, -12px, 0);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .terminal-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.03), transparent);
+        transform: translateX(-250%) skewX(-20deg);
+        transition: none;
+        z-index: 1;
+        pointer-events: none;
+        will-change: transform;
+    }
+
+    .terminal-card:hover::before {
+        transform: translateX(300%) skewX(-20deg);
+        transition: transform 0.7s var(--ease-hover);
+    }
+
+    .terminal-card .t-title,
+    .terminal-card .t-desc,
+    .terminal-card .t-icon {
+        transition: transform 0.4s var(--ease-hover), color 0.4s var(--ease-hover), opacity 0.4s var(--ease-hover);
+    }
+
+    .terminal-card:hover .t-title {
+        transform: translateY(-2px);
+        color: #F5F2EB;
+    }
+
+    .terminal-card:hover .t-desc {
+        opacity: 0.9;
+    }
+
+    .terminal-card:hover .t-icon {
+        transform: scale(1.05);
+        color: #F5F2EB;
+    }
+
+    /* Enter Terminal Interaction */
+    .enter-line {
+        width: 24px;
+        transition: width 0.4s var(--ease-hover), background-color 0.4s var(--ease-hover);
+    }
+
+    .enter-text {
+        transition: transform 0.4s var(--ease-hover), color 0.4s var(--ease-hover);
+    }
+
+    .terminal-card:hover .enter-line {
+        width: 40px;
+        background-color: #C8E6D7;
+    }
+
+    .terminal-card:hover .enter-text {
+        transform: translateX(4px);
+        color: #C8E6D7;
+    }
+
+    /* Header scroll state */
+    header {
+        transition: background-color 0.4s var(--ease-ui), backdrop-filter 0.4s var(--ease-ui);
+    }
     
-    <!-- Premium Dark Top Navigation -->
-    <nav class="w-full max-w-7xl mx-auto px-6 py-8 flex items-center justify-between z-10">
-        <div class="flex items-center gap-4">
-            <img src="/static/assets/ncpor_emblem.png" alt="NCPOR Logo" class="h-10 w-auto object-contain brightness-0 invert opacity-90" />
-            <div class="h-8 w-px bg-outline-variant/50 mx-2 hidden sm:block"></div>
-            <div class="hidden sm:flex flex-col justify-center">
-                <span class="font-title-sm text-surface-cream leading-none tracking-wide uppercase">NCPOR</span>
-                <span class="font-label-xs text-on-surface-variant uppercase tracking-widest mt-1">Govt. of India · MoES</span>
+    header .nav-text-primary, 
+    header .nav-text-secondary,
+    header .nav-link,
+    header .nav-btn,
+    header .nav-divider {
+        transition: color 0.4s var(--ease-ui), border-color 0.4s var(--ease-ui), background-color 0.4s var(--ease-ui);
+    }
+
+    /* Initial state (black text) */
+    header .nav-text-primary { color: #000; }
+    header .nav-text-secondary { color: rgba(0, 0, 0, 0.7); }
+    header .nav-link { color: rgba(0, 0, 0, 0.7); }
+    header .nav-link:hover { color: #000; }
+    
+    header .nav-btn {
+        color: #000;
+        border-color: rgba(0, 0, 0, 0.3);
+    }
+    header .nav-btn:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.8);
+    }
+    header .nav-divider { background-color: rgba(0, 0, 0, 0.2); }
+
+    /* Scrolled state (white text) */
+    header.is-scrolled {
+        background-color: rgba(15, 20, 22, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    header.is-scrolled .nav-text-primary { color: #F5F2EB; }
+    header.is-scrolled .nav-text-secondary { color: rgba(200, 230, 215, 0.7); }
+    header.is-scrolled .nav-link { color: rgba(245, 242, 235, 0.6); }
+    header.is-scrolled .nav-link:hover { color: #F5F2EB; }
+    
+    header.is-scrolled .nav-btn {
+        color: #F5F2EB;
+        border-color: rgba(245, 242, 235, 0.2);
+    }
+    header.is-scrolled .nav-btn:hover {
+        background-color: rgba(245, 242, 235, 0.05);
+        border-color: rgba(245, 242, 235, 0.6);
+    }
+    header.is-scrolled .nav-divider { background-color: rgba(255, 255, 255, 0.2); }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        *,
+        ::before,
+        ::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+</style>
+
+<div class="w-full bg-[#0F1416] text-[#E8E3D9] font-ui selection:bg-[#428475] selection:text-white overflow-x-hidden"
+    hx-boost="false">
+
+    <!-- HERO SECTION -->
+    <section id="hero-section" class="relative w-full h-[100vh] min-h-[700px] flex flex-col overflow-hidden">
+
+        <div id="hero-bg-layer"></div>
+
+        <!-- HEADER -->
+        <header id="main-header"
+            class="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-6 flex items-center justify-between">
+            <div class="flex items-center gap-4 boot-fade nav-left">
+                <div class="bg-[#F5F2EB] p-2 border border-white/10 rounded-sm">
+                    <img src="/static/assets/ncpor_emblem.png" alt="NCPOR Logo" class="h-7 w-auto object-contain" />
+                </div>
+                <div class="nav-divider h-7 w-px mx-1 hidden sm:block"></div>
+                <div class="hidden sm:flex flex-col justify-center">
+                    <span
+                        class="nav-text-primary font-ui text-[13px] tracking-[0.15em] font-medium uppercase leading-tight">NCPOR</span>
+                    <span class="nav-text-secondary font-ui text-[9px] tracking-[0.2em] uppercase mt-0.5">Govt. of India
+                        &middot; MoES</span>
+                </div>
             </div>
-        </div>
-        <div class="flex items-center gap-6">
-            <a href="/auth/login" class="font-label-md text-on-surface-variant hover:text-surface-cream transition-colors">Access Terminals</a>
-            <a href="/auth/login" class="px-6 py-2.5 rounded bg-primary text-on-primary font-label-md tracking-wide uppercase hover:bg-primary-fixed transition-colors shadow-sm">
-                Secure Login
-            </a>
-        </div>
-    </nav>
 
-    <!-- Elegant Hero Section -->
-    <main class="w-full max-w-7xl mx-auto px-6 flex-grow flex flex-col justify-center items-center text-center mt-12 mb-20 z-10">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container border border-outline-variant/30 mb-8">
-            <span class="w-2 h-2 rounded-full bg-primary"></span>
-            <span class="font-label-xs text-primary tracking-widest uppercase font-medium">System Online &middot; Grid Active</span>
-        </div>
-        
-        <h1 class="font-headline-display text-5xl md:text-[5.5rem] leading-[1.05] text-surface-cream tracking-tight font-medium max-w-5xl">
-            Digital Twin for<br/>Indian Antarctic Stations
-        </h1>
-        
-        <p class="font-body-lg text-xl text-on-surface-variant max-w-3xl mx-auto font-light leading-relaxed mt-8">
-            Real-time telemetry, advanced command dispatch, and predictive modeling for the National Centre for Polar and Ocean Research.
-        </p>
-    </main>
+            <nav class="flex items-center gap-6 md:gap-8 boot-fade nav-right">
+                <a href="/auth/login"
+                    class="nav-link font-ui text-[11px] tracking-widest uppercase hidden sm:block">Access
+                    Terminals</a>
+                <a href="/auth/login"
+                    class="nav-btn px-5 py-2 bg-transparent border font-mono text-[10px] tracking-widest uppercase rounded-sm transition-all duration-300">
+                    Secure Login
+                </a>
+            </nav>
+        </header>
 
-    <!-- Clean Gateway Grid -->
-    <section class="w-full bg-surface-container border-t border-outline-variant/20 py-24 z-10">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- Continental HQ -->
-            <a href="/hq/" class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-8 flex flex-col justify-between hover:border-primary/50 transition-all duration-300 group cursor-pointer h-[24rem]">
-                <div>
-                    <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-8 group-hover:bg-primary transition-colors duration-300 border border-outline-variant/20 group-hover:border-primary">
-                        <span class="material-symbols-outlined text-[28px] text-primary group-hover:text-on-primary transition-colors duration-300">public</span>
-                    </div>
-                    <h2 class="font-headline-xl text-3xl mb-4 text-surface-cream group-hover:text-primary transition-colors duration-300">Continental HQ</h2>
-                    <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-90 group-hover:opacity-100 transition-opacity">
-                        Master operational overview, continental logistics tracking, multi-station energy SCADA, and predictive environmental routing.
+        <!-- HERO CONTENT -->
+        <main id="hero-content"
+            class="flex-grow flex flex-col justify-center max-w-[1400px] mx-auto w-full px-6 md:px-12 z-20 pb-16 relative">
+            <div class="flex flex-col items-start max-w-4xl mt-20">
+
+                <!-- Eyebrow Status -->
+                <div
+                    class="flex items-center gap-3 px-3 py-1.5 border border-[#F5F2EB]/10 bg-[#0F1416]/40 backdrop-blur-md mb-8 rounded-sm boot-fade sys-indicator">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#4ABA83] status-dot"></span>
+                    <span class="font-mono text-[10px] text-[#F5F2EB]/80 tracking-[0.2em] uppercase flex items-center">
+                        <span class="status-text-1">System Online</span>
+                        <span class="mx-2 opacity-40 status-sep">/</span>
+                        <span class="status-text-2">Grid Active</span>
+                    </span>
+                </div>
+
+                <!-- Headline -->
+                <h1
+                    class="font-editorial text-5xl md:text-7xl lg:text-[6rem] leading-[0.95] text-[#F5F2EB] tracking-tight font-normal mb-8 drop-shadow-xl">
+                    <span class="headline-line"><span class="headline-text">Digital Twin for</span></span>
+                    <span class="headline-line"><span class="headline-text">Indian Antarctic Stations</span></span>
+                </h1>
+
+                <!-- Subtext -->
+                <p
+                    class="font-ui text-base md:text-lg text-[#F5F2EB]/80 font-light leading-relaxed max-w-2xl boot-fade desc">
+                    Real-time telemetry, advanced command dispatch, and predictive modeling for India's Antarctic
+                    research infrastructure.
+                </p>
+
+            </div>
+        </main>
+
+        <!-- Scroll Indicator -->
+        <div id="scroll-indicator"
+            class="absolute bottom-8 left-6 md:left-12 flex flex-col items-center gap-2 boot-fade scroll-ind opacity-60 z-20">
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-[#F5F2EB]/50">Scroll</span>
+            <span class="material-symbols-outlined text-sm text-[#F5F2EB]/50 animate-scroll">arrow_downward</span>
+        </div>
+
+    </section>
+
+    <!-- SECTION 01: THE PLATFORM -->
+    <section id="platform-section" class="w-full bg-[#0F1416] py-24 md:py-32 border-t border-white/10 relative z-30">
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12">
+
+            <div class="flex flex-col md:flex-row gap-12 md:gap-32 items-start">
+                <div class="md:w-5/12">
+                    <h2 class="font-mono text-[11px] tracking-[0.2em] text-[#C8E6D7]/80 uppercase mb-8">01 &mdash; The
+                        Platform</h2>
+                    <p class="font-editorial text-3xl md:text-4xl lg:text-5xl text-[#F5F2EB] leading-tight font-normal">
+                        A digital infrastructure layer for India's Antarctic research stations.
                     </p>
                 </div>
-                <div class="flex items-center justify-between border-t border-outline-variant/20 pt-6 mt-6">
-                    <span class="font-label-xs text-on-surface-variant tracking-widest uppercase group-hover:text-primary transition-colors duration-300">NCPOR Global</span>
-                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary group-hover:translate-x-1 transition-all">arrow_forward</span>
-                </div>
-            </a>
 
-            <!-- Bharati Station -->
-            <a href="/bharati/" class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-8 flex flex-col justify-between hover:border-secondary/50 transition-all duration-300 group cursor-pointer h-[24rem]">
-                <div>
-                    <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-8 group-hover:bg-secondary transition-colors duration-300 border border-outline-variant/20 group-hover:border-secondary">
-                        <span class="material-symbols-outlined text-[28px] text-secondary group-hover:text-on-secondary transition-colors duration-300">domain</span>
-                    </div>
-                    <h2 class="font-headline-xl text-3xl mb-4 text-surface-cream group-hover:text-secondary transition-colors duration-300">Bharati Terminal</h2>
-                    <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-90 group-hover:opacity-100 transition-opacity">
-                        Larsemann Hills coastal facility. Manage dynamic life support, grid stabilization, maritime supply chains, and helipad operations.
+                <div class="md:w-1/2 md:pt-14">
+                    <p class="font-ui text-[#F5F2EB]/80 text-base md:text-lg font-light leading-relaxed mb-12">
+                        The platform connects station-level telemetry, infrastructure status, energy systems, logistics,
+                        maintenance, observations, and remote command workflows into a unified operational view.
                     </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 border-t border-white/10 pt-8">
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-[10px] text-[#4ABA83]">●</span>
+                            <span class="font-mono text-xs tracking-wider text-[#F5F2EB]/70 uppercase">NCPOR /
+                                MOES</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-[10px] text-[#4ABA83]">●</span>
+                            <span class="font-mono text-xs tracking-wider text-[#F5F2EB]/70 uppercase">Antarctic
+                                Ops</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-[10px] text-[#4ABA83]">●</span>
+                            <span class="font-mono text-xs tracking-wider text-[#F5F2EB]/70 uppercase">System /
+                                Nominal</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-[10px] text-[#4ABA83]">●</span>
+                            <span class="font-mono text-xs tracking-wider text-[#F5F2EB]/70 uppercase">Network / 02
+                                Active</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center justify-between border-t border-outline-variant/20 pt-6 mt-6">
-                    <span class="font-label-xs text-on-surface-variant tracking-widest uppercase group-hover:text-secondary transition-colors duration-300">69°24'S, 76°11'E</span>
-                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary group-hover:translate-x-1 transition-all">arrow_forward</span>
-                </div>
-            </a>
+            </div>
 
-            <!-- Maitri Station -->
-            <a href="/maitri/" class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-8 flex flex-col justify-between hover:border-tertiary/50 transition-all duration-300 group cursor-pointer h-[24rem]">
-                <div>
-                    <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-8 group-hover:bg-tertiary transition-colors duration-300 border border-outline-variant/20 group-hover:border-tertiary">
-                        <span class="material-symbols-outlined text-[28px] text-tertiary group-hover:text-on-tertiary transition-colors duration-300">ac_unit</span>
-                    </div>
-                    <h2 class="font-headline-xl text-3xl mb-4 text-surface-cream group-hover:text-tertiary transition-colors duration-300">Maitri Terminal</h2>
-                    <p class="font-body-sm text-on-surface-variant leading-relaxed opacity-90 group-hover:opacity-100 transition-opacity">
-                        Schirmacher Oasis inland facility. Manage legacy asset telemetry, critical winter-over logistics, fuel depletion, and traverse convoys.
-                    </p>
-                </div>
-                <div class="flex items-center justify-between border-t border-outline-variant/20 pt-6 mt-6">
-                    <span class="font-label-xs text-on-surface-variant tracking-widest uppercase group-hover:text-tertiary transition-colors duration-300">70°46'S, 11°44'E</span>
-                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary group-hover:translate-x-1 transition-all">arrow_forward</span>
-                </div>
-            </a>
-            
         </div>
-        
-        <!-- Clean Footer -->
-        <div class="max-w-7xl mx-auto px-6 mt-16 text-center">
-            <p class="font-label-xs text-on-surface-variant/50 tracking-widest uppercase">Ministry of Earth Sciences &middot; Government of India</p>
+    </section>
+
+    <!-- SECTION 02: MODULES -->
+    <section class="w-full bg-[#111719] py-24 border-t border-white/10">
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12">
+            <h2 class="font-mono text-[11px] tracking-[0.2em] text-[#C8E6D7]/80 uppercase mb-12">Operational Terminals
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+
+                <!-- HQ -->
+                <a href="/hq/"
+                    class="terminal-card relative overflow-hidden p-8 md:p-10 group flex flex-col justify-between min-h-[360px]">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-12">
+                            <span
+                                class="font-mono text-[10px] tracking-[0.2em] text-[#F5F2EB]/60 group-hover:text-[#C8E6D7] transition-colors">01
+                                / HQ</span>
+                            <span class="t-icon material-symbols-outlined text-[#F5F2EB]/40 text-xl">public</span>
+                        </div>
+                        <h3 class="t-title font-editorial text-3xl md:text-4xl text-[#F5F2EB]/90 mb-6">Continental HQ
+                        </h3>
+                        <p class="t-desc font-ui text-sm text-[#F5F2EB]/70 font-light leading-relaxed">
+                            Master operational overview, continental logistics tracking, multi-station energy SCADA, and
+                            predictive environmental routing.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-10 relative z-10">
+                        <span class="enter-line h-px bg-white/30"></span>
+                        <span class="enter-text font-mono text-[10px] tracking-widest text-[#F5F2EB]/60 uppercase">Enter
+                            Terminal</span>
+                    </div>
+                </a>
+
+                <!-- Bharati -->
+                <a href="/bharati/"
+                    class="terminal-card relative overflow-hidden p-8 md:p-10 group flex flex-col justify-between min-h-[360px]">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-12">
+                            <span
+                                class="font-mono text-[10px] tracking-[0.2em] text-[#F5F2EB]/60 group-hover:text-[#C8E6D7] transition-colors">02
+                                / BHARATI</span>
+                            <span class="t-icon material-symbols-outlined text-[#F5F2EB]/40 text-xl">domain</span>
+                        </div>
+                        <h3 class="t-title font-editorial text-3xl md:text-4xl text-[#F5F2EB]/90 mb-6">Bharati Station
+                        </h3>
+                        <p class="t-desc font-ui text-sm text-[#F5F2EB]/70 font-light leading-relaxed">
+                            Larsemann Hills coastal facility. Manage dynamic life support, grid stabilization, maritime
+                            supply chains, and helipad operations.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-10 relative z-10">
+                        <span class="enter-line h-px bg-white/30"></span>
+                        <span class="enter-text font-mono text-[10px] tracking-widest text-[#F5F2EB]/60 uppercase">Enter
+                            Terminal</span>
+                    </div>
+                </a>
+
+                <!-- Maitri -->
+                <a href="/maitri/"
+                    class="terminal-card relative overflow-hidden p-8 md:p-10 group flex flex-col justify-between min-h-[360px]">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-12">
+                            <span
+                                class="font-mono text-[10px] tracking-[0.2em] text-[#F5F2EB]/60 group-hover:text-[#C8E6D7] transition-colors">03
+                                / MAITRI</span>
+                            <span class="t-icon material-symbols-outlined text-[#F5F2EB]/40 text-xl">ac_unit</span>
+                        </div>
+                        <h3 class="t-title font-editorial text-3xl md:text-4xl text-[#F5F2EB]/90 mb-6">Maitri Station
+                        </h3>
+                        <p class="t-desc font-ui text-sm text-[#F5F2EB]/70 font-light leading-relaxed">
+                            Schirmacher Oasis inland facility. Manage legacy asset telemetry, critical winter-over
+                            logistics, fuel depletion, and traverse convoys.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-10 relative z-10">
+                        <span class="enter-line h-px bg-white/30"></span>
+                        <span class="enter-text font-mono text-[10px] tracking-widest text-[#F5F2EB]/60 uppercase">Enter
+                            Terminal</span>
+                    </div>
+                </a>
+
+            </div>
+
+            <div
+                class="mt-24 flex flex-col sm:flex-row justify-between items-center sm:items-end border-t border-white/10 pt-8 gap-4 sm:gap-0">
+                <p class="font-mono text-[10px] text-[#F5F2EB]/50 tracking-[0.15em] uppercase text-center sm:text-left">
+                    Ministry of Earth Sciences &middot; Government of India</p>
+                <p class="font-mono text-[10px] text-[#F5F2EB]/40 tracking-widest uppercase">DTFIAS v1.0.0</p>
+            </div>
         </div>
     </section>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Cinematic Scroll Transition
+        const header = document.getElementById('main-header');
+        const heroBg = document.getElementById('hero-bg-layer');
+        const heroContent = document.getElementById('hero-content');
+        const scrollInd = document.getElementById('scroll-indicator');
+
+        let isMobile = window.innerWidth <= 768;
+        let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+
+            // Header background toggle
+            if (scrollY > 50) {
+                header.classList.add('is-scrolled');
+            } else {
+                header.classList.remove('is-scrolled');
+            }
+
+            // Hero Parallax / Fade on Scroll
+            if (!prefersReducedMotion && scrollY < window.innerHeight) {
+                const progress = scrollY / window.innerHeight;
+
+                // Layered depth transition
+                if (heroBg) {
+                    heroBg.style.transform = `translateY(${scrollY * 0.2}px)`;
+                    heroBg.style.opacity = 1 - (progress * 0.5);
+                }
+                if (heroContent) {
+                    heroContent.style.transform = `translateY(${scrollY * 0.4}px)`;
+                    heroContent.style.opacity = 1 - (progress * 1.5);
+                }
+                if (scrollInd) {
+                    scrollInd.style.opacity = 1 - (progress * 3);
+                }
+            }
+        }, { passive: true });
+
+        // 2. Mouse Parallax (Desktop Only)
+        const heroSection = document.getElementById('hero-section');
+        if (!isMobile && !prefersReducedMotion && heroSection) {
+            heroSection.addEventListener('mousemove', (e) => {
+                // Very subtle shift based on mouse position
+                const x = (e.clientX / window.innerWidth - 0.5);
+                const y = (e.clientY / window.innerHeight - 0.5);
+
+                if (heroBg) heroBg.style.transform = `translate(${x * -6}px, ${y * -6}px)`;
+                if (heroContent) heroContent.style.transform = `translate(${x * 3}px, ${y * 3}px)`;
+            });
+
+            heroSection.addEventListener('mouseleave', () => {
+                if (heroBg) heroBg.style.transform = `translate(0, 0)`;
+                if (heroContent) heroContent.style.transform = `translate(0, 0)`;
+            });
+        }
+
+        // 3. Staggered Terminal Reveal
+        const terminalCards = document.querySelectorAll('.terminal-card');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        terminalCards.forEach((card, index) => {
+            // Stagger delays based on index (0ms, 150ms, 300ms)
+            card.style.transitionDelay = `${index * 150}ms, ${index * 150}ms, 0ms, 0ms`;
+            observer.observe(card);
+        });
+    });
+</script>
 {% endblock %}
